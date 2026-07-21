@@ -9,18 +9,11 @@ import net.kyori.adventure.text.Component;
 import net.minestom.server.component.DataComponents;
 import net.minestom.server.coordinate.Pos;
 import net.minestom.server.coordinate.Vec;
-import net.minestom.server.entity.Entity;
-import net.minestom.server.entity.EntityCreature;
-import net.minestom.server.entity.EntityType;
-import net.minestom.server.entity.GameMode;
-import net.minestom.server.entity.Metadata;
-import net.minestom.server.entity.MetadataDef;
-import net.minestom.server.entity.Player;
-import net.minestom.server.entity.ai.GoalSelector;
-import net.minestom.server.entity.ai.TargetSelector;
+import net.minestom.server.entity.*;
 import net.minestom.server.entity.attribute.Attribute;
 import net.minestom.server.entity.damage.Damage;
 import net.minestom.server.entity.metadata.display.TextDisplayMeta;
+import net.minestom.server.entity.pathfinding.followers.NodeFollower;
 import net.minestom.server.instance.Instance;
 import net.minestom.server.network.packet.server.play.EntityHeadLookPacket;
 import net.minestom.server.network.packet.server.play.EntityMetaDataPacket;
@@ -38,6 +31,8 @@ import net.swofty.type.skyblockgeneric.entity.DroppedItemEntityImpl;
 import net.swofty.type.skyblockgeneric.entity.TextDisplayEntity;
 import net.swofty.type.skyblockgeneric.entity.mob.impl.MobPlayerSkin;
 import net.swofty.type.skyblockgeneric.entity.mob.impl.RegionPopulator;
+import net.swofty.type.skyblockgeneric.entity.pathfinder.goal.MobBrain;
+import net.swofty.type.skyblockgeneric.entity.pathfinder.navigation.VanillaGroundFollower;
 import net.swofty.type.skyblockgeneric.event.custom.PlayerKilledSkyBlockMobEvent;
 import net.swofty.type.skyblockgeneric.item.SkyBlockItem;
 import net.swofty.type.skyblockgeneric.item.components.ArmorComponent;
@@ -67,19 +62,21 @@ public abstract class SkyBlockMob extends EntityCreature {
 
     private Component customName;
     private TextDisplayEntity nameDisplayEntity;
+    private boolean initialized;
+    @Getter
+    private MobBrain mobBrain;
 
     public SkyBlockMob(EntityType entityType) {
         super(entityType);
-        init();
     }
 
     private void init() {
+        if (initialized) return;
+        initialized = true;
         this.setCustomNameVisible(true);
 
         this.getAttribute(Attribute.MAX_HEALTH)
                 .setBaseValue(getBaseStatistics().getOverall(ItemStatistic.HEALTH).floatValue());
-        this.getAttribute(Attribute.MOVEMENT_SPEED)
-                .setBaseValue((float) ((getBaseStatistics().getOverall(ItemStatistic.SPEED).floatValue() / 1000) * 2.5));
         this.setHealth(getBaseStatistics().getOverall(ItemStatistic.HEALTH).floatValue());
 
         this.customName = Component.text(
@@ -95,7 +92,9 @@ public abstract class SkyBlockMob extends EntityCreature {
 
         setAutoViewable(true);
         setAutoViewEntities(true);
-        this.addAIGroup(getGoalSelectors(), getTargetSelectors());
+        configureMobAttributes();
+        mobBrain = new MobBrain(this, createNodeFollower());
+        configureMobBrain(mobBrain);
         onInit();
     }
 
@@ -135,6 +134,7 @@ public abstract class SkyBlockMob extends EntityCreature {
 
     @Override
     public void spawn() {
+        init();
         super.spawn();
         mobs.add(this);
         addPassenger(nameDisplayEntity);
@@ -150,14 +150,22 @@ public abstract class SkyBlockMob extends EntityCreature {
         // override this
     }
 
+    protected void configureMobAttributes() {
+    }
+
+    protected void configureMobBrain(MobBrain brain) {
+    }
+
+    protected NodeFollower createNodeFollower() {
+        return new VanillaGroundFollower(this);
+    }
+
     public float getNameDisplayHeightOffset() {
         return 0.2f;
     }
 
     public abstract String getDisplayName();
     public abstract Integer getLevel();
-    public abstract List<GoalSelector> getGoalSelectors();
-    public abstract List<TargetSelector> getTargetSelectors();
     public abstract ItemStatistics getBaseStatistics();
     public abstract @Nullable SkyBlockLootTable getLootTable();
     public abstract SkillCategories getSkillCategory();
@@ -189,6 +197,9 @@ public abstract class SkyBlockMob extends EntityCreature {
         setHasBeenDamaged(true);
 
         Entity sourcePoint = damage.getSource();
+        if (mobBrain != null && sourcePoint instanceof LivingEntity attacker) {
+            mobBrain.hurtBy(attacker);
+        }
         if (sourcePoint != null) {
             takeKnockback(0.4f,
                     Math.sin(sourcePoint.getPosition().yaw() * Math.PI / 180),

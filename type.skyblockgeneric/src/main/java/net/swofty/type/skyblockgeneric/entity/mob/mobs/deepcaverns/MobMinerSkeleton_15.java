@@ -2,24 +2,20 @@ package net.swofty.type.skyblockgeneric.entity.mob.mobs.deepcaverns;
 
 import lombok.NonNull;
 import net.minestom.server.entity.EntityType;
-import net.minestom.server.entity.ai.GoalSelector;
-import net.minestom.server.entity.ai.TargetSelector;
-import net.minestom.server.entity.ai.target.LastEntityDamagerTarget;
+import net.minestom.server.entity.attribute.Attribute;
 import net.swofty.commons.skyblock.item.ItemType;
 import net.swofty.commons.skyblock.statistics.ItemStatistic;
 import net.swofty.commons.skyblock.statistics.ItemStatistics;
 import net.swofty.type.generic.gui.inventory.item.GUIMaterial;
 import net.swofty.type.skyblockgeneric.entity.mob.BestiaryMob;
 import net.swofty.type.skyblockgeneric.entity.mob.MobType;
-import net.swofty.type.skyblockgeneric.entity.mob.ai.ClosestEntityRegionTarget;
-import net.swofty.type.skyblockgeneric.entity.mob.ai.RandomRegionStrollGoal;
 import net.swofty.type.skyblockgeneric.entity.mob.impl.RegionPopulator;
+import net.swofty.type.skyblockgeneric.entity.pathfinder.goal.*;
 import net.swofty.type.skyblockgeneric.item.SkyBlockItem;
 import net.swofty.type.skyblockgeneric.loottable.OtherLoot;
 import net.swofty.type.skyblockgeneric.loottable.SkyBlockLootTable;
 import net.swofty.type.skyblockgeneric.region.RegionType;
 import net.swofty.type.skyblockgeneric.skill.SkillCategories;
-import net.swofty.type.skyblockgeneric.user.SkyBlockPlayer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -30,6 +26,22 @@ public class MobMinerSkeleton_15 extends BestiaryMob implements RegionPopulator 
 	public MobMinerSkeleton_15() {
 		super(EntityType.SKELETON);
 	}
+
+    @Override
+    protected void configureMobAttributes() {
+        getAttribute(Attribute.MOVEMENT_SPEED).setBaseValue(0.25);
+        getAttribute(Attribute.FOLLOW_RANGE).setBaseValue(16);
+    }
+
+    @Override
+    protected void configureMobBrain(MobBrain brain) {
+        brain.addGoal(4, new BowAttackGoal(brain, 1, 20, 15));
+        brain.addGoal(5, new WaterAvoidingRandomStrollGoal(brain, 1));
+        brain.addGoal(6, new LookAtPlayerGoal(brain, 8));
+        brain.addGoal(6, new RandomLookAroundGoal(brain));
+        brain.addTargetGoal(1, new HurtByTargetGoal(brain, false));
+        brain.addTargetGoal(2, new NearestAttackablePlayerGoal(brain, true));
+    }
 
 	@Override
 	public String getDisplayName() {
@@ -47,24 +59,6 @@ public class MobMinerSkeleton_15 extends BestiaryMob implements RegionPopulator 
 		setLeggings(new SkyBlockItem(ItemType.MINER_ARMOR_LEGGINGS).getItemStack());
 		setChestplate(new SkyBlockItem(ItemType.MINER_ARMOR_CHESTPLATE).getItemStack());
 		setHelmet(new SkyBlockItem(ItemType.MINER_ARMOR_HELMET).getItemStack());
-	}
-
-	@Override
-	public List<GoalSelector> getGoalSelectors() {
-		return List.of(
-				new RandomRegionStrollGoal(this, 15, RegionType.DIAMOND_RESERVE)
-		);
-	}
-
-	@Override
-	public List<TargetSelector> getTargetSelectors() {
-		return List.of(
-				new LastEntityDamagerTarget(this, 12), // First target the last entity which attacked you
-				new ClosestEntityRegionTarget(this,
-						6,
-						entity -> entity instanceof SkyBlockPlayer,
-						RegionType.DIAMOND_RESERVE) // If there is none, target the nearest player
-		);
 	}
 
 	@Override

@@ -2,14 +2,17 @@ package net.swofty.type.skyblockgeneric.entity.mob.mobs.dwarvenmines;
 
 import lombok.NonNull;
 import net.minestom.server.entity.EntityType;
-import net.minestom.server.entity.ai.GoalSelector;
-import net.minestom.server.entity.ai.TargetSelector;
+import net.minestom.server.entity.attribute.Attribute;
 import net.swofty.commons.skyblock.item.ItemType;
 import net.swofty.commons.skyblock.statistics.ItemStatistic;
 import net.swofty.commons.skyblock.statistics.ItemStatistics;
 import net.swofty.type.generic.gui.inventory.item.GUIMaterial;
 import net.swofty.type.skyblockgeneric.entity.mob.BestiaryMob;
 import net.swofty.type.skyblockgeneric.entity.mob.MobType;
+import net.swofty.type.skyblockgeneric.entity.pathfinder.goal.LookAtPlayerGoal;
+import net.swofty.type.skyblockgeneric.entity.pathfinder.goal.MobBrain;
+import net.swofty.type.skyblockgeneric.entity.pathfinder.goal.RandomLookAroundGoal;
+import net.swofty.type.skyblockgeneric.entity.pathfinder.goal.WaterAvoidingRandomStrollGoal;
 import net.swofty.type.skyblockgeneric.item.SkyBlockItem;
 import net.swofty.type.skyblockgeneric.loottable.OtherLoot;
 import net.swofty.type.skyblockgeneric.loottable.SkyBlockLootTable;
@@ -24,6 +27,19 @@ public class GoldenGoblin extends BestiaryMob {
 	public GoldenGoblin() {
 		super(EntityType.PLAYER);
 	}
+
+    @Override
+    protected void configureMobAttributes() {
+        getAttribute(Attribute.MOVEMENT_SPEED).setBaseValue(0.35);
+        getAttribute(Attribute.FOLLOW_RANGE).setBaseValue(16);
+    }
+
+    @Override
+    protected void configureMobBrain(MobBrain brain) {
+        brain.addGoal(7, new WaterAvoidingRandomStrollGoal(brain, 1));
+        brain.addGoal(8, new LookAtPlayerGoal(brain, 8));
+        brain.addGoal(8, new RandomLookAroundGoal(brain));
+    }
 
 	@Override
 	public Integer getLevel() {
@@ -61,16 +77,6 @@ public class GoldenGoblin extends BestiaryMob {
 	@Override
 	public String getDisplayName() {
 		return "Golden Goblin";
-	}
-
-	@Override
-	public List<GoalSelector> getGoalSelectors() {
-		return List.of();
-	}
-
-	@Override
-	public List<TargetSelector> getTargetSelectors() {
-		return List.of();
 	}
 
 	@Override

@@ -4,21 +4,12 @@ import lombok.Getter;
 import net.minestom.server.item.Material;
 import net.swofty.type.generic.gui.inventory.item.GUIMaterial;
 import net.swofty.type.skyblockgeneric.entity.mob.BestiaryMob;
-import net.swofty.type.skyblockgeneric.entity.mob.mobs.deepcaverns.MobEmeraldSlime_05;
-import net.swofty.type.skyblockgeneric.entity.mob.mobs.deepcaverns.MobEmeraldSlime_10;
-import net.swofty.type.skyblockgeneric.entity.mob.mobs.deepcaverns.MobLapisZombie;
-import net.swofty.type.skyblockgeneric.entity.mob.mobs.deepcaverns.MobMinerSkeleton_15;
-import net.swofty.type.skyblockgeneric.entity.mob.mobs.deepcaverns.MobMinerSkeleton_20;
-import net.swofty.type.skyblockgeneric.entity.mob.mobs.deepcaverns.MobMinerZombie_15;
-import net.swofty.type.skyblockgeneric.entity.mob.mobs.deepcaverns.MobMinerZombie_20;
-import net.swofty.type.skyblockgeneric.entity.mob.mobs.deepcaverns.MobRedstonePigman;
-import net.swofty.type.skyblockgeneric.entity.mob.mobs.deepcaverns.MobSneakyCreeper;
+import net.swofty.type.skyblockgeneric.entity.mob.mobs.deepcaverns.*;
 import net.swofty.type.skyblockgeneric.entity.mob.mobs.hub.MobGraveyardZombie;
 import net.swofty.type.skyblockgeneric.entity.mob.mobs.hub.MobGraveyardZombieVillager;
 import net.swofty.type.skyblockgeneric.entity.mob.mobs.hub.MobRuinsOldWolf;
 import net.swofty.type.skyblockgeneric.entity.mob.mobs.hub.MobRuinsWolf;
-import net.swofty.type.skyblockgeneric.entity.mob.mobs.island.MobZombie_01;
-import net.swofty.type.skyblockgeneric.entity.mob.mobs.island.MobZombie_02;
+import net.swofty.type.skyblockgeneric.entity.mob.mobs.island.*;
 
 import java.util.List;
 
@@ -28,6 +19,14 @@ public enum BestiaryCategory {
     @Getter
     public enum PRIVATE_ISLAND implements BestiaryEntry {
         ZOMBIE("§aZombie", "Brains.", new GUIMaterial(Material.ZOMBIE_HEAD), List.of(new MobZombie_01(), new MobZombie_02())),
+        SKELETON("§aSkeleton", "Just a normal skelly.", new GUIMaterial(Material.SKELETON_SKULL), List.of(new MobPrivateIslandSkeleton())),
+        SLIME("§aSlime", "World's loudest creatures.", new GUIMaterial(Material.SLIME_BALL), List.of(new MobPrivateIslandSlime())),
+        SPIDER("§aSpider", "Likes to climb.", new GUIMaterial(Material.SPIDER_EYE),
+                List.of(new MobPrivateIslandSpider(), new MobPrivateIslandCaveSpider())),
+        CREEPER("§aCreeper", "Look out for their hiss!", new GUIMaterial(Material.CREEPER_HEAD), List.of(new MobPrivateIslandCreeper())),
+        ENDERMAN("§aEnderman", "Don't like making eye contact.", new GUIMaterial(Material.ENDER_PEARL), List.of(new MobPrivateIslandEnderman())),
+        WITCH("§aWitch", "Masters of alchemy.", new GUIMaterial(Material.POTION), List.of(new MobPrivateIslandWitch())),
+        BAT("§aBat", "Can be found hanging around.", new GUIMaterial(Material.BAT_SPAWN_EGG), List.of(new MobPrivateIslandBat())),
         ;
 
         private final String name, description;

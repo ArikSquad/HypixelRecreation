@@ -2,27 +2,22 @@ package net.swofty.type.skyblockgeneric.entity.mob.mobs.dwarvenmines.goblin;
 
 import lombok.NonNull;
 import net.minestom.server.entity.EntityType;
-import net.minestom.server.entity.ai.GoalSelector;
-import net.minestom.server.entity.ai.TargetSelector;
-import net.minestom.server.entity.ai.target.LastEntityDamagerTarget;
-import net.minestom.server.utils.time.TimeUnit;
 import net.swofty.commons.skyblock.item.ItemType;
 import net.swofty.commons.skyblock.statistics.ItemStatistic;
 import net.swofty.commons.skyblock.statistics.ItemStatistics;
 import net.swofty.type.generic.gui.inventory.item.GUIMaterial;
 import net.swofty.type.skyblockgeneric.entity.mob.BestiaryMob;
 import net.swofty.type.skyblockgeneric.entity.mob.MobType;
-import net.swofty.type.skyblockgeneric.entity.mob.ai.ClosestEntityRegionTarget;
-import net.swofty.type.skyblockgeneric.entity.mob.ai.GroundNodeLockedPitchFollower;
-import net.swofty.type.skyblockgeneric.entity.mob.ai.MeleeAttackWithinRegionGoal;
-import net.swofty.type.skyblockgeneric.entity.mob.ai.RandomRegionStrollGoal;
 import net.swofty.type.skyblockgeneric.entity.mob.impl.MobPlayerSkin;
 import net.swofty.type.skyblockgeneric.entity.mob.impl.RegionPopulator;
+import net.swofty.type.skyblockgeneric.entity.pathfinder.goal.*;
+import net.swofty.type.skyblockgeneric.entity.pathfinder.navigation.GroundNodeLockedPitchFollower;
+import net.minestom.server.entity.pathfinding.followers.NodeFollower;
+import net.minestom.server.entity.attribute.Attribute;
 import net.swofty.type.skyblockgeneric.loottable.OtherLoot;
 import net.swofty.type.skyblockgeneric.loottable.SkyBlockLootTable;
 import net.swofty.type.skyblockgeneric.region.RegionType;
 import net.swofty.type.skyblockgeneric.skill.SkillCategories;
-import net.swofty.type.skyblockgeneric.user.SkyBlockPlayer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -33,6 +28,27 @@ public class MobGoblin extends BestiaryMob implements RegionPopulator, MobPlayer
 	public MobGoblin() {
 		super(EntityType.PLAYER);
 	}
+
+    @Override
+    protected void configureMobAttributes() {
+        getAttribute(Attribute.MOVEMENT_SPEED).setBaseValue(0.3);
+        getAttribute(Attribute.FOLLOW_RANGE).setBaseValue(16);
+    }
+
+    @Override
+    protected void configureMobBrain(MobBrain brain) {
+        brain.addGoal(3, new MeleeAttackGoal(brain, 1, false));
+        brain.addGoal(7, new WaterAvoidingRandomStrollGoal(brain, 1));
+        brain.addGoal(8, new LookAtPlayerGoal(brain, 8));
+        brain.addGoal(8, new RandomLookAroundGoal(brain));
+        brain.addTargetGoal(1, new HurtByTargetGoal(brain, true));
+        brain.addTargetGoal(2, new NearestAttackablePlayerGoal(brain, true));
+    }
+
+    @Override
+    protected NodeFollower createNodeFollower() {
+        return new GroundNodeLockedPitchFollower(this, 0);
+    }
 
 	@Override
 	public Integer getLevel() {
@@ -65,41 +81,13 @@ public class MobGoblin extends BestiaryMob implements RegionPopulator, MobPlayer
 	}
 
 	@Override
-	public void onInit() {
-		getNavigator().setNodeFollower(() -> new GroundNodeLockedPitchFollower(this, 90));
-	}
-
-	@Override
 	public void onSpawn() {
-		setView(getPosition().yaw(), 90, getPosition().yaw());
+        setView(getPosition().yaw(), 0, getPosition().yaw());
 	}
 
 	@Override
 	public float getNameDisplayHeightOffset() {
 		return 0.1f;
-	}
-
-	@Override
-	public List<GoalSelector> getGoalSelectors() {
-		return List.of(
-				new MeleeAttackWithinRegionGoal(this,
-						1.6,
-						20,
-						TimeUnit.SERVER_TICK,
-						RegionType.GOBLIN_BURROWS, false),
-				new RandomRegionStrollGoal(this, 5, RegionType.GOBLIN_BURROWS)
-		);
-	}
-
-	@Override
-	public List<TargetSelector> getTargetSelectors() {
-		return List.of(
-				new LastEntityDamagerTarget(this, 16),
-				new ClosestEntityRegionTarget(this,
-						6,
-						entity -> entity instanceof SkyBlockPlayer,
-						RegionType.GOBLIN_BURROWS)
-		);
 	}
 
 	@Override

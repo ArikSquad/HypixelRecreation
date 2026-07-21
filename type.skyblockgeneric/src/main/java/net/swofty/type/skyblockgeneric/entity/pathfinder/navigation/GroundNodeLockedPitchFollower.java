@@ -1,4 +1,4 @@
-package net.swofty.type.skyblockgeneric.entity.mob.ai;
+package net.swofty.type.skyblockgeneric.entity.pathfinder.navigation;
 
 import net.minestom.server.collision.CollisionUtils;
 import net.minestom.server.coordinate.Point;
@@ -12,6 +12,7 @@ import net.minestom.server.utils.position.PositionUtils;
 import org.jetbrains.annotations.Nullable;
 
 public class GroundNodeLockedPitchFollower implements NodeFollower {
+    private static final double JUMP_VELOCITY = 8.4;
     private final Entity entity;
     private final int pitch;
 
@@ -31,17 +32,15 @@ public class GroundNodeLockedPitchFollower implements NodeFollower {
     public void moveTowards(Point direction, double speed, Point lookAt) {
         final Pos position = entity.getPosition();
         final double dx = direction.x() - position.x();
-        final double dy = direction.y() - position.y();
         final double dz = direction.z() - position.z();
 
         final double dxLook = lookAt.x() - position.x();
         final double dzLook = lookAt.z() - position.z();
 
         // the purpose of these few lines is to slow down entities when they reach their destination
-        final double distSquared = dx * dx + dy * dy + dz * dz;
-        if (speed > distSquared) {
-            speed = distSquared;
-        }
+        final double horizontal = Math.sqrt(dx * dx + dz * dz);
+        if (horizontal < 1.0E-4) return;
+        speed = Math.min(speed, horizontal);
 
         final double radians = Math.atan2(dz, dx);
         final double speedX = Math.cos(radians) * speed;
@@ -55,17 +54,14 @@ public class GroundNodeLockedPitchFollower implements NodeFollower {
     @Override
     public void jump(@Nullable Point point, @Nullable Point target) {
         if (entity.isOnGround()) {
-            jump(4f);
+            Vec velocity = entity.getVelocity();
+            entity.setVelocity(new Vec(velocity.x(), JUMP_VELOCITY, velocity.z()));
         }
     }
 
     @Override
     public boolean isAtPoint(Point point) {
         return entity.getPosition().sameBlock(point);
-    }
-
-    public void jump(float height) {
-        this.entity.setVelocity(new Vec(0, height * 2.5f, 0));
     }
 
     @Override

@@ -2,34 +2,72 @@ package net.swofty.type.skyblockgeneric.entity.mob.mobs.deepcaverns;
 
 import lombok.NonNull;
 import net.minestom.server.entity.EntityType;
-import net.minestom.server.entity.ai.GoalSelector;
-import net.minestom.server.entity.ai.TargetSelector;
-import net.minestom.server.entity.ai.target.LastEntityDamagerTarget;
+import net.minestom.server.entity.LivingEntity;
+import net.minestom.server.entity.attribute.Attribute;
+import net.minestom.server.entity.metadata.monster.CreeperMeta;
 import net.minestom.server.item.Material;
+import net.minestom.server.timer.TaskSchedule;
 import net.swofty.commons.skyblock.item.ItemType;
 import net.swofty.commons.skyblock.statistics.ItemStatistic;
 import net.swofty.commons.skyblock.statistics.ItemStatistics;
 import net.swofty.type.generic.gui.inventory.item.GUIMaterial;
 import net.swofty.type.skyblockgeneric.entity.mob.BestiaryMob;
 import net.swofty.type.skyblockgeneric.entity.mob.MobType;
-import net.swofty.type.skyblockgeneric.entity.mob.ai.ClosestEntityRegionTarget;
-import net.swofty.type.skyblockgeneric.entity.mob.ai.RandomRegionStrollGoal;
 import net.swofty.type.skyblockgeneric.entity.mob.impl.RegionPopulator;
+import net.swofty.type.skyblockgeneric.entity.pathfinder.goal.*;
 import net.swofty.type.skyblockgeneric.loottable.OtherLoot;
 import net.swofty.type.skyblockgeneric.loottable.SkyBlockLootTable;
 import net.swofty.type.skyblockgeneric.region.RegionType;
 import net.swofty.type.skyblockgeneric.skill.SkillCategories;
-import net.swofty.type.skyblockgeneric.user.SkyBlockPlayer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 public class MobSneakyCreeper extends BestiaryMob implements RegionPopulator {
+    private int swell;
+    private int swellDirection = -1;
 
 	public MobSneakyCreeper() {
 		super(EntityType.CREEPER);
 	}
+
+    @Override
+    protected void configureMobAttributes() {
+        getAttribute(Attribute.MOVEMENT_SPEED).setBaseValue(0.25);
+        getAttribute(Attribute.FOLLOW_RANGE).setBaseValue(16);
+    }
+
+    @Override
+    protected void configureMobBrain(MobBrain brain) {
+        brain.addGoal(2, new SwellGoal(brain, direction -> swellDirection = direction));
+        brain.addGoal(4, new MeleeAttackGoal(brain, 1, false) {
+            @Override
+            protected void attack(LivingEntity target) {
+            }
+        });
+        brain.addGoal(5, new WaterAvoidingRandomStrollGoal(brain, 0.8));
+        brain.addGoal(6, new LookAtPlayerGoal(brain, 8));
+        brain.addGoal(6, new RandomLookAroundGoal(brain));
+        brain.addTargetGoal(1, new NearestAttackablePlayerGoal(brain, true));
+        brain.addTargetGoal(2, new HurtByTargetGoal(brain, false));
+        scheduler().buildTask(this::tickFuse).repeat(TaskSchedule.tick(1)).schedule();
+    }
+
+    private void tickFuse() {
+        if (isDead() || getInstance() == null) return;
+        int previous = swell;
+        swell = Math.clamp(swell + swellDirection, 0, 30);
+        CreeperMeta meta = (CreeperMeta) getEntityMeta();
+        if (previous == 0 && swell > 0) meta.setState(CreeperMeta.State.FUSE);
+        else if (previous > 0 && swell == 0) meta.setState(CreeperMeta.State.IDLE);
+        if (swell < 30) return;
+        double radius = meta.isCharged() ? 6 : 3;
+        getInstance().getPlayers().stream()
+                .filter(player -> player.getPosition().distanceSquared(getPosition()) <= radius * radius)
+                .forEach(player -> attack(player, false));
+        remove();
+    }
 
 	@Override
 	public String getDisplayName() {
@@ -44,25 +82,6 @@ public class MobSneakyCreeper extends BestiaryMob implements RegionPopulator {
 	@Override
 	public void onInit() {
 		setInvisible(true);
-	}
-
-	@Override
-	public List<GoalSelector> getGoalSelectors() {
-		return List.of(
-				// TODO: add explosion goal
-				new RandomRegionStrollGoal(this, 15, RegionType.GUNPOWDER_MINES)  // Walk around
-		);
-	}
-
-	@Override
-	public List<TargetSelector> getTargetSelectors() {
-		return List.of(
-				new LastEntityDamagerTarget(this, 12), // First target the last entity which attacked you
-				new ClosestEntityRegionTarget(this,
-						6,
-						entity -> entity instanceof SkyBlockPlayer,
-						RegionType.GUNPOWDER_MINES) // If there is none, target the nearest player
-		);
 	}
 
 	@Override

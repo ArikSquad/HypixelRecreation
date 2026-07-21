@@ -1,18 +1,19 @@
 package net.swofty.type.skyblockgeneric.entity.mob.mobs.slayer;
 
-import java.util.List;
-import java.util.UUID;
 import net.minestom.server.entity.EntityType;
-import net.minestom.server.entity.ai.GoalSelector;
-import net.minestom.server.entity.ai.TargetSelector;
+import net.minestom.server.entity.attribute.Attribute;
 import net.swofty.commons.skyblock.statistics.ItemStatistic;
 import net.swofty.commons.skyblock.statistics.ItemStatistics;
 import net.swofty.type.skyblockgeneric.entity.mob.MobType;
 import net.swofty.type.skyblockgeneric.entity.mob.SkyBlockMob;
+import net.swofty.type.skyblockgeneric.entity.pathfinder.goal.*;
 import net.swofty.type.skyblockgeneric.loottable.OtherLoot;
 import net.swofty.type.skyblockgeneric.loottable.SkyBlockLootTable;
 import net.swofty.type.skyblockgeneric.skill.SkillCategories;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
+import java.util.UUID;
 
 public final class SlayerMinionMob extends SkyBlockMob {
     private static final ThreadLocal<SlayerMinionProfile> IN_CONSTRUCTION = new ThreadLocal<>();
@@ -39,6 +40,22 @@ public final class SlayerMinionMob extends SkyBlockMob {
         return ownerUuid;
     }
 
+    @Override
+    protected void configureMobAttributes() {
+        getAttribute(Attribute.MOVEMENT_SPEED).setBaseValue(Math.max(0.1, live().speed() / 100D));
+        getAttribute(Attribute.FOLLOW_RANGE).setBaseValue(24);
+    }
+
+    @Override
+    protected void configureMobBrain(MobBrain brain) {
+        brain.addGoal(3, new MeleeAttackGoal(brain, 1.8, false));
+        brain.addGoal(7, new WaterAvoidingRandomStrollGoal(brain, 1));
+        brain.addGoal(8, new LookAtPlayerGoal(brain, 8));
+        brain.addGoal(8, new RandomLookAroundGoal(brain));
+        brain.addTargetGoal(1, new HurtByTargetGoal(brain, false));
+        brain.addTargetGoal(2, new NearestAttackablePlayerGoal(brain, true));
+    }
+
     @Override public String getDisplayName() { return live().displayName(); }
     @Override public Integer getLevel() { return live().level(); }
     @Override public List<MobType> getMobTypes() { return live().mobTypes(); }
@@ -46,16 +63,6 @@ public final class SlayerMinionMob extends SkyBlockMob {
     @Override public SkillCategories getSkillCategory() { return SkillCategories.COMBAT; }
     @Override public long damageCooldown() { return 700L; }
     @Override public OtherLoot getOtherLoot() { return new OtherLoot(0, 0, 0); }
-
-    @Override
-    public List<GoalSelector> getGoalSelectors() {
-        return SlayerBossBehaviour.goals(this);
-    }
-
-    @Override
-    public List<TargetSelector> getTargetSelectors() {
-        return SlayerBossBehaviour.targets(this);
-    }
 
     @Override
     public ItemStatistics getBaseStatistics() {

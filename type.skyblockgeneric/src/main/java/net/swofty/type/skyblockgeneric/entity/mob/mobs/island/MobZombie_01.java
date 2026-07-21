@@ -1,133 +1,46 @@
 package net.swofty.type.skyblockgeneric.entity.mob.mobs.island;
 
-import lombok.NonNull;
 import net.minestom.server.entity.EntityType;
-import net.minestom.server.entity.ai.GoalSelector;
-import net.minestom.server.entity.ai.TargetSelector;
-import net.minestom.server.entity.ai.target.LastEntityDamagerTarget;
+import net.minestom.server.entity.attribute.Attribute;
 import net.minestom.server.item.Material;
-import net.minestom.server.utils.time.TimeUnit;
 import net.swofty.commons.skyblock.item.ItemType;
-import net.swofty.commons.skyblock.statistics.ItemStatistic;
-import net.swofty.commons.skyblock.statistics.ItemStatistics;
 import net.swofty.type.generic.gui.inventory.item.GUIMaterial;
-import net.swofty.type.skyblockgeneric.entity.mob.BestiaryMob;
 import net.swofty.type.skyblockgeneric.entity.mob.MobType;
-import net.swofty.type.skyblockgeneric.entity.mob.ai.MeleeAttackWithinRegionGoal;
-import net.swofty.type.skyblockgeneric.entity.mob.ai.RandomRegionStrollGoal;
-import net.swofty.type.skyblockgeneric.entity.mob.impl.RegionPopulator;
-import net.swofty.type.skyblockgeneric.loottable.OtherLoot;
+import net.swofty.type.skyblockgeneric.entity.pathfinder.goal.*;
 import net.swofty.type.skyblockgeneric.loottable.SkyBlockLootTable;
-import net.swofty.type.skyblockgeneric.region.RegionType;
-import net.swofty.type.skyblockgeneric.skill.SkillCategories;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
-
-public class MobZombie_01 extends BestiaryMob implements RegionPopulator {
-
+public class MobZombie_01 extends PrivateIslandMob {
     public MobZombie_01() {
-        super(EntityType.ZOMBIE);
+        this("ZOMBIE_01", 100, 20, 1, 1);
+    }
+
+    protected MobZombie_01(String id, double health, double damage, int coins, int xpOrbs) {
+        super(EntityType.ZOMBIE, "Zombie", id, new GUIMaterial(Material.ZOMBIE_HEAD),
+                MobType.UNDEAD, health, damage, 6, coins, xpOrbs);
     }
 
     @Override
-    public String getDisplayName() {
-        return "Zombie";
+    protected void configureMobAttributes() {
+        getAttribute(Attribute.MOVEMENT_SPEED).setBaseValue(0.23);
+        getAttribute(Attribute.FOLLOW_RANGE).setBaseValue(35);
     }
 
     @Override
-    public Integer getLevel() {
-        return 1;
+    protected void configureMobBrain(MobBrain brain) {
+        brain.addGoal(3, new MeleeAttackGoal(brain, 1, false));
+        brain.addGoal(7, new WaterAvoidingRandomStrollGoal(brain, 1));
+        brain.addGoal(8, new LookAtPlayerGoal(brain, 8));
+        brain.addGoal(8, new RandomLookAroundGoal(brain));
+        brain.addTargetGoal(1, new HurtByTargetGoal(brain, true));
+        brain.addTargetGoal(2, new NearestAttackablePlayerGoal(brain, true));
     }
 
     @Override
-    public List<GoalSelector> getGoalSelectors() {
-        return List.of(
-                new MeleeAttackWithinRegionGoal(this,
-                        1.6,
-                        20,
-                        TimeUnit.SERVER_TICK,
-                        RegionType.GRAVEYARD), // Attack the target
-                new RandomRegionStrollGoal(this, 15, RegionType.GRAVEYARD)  // Walk around
-        );
-    }
-
-    @Override
-    public List<TargetSelector> getTargetSelectors() {
-        return List.of(
-                new LastEntityDamagerTarget(this, 16) // First target the last entity which attacked you
-        );
-    }
-
-    @Override
-    public ItemStatistics getBaseStatistics() {
-        return ItemStatistics.builder()
-                .withBase(ItemStatistic.HEALTH, 100D)
-                .withBase(ItemStatistic.DAMAGE, 5D)
-                .withBase(ItemStatistic.SPEED, 100D)
-                .build();
-    }
-
-    @Override
-    public @Nullable SkyBlockLootTable getLootTable() {
-        return new SkyBlockLootTable() {
-            @Override
-            public @NonNull List<LootRecord> getLootTable() {
-                return List.of(new LootRecord(ItemType.ROTTEN_FLESH, makeAmountBetween(1, 3), 20));
-            }
-
-            @Override
-            public @NotNull CalculationMode getCalculationMode() {
-                return CalculationMode.CALCULATE_INDIVIDUAL;
-            }
-        };
-    }
-
-    @Override
-    public SkillCategories getSkillCategory() {
-        return SkillCategories.COMBAT;
-    }
-
-    @Override
-    public long damageCooldown() {
-        return 500;
-    }
-
-    @Override
-    public OtherLoot getOtherLoot() {
-        return new OtherLoot(6, 1, 1);
-    }
-
-    @Override
-    public List<MobType> getMobTypes() {
-        return List.of(MobType.UNDEAD);
-    }
-
-    @Override
-    public int getMaxBestiaryTier() {
-        return 5;
-    }
-
-    @Override
-    public int getBestiaryBracket() {
-        return 1;
-    }
-
-    @Override
-    public String getMobID() {
-        return "ZOMBIE_01";
-    }
-
-    @Override
-    public GUIMaterial getGuiMaterial() {
-        return new GUIMaterial(Material.ZOMBIE_HEAD);
-    }
-
-    @Override
-    public List<Populator> getPopulators() {
-        return List.of(
-            new Populator(RegionType.PRIVATE_ISLAND, 20)
-        );
+    public SkyBlockLootTable getLootTable() {
+        return new PrivateIslandLootTable(
+                new SkyBlockLootTable.LootRecord(ItemType.ROTTEN_FLESH, 1, 100),
+                new SkyBlockLootTable.LootRecord(ItemType.POISONOUS_POTATO, 1, 2.5),
+                new SkyBlockLootTable.LootRecord(ItemType.POTATO, 1, 1),
+                new SkyBlockLootTable.LootRecord(ItemType.CARROT, 1, 1));
     }
 }

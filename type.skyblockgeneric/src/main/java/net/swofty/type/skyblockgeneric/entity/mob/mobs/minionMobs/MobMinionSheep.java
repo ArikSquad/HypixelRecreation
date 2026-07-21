@@ -2,26 +2,37 @@ package net.swofty.type.skyblockgeneric.entity.mob.mobs.minionMobs;
 
 import lombok.NonNull;
 import net.minestom.server.entity.EntityType;
-import net.minestom.server.entity.ai.GoalSelector;
-import net.minestom.server.entity.ai.TargetSelector;
-import net.minestom.server.entity.ai.goal.RandomStrollGoal;
 import net.swofty.commons.skyblock.item.ItemType;
 import net.swofty.commons.skyblock.statistics.ItemStatistic;
 import net.swofty.commons.skyblock.statistics.ItemStatistics;
 import net.swofty.type.skyblockgeneric.entity.mob.MobType;
 import net.swofty.type.skyblockgeneric.entity.mob.SkyBlockMob;
+import net.swofty.type.skyblockgeneric.entity.pathfinder.goal.*;
+import net.minestom.server.entity.attribute.Attribute;
 import net.swofty.type.skyblockgeneric.loottable.OtherLoot;
 import net.swofty.type.skyblockgeneric.loottable.SkyBlockLootTable;
 import net.swofty.type.skyblockgeneric.skill.SkillCategories;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MobMinionSheep extends SkyBlockMob {
 
     public MobMinionSheep() {
         super(EntityType.SHEEP);
+    }
+
+    @Override
+    protected void configureMobAttributes() {
+        getAttribute(Attribute.MOVEMENT_SPEED).setBaseValue(0.23);
+    }
+
+    @Override
+    protected void configureMobBrain(MobBrain brain) {
+        brain.addGoal(1, new PanicGoal(brain, 1.25));
+        brain.addGoal(5, new WaterAvoidingRandomStrollGoal(brain, 1));
+        brain.addGoal(6, new LookAtPlayerGoal(brain, 6));
+        brain.addGoal(7, new RandomLookAroundGoal(brain));
     }
 
     @Override
@@ -32,18 +43,6 @@ public class MobMinionSheep extends SkyBlockMob {
     @Override
     public Integer getLevel() {
         return 1;
-    }
-
-    @Override
-    public List<GoalSelector> getGoalSelectors() {
-        return List.of(
-                new RandomStrollGoal(this, 15)
-        );
-    }
-
-    @Override
-    public List<TargetSelector> getTargetSelectors() {
-        return new ArrayList<>();
     }
 
     @Override
