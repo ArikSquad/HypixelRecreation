@@ -1,6 +1,7 @@
 items:
   - id: BEE_PET
     material: player_head
+    name: "Bee Pet"
     rarity: EPIC
     components:
       - id: PET
