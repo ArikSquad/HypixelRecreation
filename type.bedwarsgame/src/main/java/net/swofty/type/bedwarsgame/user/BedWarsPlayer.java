@@ -15,9 +15,7 @@ import net.minestom.server.event.EventDispatcher;
 import net.minestom.server.event.entity.EntityVelocityEvent;
 import net.minestom.server.instance.Chunk;
 import net.minestom.server.instance.block.Block;
-import net.minestom.server.network.packet.server.play.EntityHeadLookPacket;
-import net.minestom.server.network.packet.server.play.PlayerInfoUpdatePacket;
-import net.minestom.server.network.packet.server.play.SpawnEntityPacket;
+import net.minestom.server.network.packet.server.play.*;
 import net.minestom.server.network.player.GameProfile;
 import net.minestom.server.network.player.PlayerConnection;
 import net.minestom.server.potion.PotionEffect;
@@ -28,7 +26,6 @@ import net.minestom.server.utils.chunk.ChunkCache;
 import net.minestom.server.utils.chunk.ChunkUtils;
 import net.swofty.commons.bedwars.BedwarsLevelUtil;
 import net.swofty.commons.bedwars.map.BedWarsMapsConfig;
-import net.swofty.pvp.player.CombatPlayer;
 import net.swofty.type.bedwarsgame.TypeBedWarsGameLoader;
 import net.swofty.type.bedwarsgame.game.v2.BedWarsGame;
 import net.swofty.type.game.game.GameParticipant;
@@ -49,11 +46,10 @@ import java.util.function.Function;
 
 /**
  * Represents a player in the BedWars game mode.
- * This class extends HypixelPlayer and implements CombatPlayer for combat-related functionalities.
- * CombatPlayer implementation based on <a href="https://github.com/TogAr2/MinestomPvP/blob/master/src/main/java/io/github/togar2/pvp/player/CombatPlayerImpl.java">CombatPlayerImpl</a>
+ * This class extends HypixelPlayer with BedWars-specific state and presentation.
  */
 @SuppressWarnings("UnstableApiUsage")
-public class BedWarsPlayer extends HypixelPlayer implements CombatPlayer, GameParticipant {
+public class BedWarsPlayer extends HypixelPlayer implements GameParticipant {
 
 	private boolean velocityUpdate = false;
 	private PhysicsResult previousPhysicsResult = null;
@@ -63,6 +59,8 @@ public class BedWarsPlayer extends HypixelPlayer implements CombatPlayer, GamePa
 	private long tokensThisGame = 0;
 	@Getter
 	private long hypixelXpThisGame = 0;
+	@Getter
+	private int killsThisGame = 0;
 	@Getter
 	@Setter
 	private boolean shouldShowTrueIdentity = false;
@@ -93,7 +91,17 @@ public class BedWarsPlayer extends HypixelPlayer implements CombatPlayer, GamePa
 
 	public void reveal() {
 		shouldShowTrueIdentity = true;
-		setSkin(getSkin());
+		for (Player viewer : getViewers()) refreshIdentityFor(viewer);
+		refreshIdentityFor(this);
+	}
+
+	private void refreshIdentityFor(Player viewer) {
+		viewer.sendPackets(new DestroyEntitiesPacket(getEntityId()), new PlayerInfoRemovePacket(fakeUuid));
+		updateNewViewer(viewer);
+	}
+
+	public void recordGameKill() {
+		killsThisGame++;
 	}
 
 	public void updateBelowTag() {
@@ -110,7 +118,7 @@ public class BedWarsPlayer extends HypixelPlayer implements CombatPlayer, GamePa
 
 	@Override
 	public void updateNewViewer(@NonNull Player player) {
-		if (!shouldShowTrueIdentity) {
+		if (!canViewerSeeIdentity(player)) {
 			player.sendPackets(
 				new PlayerInfoUpdatePacket(PlayerInfoUpdatePacket.Action.ADD_PLAYER,
 					new PlayerInfoUpdatePacket.Entry(
@@ -133,6 +141,13 @@ public class BedWarsPlayer extends HypixelPlayer implements CombatPlayer, GamePa
 			return;
 		}
 		super.updateNewViewer(player);
+	}
+
+	private boolean canViewerSeeIdentity(Player viewer) {
+		if (viewer == this) return true;
+		if (!shouldShowTrueIdentity || !(viewer instanceof BedWarsPlayer bedWarsViewer)) return false;
+		BedWarsMapsConfig.TeamKey ownTeam = getTeamKey();
+		return ownTeam != null && ownTeam == bedWarsViewer.getTeamKey();
 	}
 
 	@Override
@@ -158,9 +173,9 @@ public class BedWarsPlayer extends HypixelPlayer implements CombatPlayer, GamePa
 		xpThisGame = 0;
 		tokensThisGame = 0;
 		hypixelXpThisGame = 0;
+		killsThisGame = 0;
 	}
 
-	@Override
 	public Player getServerPlayer() {
 		return this;
 	}
@@ -181,7 +196,8 @@ public class BedWarsPlayer extends HypixelPlayer implements CombatPlayer, GamePa
 	// TODO: Optional<TeamKey>
 	@Nullable
 	public BedWarsMapsConfig.TeamKey getTeamKey() {
-		return BedWarsMapsConfig.TeamKey.valueOf(getTeamName());
+		String teamName = getTeamName();
+		return teamName == null ? null : BedWarsMapsConfig.TeamKey.valueOf(teamName);
 	}
 
 	public BedWarsGame getGame() {
@@ -249,12 +265,10 @@ public class BedWarsPlayer extends HypixelPlayer implements CombatPlayer, GamePa
 		});
 	}
 
-	@Override
 	public void setVelocityNoUpdate(Function<Vec, Vec> function) {
 		velocity = function.apply(velocity);
 	}
 
-	@Override
 	public void sendImmediateVelocityUpdate() {
 		if (velocityUpdate) {
 			velocityUpdate = false;
