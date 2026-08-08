@@ -26,19 +26,31 @@ items:
   - id: MINER_ARMOR_HELMET
     rarity: RARE
     material: IRON_HELMET
-    name: "Miner Armor Helmet"
+    name: "Miner Helmet"
+    default_statistics:
+      defense: 15
+      mining_speed: 10
   - id: MINER_ARMOR_CHESTPLATE
     rarity: RARE
     material: IRON_CHESTPLATE
-    name: "Miner Armor Chestplate"
+    name: "Miner Chestplate"
+    default_statistics:
+      defense: 15
+      mining_speed: 10
   - id: MINER_ARMOR_LEGGINGS
     rarity: RARE
     material: IRON_LEGGINGS
-    name: "Miner Armor Leggings"
+    name: "Miner Leggings"
+    default_statistics:
+      defense: 15
+      mining_speed: 10
   - id: MINER_ARMOR_BOOTS
     rarity: RARE
     material: IRON_BOOTS
-    name: "Miner Armor Boots"
+    name: "Miner Boots"
+    default_statistics:
+      defense: 15
+      mining_speed: 10
   - id: MINERS_OUTFIT_HELMET
     rarity: UNCOMMON
     material: LEATHER_HELMET

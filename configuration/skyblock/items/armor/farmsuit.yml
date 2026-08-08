@@ -1,10 +1,10 @@
 items:
   - id: FARM_SUIT_HELMET
     material: leather_helmet
-    name: "Farm Suit Helmet"
+    name: "Farmhand Helmet"
     rarity: COMMON
     default_statistics:
-      defense: 15.0
+      defense: 10.0
       farming_fortune: 5.0
     components:
       - id: STANDARD_ITEM
@@ -26,8 +26,8 @@ items:
               - AOA
             ingredients:
               A:
-                type: HAY_BALE
-                amount: 1
+                type: WHEAT
+                amount: 8
               O:
                 type: AIR
                 amount: 1
@@ -37,10 +37,10 @@ items:
 
   - id: FARM_SUIT_CHESTPLATE
     material: leather_chestplate
-    name: "Farm Suit Chestplate"
+    name: "Farmhand Chestplate"
     rarity: COMMON
     default_statistics:
-      defense: 40.0
+      defense: 10.0
       farming_fortune: 5.0
     components:
       - id: STANDARD_ITEM
@@ -63,8 +63,8 @@ items:
               - AAA
             ingredients:
               A:
-                type: HAY_BALE
-                amount: 1
+                type: WHEAT
+                amount: 8
               O:
                 type: AIR
                 amount: 1
@@ -74,10 +74,10 @@ items:
 
   - id: FARM_SUIT_LEGGINGS
     material: leather_leggings
-    name: "Farm Suit Leggings"
+    name: "Farmhand Leggings"
     rarity: COMMON
     default_statistics:
-      defense: 15.0
+      defense: 10.0
       farming_fortune: 5.0
     components:
       - id: STANDARD_ITEM
@@ -100,8 +100,8 @@ items:
               - AOA
             ingredients:
               A:
-                type: HAY_BALE
-                amount: 1
+                type: WHEAT
+                amount: 8
               O:
                 type: AIR
                 amount: 1
@@ -111,10 +111,10 @@ items:
 
   - id: FARM_SUIT_BOOTS
     material: leather_boots
-    name: "Farm Suit Boots"
+    name: "Farmhand Boots"
     rarity: COMMON
     default_statistics:
-      defense: 15.0
+      defense: 10.0
       farming_fortune: 5.0
     components:
       - id: STANDARD_ITEM
@@ -136,8 +136,8 @@ items:
               - AOA
             ingredients:
               A:
-                type: HAY_BALE
-                amount: 1
+                type: WHEAT
+                amount: 8
               O:
                 type: AIR
                 amount: 1

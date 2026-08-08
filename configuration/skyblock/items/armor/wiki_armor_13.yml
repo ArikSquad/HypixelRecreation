@@ -1,0 +1,56 @@
+items:
+  - id: DIVAN_HELMET
+    material: leather_helmet
+    name: 'Helmet of Divan'
+    rarity: LEGENDARY
+    default_statistics:
+      health: 100
+      defense: 130
+      mining_speed: 80
+      mining_fortune: 30
+      heat_resistance: 10
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: DIVAN_CHESTPLATE
+    material: leather_chestplate
+    name: 'Chestplate of Divan'
+    rarity: LEGENDARY
+    default_statistics:
+      health: 200
+      defense: 130
+      mining_speed: 80
+      mining_fortune: 30
+      heat_resistance: 10
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+
+  - id: DIVAN_LEGGINGS
+    material: leather_leggings
+    name: 'Leggings of Divan'
+    rarity: LEGENDARY
+    default_statistics:
+      health: 130
+      defense: 170
+      mining_speed: 80
+      mining_fortune: 30
+      heat_resistance: 10
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+
+  - id: DIVAN_BOOTS
+    material: leather_boots
+    name: 'Boots of Divan'
+    rarity: LEGENDARY
+    default_statistics:
+      health: 80
+      defense: 110
+      mining_speed: 80
+      mining_fortune: 30
+      heat_resistance: 10
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS

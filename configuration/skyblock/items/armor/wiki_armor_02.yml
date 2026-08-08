@@ -1,0 +1,864 @@
+items:
+  - id: SPEEDSTER_HELMET
+    material: leather_helmet
+    name: 'Speedster Helmet'
+    rarity: UNCOMMON
+    default_statistics:
+      speed: 15
+      defense: 45
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: FARMING
+            pattern:
+              - AAA
+              - AOA
+            ingredients:
+              A:
+                type: ENCHANTED_SUGAR
+                amount: 1
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: SPEEDSTER_HELMET
+              amount: 1
+
+  - id: SPEEDSTER_CHESTPLATE
+    material: leather_chestplate
+    name: 'Speedster Chestplate'
+    rarity: UNCOMMON
+    default_statistics:
+      speed: 15
+      defense: 70
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: FARMING
+            pattern:
+              - AOA
+              - AAA
+              - AAA
+            ingredients:
+              A:
+                type: ENCHANTED_SUGAR
+                amount: 1
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: SPEEDSTER_CHESTPLATE
+              amount: 1
+
+  - id: SPEEDSTER_LEGGINGS
+    material: leather_leggings
+    name: 'Speedster Leggings'
+    rarity: UNCOMMON
+    default_statistics:
+      speed: 15
+      defense: 60
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: FARMING
+            pattern:
+              - AAA
+              - AOA
+              - AOA
+            ingredients:
+              A:
+                type: ENCHANTED_SUGAR
+                amount: 1
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: SPEEDSTER_LEGGINGS
+              amount: 1
+
+  - id: SPEEDSTER_BOOTS
+    material: leather_boots
+    name: 'Speedster Boots'
+    rarity: UNCOMMON
+    default_statistics:
+      speed: 15
+      defense: 35
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: FARMING
+            pattern:
+              - AOA
+              - AOA
+            ingredients:
+              O:
+                type: AIR
+                amount: 1
+              A:
+                type: ENCHANTED_SUGAR
+                amount: 1
+            result:
+              type: SPEEDSTER_BOOTS
+              amount: 1
+
+  - id: BIOHAZARD_HELMET
+    material: leather_helmet
+    name: 'Biohazard Helmet'
+    rarity: UNCOMMON
+    default_statistics:
+      bonus_pest_chance: 16.5
+      health: 20
+      defense: 10
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: BIOHAZARD_SUIT
+    material: leather_chestplate
+    name: 'Biohazard Suit'
+    rarity: UNCOMMON
+    default_statistics:
+      bonus_pest_chance: 16.5
+      health: 20
+      defense: 20
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+
+  - id: BIOHAZARD_LEGGINGS
+    material: leather_leggings
+    name: 'Biohazard Leggings'
+    rarity: UNCOMMON
+    default_statistics:
+      bonus_pest_chance: 16.5
+      health: 20
+      defense: 15
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+
+  - id: BIOHAZARD_BOOTS
+    material: leather_boots
+    name: 'Biohazard Boots'
+    rarity: UNCOMMON
+    default_statistics:
+      bonus_pest_chance: 16.5
+      health: 20
+      defense: 5
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+
+  - id: SPROUT_HELMET
+    material: leather_helmet
+    name: 'Sprout Helmet'
+    rarity: UNCOMMON
+    default_statistics:
+      defense: 20
+      farming_fortune: 15
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: FARMING
+            pattern:
+              - AAA
+              - ABA
+              - AAA
+            ingredients:
+              A:
+                type: ENCHANTED_CARROT
+                amount: 8
+              B:
+                type: FARM_ARMOR_HELMET
+                amount: 1
+            result:
+              type: SPROUT_HELMET
+              amount: 1
+
+  - id: SPROUT_CHESTPLATE
+    material: leather_chestplate
+    name: 'Sprout Chestplate'
+    rarity: UNCOMMON
+    default_statistics:
+      defense: 20
+      farming_fortune: 15
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: FARMING
+            pattern:
+              - AAA
+              - ABA
+              - AAA
+            ingredients:
+              A:
+                type: ENCHANTED_CARROT
+                amount: 8
+              B:
+                type: FARM_ARMOR_CHESTPLATE
+                amount: 1
+            result:
+              type: SPROUT_CHESTPLATE
+              amount: 1
+
+  - id: SPROUT_LEGGINGS
+    material: leather_leggings
+    name: 'Sprout Leggings'
+    rarity: UNCOMMON
+    default_statistics:
+      defense: 20
+      farming_fortune: 15
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: FARMING
+            pattern:
+              - AAA
+              - ABA
+              - AAA
+            ingredients:
+              A:
+                type: ENCHANTED_CARROT
+                amount: 8
+              B:
+                type: FARM_ARMOR_LEGGINGS
+                amount: 1
+            result:
+              type: SPROUT_LEGGINGS
+              amount: 1
+
+  - id: SPROUT_BOOTS
+    material: leather_boots
+    name: 'Sprout Boots'
+    rarity: UNCOMMON
+    default_statistics:
+      defense: 20
+      farming_fortune: 15
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: FARMING
+            pattern:
+              - AAA
+              - ABA
+              - AAA
+            ingredients:
+              A:
+                type: ENCHANTED_CARROT
+                amount: 8
+              B:
+                type: FARM_ARMOR_BOOTS
+                amount: 1
+            result:
+              type: SPROUT_BOOTS
+              amount: 1
+
+  - id: MELON_HELMET
+    material: leather_helmet
+    name: 'Tater Helmet'
+    rarity: UNCOMMON
+    default_statistics:
+      speed: 2
+      defense: 25
+      bonus_pest_chance: 10
+      health: 100
+      farming_fortune: 15
+    lore:
+      - 'Tiered Bonus: Cropier Crops — Farming Wheat, Carrot, and Potatoes have a 0.00%➜0.03%➜0.04%➜0.05% chance of dropping a Cropie. Inside the Greenhouse gives a 2.0%➜12.0%➜16.0%➜20.0% chance to drop one from any crop grown inside. Grants +0➜10➜20➜30 Farming Fortune'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: FARMING
+            pattern:
+              - AAA
+              - ABA
+              - AAA
+            ingredients:
+              A:
+                type: ENCHANTED_POTATO
+                amount: 32
+              B:
+                type: SPROUT_HELMET
+                amount: 1
+            result:
+              type: MELON_HELMET
+              amount: 1
+
+  - id: MELON_CHESTPLATE
+    material: leather_chestplate
+    name: 'Tater Chestplate'
+    rarity: UNCOMMON
+    default_statistics:
+      speed: 3
+      defense: 25
+      bonus_pest_chance: 10
+      health: 150
+      farming_fortune: 20
+    lore:
+      - 'Tiered Bonus: Cropier Crops — Farming Wheat, Carrot, and Potatoes have a 0.00%➜0.03%➜0.04%➜0.05% chance of dropping a Cropie. Inside the Greenhouse gives a 2.0%➜12.0%➜16.0%➜20.0% chance to drop one from any crop grown inside. Grants +0➜10➜20➜30 Farming Fortune'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: FARMING
+            pattern:
+              - AAA
+              - ABA
+              - AAA
+            ingredients:
+              A:
+                type: ENCHANTED_POTATO
+                amount: 32
+              B:
+                type: SPROUT_CHESTPLATE
+                amount: 1
+            result:
+              type: MELON_CHESTPLATE
+              amount: 1
+
+  - id: MELON_LEGGINGS
+    material: leather_leggings
+    name: 'Tater Leggings'
+    rarity: UNCOMMON
+    default_statistics:
+      speed: 3
+      defense: 25
+      bonus_pest_chance: 10
+      health: 150
+      farming_fortune: 20
+    lore:
+      - 'Tiered Bonus: Cropier Crops — Farming Wheat, Carrot, and Potatoes have a 0.00%➜0.03%➜0.04%➜0.05% chance of dropping a Cropie. Inside the Greenhouse gives a 2.0%➜12.0%➜16.0%➜20.0% chance to drop one from any crop grown inside. Grants +0➜10➜20➜30 Farming Fortune'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: FARMING
+            pattern:
+              - AAA
+              - ABA
+              - AAA
+            ingredients:
+              A:
+                type: ENCHANTED_POTATO
+                amount: 32
+              B:
+                type: SPROUT_LEGGINGS
+                amount: 1
+            result:
+              type: MELON_LEGGINGS
+              amount: 1
+
+  - id: MELON_BOOTS
+    material: leather_boots
+    name: 'Tater Boots'
+    rarity: UNCOMMON
+    default_statistics:
+      speed: 2
+      defense: 25
+      bonus_pest_chance: 10
+      health: 100
+      farming_fortune: 15
+    lore:
+      - 'Tiered Bonus: Cropier Crops — Farming Wheat, Carrot, and Potatoes have a 0.00%➜0.03%➜0.04%➜0.05% chance of dropping a Cropie. Inside the Greenhouse gives a 2.0%➜12.0%➜16.0%➜20.0% chance to drop one from any crop grown inside. Grants +0➜10➜20➜30 Farming Fortune'
+      - 'Ability: Farmer''s Grace — Grants immunity to trampling crops.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: FARMING
+            pattern:
+              - AAA
+              - ABA
+              - AAA
+            ingredients:
+              A:
+                type: ENCHANTED_POTATO
+                amount: 32
+              B:
+                type: SPROUT_BOOTS
+                amount: 1
+            result:
+              type: MELON_BOOTS
+              amount: 1
+
+  - id: CROPIE_HELMET
+    material: leather_helmet
+    name: 'Cropie Helmet'
+    rarity: UNCOMMON
+    default_statistics:
+      health: 110
+      defense: 30
+      bonus_pest_chance: 12.5
+      speed: 3
+      farming_fortune: 20
+    lore:
+      - 'Tiered Bonus: Squashbuckle — Farming Pumpkin, Melon, and Cocoa Beans have a 0.01%➜0.01%➜0.02%➜0.03% chance of dropping a Squash. Inside the Greenhouse gives a 4.0%➜4.0%➜8.0%➜12.0% chance to drop one from any crop grown inside. Grants +0➜15➜30➜45 Farming Fortune.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: CROPIE_CHESTPLATE
+    material: leather_chestplate
+    name: 'Cropie Chestplate'
+    rarity: UNCOMMON
+    default_statistics:
+      health: 165
+      defense: 30
+      bonus_pest_chance: 12.5
+      speed: 4
+      farming_fortune: 25
+    lore:
+      - 'Tiered Bonus: Squashbuckle — Farming Pumpkin, Melon, and Cocoa Beans have a 0.01%➜0.01%➜0.02%➜0.03% chance of dropping a Squash. Inside the Greenhouse gives a 4.0%➜4.0%➜8.0%➜12.0% chance to drop one from any crop grown inside. Grants +0➜15➜30➜45 Farming Fortune.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+
+  - id: CROPIE_LEGGINGS
+    material: leather_leggings
+    name: 'Cropie Leggings'
+    rarity: UNCOMMON
+    default_statistics:
+      health: 165
+      defense: 30
+      bonus_pest_chance: 12.5
+      speed: 4
+      farming_fortune: 25
+    lore:
+      - 'Tiered Bonus: Squashbuckle — Farming Pumpkin, Melon, and Cocoa Beans have a 0.01%➜0.01%➜0.02%➜0.03% chance of dropping a Squash. Inside the Greenhouse gives a 4.0%➜4.0%➜8.0%➜12.0% chance to drop one from any crop grown inside. Grants +0➜15➜30➜45 Farming Fortune.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+
+  - id: CROPIE_BOOTS
+    material: leather_boots
+    name: 'Cropie Boots'
+    rarity: UNCOMMON
+    default_statistics:
+      health: 110
+      defense: 30
+      bonus_pest_chance: 12.5
+      speed: 4
+      farming_fortune: 20
+    lore:
+      - 'Tiered Bonus: Squashbuckle — Farming Pumpkin, Melon, and Cocoa Beans have a 0.01%➜0.01%➜0.02%➜0.03% chance of dropping a Squash. Inside the Greenhouse gives a 4.0%➜4.0%➜8.0%➜12.0% chance to drop one from any crop grown inside. Grants +0➜15➜30➜45 Farming Fortune.'
+      - 'Ability: Farmer''s Grace — Grants immunity to trampling crops.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+
+  - id: SQUASH_HELMET
+    material: leather_helmet
+    name: 'Squash Helmet'
+    rarity: RARE
+    default_statistics:
+      speed: 4
+      defense: 35
+      bonus_pest_chance: 15
+      health: 120
+      farming_fortune: 25
+    lore:
+      - 'Tiered Bonus: Mento Fermento — Farming Sugar Cane, Cactus, Mushroom and Nether Warts have a 0.005%➜0.005%➜0.006%➜0.007% chance of dropping a Fermento. Inside the Greenhouse gives a 2.0%➜2.0%➜2.4%➜2.8% chance to drop one from any crop grown inside. Grants +0➜20➜40➜60 Farming Fortune.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: SQUASH_CHESTPLATE
+    material: leather_chestplate
+    name: 'Squash Chestplate'
+    rarity: RARE
+    default_statistics:
+      speed: 5
+      defense: 35
+      bonus_pest_chance: 15
+      health: 180
+      farming_fortune: 30
+    lore:
+      - 'Tiered Bonus: Mento Fermento — Farming Sugar Cane, Cactus, Mushroom and Nether Warts have a 0.005%➜0.005%➜0.006%➜0.007% chance of dropping a Fermento. Inside the Greenhouse gives a 2.0%➜2.0%➜2.4%➜2.8% chance to drop one from any crop grown inside. Grants +0➜20➜40➜60 Farming Fortune.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+
+  - id: SQUASH_LEGGINGS
+    material: leather_leggings
+    name: 'Squash Leggings'
+    rarity: RARE
+    default_statistics:
+      speed: 5
+      defense: 35
+      bonus_pest_chance: 15
+      health: 180
+      farming_fortune: 30
+    lore:
+      - 'Tiered Bonus: Mento Fermento — Farming Sugar Cane, Cactus, Mushroom and Nether Warts have a 0.005%➜0.005%➜0.006%➜0.007% chance of dropping a Fermento. Inside the Greenhouse gives a 2.0%➜2.0%➜2.4%➜2.8% chance to drop one from any crop grown inside. Grants +0➜20➜40➜60 Farming Fortune.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+
+  - id: SQUASH_BOOTS
+    material: leather_boots
+    name: 'Squash Boots'
+    rarity: RARE
+    default_statistics:
+      speed: 4
+      defense: 35
+      bonus_pest_chance: 15
+      health: 120
+      farming_fortune: 25
+    lore:
+      - 'Tiered Bonus: Mento Fermento — Farming Sugar Cane, Cactus, Mushroom and Nether Warts have a 0.005%➜0.005%➜0.006%➜0.007% chance of dropping a Fermento. Inside the Greenhouse gives a 2.0%➜2.0%➜2.4%➜2.8% chance to drop one from any crop grown inside. Grants +0➜20➜40➜60 Farming Fortune.'
+      - 'Ability: Farmer''s Grace — Grants immunity to trampling crops.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+
+  - id: VELVET_TOP_HAT
+    material: leather_helmet
+    name: 'Velvet Top Hat'
+    rarity: RARE
+    default_statistics:
+      health: 25
+      defense: 10
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: CASHMERE_JACKET
+    material: leather_chestplate
+    name: 'Cashmere Jacket'
+    rarity: RARE
+    default_statistics:
+      health: 25
+      defense: 10
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+
+  - id: SATIN_TROUSERS
+    material: leather_leggings
+    name: 'Satin Trousers'
+    rarity: RARE
+    default_statistics:
+      health: 25
+      defense: 10
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+
+  - id: OXFORD_SHOES
+    material: leather_boots
+    name: 'Oxford Shoes'
+    rarity: RARE
+    default_statistics:
+      health: 25
+      defense: 10
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+
+  - id: FIG_HELMET
+    material: leather_helmet
+    name: 'Fig Cap'
+    rarity: RARE
+    default_statistics:
+      foraging_fortune: 30
+      sweep: 10
+      health: 80
+      defense: 30
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: FORAGING
+            pattern:
+              - AAA
+              - ABA
+            ingredients:
+              A:
+                type: FIGSTONE
+                amount: 1
+              B:
+                type: CANOPY_HELMET
+                amount: 1
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: FIG_HELMET
+              amount: 1
+
+  - id: FIG_CHESTPLATE
+    material: leather_chestplate
+    name: 'Figmail'
+    rarity: RARE
+    default_statistics:
+      foraging_fortune: 30
+      sweep: 10
+      health: 160
+      defense: 45
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: FORAGING
+            pattern:
+              - AAA
+              - ABA
+              - AAA
+            ingredients:
+              A:
+                type: FIGSTONE
+                amount: 1
+              B:
+                type: CANOPY_CHESTPLATE
+                amount: 1
+            result:
+              type: FIG_CHESTPLATE
+              amount: 1
+
+  - id: FIG_LEGGINGS
+    material: leather_leggings
+    name: 'Fig Trousers'
+    rarity: RARE
+    default_statistics:
+      foraging_fortune: 30
+      sweep: 10
+      health: 140
+      defense: 35
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: FORAGING
+            pattern:
+              - AAA
+              - ABA
+              - AOA
+            ingredients:
+              A:
+                type: FIGSTONE
+                amount: 1
+              B:
+                type: CANOPY_LEGGINGS
+                amount: 1
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: FIG_LEGGINGS
+              amount: 1
+
+  - id: FIG_BOOTS
+    material: leather_boots
+    name: 'Fig Striders'
+    rarity: RARE
+    default_statistics:
+      foraging_fortune: 30
+      sweep: 10
+      health: 65
+      defense: 25
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: FORAGING
+            pattern:
+              - ABA
+              - AOA
+            ingredients:
+              A:
+                type: FIGSTONE
+                amount: 1
+              B:
+                type: CANOPY_BOOTS
+                amount: 1
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: FIG_BOOTS
+              amount: 1
+
+  - id: GOLEM_ARMOR_HELMET
+    material: leather_helmet
+    name: 'Golem Armor Helmet'
+    rarity: RARE
+    default_statistics:
+      health: 45
+      defense: 45
+    lore:
+      - 'Full Set Bonus: Absorption — Grants the wearer Abs III for 20 seconds when they kill an enemy.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: COMBAT
+            pattern:
+              - AAA
+              - AAA
+              - AOA
+            ingredients:
+              A:
+                type: ENCHANTED_IRON_INGOT
+                amount: 10
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: GOLEM_ARMOR_HELMET
+              amount: 1
+
+  - id: GOLEM_ARMOR_CHESTPLATE
+    material: leather_chestplate
+    name: 'Golem Armor Chestplate'
+    rarity: RARE
+    default_statistics:
+      health: 65
+      defense: 90
+    lore:
+      - 'Full Set Bonus: Absorption — Grants the wearer Abs III for 20 seconds when they kill an enemy.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: COMBAT
+            pattern:
+              - AOA
+              - AAA
+              - AAA
+            ingredients:
+              A:
+                type: ENCHANTED_IRON_INGOT
+                amount: 10
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: GOLEM_ARMOR_CHESTPLATE
+              amount: 1
+
+  - id: GOLEM_ARMOR_LEGGINGS
+    material: leather_leggings
+    name: 'Golem Armor Leggings'
+    rarity: RARE
+    default_statistics:
+      health: 55
+      defense: 75
+    lore:
+      - 'Full Set Bonus: Absorption — Grants the wearer Abs III for 20 seconds when they kill an enemy.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: COMBAT
+            pattern:
+              - AAA
+              - AOA
+              - AOA
+            ingredients:
+              A:
+                type: ENCHANTED_IRON_INGOT
+                amount: 10
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: GOLEM_ARMOR_LEGGINGS
+              amount: 1
+
+  - id: GOLEM_ARMOR_BOOTS
+    material: leather_boots
+    name: 'Golem Armor Boots'
+    rarity: RARE
+    default_statistics:
+      health: 40
+      defense: 40
+    lore:
+      - 'Full Set Bonus: Absorption — Grants the wearer Abs III for 20 seconds when they kill an enemy.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: COMBAT
+            pattern:
+              - AOA
+              - AOA
+              - AOA
+            ingredients:
+              A:
+                type: ENCHANTED_IRON_INGOT
+                amount: 10
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: GOLEM_ARMOR_BOOTS
+              amount: 1

@@ -1,0 +1,540 @@
+items:
+  - id: TANK_WITHER_BOOTS
+    material: leather_boots
+    name: 'Goldor''s Boots'
+    rarity: LEGENDARY
+    default_statistics:
+      intelligence: 20
+      health: 190
+      defense: 165
+    lore:
+      - 'Full Set Bonus: Witherborn — Spawns a wither minion every 30 seconds up to a maximum of 1 wither. Your withers will travel to and explode on nearby enemies.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+
+  - id: POWER_WITHER_HELMET
+    material: leather_helmet
+    name: 'Necron''s Helmet'
+    rarity: LEGENDARY
+    default_statistics:
+      strength: 40
+      critical_damage: 30
+      defense: 100
+      health: 180
+      intelligence: 30
+    lore:
+      - 'Full Set Bonus: Witherborn — Spawns a wither minion every 30 seconds up to a maximum of 1 wither. Your withers will travel to and explode on nearby enemies.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: POWER_WITHER_CHESTPLATE
+    material: leather_chestplate
+    name: 'Necron''s Chestplate'
+    rarity: LEGENDARY
+    default_statistics:
+      strength: 40
+      critical_damage: 30
+      defense: 140
+      health: 260
+      intelligence: 10
+    lore:
+      - 'Full Set Bonus: Witherborn — Spawns a wither minion every 30 seconds up to a maximum of 1 wither. Your withers will travel to and explode on nearby enemies.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+
+  - id: POWER_WITHER_LEGGINGS
+    material: leather_leggings
+    name: 'Necron''s Leggings'
+    rarity: LEGENDARY
+    default_statistics:
+      strength: 40
+      critical_damage: 30
+      defense: 125
+      health: 230
+      intelligence: 10
+    lore:
+      - 'Full Set Bonus: Witherborn — Spawns a wither minion every 30 seconds up to a maximum of 1 wither. Your withers will travel to and explode on nearby enemies.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+
+  - id: POWER_WITHER_BOOTS
+    material: leather_boots
+    name: 'Necron''s Boots'
+    rarity: LEGENDARY
+    default_statistics:
+      strength: 40
+      critical_damage: 30
+      defense: 85
+      health: 145
+      intelligence: 10
+    lore:
+      - 'Full Set Bonus: Witherborn — Spawns a wither minion every 30 seconds up to a maximum of 1 wither. Your withers will travel to and explode on nearby enemies.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+
+  - id: DIAMOND_HUNTER_HELMET
+    material: leather_helmet
+    name: 'Diamond Hunter Helmet'
+    rarity: LEGENDARY
+    default_statistics:
+      health: 125
+    lore:
+      - 'Full Set Bonus: Star Fisher — Grants +1 Fishing Speed per ✪ Upgrade Star on your armor.'
+      - 'Tiered Bonus: Peace Treaty — Gain immunity to Sea Creatures but they are immune to you and you can no longer catch them.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: DIAMOND_HUNTER_CHESTPLATE
+    material: leather_chestplate
+    name: 'Diamond Hunter Chestplate'
+    rarity: LEGENDARY
+    default_statistics:
+      health: 175
+    lore:
+      - 'Full Set Bonus: Star Fisher — Grants +1 Fishing Speed per ✪ Upgrade Star on your armor.'
+      - 'Tiered Bonus: Peace Treaty — Gain immunity to Sea Creatures but they are immune to you and you can no longer catch them.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+
+  - id: DIAMOND_HUNTER_LEGGINGS
+    material: leather_leggings
+    name: 'Diamond Hunter Leggings'
+    rarity: LEGENDARY
+    default_statistics:
+      health: 150
+    lore:
+      - 'Full Set Bonus: Star Fisher — Grants +1 Fishing Speed per ✪ Upgrade Star on your armor.'
+      - 'Tiered Bonus: Peace Treaty — Gain immunity to Sea Creatures but they are immune to you and you can no longer catch them.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+
+  - id: DIAMOND_HUNTER_BOOTS
+    material: leather_boots
+    name: 'Diamond Hunter Boots'
+    rarity: LEGENDARY
+    default_statistics:
+      health: 100
+    lore:
+      - 'Full Set Bonus: Star Fisher — Grants +1 Fishing Speed per ✪ Upgrade Star on your armor.'
+      - 'Tiered Bonus: Peace Treaty — Gain immunity to Sea Creatures but they are immune to you and you can no longer catch them.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+
+  - id: MAGMA_LORD_HELMET
+    material: leather_helmet
+    name: 'Magma Lord Helmet'
+    rarity: LEGENDARY
+    default_statistics:
+      strength: 10
+      critical_damage: 35
+      defense: 175
+      sea_creature_chance: 4.5
+      health: 225
+    lore:
+      - 'Tiered Bonus: Fireproof — Provides immunity to Crimson Isle Lava.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: MAGMA_LORD_CHESTPLATE
+    material: leather_chestplate
+    name: 'Magma Lord Chestplate'
+    rarity: LEGENDARY
+    default_statistics:
+      strength: 10
+      critical_damage: 35
+      defense: 225
+      sea_creature_chance: 4.5
+      health: 275
+    lore:
+      - 'Tiered Bonus: Fireproof — Provides immunity to Crimson Isle Lava.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+
+  - id: MAGMA_LORD_LEGGINGS
+    material: leather_leggings
+    name: 'Magma Lord Leggings'
+    rarity: LEGENDARY
+    default_statistics:
+      strength: 10
+      critical_damage: 35
+      defense: 200
+      sea_creature_chance: 4.5
+      health: 250
+    lore:
+      - 'Tiered Bonus: Fireproof — Provides immunity to Crimson Isle Lava.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+
+  - id: MAGMA_LORD_BOOTS
+    material: leather_boots
+    name: 'Magma Lord Boots'
+    rarity: LEGENDARY
+    default_statistics:
+      strength: 10
+      critical_damage: 35
+      defense: 150
+      sea_creature_chance: 4.5
+      health: 200
+    lore:
+      - 'Tiered Bonus: Fireproof — Provides immunity to Crimson Isle Lava.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+
+  - id: CRIMSON_HELMET
+    material: leather_helmet
+    name: 'Crimson Helmet'
+    rarity: LEGENDARY
+    default_statistics:
+      strength: 30
+      critical_damage: 20
+      defense: 50
+      health: 160
+      intelligence: 15
+    lore:
+      - 'Tiered Bonus: Dominus — Every 1.5 s➜1 s➜0.5 s, melee attacks gain 1 stack of ᝐ Dominus. Each ᝐ Dominus stack grants 0.05 SR. At 10 stacks also swipe in a random direction hitting every enemy in the path of the swipe. Lose 1 stack after 4 s➜7 s➜10 s of not gaining a stack.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: CRIMSON_CHESTPLATE
+    material: leather_chestplate
+    name: 'Crimson Chestplate'
+    rarity: LEGENDARY
+    default_statistics:
+      strength: 30
+      critical_damage: 20
+      defense: 65
+      health: 230
+      intelligence: 5
+    lore:
+      - 'Tiered Bonus: Dominus — Every 1.5 s➜1 s➜0.5 s, melee attacks gain 1 stack of ᝐ Dominus. Each ᝐ Dominus stack grants 0.05 SR. At 10 stacks also swipe in a random direction hitting every enemy in the path of the swipe. Lose 1 stack after 4 s➜7 s➜10 s of not gaining a stack.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+
+  - id: CRIMSON_LEGGINGS
+    material: leather_leggings
+    name: 'Crimson Leggings'
+    rarity: LEGENDARY
+    default_statistics:
+      strength: 30
+      critical_damage: 20
+      defense: 55
+      health: 205
+      intelligence: 5
+    lore:
+      - 'Tiered Bonus: Dominus — Every 1.5 s➜1 s➜0.5 s, melee attacks gain 1 stack of ᝐ Dominus. Each ᝐ Dominus stack grants 0.05 SR. At 10 stacks also swipe in a random direction hitting every enemy in the path of the swipe. Lose 1 stack after 4 s➜7 s➜10 s of not gaining a stack.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+
+  - id: CRIMSON_BOOTS
+    material: leather_boots
+    name: 'Crimson Boots'
+    rarity: LEGENDARY
+    default_statistics:
+      strength: 30
+      critical_damage: 20
+      defense: 40
+      health: 130
+      intelligence: 5
+    lore:
+      - 'Tiered Bonus: Dominus — Every 1.5 s➜1 s➜0.5 s, melee attacks gain 1 stack of ᝐ Dominus. Each ᝐ Dominus stack grants 0.05 SR. At 10 stacks also swipe in a random direction hitting every enemy in the path of the swipe. Lose 1 stack after 4 s➜7 s➜10 s of not gaining a stack.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+
+  - id: AURORA_HELMET
+    material: leather_helmet
+    name: 'Aurora Helmet'
+    rarity: LEGENDARY
+    default_statistics:
+      intelligence: 275
+      health: 160
+      defense: 50
+      ability_damage: 16
+    lore:
+      - 'Tiered Bonus: Arcane Energy — Every 1 s➜0.7➜0.5 s , dealing Magic Damage from an ability grants 1 stack of Arcane Energy Ѫ. At 10 stacks, sneak to reset your stacks and shoot 3 homing missiles dealing 5,000 Damage each. Lose 1 stack after 4 s of not gaining a stack.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: AURORA_CHESTPLATE
+    material: leather_chestplate
+    name: 'Aurora Chestplate'
+    rarity: LEGENDARY
+    default_statistics:
+      intelligence: 175
+      health: 230
+      defense: 65
+    lore:
+      - 'Tiered Bonus: Arcane Energy — Every 1 s➜0.7➜0.5 s , dealing Magic Damage from an ability grants 1 stack of Arcane Energy Ѫ. At 10 stacks, sneak to reset your stacks and shoot 3 homing missiles dealing 5,000 Damage each. Lose 1 stack after 4 s of not gaining a stack.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+
+  - id: AURORA_LEGGINGS
+    material: leather_leggings
+    name: 'Aurora Leggings'
+    rarity: LEGENDARY
+    default_statistics:
+      intelligence: 175
+      health: 205
+      defense: 55
+    lore:
+      - 'Tiered Bonus: Arcane Energy — Every 1 s➜0.7➜0.5 s , dealing Magic Damage from an ability grants 1 stack of Arcane Energy Ѫ. At 10 stacks, sneak to reset your stacks and shoot 3 homing missiles dealing 5,000 Damage each. Lose 1 stack after 4 s of not gaining a stack.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+
+  - id: AURORA_BOOTS
+    material: leather_boots
+    name: 'Aurora Boots'
+    rarity: LEGENDARY
+    default_statistics:
+      intelligence: 175
+      health: 130
+      defense: 40
+    lore:
+      - 'Tiered Bonus: Arcane Energy — Every 1 s➜0.7➜0.5 s , dealing Magic Damage from an ability grants 1 stack of Arcane Energy Ѫ. At 10 stacks, sneak to reset your stacks and shoot 3 homing missiles dealing 5,000 Damage each. Lose 1 stack after 4 s of not gaining a stack.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+
+  - id: FERVOR_HELMET
+    material: leather_helmet
+    name: 'Fervor Helmet'
+    rarity: LEGENDARY
+    default_statistics:
+      true_defense: 5
+      intelligence: 15
+      health: 180
+      defense: 100
+    lore:
+      - 'Full Set Bonus: Intimidate — Attacking a mob has a 50% chance to direct aggro from 3 mobs to you.'
+      - 'Tiered Bonus: Fervor — Every 1.5 s➜1 s➜0.5 s, attacking a mob grants 1 stack of ҉ Fervor. Lose 1 stack after 4 s➜7 s➜10 s of not gaining a stack.'
+      - 'Ability: Ground Pound — At 10 stacks, sneak to reset your stacks and perform a Ground Pound dealing damage to mobs within 6 blocks. Damage scales with EHP, up to 25000000 Damage.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: FERVOR_CHESTPLATE
+    material: leather_chestplate
+    name: 'Fervor Chestplate'
+    rarity: LEGENDARY
+    default_statistics:
+      true_defense: 5
+      intelligence: 5
+      health: 265
+      defense: 140
+    lore:
+      - 'Full Set Bonus: Intimidate — Attacking a mob has a 50% chance to direct aggro from 3 mobs to you.'
+      - 'Tiered Bonus: Fervor — Every 1.5 s➜1 s➜0.5 s, attacking a mob grants 1 stack of ҉ Fervor. Lose 1 stack after 4 s➜7 s➜10 s of not gaining a stack.'
+      - 'Ability: Ground Pound — At 10 stacks, sneak to reset your stacks and perform a Ground Pound dealing damage to mobs within 6 blocks. Damage scales with EHP, up to 25000000 Damage.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+
+  - id: FERVOR_LEGGINGS
+    material: leather_leggings
+    name: 'Fervor Leggings'
+    rarity: LEGENDARY
+    default_statistics:
+      true_defense: 5
+      intelligence: 5
+      health: 210
+      defense: 115
+    lore:
+      - 'Full Set Bonus: Intimidate — Attacking a mob has a 50% chance to direct aggro from 3 mobs to you.'
+      - 'Tiered Bonus: Fervor — Every 1.5 s➜1 s➜0.5 s, attacking a mob grants 1 stack of ҉ Fervor. Lose 1 stack after 4 s➜7 s➜10 s of not gaining a stack.'
+      - 'Ability: Ground Pound — At 10 stacks, sneak to reset your stacks and perform a Ground Pound dealing damage to mobs within 6 blocks. Damage scales with EHP, up to 25000000 Damage.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+
+  - id: FERVOR_BOOTS
+    material: leather_boots
+    name: 'Fervor Boots'
+    rarity: LEGENDARY
+    default_statistics:
+      true_defense: 5
+      intelligence: 5
+      health: 160
+      defense: 85
+    lore:
+      - 'Full Set Bonus: Intimidate — Attacking a mob has a 50% chance to direct aggro from 3 mobs to you.'
+      - 'Tiered Bonus: Fervor — Every 1.5 s➜1 s➜0.5 s, attacking a mob grants 1 stack of ҉ Fervor. Lose 1 stack after 4 s➜7 s➜10 s of not gaining a stack.'
+      - 'Ability: Ground Pound — At 10 stacks, sneak to reset your stacks and perform a Ground Pound dealing damage to mobs within 6 blocks. Damage scales with EHP, up to 25000000 Damage.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+
+  - id: HOLLOW_HELMET
+    material: leather_helmet
+    name: 'Hollow Helmet'
+    rarity: LEGENDARY
+    default_statistics:
+      mending: 5
+      speed: 5
+      defense: 55
+      health: 175
+      intelligence: 15
+    lore:
+      - 'Tiered Bonus: Spirit — Each kill by you or a recently supported player grants 1 stack of Spirit ⚶. (Max 30➜40➜50) Each Spirit ⚶ stack can be used as charge for the Hollow Wand. Lose 1 stack after 4 s➜7 s➜10 s of not gaining a stack.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: HOLLOW_CHESTPLATE
+    material: leather_chestplate
+    name: 'Hollow Chestplate'
+    rarity: LEGENDARY
+    default_statistics:
+      mending: 5
+      speed: 5
+      defense: 70
+      health: 250
+      intelligence: 85
+    lore:
+      - 'Tiered Bonus: Spirit — Each kill by you or a recently supported player grants 1 stack of Spirit ⚶. (Max 30➜40➜50) Each Spirit ⚶ stack can be used as charge for the Hollow Wand. Lose 1 stack after 4 s➜7 s➜10 s of not gaining a stack.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+
+  - id: HOLLOW_LEGGINGS
+    material: leather_leggings
+    name: 'Hollow Leggings'
+    rarity: LEGENDARY
+    default_statistics:
+      mending: 5
+      speed: 5
+      defense: 60
+      health: 225
+      intelligence: 85
+    lore:
+      - 'Tiered Bonus: Spirit — Each kill by you or a recently supported player grants 1 stack of Spirit ⚶. (Max 30➜40➜50) Each Spirit ⚶ stack can be used as charge for the Hollow Wand. Lose 1 stack after 4 s➜7 s➜10 s of not gaining a stack.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+
+  - id: HOLLOW_BOOTS
+    material: leather_boots
+    name: 'Hollow Boots'
+    rarity: LEGENDARY
+    default_statistics:
+      mending: 5
+      speed: 5
+      defense: 45
+      health: 150
+      intelligence: 85
+    lore:
+      - 'Tiered Bonus: Spirit — Each kill by you or a recently supported player grants 1 stack of Spirit ⚶. (Max 30➜40➜50) Each Spirit ⚶ stack can be used as charge for the Hollow Wand. Lose 1 stack after 4 s➜7 s➜10 s of not gaining a stack.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+
+  - id: TERROR_HELMET
+    material: leather_helmet
+    name: 'Terror Helmet'
+    rarity: LEGENDARY
+    default_statistics:
+      critical_damage: 50
+      defense: 50
+      intelligence: 15
+      health: 160
+      speed: 12
+    lore:
+      - 'Tiered Bonus: Hydra Strike — Every 0.2 s, arrow attacks grant 1 stack of Hydra Strike ⁑. Each Hydra Strike ⁑ stack grants +2% Damage➜+4% Damage➜+6% Damage and +1% Arrow Speed. At 10 stacks, shoot +2 arrows that deal 20% Arrow Damage. Lose 1 stack after 4 s➜7 s➜10 s of not gaining a stack.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: TERROR_CHESTPLATE
+    material: leather_chestplate
+    name: 'Terror Chestplate'
+    rarity: LEGENDARY
+    default_statistics:
+      critical_damage: 50
+      defense: 65
+      intelligence: 5
+      health: 230
+      speed: 12
+    lore:
+      - 'Tiered Bonus: Hydra Strike — Every 0.2 s, arrow attacks grant 1 stack of Hydra Strike ⁑. Each Hydra Strike ⁑ stack grants +2% Damage➜+4% Damage➜+6% Damage and +1% Arrow Speed. At 10 stacks, shoot +2 arrows that deal 20% Arrow Damage. Lose 1 stack after 4 s➜7 s➜10 s of not gaining a stack.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+
+  - id: TERROR_LEGGINGS
+    material: leather_leggings
+    name: 'Terror Leggings'
+    rarity: LEGENDARY
+    default_statistics:
+      critical_damage: 50
+      defense: 55
+      intelligence: 5
+      health: 205
+      speed: 12
+    lore:
+      - 'Tiered Bonus: Hydra Strike — Every 0.2 s, arrow attacks grant 1 stack of Hydra Strike ⁑. Each Hydra Strike ⁑ stack grants +2% Damage➜+4% Damage➜+6% Damage and +1% Arrow Speed. At 10 stacks, shoot +2 arrows that deal 20% Arrow Damage. Lose 1 stack after 4 s➜7 s➜10 s of not gaining a stack.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+
+  - id: TERROR_BOOTS
+    material: leather_boots
+    name: 'Terror Boots'
+    rarity: LEGENDARY
+    default_statistics:
+      critical_damage: 50
+      defense: 40
+      intelligence: 5
+      health: 130
+      speed: 12
+    lore:
+      - 'Tiered Bonus: Hydra Strike — Every 0.2 s, arrow attacks grant 1 stack of Hydra Strike ⁑. Each Hydra Strike ⁑ stack grants +2% Damage➜+4% Damage➜+6% Damage and +1% Arrow Speed. At 10 stacks, shoot +2 arrows that deal 20% Arrow Damage. Lose 1 stack after 4 s➜7 s➜10 s of not gaining a stack.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+
+  - id: WYLD_HELMET
+    material: leather_helmet
+    name: 'Wyld Helmet on a Helmet'
+    rarity: UNCOMMON
+    default_statistics:
+      intelligence: 10
+    lore:
+      - 'Ability: Helmets All The Way Down — Regain +1 Rift Time when killing a monster. Note: Monsters already grant time on death.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: WYLD_CHESTPLATE
+    material: leather_chestplate
+    name: 'Wyld Chain Top'
+    rarity: UNCOMMON
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+
+  - id: WYLD_LEGGINGS
+    material: leather_leggings
+    name: 'Wyld Leggings'
+    rarity: UNCOMMON
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+

@@ -1,0 +1,968 @@
+items:
+  - id: ARMOR_OF_MAGMA_BOOTS
+    material: leather_boots
+    name: 'Armor of Magma Boots'
+    rarity: EPIC
+    default_statistics:
+      health: 45
+      defense: 15
+    lore:
+      - 'Full Set Bonus: Absorb — Every 10 Magma Cube'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: SPECIAL
+            pattern:
+              - AOA
+              - AOA
+              - AOA
+            ingredients:
+              A:
+                type: ENCHANTED_MAGMA_CREAM
+                amount: 12
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: ARMOR_OF_MAGMA_BOOTS
+              amount: 1
+
+  - id: EMERALD_ARMOR_HELMET
+    material: leather_helmet
+    name: 'Emerald Armor Helmet'
+    rarity: EPIC
+    default_statistics:
+      defense: 50
+    lore:
+      - 'Full Set Bonus: Tank — Increases the wearers maximum Health and Defense by +1 for every 3,000 Emeralds in your collection. Max +350 each'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: COMBAT
+            pattern:
+              - AAA
+              - AOA
+            ingredients:
+              A:
+                type: ENCHANTED_EMERALD_BLOCK
+                amount: 1
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: EMERALD_ARMOR_HELMET
+              amount: 1
+
+  - id: EMERALD_ARMOR_CHESTPLATE
+    material: leather_chestplate
+    name: 'Emerald Armor Chestplate'
+    rarity: EPIC
+    default_statistics:
+      defense: 100
+    lore:
+      - 'Full Set Bonus: Tank — Increases the wearers maximum Health and Defense by +1 for every 3,000 Emeralds in your collection. Max +350 each'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: COMBAT
+            pattern:
+              - AOA
+              - AAA
+              - AAA
+            ingredients:
+              A:
+                type: ENCHANTED_EMERALD_BLOCK
+                amount: 1
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: EMERALD_ARMOR_CHESTPLATE
+              amount: 1
+
+  - id: EMERALD_ARMOR_LEGGINGS
+    material: leather_leggings
+    name: 'Emerald Armor Leggings'
+    rarity: EPIC
+    default_statistics:
+      defense: 75
+    lore:
+      - 'Full Set Bonus: Tank — Increases the wearers maximum Health and Defense by +1 for every 3,000 Emeralds in your collection. Max +350 each'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: COMBAT
+            pattern:
+              - AAA
+              - AOA
+              - AOA
+            ingredients:
+              A:
+                type: ENCHANTED_EMERALD_BLOCK
+                amount: 1
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: EMERALD_ARMOR_LEGGINGS
+              amount: 1
+
+  - id: EMERALD_ARMOR_BOOTS
+    material: leather_boots
+    name: 'Emerald Armor Boots'
+    rarity: EPIC
+    default_statistics:
+      defense: 45
+    lore:
+      - 'Full Set Bonus: Tank — Increases the wearers maximum Health and Defense by +1 for every 3,000 Emeralds in your collection. Max +350 each'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: COMBAT
+            pattern:
+              - AOA
+              - AOA
+            ingredients:
+              A:
+                type: ENCHANTED_EMERALD_BLOCK
+                amount: 1
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: EMERALD_ARMOR_BOOTS
+              amount: 1
+
+  - id: CHALLENGER_HELMET
+    material: leather_helmet
+    name: 'Challenger''s Helmet'
+    rarity: EPIC
+    default_statistics:
+      health: 50
+      defense: 25
+      strength: 10
+    lore:
+      - 'Tiered Bonus: Unearthed — Reduces damage taken from Mythological mobs by 10%/12.5%/15%/17.5%/20%/22.5%/25%.'
+      - 'Ability: Mythos'' Night — Grants 2 x this armor''s stats while in The Hub'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: COMBAT
+            pattern:
+              - ABA
+              - COC
+            ingredients:
+              A:
+                type: ENCHANTED_GOLD_INGOT
+                amount: 16
+              B:
+                type: GRIFFIN_FEATHER
+                amount: 4
+              C:
+                type: ANCIENT_CLAW
+                amount: 32
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: CHALLENGER_HELMET
+              amount: 1
+
+  - id: CHALLENGER_CHESTPLATE
+    material: leather_chestplate
+    name: 'Challenger''s Chestplate'
+    rarity: EPIC
+    default_statistics:
+      health: 80
+      defense: 40
+      strength: 25
+    lore:
+      - 'Tiered Bonus: Unearthed — Reduces damage taken from Mythological mobs by 10%/12.5%/15%/17.5%/20%/22.5%/25%.'
+      - 'Ability: Mythos'' Night — Grants 2 x this armor''s stats while in The Hub'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: COMBAT
+            pattern:
+              - AOA
+              - BAB
+              - BCB
+            ingredients:
+              A:
+                type: ENCHANTED_GOLD_INGOT
+                amount: 16
+              O:
+                type: AIR
+                amount: 1
+              B:
+                type: GRIFFIN_FEATHER
+                amount: 1
+              C:
+                type: ANCIENT_CLAW
+                amount: 64
+            result:
+              type: CHALLENGER_CHESTPLATE
+              amount: 1
+
+  - id: CHALLENGER_LEGGINGS
+    material: leather_leggings
+    name: 'Challenger''s Leggings'
+    rarity: EPIC
+    default_statistics:
+      health: 70
+      defense: 35
+      strength: 20
+    lore:
+      - 'Tiered Bonus: Unearthed — Reduces damage taken from Mythological mobs by 10%/12.5%/15%/17.5%/20%/22.5%/25%.'
+      - 'Ability: Mythos'' Night — Grants 2 x this armor''s stats while in The Hub'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: COMBAT
+            pattern:
+              - AOA
+              - BCB
+              - BOB
+            ingredients:
+              A:
+                type: ANCIENT_CLAW
+                amount: 64
+              O:
+                type: AIR
+                amount: 1
+              B:
+                type: GRIFFIN_FEATHER
+                amount: 1
+              C:
+                type: ENCHANTED_GOLD_INGOT
+                amount: 16
+            result:
+              type: CHALLENGER_LEGGINGS
+              amount: 1
+
+  - id: CHALLENGER_BOOTS
+    material: leather_boots
+    name: 'Challenger''s Boots'
+    rarity: EPIC
+    default_statistics:
+      health: 40
+      defense: 30
+      strength: 5
+    lore:
+      - 'Tiered Bonus: Unearthed — Reduces damage taken from Mythological mobs by 10%/12.5%/15%/17.5%/20%/22.5%/25%.'
+      - 'Ability: Mythos'' Night — Grants 2 x this armor''s stats while in The Hub'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: COMBAT
+            pattern:
+              - AOA
+              - BOB
+            ingredients:
+              O:
+                type: AIR
+                amount: 1
+              A:
+                type: ENCHANTED_GOLD_INGOT
+                amount: 32
+              B:
+                type: GRIFFIN_FEATHER
+                amount: 2
+            result:
+              type: CHALLENGER_BOOTS
+              amount: 1
+
+  - id: EMBER_HELMET
+    material: leather_helmet
+    name: 'Ember Helmet'
+    rarity: EPIC
+    default_statistics:
+      intelligence: 5
+      health: 40
+      defense: 35
+    lore:
+      - 'Full Set Bonus: Nether Lord — Walking over Lava creates Obsidian under your feet. You are also immune to all damage from Lava and Fire.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: EMBER_CHESTPLATE
+    material: leather_chestplate
+    name: 'Ember Chestplate'
+    rarity: EPIC
+    default_statistics:
+      intelligence: 10
+      health: 65
+      defense: 60
+    lore:
+      - 'Full Set Bonus: Nether Lord — Walking over Lava creates Obsidian under your feet. You are also immune to all damage from Lava and Fire.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+
+  - id: EMBER_LEGGINGS
+    material: leather_leggings
+    name: 'Ember Leggings'
+    rarity: EPIC
+    default_statistics:
+      intelligence: 5
+      health: 60
+      defense: 55
+    lore:
+      - 'Full Set Bonus: Nether Lord — Walking over Lava creates Obsidian under your feet. You are also immune to all damage from Lava and Fire.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+
+  - id: EMBER_BOOTS
+    material: leather_boots
+    name: 'Ember Boots'
+    rarity: EPIC
+    default_statistics:
+      intelligence: 5
+      health: 35
+      defense: 30
+    lore:
+      - 'Full Set Bonus: Nether Lord — Walking over Lava creates Obsidian under your feet. You are also immune to all damage from Lava and Fire.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+
+  - id: CRYSTAL_HELMET
+    material: leather_helmet
+    name: 'Crystal Helmet'
+    rarity: EPIC
+    default_statistics:
+      intelligence: 65
+      defense: 20
+    lore:
+      - 'Full Set Bonus: Refraction — The stats of this armor change from 0 to 200% depending on the current light level.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: CRYSTAL_CHESTPLATE
+    material: leather_chestplate
+    name: 'Crystal Chestplate'
+    rarity: EPIC
+    default_statistics:
+      intelligence: 120
+      defense: 35
+    lore:
+      - 'Full Set Bonus: Refraction — The stats of this armor change from 0 to 200% depending on the current light level.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+
+  - id: CRYSTAL_LEGGINGS
+    material: leather_leggings
+    name: 'Crystal Leggings'
+    rarity: EPIC
+    default_statistics:
+      intelligence: 100
+      defense: 30
+    lore:
+      - 'Full Set Bonus: Refraction — The stats of this armor change from 0 to 200% depending on the current light level.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+
+  - id: CRYSTAL_BOOTS
+    material: leather_boots
+    name: 'Crystal Boots'
+    rarity: EPIC
+    default_statistics:
+      intelligence: 60
+      defense: 15
+    lore:
+      - 'Full Set Bonus: Refraction — The stats of this armor change from 0 to 200% depending on the current light level.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+
+  - id: ZOMBIE_CHESTPLATE
+    material: leather_chestplate
+    name: 'Zombie Chestplate'
+    rarity: EPIC
+    default_statistics:
+      health: 200
+      defense: 40
+    lore:
+      - 'Full Set Bonus: Projectile Absorption — Heals the wearer for 10 Health per second for 5 seconds when hit by a projectile'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: COMBAT
+            pattern:
+              - AOA
+              - ABA
+              - BBB
+            ingredients:
+              A:
+                type: ENCHANTED_ROTTEN_FLESH
+                amount: 1
+              O:
+                type: AIR
+                amount: 1
+              B:
+                type: ZOMBIE_HEART
+                amount: 1
+            result:
+              type: ZOMBIE_CHESTPLATE
+              amount: 1
+
+  - id: ZOMBIE_LEGGINGS
+    material: leather_leggings
+    name: 'Zombie Leggings'
+    rarity: EPIC
+    default_statistics:
+      health: 160
+      defense: 30
+    lore:
+      - 'Full Set Bonus: Projectile Absorption — Heals the wearer for 10 Health per second for 5 seconds when hit by a projectile'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: COMBAT
+            pattern:
+              - AAA
+              - BOB
+              - BOB
+            ingredients:
+              A:
+                type: ZOMBIE_HEART
+                amount: 1
+              B:
+                type: ENCHANTED_ROTTEN_FLESH
+                amount: 1
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: ZOMBIE_LEGGINGS
+              amount: 1
+
+  - id: ZOMBIE_BOOTS
+    material: leather_boots
+    name: 'Zombie Boots'
+    rarity: EPIC
+    default_statistics:
+      health: 120
+      defense: 25
+    lore:
+      - 'Full Set Bonus: Projectile Absorption — Heals the wearer for 10 Health per second for 5 seconds when hit by a projectile'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: COMBAT
+            pattern:
+              - AOA
+              - BOB
+            ingredients:
+              A:
+                type: ENCHANTED_ROTTEN_FLESH
+                amount: 1
+              O:
+                type: AIR
+                amount: 1
+              B:
+                type: ZOMBIE_HEART
+                amount: 1
+            result:
+              type: ZOMBIE_BOOTS
+              amount: 1
+
+  - id: BLAZE_HELMET
+    material: leather_helmet
+    name: 'Blaze Helmet'
+    rarity: EPIC
+    default_statistics:
+      strength: 10
+      speed: 2
+      defense: 80
+    lore:
+      - 'Full Set Bonus: Blazing Aura — Damages mobs within 5 blocks for 3% of their max Health per second. Max damage/s increased by +100 per 5,000 rods. (5000 max damage cap).'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: COMBAT
+            pattern:
+              - AAA
+              - AAA
+              - AOA
+            ingredients:
+              A:
+                type: ENCHANTED_BLAZE_ROD
+                amount: 1
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: BLAZE_HELMET
+              amount: 1
+
+  - id: BLAZE_CHESTPLATE
+    material: leather_chestplate
+    name: 'Blaze Chestplate'
+    rarity: EPIC
+    default_statistics:
+      strength: 10
+      speed: 2
+      defense: 150
+    lore:
+      - 'Full Set Bonus: Blazing Aura — Damages mobs within 5 blocks for 3% of their max Health per second. Max damage/s increased by +100 per 5,000 rods. (5000 max damage cap).'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: COMBAT
+            pattern:
+              - AOA
+              - AAA
+              - AAA
+            ingredients:
+              A:
+                type: ENCHANTED_BLAZE_ROD
+                amount: 1
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: BLAZE_CHESTPLATE
+              amount: 1
+
+  - id: BLAZE_LEGGINGS
+    material: leather_leggings
+    name: 'Blaze Leggings'
+    rarity: EPIC
+    default_statistics:
+      strength: 10
+      speed: 2
+      defense: 110
+    lore:
+      - 'Full Set Bonus: Blazing Aura — Damages mobs within 5 blocks for 3% of their max Health per second. Max damage/s increased by +100 per 5,000 rods. (5000 max damage cap).'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: COMBAT
+            pattern:
+              - AAA
+              - AOA
+              - AOA
+            ingredients:
+              A:
+                type: ENCHANTED_BLAZE_ROD
+                amount: 1
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: BLAZE_LEGGINGS
+              amount: 1
+
+  - id: BLAZE_BOOTS
+    material: leather_boots
+    name: 'Blaze Boots'
+    rarity: EPIC
+    default_statistics:
+      strength: 10
+      speed: 2
+      defense: 70
+    lore:
+      - 'Full Set Bonus: Blazing Aura — Damages mobs within 5 blocks for 3% of their max Health per second. Max damage/s increased by +100 per 5,000 rods. (5000 max damage cap).'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: COMBAT
+            pattern:
+              - AOA
+              - AOA
+              - AOA
+            ingredients:
+              A:
+                type: ENCHANTED_BLAZE_ROD
+                amount: 1
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: BLAZE_BOOTS
+              amount: 1
+
+  - id: END_HELMET
+    material: leather_helmet
+    name: 'Ender Helmet'
+    rarity: EPIC
+    default_statistics:
+      health: 20
+      defense: 35
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: END_CHESTPLATE
+    material: leather_chestplate
+    name: 'Ender Chestplate'
+    rarity: EPIC
+    default_statistics:
+      health: 30
+      defense: 60
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+
+  - id: END_LEGGINGS
+    material: leather_leggings
+    name: 'Ender Leggings'
+    rarity: EPIC
+    default_statistics:
+      health: 25
+      defense: 50
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+
+  - id: END_BOOTS
+    material: leather_boots
+    name: 'Ender Boots'
+    rarity: EPIC
+    default_statistics:
+      health: 15
+      defense: 25
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+
+  - id: SPONGE_HELMET
+    material: leather_helmet
+    name: 'Sponge Helmet'
+    rarity: EPIC
+    default_statistics:
+      defense: 100
+      sea_creature_chance: 2
+    lore:
+      - 'Full Set Bonus: Absorb — Doubles your Defense while in water.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: FISHING
+            pattern:
+              - AAA
+              - AAA
+              - AOA
+            ingredients:
+              A:
+                type: ENCHANTED_WET_SPONGE
+                amount: 1
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: SPONGE_HELMET
+              amount: 1
+
+  - id: SPONGE_CHESTPLATE
+    material: leather_chestplate
+    name: 'Sponge Chestplate'
+    rarity: EPIC
+    default_statistics:
+      defense: 150
+      sea_creature_chance: 2
+    lore:
+      - 'Full Set Bonus: Absorb — Doubles your Defense while in water.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: FISHING
+            pattern:
+              - AOA
+              - AAA
+              - AAA
+            ingredients:
+              A:
+                type: ENCHANTED_WET_SPONGE
+                amount: 1
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: SPONGE_CHESTPLATE
+              amount: 1
+
+  - id: SPONGE_LEGGINGS
+    material: leather_leggings
+    name: 'Sponge Leggings'
+    rarity: EPIC
+    default_statistics:
+      defense: 125
+      sea_creature_chance: 2
+    lore:
+      - 'Full Set Bonus: Absorb — Doubles your Defense while in water.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: FISHING
+            pattern:
+              - AAA
+              - AOA
+              - AOA
+            ingredients:
+              A:
+                type: ENCHANTED_WET_SPONGE
+                amount: 1
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: SPONGE_LEGGINGS
+              amount: 1
+
+  - id: SPONGE_BOOTS
+    material: leather_boots
+    name: 'Sponge Boots'
+    rarity: EPIC
+    default_statistics:
+      defense: 75
+      sea_creature_chance: 2
+    lore:
+      - 'Full Set Bonus: Absorb — Doubles your Defense while in water.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: FISHING
+            pattern:
+              - AOA
+              - AOA
+              - AOA
+            ingredients:
+              A:
+                type: ENCHANTED_WET_SPONGE
+                amount: 1
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: SPONGE_BOOTS
+              amount: 1
+
+  - id: MASTIFF_HELMET
+    material: leather_helmet
+    name: 'Mastiff Crown'
+    rarity: EPIC
+    default_statistics:
+      intelligence: 125
+      health: 300
+      critical_damage: 15
+    lore:
+      - 'Full Set Bonus: Absolute Unit — Receive -20% damage from Animal mobs. - Gain +1% Health per 25 Crit Damage. (Max 40% HP) - Gain +1 crit damage per 2 defense. - Heal 150 Health when hit, consuming 5 vitality. (1 s cooldown). - Your defense is capped at 300.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: COMBAT
+            pattern:
+              - ABA
+              - BCB
+              - ABA
+            ingredients:
+              A:
+                type: GOLDEN_TOOTH
+                amount: 1
+              B:
+                type: ENCHANTED_GOLD_INGOT
+                amount: 16
+              C:
+                type: GROWTH_HELMET
+                amount: 1
+            result:
+              type: MASTIFF_HELMET
+              amount: 1
+
+  - id: MASTIFF_CHESTPLATE
+    material: leather_chestplate
+    name: 'Mastiff Chestplate'
+    rarity: EPIC
+    default_statistics:
+      health: 500
+      critical_damage: 15
+    lore:
+      - 'Full Set Bonus: Absolute Unit — Receive -20% damage from Animal mobs. - Gain +1% Health per 25 Crit Damage. (Max 40% HP) - Gain +1 crit damage per 2 defense. - Heal 150 Health when hit, consuming 5 vitality. (1 s cooldown). - Your defense is capped at 300.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: COMBAT
+            pattern:
+              - ABA
+              - BCB
+              - ABA
+            ingredients:
+              A:
+                type: GOLDEN_TOOTH
+                amount: 1
+              B:
+                type: ENCHANTED_GOLD_INGOT
+                amount: 16
+              C:
+                type: GROWTH_CHESTPLATE
+                amount: 1
+            result:
+              type: MASTIFF_CHESTPLATE
+              amount: 1
+
+  - id: MASTIFF_LEGGINGS
+    material: leather_leggings
+    name: 'Mastiff Leggings'
+    rarity: EPIC
+    default_statistics:
+      health: 400
+      critical_damage: 15
+    lore:
+      - 'Full Set Bonus: Absolute Unit — Receive -20% damage from Animal mobs. - Gain +1% Health per 25 Crit Damage. (Max 40% HP) - Gain +1 crit damage per 2 defense. - Heal 150 Health when hit, consuming 5 vitality. (1 s cooldown). - Your defense is capped at 300.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: COMBAT
+            pattern:
+              - ABA
+              - BCB
+              - ABA
+            ingredients:
+              A:
+                type: GOLDEN_TOOTH
+                amount: 1
+              B:
+                type: ENCHANTED_DIAMOND
+                amount: 16
+              C:
+                type: GROWTH_LEGGINGS
+                amount: 1
+            result:
+              type: MASTIFF_LEGGINGS
+              amount: 1
+
+  - id: MASTIFF_BOOTS
+    material: leather_boots
+    name: 'Mastiff Boots'
+    rarity: EPIC
+    default_statistics:
+      intelligence: 25
+      health: 200
+      critical_damage: 15
+    lore:
+      - 'Full Set Bonus: Absolute Unit — Receive -20% damage from Animal mobs. - Gain +1% Health per 25 Crit Damage. (Max 40% HP) - Gain +1 crit damage per 2 defense. - Heal 150 Health when hit, consuming 5 vitality. (1 s cooldown). - Your defense is capped at 300.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: COMBAT
+            pattern:
+              - ABA
+              - BCB
+              - ABA
+            ingredients:
+              A:
+                type: GOLDEN_TOOTH
+                amount: 1
+              B:
+                type: ENCHANTED_DIAMOND
+                amount: 16
+              C:
+                type: GROWTH_BOOTS
+                amount: 1
+            result:
+              type: MASTIFF_BOOTS
+              amount: 1
+

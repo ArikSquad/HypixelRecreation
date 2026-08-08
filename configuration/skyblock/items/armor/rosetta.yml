@@ -1,10 +1,9 @@
 items:
   - id: ROSETTA_BOOTS
     material: diamond_boots
-    name: "Rosetta Boots"
+    name: "Rosetta's Boots"
     rarity: UNCOMMON
     default_statistics:
-      health: 15.0
       defense: 20.0
     components:
       - id: CUSTOM_DISPLAY_NAME
@@ -15,10 +14,9 @@ items:
         value: 480.0
   - id: ROSETTA_CHESTPLATE
     material: diamond_chestplate
-    name: "Rosetta Chestplate"
+    name: "Rosetta's Chestplate"
     rarity: UNCOMMON
     default_statistics:
-      health: 15.0
       defense: 40.0
     components:
       - id: CUSTOM_DISPLAY_NAME
@@ -29,10 +27,9 @@ items:
         value: 660.0
   - id: ROSETTA_HELMET
     material: diamond_helmet
-    name: "Rosetta Helmet"
+    name: "Rosetta's Helmet"
     rarity: UNCOMMON
     default_statistics:
-      health: 15.0
       defense: 20.0
     components:
       - id: STANDARD_ITEM
@@ -43,10 +40,9 @@ items:
         value: 525.0
   - id: ROSETTA_LEGGINGS
     material: diamond_leggings
-    name: "Rosetta Leggings"
+    name: "Rosetta's Leggings"
     rarity: UNCOMMON
     default_statistics:
-      health: 15.0
       defense: 30.0
     components:
       - id: CUSTOM_DISPLAY_NAME
