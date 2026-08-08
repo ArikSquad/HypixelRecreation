@@ -6,6 +6,9 @@ items:
     default_statistics:
       health: 30.0
       defense: 30.0
+      strength: 10.0
+    lore:
+      - 'Full Set Bonus: Death Tax — Earn 5 coins and heal 20 Health each kill from a level 10 or higher enemy.'
     components:
       - id: STANDARD_ITEM
         standard_item_type: BOOTS
@@ -22,6 +25,9 @@ items:
     default_statistics:
       health: 70.0
       defense: 70.0
+      strength: 10.0
+    lore:
+      - 'Full Set Bonus: Death Tax — Earn 5 coins and heal 20 Health each kill from a level 10 or higher enemy.'
     components:
       - id: STANDARD_ITEM
         standard_item_type: CHESTPLATE
@@ -34,6 +40,9 @@ items:
     default_statistics:
       health: 40.0
       defense: 40.0
+      strength: 10.0
+    lore:
+      - 'Full Set Bonus: Death Tax — Earn 5 coins and heal 20 Health each kill from a level 10 or higher enemy.'
     components:
       - id: STANDARD_ITEM
         standard_item_type: HELMET
@@ -46,6 +55,9 @@ items:
     default_statistics:
       health: 60.0
       defense: 60.0
+      strength: 10.0
+    lore:
+      - 'Full Set Bonus: Death Tax — Earn 5 coins and heal 20 Health each kill from a level 10 or higher enemy.'
     components:
       - id: STANDARD_ITEM
         standard_item_type: LEGGINGS

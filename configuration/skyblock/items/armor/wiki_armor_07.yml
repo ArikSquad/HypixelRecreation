@@ -1,0 +1,749 @@
+items:
+  - id: THUNDER_LEGGINGS
+    material: leather_leggings
+    name: 'Thunder Leggings'
+    rarity: EPIC
+    default_statistics:
+      strength: 25
+      sea_creature_chance: 4
+      health: 225
+      defense: 200
+    lore:
+      - 'Tiered Bonus: Static Charge — Gains 1 static charge every 30/25/20/10 seconds. Hitting a target will cause a discharge, adding 15%/20%/25%/40% damage to that hit for each charge collected. Maximum Charge Capacity: 2/3/4/5'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+
+  - id: THUNDER_BOOTS
+    material: leather_boots
+    name: 'Thunder Boots'
+    rarity: EPIC
+    default_statistics:
+      strength: 25
+      sea_creature_chance: 4
+      health: 175
+      defense: 150
+    lore:
+      - 'Tiered Bonus: Static Charge — Gains 1 static charge every 30/25/20/10 seconds. Hitting a target will cause a discharge, adding 15%/20%/25%/40% damage to that hit for each charge collected. Maximum Charge Capacity: 2/3/4/5'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+
+  - id: DIVER_HELMET
+    material: leather_helmet
+    name: 'Diver''s Mask'
+    rarity: EPIC
+    default_statistics:
+      sea_creature_chance: 2
+      pressure_resistance: 15
+      health: 150
+      defense: 60
+    lore:
+      - 'Full Set Bonus: One with the Fish — Grants the ability to breathe permanently while underwater. Does not work on Galatea.'
+      - 'Tiered Bonus: Deep Sea Diver — Grants +0-1.5 treasure chance while underwater.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: FISHING
+            pattern:
+              - OAO
+              - BCB
+              - OAO
+            ingredients:
+              O:
+                type: AIR
+                amount: 1
+              A:
+                type: ENCHANTED_SEA_LUMIES
+                amount: 4
+              B:
+                type: GILL_MEMBRANE
+                amount: 16
+              C:
+                type: SNORKELING_HELMET
+                amount: 1
+            result:
+              type: DIVER_HELMET
+              amount: 1
+
+  - id: DIVER_CHESTPLATE
+    material: leather_chestplate
+    name: 'Diver''s Shirt'
+    rarity: EPIC
+    default_statistics:
+      sea_creature_chance: 2
+      pressure_resistance: 15
+      health: 200
+      defense: 100
+    lore:
+      - 'Full Set Bonus: One with the Fish — Grants the ability to breathe permanently while underwater. Does not work on Galatea.'
+      - 'Tiered Bonus: Deep Sea Diver — Grants +0-1.5 treasure chance while underwater.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: FISHING
+            pattern:
+              - OAO
+              - BCB
+              - OAO
+            ingredients:
+              O:
+                type: AIR
+                amount: 1
+              A:
+                type: ENCHANTED_SEA_LUMIES
+                amount: 4
+              B:
+                type: GILL_MEMBRANE
+                amount: 16
+              C:
+                type: SNORKELING_CHESTPLATE
+                amount: 1
+            result:
+              type: DIVER_CHESTPLATE
+              amount: 1
+
+  - id: DIVER_LEGGINGS
+    material: leather_leggings
+    name: 'Diver''s Trunks'
+    rarity: EPIC
+    default_statistics:
+      sea_creature_chance: 2
+      pressure_resistance: 15
+      health: 175
+      defense: 80
+    lore:
+      - 'Full Set Bonus: One with the Fish — Grants the ability to breathe permanently while underwater. Does not work on Galatea.'
+      - 'Tiered Bonus: Deep Sea Diver — Grants +0-1.5 treasure chance while underwater.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: FISHING
+            pattern:
+              - OAO
+              - BCB
+              - OAO
+            ingredients:
+              O:
+                type: AIR
+                amount: 1
+              A:
+                type: ENCHANTED_SEA_LUMIES
+                amount: 4
+              B:
+                type: GILL_MEMBRANE
+                amount: 16
+              C:
+                type: SNORKELING_LEGGINGS
+                amount: 1
+            result:
+              type: DIVER_LEGGINGS
+              amount: 1
+
+  - id: DIVER_BOOTS
+    material: leather_boots
+    name: 'Diver''s Boots'
+    rarity: EPIC
+    default_statistics:
+      sea_creature_chance: 2
+      pressure_resistance: 15
+      health: 125
+      defense: 40
+    lore:
+      - 'Full Set Bonus: One with the Fish — Grants the ability to breathe permanently while underwater. Does not work on Galatea.'
+      - 'Tiered Bonus: Deep Sea Diver — Grants +0-1.5 treasure chance while underwater.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: FISHING
+            pattern:
+              - OAO
+              - BCB
+              - OAO
+            ingredients:
+              O:
+                type: AIR
+                amount: 1
+              A:
+                type: ENCHANTED_SEA_LUMIES
+                amount: 4
+              B:
+                type: GILL_MEMBRANE
+                amount: 16
+              C:
+                type: SNORKELING_BOOTS
+                amount: 1
+            result:
+              type: DIVER_BOOTS
+              amount: 1
+
+  - id: ABYSSAL_HELMET
+    material: leather_helmet
+    name: 'Abyssal Helmet'
+    rarity: LEGENDARY
+    default_statistics:
+      sea_creature_chance: 2
+      respiration: 5
+      pressure_resistance: 20
+      health: 130
+      defense: 120
+    lore:
+      - 'Full Set Bonus: One with the Fish — Grants the ability to breathe permanently while underwater. (disabled on Galatea and Backwater Bayou)'
+      - 'Tiered Bonus: Deep Sea Diver — Grants +0/1.5/2/2.5 treasure chance while underwater.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: ABYSSAL_CHESTPLATE
+    material: leather_chestplate
+    name: 'Abyssal Chestplate'
+    rarity: LEGENDARY
+    default_statistics:
+      sea_creature_chance: 2
+      respiration: 5
+      pressure_resistance: 20
+      health: 200
+      defense: 200
+    lore:
+      - 'Full Set Bonus: One with the Fish — Grants the ability to breathe permanently while underwater. (disabled on Galatea and Backwater Bayou)'
+      - 'Tiered Bonus: Deep Sea Diver — Grants +0/1.5/2/2.5 treasure chance while underwater.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+
+  - id: ABYSSAL_LEGGINGS
+    material: leather_leggings
+    name: 'Abyssal Leggings'
+    rarity: LEGENDARY
+    default_statistics:
+      sea_creature_chance: 2
+      respiration: 5
+      pressure_resistance: 20
+      health: 150
+      defense: 170
+    lore:
+      - 'Full Set Bonus: One with the Fish — Grants the ability to breathe permanently while underwater. (disabled on Galatea and Backwater Bayou)'
+      - 'Tiered Bonus: Deep Sea Diver — Grants +0/1.5/2/2.5 treasure chance while underwater.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+
+  - id: ABYSSAL_BOOTS
+    material: leather_boots
+    name: 'Abyssal Boots'
+    rarity: LEGENDARY
+    default_statistics:
+      sea_creature_chance: 2
+      respiration: 5
+      pressure_resistance: 20
+      health: 120
+      defense: 110
+    lore:
+      - 'Full Set Bonus: One with the Fish — Grants the ability to breathe permanently while underwater. (disabled on Galatea and Backwater Bayou)'
+      - 'Tiered Bonus: Deep Sea Diver — Grants +0/1.5/2/2.5 treasure chance while underwater.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+
+  - id: SHARK_SCALE_HELMET
+    material: leather_helmet
+    name: 'Shark Scale Helmet'
+    rarity: LEGENDARY
+    default_statistics:
+      sea_creature_chance: 2.5
+      health: 150
+      defense: 125
+    lore:
+      - 'Full Set Bonus: Absorb — Doubles your Defense while in water.'
+      - 'Tiered Bonus: Festival Fisher — Grants a +10%➜+20% chance to catch Sharks during the Fishing Festival.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: FISHING
+            pattern:
+              - ABA
+              - ABA
+              - ABA
+            ingredients:
+              A:
+                type: ENCHANTED_SHARK_FIN
+                amount: 1
+              B:
+                type: SPONGE_HELMET
+                amount: 1
+            result:
+              type: SHARK_SCALE_HELMET
+              amount: 1
+
+  - id: SHARK_SCALE_CHESTPLATE
+    material: leather_chestplate
+    name: 'Shark Scale Chestplate'
+    rarity: LEGENDARY
+    default_statistics:
+      sea_creature_chance: 2.5
+      health: 200
+      defense: 175
+    lore:
+      - 'Full Set Bonus: Absorb — Doubles your Defense while in water.'
+      - 'Tiered Bonus: Festival Fisher — Grants a +10%➜+20% chance to catch Sharks during the Fishing Festival.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: FISHING
+            pattern:
+              - ABA
+              - ABA
+              - ABA
+            ingredients:
+              A:
+                type: ENCHANTED_SHARK_FIN
+                amount: 1
+              B:
+                type: SPONGE_CHESTPLATE
+                amount: 1
+            result:
+              type: SHARK_SCALE_CHESTPLATE
+              amount: 1
+
+  - id: SHARK_SCALE_LEGGINGS
+    material: leather_leggings
+    name: 'Shark Scale Leggings'
+    rarity: LEGENDARY
+    default_statistics:
+      sea_creature_chance: 2.5
+      health: 175
+      defense: 150
+    lore:
+      - 'Full Set Bonus: Absorb — Doubles your Defense while in water.'
+      - 'Tiered Bonus: Festival Fisher — Grants a +10%➜+20% chance to catch Sharks during the Fishing Festival.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: FISHING
+            pattern:
+              - ABA
+              - ABA
+              - ABA
+            ingredients:
+              A:
+                type: ENCHANTED_SHARK_FIN
+                amount: 1
+              B:
+                type: SPONGE_LEGGINGS
+                amount: 1
+            result:
+              type: SHARK_SCALE_LEGGINGS
+              amount: 1
+
+  - id: SHARK_SCALE_BOOTS
+    material: leather_boots
+    name: 'Shark Scale Boots'
+    rarity: LEGENDARY
+    default_statistics:
+      sea_creature_chance: 2.5
+      health: 125
+      defense: 100
+    lore:
+      - 'Full Set Bonus: Absorb — Doubles your Defense while in water.'
+      - 'Tiered Bonus: Festival Fisher — Grants a +10%➜+20% chance to catch Sharks during the Fishing Festival.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: FISHING
+            pattern:
+              - ABA
+              - ABA
+              - ABA
+            ingredients:
+              A:
+                type: ENCHANTED_SHARK_FIN
+                amount: 1
+              B:
+                type: SPONGE_BOOTS
+                amount: 1
+            result:
+              type: SHARK_SCALE_BOOTS
+              amount: 1
+
+  - id: HELIANTHUS_HELMET
+    material: leather_helmet
+    name: 'Helianthus Helmet'
+    rarity: LEGENDARY
+    default_statistics:
+      bonus_pest_chance: 20
+      defense: 50
+      speed: 6
+      health: 140
+      farming_fortune: 35
+    lore:
+      - 'Tiered Bonus: Feast — Combines the Tiered Bonuses of wearing 1➜2➜3➜4 pieces of the Tater Armor, Cropie Armor, Squash Armor, and Fermento Armor. Grants +0➜25➜50➜75 Farming Fortune.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: HELIANTHUS_CHESTPLATE
+    material: leather_chestplate
+    name: 'Helianthus Chestplate'
+    rarity: LEGENDARY
+    default_statistics:
+      bonus_pest_chance: 20
+      defense: 50
+      speed: 7
+      health: 205
+      farming_fortune: 40
+    lore:
+      - 'Tiered Bonus: Feast — Combines the Tiered Bonuses of wearing 1➜2➜3➜4 pieces of the Tater Armor, Cropie Armor, Squash Armor, and Fermento Armor. Grants +0➜25➜50➜75 Farming Fortune.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+
+  - id: HELIANTHUS_LEGGINGS
+    material: leather_leggings
+    name: 'Helianthus Leggings'
+    rarity: LEGENDARY
+    default_statistics:
+      bonus_pest_chance: 20
+      defense: 50
+      speed: 7
+      health: 205
+      farming_fortune: 40
+    lore:
+      - 'Tiered Bonus: Feast — Combines the Tiered Bonuses of wearing 1➜2➜3➜4 pieces of the Tater Armor, Cropie Armor, Squash Armor, and Fermento Armor. Grants +0➜25➜50➜75 Farming Fortune.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+
+  - id: HELIANTHUS_BOOTS
+    material: leather_boots
+    name: 'Helianthus Boots'
+    rarity: LEGENDARY
+    default_statistics:
+      bonus_pest_chance: 20
+      defense: 50
+      speed: 6
+      health: 140
+      farming_fortune: 35
+    lore:
+      - 'Tiered Bonus: Feast — Combines the Tiered Bonuses of wearing 1➜2➜3➜4 pieces of the Tater Armor, Cropie Armor, Squash Armor, and Fermento Armor. Grants +0➜25➜50➜75 Farming Fortune.'
+      - 'Ability: Farmer''s Grace — Grants immunity to trampling crops.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+
+  - id: THERMODYNAMIC_HELMET
+    material: leather_helmet
+    name: 'Thermodynamic Helmet'
+    rarity: LEGENDARY
+    default_statistics:
+      speed: 25
+      bonus_attack_speed: 5
+      defense: 135
+    lore:
+      - 'Full Set Bonus: Newton''s Demise — Grants +50 Attack Speed Cap'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: THERMODYNAMIC_CHESTPLATE
+    material: leather_chestplate
+    name: 'Thermodynamic Chestplate'
+    rarity: LEGENDARY
+    default_statistics:
+      speed: 25
+      bonus_attack_speed: 5
+      defense: 240
+    lore:
+      - 'Full Set Bonus: Newton''s Demise — Grants +50 Attack Speed Cap'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+
+  - id: THERMODYNAMIC_LEGGINGS
+    material: leather_leggings
+    name: 'Thermodynamic Leggings'
+    rarity: LEGENDARY
+    default_statistics:
+      speed: 25
+      bonus_attack_speed: 5
+      defense: 200
+    lore:
+      - 'Full Set Bonus: Newton''s Demise — Grants +50 Attack Speed Cap'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+
+  - id: THERMODYNAMIC_BOOTS
+    material: leather_boots
+    name: 'Thermodynamic Boots'
+    rarity: LEGENDARY
+    default_statistics:
+      speed: 25
+      bonus_attack_speed: 5
+      defense: 200
+    lore:
+      - 'Full Set Bonus: Newton''s Demise — Grants +50 Attack Speed Cap'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+
+  - id: BAT_PERSON_HELMET
+    material: leather_helmet
+    name: 'Bat Person Helmet'
+    rarity: LEGENDARY
+    default_statistics:
+      defense: 15
+    lore:
+      - 'Full Set Bonus: Bat Powers Activate! — Upgrades your Grappling Hook and turns you into a true vigilante! Grants a +5% chance to find rare Candy. Bat Powers Activate! removes the cooldown on the grappling hook and increases its power and range.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: BAT_PERSON_CHESTPLATE
+    material: leather_chestplate
+    name: 'Bat Person Chestplate'
+    rarity: LEGENDARY
+    default_statistics:
+      defense: 30
+    lore:
+      - 'Full Set Bonus: Bat Powers Activate! — Upgrades your Grappling Hook and turns you into a true vigilante! Grants a +5% chance to find rare Candy. Bat Powers Activate! removes the cooldown on the grappling hook and increases its power and range.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+
+  - id: BAT_PERSON_LEGGINGS
+    material: leather_leggings
+    name: 'Bat Person Leggings'
+    rarity: LEGENDARY
+    default_statistics:
+      defense: 25
+    lore:
+      - 'Full Set Bonus: Bat Powers Activate! — Upgrades your Grappling Hook and turns you into a true vigilante! Grants a +5% chance to find rare Candy. Bat Powers Activate! removes the cooldown on the grappling hook and increases its power and range.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+
+  - id: BAT_PERSON_BOOTS
+    material: leather_boots
+    name: 'Bat Person Boots'
+    rarity: LEGENDARY
+    default_statistics:
+      defense: 15
+    lore:
+      - 'Full Set Bonus: Bat Powers Activate! — Upgrades your Grappling Hook and turns you into a true vigilante! Grants a +5% chance to find rare Candy. Bat Powers Activate! removes the cooldown on the grappling hook and increases its power and range.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+
+  - id: NUTCRACKER_HELMET
+    material: leather_helmet
+    name: 'Nutcracker Helmet'
+    rarity: LEGENDARY
+    default_statistics:
+      sea_creature_chance: 1.5
+      health: 80
+      defense: 35
+    lore:
+      - 'Full Set Bonus: Cold Thumb — Allows the wearer to shoot unlimited snowballs when using Frosty the Snow Cannon/Frosty the Snow Blaster.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: NUTCRACKER_CHESTPLATE
+    material: leather_chestplate
+    name: 'Nutcracker Chestplate'
+    rarity: LEGENDARY
+    default_statistics:
+      sea_creature_chance: 1.5
+      health: 115
+      defense: 45
+    lore:
+      - 'Full Set Bonus: Cold Thumb — Allows the wearer to shoot unlimited snowballs when using Frosty the Snow Cannon/Frosty the Snow Blaster.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+
+  - id: NUTCRACKER_LEGGINGS
+    material: leather_leggings
+    name: 'Nutcracker Leggings'
+    rarity: LEGENDARY
+    default_statistics:
+      sea_creature_chance: 1.5
+      health: 35
+      defense: 85
+    lore:
+      - 'Full Set Bonus: Cold Thumb — Allows the wearer to shoot unlimited snowballs when using Frosty the Snow Cannon/Frosty the Snow Blaster.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+
+  - id: NUTCRACKER_BOOTS
+    material: leather_boots
+    name: 'Nutcracker Boots'
+    rarity: LEGENDARY
+    default_statistics:
+      sea_creature_chance: 1.5
+      health: 75
+      defense: 30
+    lore:
+      - 'Full Set Bonus: Cold Thumb — Allows the wearer to shoot unlimited snowballs when using Frosty the Snow Cannon/Frosty the Snow Blaster.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+
+  - id: MYTHOS_HELMET
+    material: leather_helmet
+    name: 'Mythos Helmet'
+    rarity: LEGENDARY
+    default_statistics:
+      health: 100
+      defense: 50
+      strength: 20
+    lore:
+      - 'Tiered Bonus: Unearthed — Reduces damage taken from Mythological mobs by 10%/12.5%/15%/17.5%/20%/22.5%/25%.'
+      - 'Ability: Mythos'' Might — Grants 2 x this armor''s stats while in The Hub'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: MYTHOS_CHESTPLATE
+    material: leather_chestplate
+    name: 'Mythos Chestplate'
+    rarity: LEGENDARY
+    default_statistics:
+      health: 160
+      defense: 80
+      strength: 50
+    lore:
+      - 'Tiered Bonus: Unearthed — Reduces damage taken from Mythological mobs by 10%/12.5%/15%/17.5%/20%/22.5%/25%.'
+      - 'Ability: Mythos'' Might — Grants 2 x this armor''s stats while in The Hub'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+
+  - id: MYTHOS_LEGGINGS
+    material: leather_leggings
+    name: 'Mythos Leggings'
+    rarity: LEGENDARY
+    default_statistics:
+      health: 140
+      defense: 70
+      strength: 40
+    lore:
+      - 'Tiered Bonus: Unearthed — Reduces damage taken from Mythological mobs by 10%/12.5%/15%/17.5%/20%/22.5%/25%.'
+      - 'Ability: Mythos'' Might — Grants 2 x this armor''s stats while in The Hub'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+
+  - id: MYTHOS_BOOTS
+    material: leather_boots
+    name: 'Mythos Boots'
+    rarity: LEGENDARY
+    default_statistics:
+      health: 80
+      defense: 60
+      strength: 10
+    lore:
+      - 'Tiered Bonus: Unearthed — Reduces damage taken from Mythological mobs by 10%/12.5%/15%/17.5%/20%/22.5%/25%.'
+      - 'Ability: Mythos'' Might — Grants 2 x this armor''s stats while in The Hub'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+
+  - id: WEREWOLF_HELMET
+    material: leather_helmet
+    name: 'Werewolf Helmet'
+    rarity: LEGENDARY
+    default_statistics:
+      ferocity: 10
+      intelligence: 50
+      defense: 135
+    lore:
+      - 'Full Set Bonus: Regenerative Howl — Upon activating Ferocity heal players within 25 blocks for 1% of your Defense and gain 50 Defense for 5 s (up to 10 stacks).'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: COMBAT
+            pattern:
+              - AAA
+              - AOA
+            ingredients:
+              A:
+                type: WEREWOLF_SKIN
+                amount: 4
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: WEREWOLF_HELMET
+              amount: 1
+
+  - id: WEREWOLF_CHESTPLATE
+    material: leather_chestplate
+    name: 'Werewolf Chestplate'
+    rarity: LEGENDARY
+    default_statistics:
+      ferocity: 10
+      intelligence: 50
+      defense: 240
+    lore:
+      - 'Full Set Bonus: Regenerative Howl — Upon activating Ferocity heal players within 25 blocks for 1% of your Defense and gain 50 Defense for 5 s (up to 10 stacks).'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: COMBAT
+            pattern:
+              - AOA
+              - AAA
+              - AAA
+            ingredients:
+              A:
+                type: WEREWOLF_SKIN
+                amount: 4
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: WEREWOLF_CHESTPLATE
+              amount: 1
+

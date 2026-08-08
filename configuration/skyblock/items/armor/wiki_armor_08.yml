@@ -1,0 +1,631 @@
+items:
+  - id: WEREWOLF_LEGGINGS
+    material: leather_leggings
+    name: 'Werewolf Leggings'
+    rarity: LEGENDARY
+    default_statistics:
+      ferocity: 10
+      intelligence: 50
+      defense: 200
+    lore:
+      - 'Full Set Bonus: Regenerative Howl — Upon activating Ferocity heal players within 25 blocks for 1% of your Defense and gain 50 Defense for 5 s (up to 10 stacks).'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: COMBAT
+            pattern:
+              - AAA
+              - AOA
+              - AOA
+            ingredients:
+              A:
+                type: WEREWOLF_SKIN
+                amount: 4
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: WEREWOLF_LEGGINGS
+              amount: 1
+
+  - id: WEREWOLF_BOOTS
+    material: leather_boots
+    name: 'Werewolf Boots'
+    rarity: LEGENDARY
+    default_statistics:
+      ferocity: 10
+      intelligence: 50
+      defense: 125
+    lore:
+      - 'Full Set Bonus: Regenerative Howl — Upon activating Ferocity heal players within 25 blocks for 1% of your Defense and gain 50 Defense for 5 s (up to 10 stacks).'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: COMBAT
+            pattern:
+              - AOA
+              - AOA
+            ingredients:
+              A:
+                type: WEREWOLF_SKIN
+                amount: 4
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: WEREWOLF_BOOTS
+              amount: 1
+
+  - id: FROZEN_BLAZE_HELMET
+    material: leather_helmet
+    name: 'Frozen Blaze Helmet'
+    rarity: LEGENDARY
+    default_statistics:
+      strength: 40
+      speed: 2
+      defense: 110
+    lore:
+      - 'Full Set Bonus: Frozen Blazing Aura — Damages mobs within 5 block range for 300 base damage + 3% of their max Health every second and applies Slowness 1 for 4 seconds. Max damage/s increased by +100 per 5,000 rods in collection (5000 max damage cap at 225,000 rods in collection)'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: COMBAT
+            pattern:
+              - AAA
+              - ABA
+              - AAA
+            ingredients:
+              A:
+                type: ENCHANTED_PACKED_ICE
+                amount: 8
+              B:
+                type: BLAZE_HELMET
+                amount: 1
+            result:
+              type: FROZEN_BLAZE_HELMET
+              amount: 1
+
+  - id: FROZEN_BLAZE_CHESTPLATE
+    material: leather_chestplate
+    name: 'Frozen Blaze Chestplate'
+    rarity: LEGENDARY
+    default_statistics:
+      strength: 40
+      speed: 2
+      defense: 180
+    lore:
+      - 'Full Set Bonus: Frozen Blazing Aura — Damages mobs within 5 block range for 300 base damage + 3% of their max Health every second and applies Slowness 1 for 4 seconds. Max damage/s increased by +100 per 5,000 rods in collection (5000 max damage cap at 225,000 rods in collection)'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: COMBAT
+            pattern:
+              - AAA
+              - ABA
+              - AAA
+            ingredients:
+              A:
+                type: ENCHANTED_PACKED_ICE
+                amount: 8
+              B:
+                type: BLAZE_CHESTPLATE
+                amount: 1
+            result:
+              type: FROZEN_BLAZE_CHESTPLATE
+              amount: 1
+
+  - id: FROZEN_BLAZE_LEGGINGS
+    material: leather_leggings
+    name: 'Frozen Blaze Leggings'
+    rarity: LEGENDARY
+    default_statistics:
+      strength: 40
+      speed: 2
+      defense: 140
+    lore:
+      - 'Full Set Bonus: Frozen Blazing Aura — Damages mobs within 5 block range for 300 base damage + 3% of their max Health every second and applies Slowness 1 for 4 seconds. Max damage/s increased by +100 per 5,000 rods in collection (5000 max damage cap at 225,000 rods in collection)'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: COMBAT
+            pattern:
+              - AAA
+              - ABA
+              - AAA
+            ingredients:
+              A:
+                type: ENCHANTED_PACKED_ICE
+                amount: 8
+              B:
+                type: BLAZE_LEGGINGS
+                amount: 1
+            result:
+              type: FROZEN_BLAZE_LEGGINGS
+              amount: 1
+
+  - id: FROZEN_BLAZE_BOOTS
+    material: leather_boots
+    name: 'Frozen Blaze Boots'
+    rarity: LEGENDARY
+    default_statistics:
+      strength: 40
+      speed: 2
+      defense: 100
+    lore:
+      - 'Full Set Bonus: Frozen Blazing Aura — Damages mobs within 5 block range for 300 base damage + 3% of their max Health every second and applies Slowness 1 for 4 seconds. Max damage/s increased by +100 per 5,000 rods in collection (5000 max damage cap at 225,000 rods in collection)'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: COMBAT
+            pattern:
+              - AAA
+              - ABA
+              - AAA
+            ingredients:
+              A:
+                type: ENCHANTED_PACKED_ICE
+                amount: 8
+              B:
+                type: BLAZE_BOOTS
+                amount: 1
+            result:
+              type: FROZEN_BLAZE_BOOTS
+              amount: 1
+
+  - id: YOUNG_DRAGON_HELMET
+    material: leather_helmet
+    name: 'Young Dragon Helmet'
+    rarity: LEGENDARY
+    default_statistics:
+      speed: 20
+      health: 70
+      defense: 110
+    lore:
+      - 'Full Set Bonus: Young Blood — Gain +70 Walk Speed when you are above 50% Health'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: YOUNG_DRAGON_CHESTPLATE
+    material: leather_chestplate
+    name: 'Young Dragon Chestplate'
+    rarity: LEGENDARY
+    default_statistics:
+      speed: 20
+      health: 120
+      defense: 160
+    lore:
+      - 'Full Set Bonus: Young Blood — Gain +70 Walk Speed when you are above 50% Health'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+
+  - id: YOUNG_DRAGON_LEGGINGS
+    material: leather_leggings
+    name: 'Young Dragon Leggings'
+    rarity: LEGENDARY
+    default_statistics:
+      speed: 20
+      health: 100
+      defense: 140
+    lore:
+      - 'Full Set Bonus: Young Blood — Gain +70 Walk Speed when you are above 50% Health'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+
+  - id: YOUNG_DRAGON_BOOTS
+    material: leather_boots
+    name: 'Young Dragon Boots'
+    rarity: LEGENDARY
+    default_statistics:
+      speed: 20
+      health: 60
+      defense: 90
+    lore:
+      - 'Full Set Bonus: Young Blood — Gain +70 Walk Speed when you are above 50% Health'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+
+  - id: OLD_DRAGON_HELMET
+    material: leather_helmet
+    name: 'Old Dragon Helmet'
+    rarity: LEGENDARY
+    default_statistics:
+      health: 110
+      defense: 90
+    lore:
+      - 'Full Set Bonus: Old Blood — Increases the strength of Growth, Protection, Feather Falling, Sugar Rush, and True Protection while worn.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: OLD_DRAGON_CHESTPLATE
+    material: leather_chestplate
+    name: 'Old Dragon Chestplate'
+    rarity: LEGENDARY
+    default_statistics:
+      health: 160
+      defense: 150
+    lore:
+      - 'Full Set Bonus: Old Blood — Increases the strength of Growth, Protection, Feather Falling, Sugar Rush, and True Protection while worn.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+
+  - id: OLD_DRAGON_LEGGINGS
+    material: leather_leggings
+    name: 'Old Dragon Leggings'
+    rarity: LEGENDARY
+    default_statistics:
+      health: 130
+      defense: 140
+    lore:
+      - 'Full Set Bonus: Old Blood — Increases the strength of Growth, Protection, Feather Falling, Sugar Rush, and True Protection while worn.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+
+  - id: OLD_DRAGON_BOOTS
+    material: leather_boots
+    name: 'Old Dragon Boots'
+    rarity: LEGENDARY
+    default_statistics:
+      health: 80
+      defense: 90
+    lore:
+      - 'Full Set Bonus: Old Blood — Increases the strength of Growth, Protection, Feather Falling, Sugar Rush, and True Protection while worn.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+
+  - id: WISE_DRAGON_HELMET
+    material: leather_helmet
+    name: 'Wise Dragon Helmet'
+    rarity: LEGENDARY
+    default_statistics:
+      intelligence: 125
+      health: 70
+      defense: 110
+    lore:
+      - 'Full Set Bonus: Wise Blood — Abilities have 2/3 of the mana cost.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: WISE_DRAGON_CHESTPLATE
+    material: leather_chestplate
+    name: 'Wise Dragon Chestplate'
+    rarity: LEGENDARY
+    default_statistics:
+      intelligence: 75
+      health: 120
+      defense: 160
+    lore:
+      - 'Full Set Bonus: Wise Blood — Abilities have 2/3 of the mana cost.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+
+  - id: WISE_DRAGON_LEGGINGS
+    material: leather_leggings
+    name: 'Wise Dragon Leggings'
+    rarity: LEGENDARY
+    default_statistics:
+      intelligence: 75
+      health: 100
+      defense: 140
+    lore:
+      - 'Full Set Bonus: Wise Blood — Abilities have 2/3 of the mana cost.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+
+  - id: WISE_DRAGON_BOOTS
+    material: leather_boots
+    name: 'Wise Dragon Boots'
+    rarity: LEGENDARY
+    default_statistics:
+      intelligence: 75
+      health: 60
+      defense: 90
+    lore:
+      - 'Full Set Bonus: Wise Blood — Abilities have 2/3 of the mana cost.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+
+  - id: PROTECTOR_DRAGON_HELMET
+    material: leather_helmet
+    name: 'Protector Dragon Helmet'
+    rarity: LEGENDARY
+    default_statistics:
+      health: 70
+      defense: 135
+    lore:
+      - 'Full Set Bonus: Protective Blood — Increases the defence of each armor piece by +1% Defense for each missing percent of Health.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: PROTECTOR_DRAGON_CHESTPLATE
+    material: leather_chestplate
+    name: 'Protector Dragon Chestplate'
+    rarity: LEGENDARY
+    default_statistics:
+      health: 120
+      defense: 185
+    lore:
+      - 'Full Set Bonus: Protective Blood — Increases the defence of each armor piece by +1% Defense for each missing percent of Health.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+
+  - id: PROTECTOR_DRAGON_LEGGINGS
+    material: leather_leggings
+    name: 'Protector Dragon Leggings'
+    rarity: LEGENDARY
+    default_statistics:
+      health: 100
+      defense: 165
+    lore:
+      - 'Full Set Bonus: Protective Blood — Increases the defence of each armor piece by +1% Defense for each missing percent of Health.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+
+  - id: PROTECTOR_DRAGON_BOOTS
+    material: leather_boots
+    name: 'Protector Dragon Boots'
+    rarity: LEGENDARY
+    default_statistics:
+      health: 60
+      defense: 115
+    lore:
+      - 'Full Set Bonus: Protective Blood — Increases the defence of each armor piece by +1% Defense for each missing percent of Health.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+
+  - id: STRONG_DRAGON_HELMET
+    material: leather_helmet
+    name: 'Strong Dragon Helmet'
+    rarity: LEGENDARY
+    default_statistics:
+      strength: 25
+      health: 70
+      defense: 110
+    lore:
+      - 'Full Set Bonus: Strong Blood — Improves the Aspect of the End: ; +75 Damage Instant Transmission: ; +2 Teleport range ; +3 seconds ; +5 Strength on cast'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: STRONG_DRAGON_CHESTPLATE
+    material: leather_chestplate
+    name: 'Strong Dragon Chestplate'
+    rarity: LEGENDARY
+    default_statistics:
+      strength: 25
+      health: 120
+      defense: 160
+    lore:
+      - 'Full Set Bonus: Strong Blood — Improves the Aspect of the End: ; +75 Damage Instant Transmission: ; +2 Teleport range ; +3 seconds ; +5 Strength on cast'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+
+  - id: STRONG_DRAGON_LEGGINGS
+    material: leather_leggings
+    name: 'Strong Dragon Leggings'
+    rarity: LEGENDARY
+    default_statistics:
+      strength: 25
+      health: 100
+      defense: 140
+    lore:
+      - 'Full Set Bonus: Strong Blood — Improves the Aspect of the End: ; +75 Damage Instant Transmission: ; +2 Teleport range ; +3 seconds ; +5 Strength on cast'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+
+  - id: STRONG_DRAGON_BOOTS
+    material: leather_boots
+    name: 'Strong Dragon Boots'
+    rarity: LEGENDARY
+    default_statistics:
+      strength: 25
+      health: 60
+      defense: 90
+    lore:
+      - 'Full Set Bonus: Strong Blood — Improves the Aspect of the End: ; +75 Damage Instant Transmission: ; +2 Teleport range ; +3 seconds ; +5 Strength on cast'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+
+  - id: UNSTABLE_DRAGON_HELMET
+    material: leather_helmet
+    name: 'Unstable Dragon Helmet'
+    rarity: LEGENDARY
+    default_statistics:
+      intelligence: 25
+      defense: 110
+      critical_chance: 5
+      health: 70
+      critical_damage: 15
+    lore:
+      - 'Full Set Bonus: Unstable Blood — Strikes all nearby mobs within an 8 block radius with lightning every 15 seconds, dealing 3000 damage.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: UNSTABLE_DRAGON_CHESTPLATE
+    material: leather_chestplate
+    name: 'Unstable Dragon Chestplate'
+    rarity: LEGENDARY
+    default_statistics:
+      critical_chance: 5
+      critical_damage: 15
+      health: 120
+      defense: 160
+    lore:
+      - 'Full Set Bonus: Unstable Blood — Strikes all nearby mobs within an 8 block radius with lightning every 15 seconds, dealing 3000 damage.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+
+  - id: UNSTABLE_DRAGON_LEGGINGS
+    material: leather_leggings
+    name: 'Unstable Dragon Leggings'
+    rarity: LEGENDARY
+    default_statistics:
+      critical_chance: 5
+      critical_damage: 15
+      health: 100
+      defense: 140
+    lore:
+      - 'Full Set Bonus: Unstable Blood — Strikes all nearby mobs within an 8 block radius with lightning every 15 seconds, dealing 3000 damage.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+
+  - id: UNSTABLE_DRAGON_BOOTS
+    material: leather_boots
+    name: 'Unstable Dragon Boots'
+    rarity: LEGENDARY
+    default_statistics:
+      critical_chance: 5
+      critical_damage: 15
+      health: 60
+      defense: 90
+    lore:
+      - 'Full Set Bonus: Unstable Blood — Strikes all nearby mobs within an 8 block radius with lightning every 15 seconds, dealing 3000 damage.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+
+  - id: SUPERIOR_DRAGON_HELMET
+    material: leather_helmet
+    name: 'Superior Dragon Helmet'
+    rarity: LEGENDARY
+    default_statistics:
+      strength: 10
+      speed: 3
+      defense: 130
+      critical_damage: 10
+      critical_chance: 2
+      health: 90
+      intelligence: 25
+    lore:
+      - 'Full Set Bonus: Superior Blood — Increases all Combat stats and mf by 5% and Aspect of the Dragons ability deals 50% more damage.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: SUPERIOR_DRAGON_CHESTPLATE
+    material: leather_chestplate
+    name: 'Superior Dragon Chestplate'
+    rarity: LEGENDARY
+    default_statistics:
+      strength: 10
+      speed: 3
+      defense: 190
+      critical_damage: 10
+      critical_chance: 2
+      health: 150
+      intelligence: 25
+    lore:
+      - 'Full Set Bonus: Superior Blood — Increases all Combat stats and mf by 5% and Aspect of the Dragons ability deals 50% more damage.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+
+  - id: SUPERIOR_DRAGON_LEGGINGS
+    material: leather_leggings
+    name: 'Superior Dragon Leggings'
+    rarity: LEGENDARY
+    default_statistics:
+      strength: 10
+      speed: 3
+      defense: 170
+      critical_damage: 10
+      critical_chance: 2
+      health: 130
+      intelligence: 25
+    lore:
+      - 'Full Set Bonus: Superior Blood — Increases all Combat stats and mf by 5% and Aspect of the Dragons ability deals 50% more damage.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+
+  - id: SUPERIOR_DRAGON_BOOTS
+    material: leather_boots
+    name: 'Superior Dragon Boots'
+    rarity: LEGENDARY
+    default_statistics:
+      strength: 10
+      speed: 3
+      defense: 110
+      critical_damage: 10
+      critical_chance: 2
+      health: 80
+      intelligence: 25
+    lore:
+      - 'Full Set Bonus: Superior Blood — Increases all Combat stats and mf by 5% and Aspect of the Dragons ability deals 50% more damage.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+
+  - id: HOLY_DRAGON_HELMET
+    material: leather_helmet
+    name: 'Holy Dragon Helmet'
+    rarity: LEGENDARY
+    default_statistics:
+      mending: 10
+      health: 110
+      defense: 110
+    lore:
+      - 'Full Set Bonus: Holy Blood — Grants +75 Health Regen to you and all players within 10 blocks.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: HOLY_DRAGON_CHESTPLATE
+    material: leather_chestplate
+    name: 'Holy Dragon Chestplate'
+    rarity: LEGENDARY
+    default_statistics:
+      mending: 10
+      health: 180
+      defense: 160
+    lore:
+      - 'Full Set Bonus: Holy Blood — Grants +75 Health Regen to you and all players within 10 blocks.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+

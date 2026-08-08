@@ -1,0 +1,685 @@
+items:
+  - id: FARM_ARMOR_HELMET
+    material: leather_helmet
+    name: 'Haymaker Helmet'
+    rarity: COMMON
+    default_statistics:
+      farming_fortune: 10
+      defense: 15
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: FARMING
+            pattern:
+              - AAA
+              - ABA
+              - AAA
+            ingredients:
+              A:
+                type: ENCHANTED_WHEAT
+                amount: 1
+              B:
+                type: FARM_SUIT_HELMET
+                amount: 1
+            result:
+              type: FARM_ARMOR_HELMET
+              amount: 1
+
+  - id: FARM_ARMOR_CHESTPLATE
+    material: leather_chestplate
+    name: 'Haymaker Chestplate'
+    rarity: COMMON
+    default_statistics:
+      farming_fortune: 10
+      defense: 15
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: FARMING
+            pattern:
+              - AAA
+              - ABA
+              - AAA
+            ingredients:
+              A:
+                type: ENCHANTED_WHEAT
+                amount: 1
+              B:
+                type: FARM_SUIT_CHESTPLATE
+                amount: 1
+            result:
+              type: FARM_ARMOR_CHESTPLATE
+              amount: 1
+
+  - id: FARM_ARMOR_LEGGINGS
+    material: leather_leggings
+    name: 'Haymaker Leggings'
+    rarity: COMMON
+    default_statistics:
+      farming_fortune: 10
+      defense: 15
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: FARMING
+            pattern:
+              - AAA
+              - ABA
+              - AAA
+            ingredients:
+              A:
+                type: ENCHANTED_WHEAT
+                amount: 1
+              B:
+                type: FARM_SUIT_LEGGINGS
+                amount: 1
+            result:
+              type: FARM_ARMOR_LEGGINGS
+              amount: 1
+
+  - id: FARM_ARMOR_BOOTS
+    material: leather_boots
+    name: 'Haymaker Boots'
+    rarity: COMMON
+    default_statistics:
+      farming_fortune: 10
+      defense: 15
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: FARMING
+            pattern:
+              - AAA
+              - ABA
+              - AAA
+            ingredients:
+              A:
+                type: ENCHANTED_WHEAT
+                amount: 1
+              B:
+                type: FARM_SUIT_BOOTS
+                amount: 1
+            result:
+              type: FARM_ARMOR_BOOTS
+              amount: 1
+
+  - id: RABBIT_HELMET
+    material: leather_helmet
+    name: 'Rabbit Helmet'
+    rarity: COMMON
+    default_statistics:
+      defense: 15
+      speed: 5
+    lore:
+      - 'Full Set Bonus: Springsneak — While sneaking, you have permanent Jump Boost II'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: FARMING
+            pattern:
+              - AAA
+              - AOA
+            ingredients:
+              A:
+                type: RABBIT_HIDE
+                amount: 1
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: RABBIT_HELMET
+              amount: 1
+
+  - id: RABBIT_CHESTPLATE
+    material: leather_chestplate
+    name: 'Rabbit Chestplate'
+    rarity: COMMON
+    default_statistics:
+      defense: 40
+      speed: 5
+    lore:
+      - 'Full Set Bonus: Springsneak — While sneaking, you have permanent Jump Boost II'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: FARMING
+            pattern:
+              - AOA
+              - AAA
+              - AAA
+            ingredients:
+              A:
+                type: RABBIT_HIDE
+                amount: 1
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: RABBIT_CHESTPLATE
+              amount: 1
+
+  - id: RABBIT_LEGGINGS
+    material: leather_leggings
+    name: 'Rabbit Leggings'
+    rarity: COMMON
+    default_statistics:
+      defense: 30
+      speed: 5
+    lore:
+      - 'Full Set Bonus: Springsneak — While sneaking, you have permanent Jump Boost II'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: FARMING
+            pattern:
+              - AAA
+              - AOA
+              - AOA
+            ingredients:
+              A:
+                type: RABBIT_HIDE
+                amount: 1
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: RABBIT_LEGGINGS
+              amount: 1
+
+  - id: RABBIT_BOOTS
+    material: leather_boots
+    name: 'Rabbit Boots'
+    rarity: COMMON
+    default_statistics:
+      defense: 15
+      speed: 5
+    lore:
+      - 'Full Set Bonus: Springsneak — While sneaking, you have permanent Jump Boost II'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: FARMING
+            pattern:
+              - AOA
+              - AOA
+            ingredients:
+              A:
+                type: RABBIT_HIDE
+                amount: 1
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: RABBIT_BOOTS
+              amount: 1
+
+  - id: ANGLER_HELMET
+    material: leather_helmet
+    name: 'Angler Helmet'
+    rarity: COMMON
+    default_statistics:
+      sea_creature_chance: 1
+      defense: 20
+    lore:
+      - 'Tiered Bonus: Depth Champion — Reduces the damage taken from Sea Creatures by 3-10%.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: ANGLER_CHESTPLATE
+    material: leather_chestplate
+    name: 'Angler Chestplate'
+    rarity: COMMON
+    default_statistics:
+      sea_creature_chance: 1
+      defense: 40
+    lore:
+      - 'Tiered Bonus: Depth Champion — Reduces the damage taken from Sea Creatures by 3-10%.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+
+  - id: ANGLER_LEGGINGS
+    material: leather_leggings
+    name: 'Angler Leggings'
+    rarity: COMMON
+    default_statistics:
+      sea_creature_chance: 1
+      defense: 30
+    lore:
+      - 'Tiered Bonus: Depth Champion — Reduces the damage taken from Sea Creatures by 3-10%.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+
+  - id: ANGLER_BOOTS
+    material: leather_boots
+    name: 'Angler Boots'
+    rarity: COMMON
+    default_statistics:
+      sea_creature_chance: 1
+      defense: 15
+    lore:
+      - 'Tiered Bonus: Depth Champion — Reduces the damage taken from Sea Creatures by 3-10%.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+
+  - id: CACTUS_HELMET
+    material: leather_helmet
+    name: 'Cactus Helmet'
+    rarity: COMMON
+    default_statistics:
+      health: 5
+      defense: 10
+    lore:
+      - 'Full Set Bonus: Deflect — Rebound 33% of the damage you take back at your enemy.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: FARMING
+            pattern:
+              - AAA
+              - AOA
+            ingredients:
+              A:
+                type: CACTUS
+                amount: 1
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: CACTUS_HELMET
+              amount: 1
+
+  - id: CACTUS_CHESTPLATE
+    material: leather_chestplate
+    name: 'Cactus Chestplate'
+    rarity: COMMON
+    default_statistics:
+      health: 15
+      defense: 25
+    lore:
+      - 'Full Set Bonus: Deflect — Rebound 33% of the damage you take back at your enemy.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: FARMING
+            pattern:
+              - AOA
+              - AAA
+              - AAA
+            ingredients:
+              A:
+                type: CACTUS
+                amount: 1
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: CACTUS_CHESTPLATE
+              amount: 1
+
+  - id: CACTUS_LEGGINGS
+    material: leather_leggings
+    name: 'Cactus Leggings'
+    rarity: COMMON
+    default_statistics:
+      health: 10
+      defense: 20
+    lore:
+      - 'Full Set Bonus: Deflect — Rebound 33% of the damage you take back at your enemy.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: FARMING
+            pattern:
+              - AAA
+              - AOA
+              - AOA
+            ingredients:
+              A:
+                type: CACTUS
+                amount: 1
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: CACTUS_LEGGINGS
+              amount: 1
+
+  - id: CACTUS_BOOTS
+    material: leather_boots
+    name: 'Cactus Boots'
+    rarity: COMMON
+    default_statistics:
+      health: 5
+      defense: 10
+    lore:
+      - 'Full Set Bonus: Deflect — Rebound 33% of the damage you take back at your enemy.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: FARMING
+            pattern:
+              - AOA
+              - AOA
+            ingredients:
+              O:
+                type: AIR
+                amount: 1
+              A:
+                type: CACTUS
+                amount: 1
+            result:
+              type: CACTUS_BOOTS
+              amount: 1
+
+  - id: CANOPY_HELMET
+    material: leather_helmet
+    name: 'Canopy Mask'
+    rarity: RARE
+    default_statistics:
+      sweep: 6
+      health: 60
+      defense: 25
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: CANOPY_CHESTPLATE
+    material: leather_chestplate
+    name: 'Canopy Shirt'
+    rarity: RARE
+    default_statistics:
+      sweep: 6
+      health: 120
+      defense: 40
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+
+  - id: CANOPY_LEGGINGS
+    material: leather_leggings
+    name: 'Canopy Pants'
+    rarity: RARE
+    default_statistics:
+      sweep: 6
+      health: 110
+      defense: 30
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+
+  - id: CANOPY_BOOTS
+    material: leather_boots
+    name: 'Canopy Sandals'
+    rarity: RARE
+    default_statistics:
+      sweep: 6
+      health: 50
+      defense: 20
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+
+  - id: SNORKELING_HELMET
+    material: leather_helmet
+    name: 'Snorkeling Visor'
+    rarity: UNCOMMON
+    default_statistics:
+      pressure_resistance: 10
+      health: 65
+      defense: 60
+    lore:
+      - 'Tiered Bonus: Long Tuba — Grants +0/2/5/10 respiration.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: SNORKELING_CHESTPLATE
+    material: leather_chestplate
+    name: 'Snorkeling Vest'
+    rarity: UNCOMMON
+    default_statistics:
+      pressure_resistance: 10
+      health: 100
+      defense: 100
+    lore:
+      - 'Tiered Bonus: Long Tuba — Grants +0/2/5/10 respiration.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+
+  - id: SNORKELING_LEGGINGS
+    material: leather_leggings
+    name: 'Snorkeling Pants'
+    rarity: UNCOMMON
+    default_statistics:
+      pressure_resistance: 10
+      health: 75
+      defense: 85
+    lore:
+      - 'Tiered Bonus: Long Tuba — Grants +0/2/5/10 respiration.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+
+  - id: SNORKELING_BOOTS
+    material: leather_boots
+    name: 'Snorkeling Shoes'
+    rarity: UNCOMMON
+    default_statistics:
+      pressure_resistance: 10
+      health: 60
+      defense: 55
+    lore:
+      - 'Tiered Bonus: Long Tuba — Grants +0/2/5/10 respiration.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+
+  - id: FLAMEBREAKER_HELMET
+    material: leather_helmet
+    name: 'Ember Ash Helmet'
+    rarity: UNCOMMON
+    default_statistics:
+      mining_speed: 15
+      mining_fortune: 5
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: FLAMEBREAKER_CHESTPLATE
+    material: leather_chestplate
+    name: 'Ember Ash Chestplate'
+    rarity: UNCOMMON
+    default_statistics:
+      mining_speed: 15
+      mining_fortune: 5
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+
+  - id: FLAMEBREAKER_LEGGINGS
+    material: leather_leggings
+    name: 'Ember Ash Leggings'
+    rarity: UNCOMMON
+    default_statistics:
+      mining_speed: 15
+      mining_fortune: 5
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+
+  - id: FLAMEBREAKER_BOOTS
+    material: leather_boots
+    name: 'Ember Ash Boots'
+    rarity: UNCOMMON
+    default_statistics:
+      mining_speed: 15
+      mining_fortune: 5
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+
+  - id: BACKWATER_HELMET
+    material: leather_helmet
+    name: 'Backwater Helmet'
+    rarity: UNCOMMON
+    default_statistics:
+      sea_creature_chance: 2
+      treasure_chance: 0.1
+      health: 30
+      defense: 15
+    lore:
+      - 'Tiered Bonus: Swamp Soldier — Increases damage dealt to Sea Creatures by +5%-40%.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: BACKWATER_CHESTPLATE
+    material: leather_chestplate
+    name: 'Backwater Chestplate'
+    rarity: UNCOMMON
+    default_statistics:
+      sea_creature_chance: 2
+      treasure_chance: 0.1
+      health: 50
+      defense: 25
+    lore:
+      - 'Tiered Bonus: Swamp Soldier — Increases damage dealt to Sea Creatures by +5%-40%.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+
+  - id: BACKWATER_LEGGINGS
+    material: leather_leggings
+    name: 'Backwater Leggings'
+    rarity: UNCOMMON
+    default_statistics:
+      sea_creature_chance: 2
+      treasure_chance: 0.1
+      health: 40
+      defense: 20
+    lore:
+      - 'Tiered Bonus: Swamp Soldier — Increases damage dealt to Sea Creatures by +5%-40%.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+
+  - id: BACKWATER_BOOTS
+    material: leather_boots
+    name: 'Backwater Boots'
+    rarity: UNCOMMON
+    default_statistics:
+      sea_creature_chance: 2
+      treasure_chance: 0.1
+      health: 20
+      defense: 10
+    lore:
+      - 'Tiered Bonus: Swamp Soldier — Increases damage dealt to Sea Creatures by +5%-40%.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+
+  - id: BRONZE_HUNTER_HELMET
+    material: leather_helmet
+    name: 'Bronze Hunter Helmet'
+    rarity: UNCOMMON
+    default_statistics:
+      health: 50
+    lore:
+      - 'Full Set Bonus: Star Fisher — Grants +0.2 Fishing Speed per Upgrade Star on your armor.'
+      - 'Tiered Bonus: Odger''s Blessing — Grants +0➜3➜4➜5 tfc.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: BRONZE_HUNTER_CHESTPLATE
+    material: leather_chestplate
+    name: 'Bronze Hunter Chestplate'
+    rarity: UNCOMMON
+    default_statistics:
+      health: 100
+    lore:
+      - 'Full Set Bonus: Star Fisher — Grants +0.2 Fishing Speed per Upgrade Star on your armor.'
+      - 'Tiered Bonus: Odger''s Blessing — Grants +0➜3➜4➜5 tfc.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+
+  - id: BRONZE_HUNTER_LEGGINGS
+    material: leather_leggings
+    name: 'Bronze Hunter Leggings'
+    rarity: UNCOMMON
+    default_statistics:
+      health: 75
+    lore:
+      - 'Full Set Bonus: Star Fisher — Grants +0.2 Fishing Speed per Upgrade Star on your armor.'
+      - 'Tiered Bonus: Odger''s Blessing — Grants +0➜3➜4➜5 tfc.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+
+  - id: BRONZE_HUNTER_BOOTS
+    material: leather_boots
+    name: 'Bronze Hunter Boots'
+    rarity: UNCOMMON
+    default_statistics:
+      health: 25
+    lore:
+      - 'Full Set Bonus: Star Fisher — Grants +0.2 Fishing Speed per Upgrade Star on your armor.'
+      - 'Tiered Bonus: Odger''s Blessing — Grants +0➜3➜4➜5 tfc.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+

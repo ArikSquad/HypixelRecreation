@@ -4,8 +4,8 @@ items:
     name: "Celeste Boots"
     rarity: UNCOMMON
     default_statistics:
-      health: 5.0
-      defense: 5.0
+      health: 10.0
+      defense: 10.0
       intelligence: 20.0
     components:
       - id: STANDARD_ITEM
@@ -21,8 +21,8 @@ items:
     name: "Celeste Chestplate"
     rarity: UNCOMMON
     default_statistics:
-      health: 20.0
-      defense: 20.0
+      health: 25.0
+      defense: 25.0
       intelligence: 60.0
     components:
       - id: STANDARD_ITEM
@@ -38,7 +38,8 @@ items:
     name: "Celeste Helmet"
     rarity: UNCOMMON
     default_statistics:
-      defense: 10.0
+      health: 15.0
+      defense: 15.0
       intelligence: 30.0
     components:
       - id: STANDARD_ITEM
@@ -54,8 +55,8 @@ items:
     name: "Celeste Leggings"
     rarity: UNCOMMON
     default_statistics:
-      health: 15.0
-      defense: 15.0
+      health: 20.0
+      defense: 20.0
       intelligence: 40.0
     components:
       - id: STANDARD_ITEM

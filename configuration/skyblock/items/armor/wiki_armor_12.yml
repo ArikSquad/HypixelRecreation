@@ -1,0 +1,108 @@
+items:
+  - id: SNOW_SUIT_HELMET
+    material: leather_helmet
+    name: 'Snow Suit Helmet'
+    rarity: EPIC
+    default_statistics:
+      health: 70
+      defense: 30
+    lore:
+      - 'Piece Bonus: Cold Thumb — Each piece grants +5% bonus gift chance for every present earned from Gift Attack. All stats of this armor piece are doubled on Jerry''s Workshop.'
+      - 'Full Set Bonus: Cold Thumb — Allows the wearer to shoot unlimited snowballs when using Frosty the Snow Cannon/Frosty the Snow Blaster/Frosty the Howitzer.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: SNOW_SUIT_CHESTPLATE
+    material: leather_chestplate
+    name: 'Snow Suit Chestplate'
+    rarity: EPIC
+    default_statistics:
+      health: 100
+      defense: 40
+    lore:
+      - 'Piece Bonus: Cold Thumb — Each piece grants +5% bonus gift chance for every present earned from Gift Attack. All stats of this armor piece are doubled on Jerry''s Workshop.'
+      - 'Full Set Bonus: Cold Thumb — Allows the wearer to shoot unlimited snowballs when using Frosty the Snow Cannon/Frosty the Snow Blaster/Frosty the Howitzer.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+
+  - id: SNOW_SUIT_LEGGINGS
+    material: leather_leggings
+    name: 'Snow Suit Leggings'
+    rarity: EPIC
+    default_statistics:
+      health: 75
+      defense: 30
+    lore:
+      - 'Piece Bonus: Cold Thumb — Each piece grants +5% bonus gift chance for every present earned from Gift Attack. All stats of this armor piece are doubled on Jerry''s Workshop.'
+      - 'Full Set Bonus: Cold Thumb — Allows the wearer to shoot unlimited snowballs when using Frosty the Snow Cannon/Frosty the Snow Blaster/Frosty the Howitzer.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+
+  - id: SNOW_SUIT_BOOTS
+    material: leather_boots
+    name: 'Snow Suit Boots'
+    rarity: EPIC
+    default_statistics:
+      health: 65
+      defense: 25
+    lore:
+      - 'Piece Bonus: Cold Thumb — Each piece grants +5% bonus gift chance for every present earned from Gift Attack. All stats of this armor piece are doubled on Jerry''s Workshop.'
+      - 'Full Set Bonus: Cold Thumb — Allows the wearer to shoot unlimited snowballs when using Frosty the Snow Cannon/Frosty the Snow Blaster/Frosty the Howitzer.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+
+  - id: ARMOR_OF_THE_RESISTANCE_HELMET
+    material: leather_helmet
+    name: 'Helmet of the Rising Sun'
+    rarity: EPIC
+    default_statistics:
+      health: 10
+      defense: 10
+    lore:
+      - 'Full Set Bonus: Power of the Resistance — Provides a damage bonus while fighting against Dante, and reduces damage taken from Dante.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: ARMOR_OF_THE_RESISTANCE_CHESTPLATE
+    material: leather_chestplate
+    name: 'Chestplate of the Rising Sun'
+    rarity: EPIC
+    default_statistics:
+      health: 15
+      defense: 15
+    lore:
+      - 'Full Set Bonus: Power of the Resistance — Provides a damage bonus while fighting against Dante, and reduces damage taken from Dante.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+
+  - id: ARMOR_OF_THE_RESISTANCE_LEGGINGS
+    material: leather_leggings
+    name: 'Leggings of the Rising Sun'
+    rarity: EPIC
+    default_statistics:
+      health: 12
+      defense: 12
+    lore:
+      - 'Full Set Bonus: Power of the Resistance — Provides a damage bonus while fighting against Dante, and reduces damage taken from Dante.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+
+  - id: ARMOR_OF_THE_RESISTANCE_BOOTS
+    material: leather_boots
+    name: 'Boots of the Rising Sun'
+    rarity: EPIC
+    default_statistics:
+      health: 8
+      defense: 8
+    lore:
+      - 'Full Set Bonus: Power of the Resistance — Provides a damage bonus while fighting against Dante, and reduces damage taken from Dante.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS

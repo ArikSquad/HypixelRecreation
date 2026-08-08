@@ -1,0 +1,709 @@
+items:
+  - id: TARANTULA_HELMET
+    material: leather_helmet
+    name: 'Tarantula Helmet'
+    rarity: EPIC
+    default_statistics:
+      health: 100
+      defense: 80
+      intelligence: 80
+    lore:
+      - 'Full Set Bonus: Octodexterity — Every 4 th strike, deal +100% Damage and apply Venom reducing healing by 40% for 4 seconds.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: COMBAT
+            pattern:
+              - AAA
+              - BOB
+            ingredients:
+              A:
+                type: TARANTULA_SILK
+                amount: 1
+              B:
+                type: ENCHANTED_IRON_INGOT
+                amount: 64
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: TARANTULA_HELMET
+              amount: 1
+
+  - id: TARANTULA_CHESTPLATE
+    material: leather_chestplate
+    name: 'Tarantula Chestplate'
+    rarity: EPIC
+    default_statistics:
+      health: 120
+      defense: 100
+      intelligence: 100
+    lore:
+      - 'Full Set Bonus: Octodexterity — Every 4 th strike, deal +100% Damage and apply Venom reducing healing by 40% for 4 seconds.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: COMBAT
+            pattern:
+              - AOA
+              - ABA
+              - BBB
+            ingredients:
+              A:
+                type: ENCHANTED_IRON_INGOT
+                amount: 64
+              O:
+                type: AIR
+                amount: 1
+              B:
+                type: TARANTULA_SILK
+                amount: 1
+            result:
+              type: TARANTULA_CHESTPLATE
+              amount: 1
+
+  - id: TARANTULA_LEGGINGS
+    material: leather_leggings
+    name: 'Tarantula Leggings'
+    rarity: EPIC
+    default_statistics:
+      health: 105
+      defense: 90
+      intelligence: 80
+    lore:
+      - 'Full Set Bonus: Octodexterity — Every 4 th strike, deal +100% Damage and apply Venom reducing healing by 40% for 4 seconds.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: COMBAT
+            pattern:
+              - AAA
+              - BOB
+              - BOB
+            ingredients:
+              A:
+                type: TARANTULA_SILK
+                amount: 1
+              B:
+                type: ENCHANTED_IRON_INGOT
+                amount: 64
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: TARANTULA_LEGGINGS
+              amount: 1
+
+  - id: REVENANT_CHESTPLATE
+    material: leather_chestplate
+    name: 'Revenant Chestplate'
+    rarity: EPIC
+    default_statistics:
+      health: 180
+      defense: 70
+    lore:
+      - 'Full Set Bonus: Trolling The Reaper — Healing Wands are +50% more effective. Gain +100 Defense against Zombies.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: COMBAT
+            pattern:
+              - AOA
+              - ABA
+              - BBB
+            ingredients:
+              A:
+                type: ENCHANTED_DIAMOND
+                amount: 32
+              O:
+                type: AIR
+                amount: 1
+              B:
+                type: REVENANT_VISCERA
+                amount: 1
+            result:
+              type: REVENANT_CHESTPLATE
+              amount: 1
+
+  - id: REVENANT_LEGGINGS
+    material: leather_leggings
+    name: 'Revenant Leggings'
+    rarity: EPIC
+    default_statistics:
+      health: 130
+      defense: 50
+    lore:
+      - 'Full Set Bonus: Trolling The Reaper — Healing Wands are +50% more effective. Gain +100 Defense against Zombies.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: COMBAT
+            pattern:
+              - AAA
+              - BOB
+              - BOB
+            ingredients:
+              A:
+                type: REVENANT_VISCERA
+                amount: 1
+              B:
+                type: ENCHANTED_DIAMOND
+                amount: 16
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: REVENANT_LEGGINGS
+              amount: 1
+
+  - id: REVENANT_BOOTS
+    material: leather_boots
+    name: 'Revenant Boots'
+    rarity: EPIC
+    default_statistics:
+      health: 100
+      defense: 30
+    lore:
+      - 'Full Set Bonus: Trolling The Reaper — Healing Wands are +50% more effective. Gain +100 Defense against Zombies.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: COMBAT
+            pattern:
+              - AOA
+              - BOB
+            ingredients:
+              A:
+                type: ENCHANTED_DIAMOND
+                amount: 32
+              O:
+                type: AIR
+                amount: 1
+              B:
+                type: REVENANT_VISCERA
+                amount: 1
+            result:
+              type: REVENANT_BOOTS
+              amount: 1
+
+  - id: SPOOKY_HELMET
+    material: leather_helmet
+    name: 'Spooky Helmet'
+    rarity: EPIC
+    default_statistics:
+      defense: 25
+    lore:
+      - 'Full Set Bonus: Candy Man — Grants a +5% chance to find rare candy'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: SPOOKY_CHESTPLATE
+    material: leather_chestplate
+    name: 'Spooky Chestplate'
+    rarity: EPIC
+    default_statistics:
+      defense: 50
+    lore:
+      - 'Full Set Bonus: Candy Man — Grants a +5% chance to find rare candy'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+
+  - id: SPOOKY_LEGGINGS
+    material: leather_leggings
+    name: 'Spooky Leggings'
+    rarity: EPIC
+    default_statistics:
+      defense: 35
+    lore:
+      - 'Full Set Bonus: Candy Man — Grants a +5% chance to find rare candy'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+
+  - id: SPOOKY_BOOTS
+    material: leather_boots
+    name: 'Spooky Boots'
+    rarity: EPIC
+    default_statistics:
+      defense: 25
+    lore:
+      - 'Full Set Bonus: Candy Man — Grants a +5% chance to find rare candy'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+
+  - id: MINERAL_HELMET
+    material: leather_helmet
+    name: 'Mineral Helmet'
+    rarity: EPIC
+    default_statistics:
+      block_fortune: 25
+      speed: 10
+      defense: 70
+    lore:
+      - 'Tiered Bonus: Mineralworks — Grants +100/200/300/400 Mining Spread on Ores and Blocks.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: MINING
+            pattern:
+              - AAA
+              - ABA
+            ingredients:
+              A:
+                type: REFINED_MINERAL
+                amount: 1
+              B:
+                type: HARDENED_DIAMOND_HELMET
+                amount: 1
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: MINERAL_HELMET
+              amount: 1
+
+  - id: MINERAL_CHESTPLATE
+    material: leather_chestplate
+    name: 'Mineral Chestplate'
+    rarity: EPIC
+    default_statistics:
+      block_fortune: 25
+      speed: 15
+      defense: 125
+    lore:
+      - 'Tiered Bonus: Mineralworks — Grants +100/200/300/400 Mining Spread on Ores and Blocks.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: MINING
+            pattern:
+              - AAA
+              - ABA
+              - AAA
+            ingredients:
+              A:
+                type: REFINED_MINERAL
+                amount: 1
+              B:
+                type: HARDENED_DIAMOND_CHESTPLATE
+                amount: 1
+            result:
+              type: MINERAL_CHESTPLATE
+              amount: 1
+
+  - id: MINERAL_LEGGINGS
+    material: leather_leggings
+    name: 'Mineral Leggings'
+    rarity: EPIC
+    default_statistics:
+      block_fortune: 25
+      speed: 15
+      defense: 125
+    lore:
+      - 'Tiered Bonus: Mineralworks — Grants +100/200/300/400 Mining Spread on Ores and Blocks.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: MINING
+            pattern:
+              - AAA
+              - ABA
+              - AOA
+            ingredients:
+              A:
+                type: REFINED_MINERAL
+                amount: 1
+              B:
+                type: HARDENED_DIAMOND_LEGGINGS
+                amount: 1
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: MINERAL_LEGGINGS
+              amount: 1
+
+  - id: MINERAL_BOOTS
+    material: leather_boots
+    name: 'Mineral Boots'
+    rarity: EPIC
+    default_statistics:
+      block_fortune: 25
+      speed: 10
+      defense: 70
+    lore:
+      - 'Tiered Bonus: Mineralworks — Grants +100/200/300/400 Mining Spread on Ores and Blocks.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: MINING
+            pattern:
+              - AOA
+              - ABA
+            ingredients:
+              A:
+                type: REFINED_MINERAL
+                amount: 1
+              O:
+                type: AIR
+                amount: 1
+              B:
+                type: HARDENED_DIAMOND_BOOTS
+                amount: 1
+            result:
+              type: MINERAL_BOOTS
+              amount: 1
+
+  - id: GLACITE_HELMET
+    material: leather_helmet
+    name: 'Glacite Helmet'
+    rarity: EPIC
+    default_statistics:
+      mining_fortune: 5
+      speed: 10
+      defense: 70
+      true_defense: 5
+      mining_speed: 10
+    lore:
+      - 'Full Set Bonus: Expert Miner — Grants +2 Mining Speed for each of your mining levels.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: GLACITE_CHESTPLATE
+    material: leather_chestplate
+    name: 'Glacite Chestplate'
+    rarity: EPIC
+    default_statistics:
+      mining_fortune: 5
+      speed: 15
+      defense: 150
+      true_defense: 10
+      mining_speed: 10
+    lore:
+      - 'Full Set Bonus: Expert Miner — Grants +2 Mining Speed for each of your mining levels.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+
+  - id: GLACITE_LEGGINGS
+    material: leather_leggings
+    name: 'Glacite Leggings'
+    rarity: EPIC
+    default_statistics:
+      mining_fortune: 5
+      speed: 15
+      defense: 125
+      true_defense: 10
+      mining_speed: 10
+    lore:
+      - 'Full Set Bonus: Expert Miner — Grants +2 Mining Speed for each of your mining levels.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+
+  - id: GLACITE_BOOTS
+    material: leather_boots
+    name: 'Glacite Boots'
+    rarity: EPIC
+    default_statistics:
+      mining_fortune: 5
+      speed: 10
+      defense: 70
+      true_defense: 5
+      mining_speed: 10
+    lore:
+      - 'Full Set Bonus: Expert Miner — Grants +2 Mining Speed for each of your mining levels.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+
+  - id: GREAT_SPOOK_HELMET
+    material: leather_helmet
+    name: 'Great Spook Helmet'
+    rarity: EPIC
+    default_statistics:
+      fear: 5
+    lore:
+      - 'Full Set Bonus: Spooky — Lets you spook other players while worn by punching them with the Great Spook Staff.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: GREAT_SPOOK_CHESTPLATE
+    material: leather_chestplate
+    name: 'Great Spook Chestplate'
+    rarity: EPIC
+    default_statistics:
+      fear: 5
+    lore:
+      - 'Full Set Bonus: Spooky — Lets you spook other players while worn by punching them with the Great Spook Staff.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+
+  - id: GREAT_SPOOK_LEGGINGS
+    material: leather_leggings
+    name: 'Great Spook Leggings'
+    rarity: EPIC
+    default_statistics:
+      fear: 5
+    lore:
+      - 'Full Set Bonus: Spooky — Lets you spook other players while worn by punching them with the Great Spook Staff.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+
+  - id: GREAT_SPOOK_BOOTS
+    material: leather_boots
+    name: 'Great Spook Boots'
+    rarity: EPIC
+    default_statistics:
+      fear: 5
+    lore:
+      - 'Full Set Bonus: Spooky — Lets you spook other players while worn by punching them with the Great Spook Staff.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+
+  - id: GOLD_HUNTER_HELMET
+    material: leather_helmet
+    name: 'Gold Hunter Helmet'
+    rarity: EPIC
+    default_statistics:
+      health: 100
+    lore:
+      - 'Full Set Bonus: Star Fisher — Grants +0.7 Fishing Speed per ✪ Upgrade Star on your armor.'
+      - 'Tiered Bonus: Odger''s Blessing — Grants +0➜10➜15➜20 tfc.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: GOLD_HUNTER_CHESTPLATE
+    material: leather_chestplate
+    name: 'Gold Hunter Chestplate'
+    rarity: EPIC
+    default_statistics:
+      health: 150
+    lore:
+      - 'Full Set Bonus: Star Fisher — Grants +0.7 Fishing Speed per ✪ Upgrade Star on your armor.'
+      - 'Tiered Bonus: Odger''s Blessing — Grants +0➜10➜15➜20 tfc.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+
+  - id: GOLD_HUNTER_LEGGINGS
+    material: leather_leggings
+    name: 'Gold Hunter Leggings'
+    rarity: EPIC
+    default_statistics:
+      health: 125
+    lore:
+      - 'Full Set Bonus: Star Fisher — Grants +0.7 Fishing Speed per ✪ Upgrade Star on your armor.'
+      - 'Tiered Bonus: Odger''s Blessing — Grants +0➜10➜15➜20 tfc.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+
+  - id: GOLD_HUNTER_BOOTS
+    material: leather_boots
+    name: 'Gold Hunter Boots'
+    rarity: EPIC
+    default_statistics:
+      health: 75
+    lore:
+      - 'Full Set Bonus: Star Fisher — Grants +0.7 Fishing Speed per ✪ Upgrade Star on your armor.'
+      - 'Tiered Bonus: Odger''s Blessing — Grants +0➜10➜15➜20 tfc.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+
+  - id: BERSERKER_HELMET
+    material: leather_helmet
+    name: 'Berserker Helmet'
+    rarity: EPIC
+    default_statistics:
+      strength: 35
+      critical_damage: 35
+    lore:
+      - 'Tiered Bonus: Berserk — Reduces your health and defense by half and reduces the cost of health-consuming abilities by 20%/40%/60%.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: BERSERKER_CHESTPLATE
+    material: leather_chestplate
+    name: 'Berserker Chestplate'
+    rarity: EPIC
+    default_statistics:
+      strength: 60
+      critical_damage: 60
+    lore:
+      - 'Tiered Bonus: Berserk — Reduces your health and defense by half and reduces the cost of health-consuming abilities by 20%/40%/60%.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+
+  - id: BERSERKER_LEGGINGS
+    material: leather_leggings
+    name: 'Berserker Leggings'
+    rarity: EPIC
+    default_statistics:
+      strength: 50
+      critical_damage: 50
+    lore:
+      - 'Tiered Bonus: Berserk — Reduces your health and defense by half and reduces the cost of health-consuming abilities by 20%/40%/60%.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+
+  - id: BERSERKER_BOOTS
+    material: leather_boots
+    name: 'Berserker Boots'
+    rarity: EPIC
+    default_statistics:
+      strength: 25
+      critical_damage: 25
+    lore:
+      - 'Tiered Bonus: Berserk — Reduces your health and defense by half and reduces the cost of health-consuming abilities by 20%/40%/60%.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+
+  - id: REKINDLED_EMBER_HELMET
+    material: leather_helmet
+    name: 'Rekindled Ember Helmet'
+    rarity: EPIC
+    default_statistics:
+      strength: 30
+      critical_damage: 20
+      defense: 50
+      health: 175
+      intelligence: 15
+    lore:
+      - 'Tiered Bonus: Rekindle — Increase all of your outgoing burning damage by 200%/400%/600%. For each second you are on fire additionally increase all burning damage by 1.2%/2.5%/5% up to 50%/100%/200%. When wearing 2 or more armor pieces of this set, melee attacks from ignited mobs will set you on fire!'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: REKINDLED_EMBER_CHESTPLATE
+    material: leather_chestplate
+    name: 'Rekindled Ember Chestplate'
+    rarity: EPIC
+    default_statistics:
+      strength: 30
+      critical_damage: 20
+      defense: 70
+      health: 250
+      intelligence: 5
+    lore:
+      - 'Tiered Bonus: Rekindle — Increase all of your outgoing burning damage by 200%/400%/600%. For each second you are on fire additionally increase all burning damage by 1.2%/2.5%/5% up to 50%/100%/200%. When wearing 2 or more armor pieces of this set, melee attacks from ignited mobs will set you on fire!'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+
+  - id: REKINDLED_EMBER_LEGGINGS
+    material: leather_leggings
+    name: 'Rekindled Ember Leggings'
+    rarity: EPIC
+    default_statistics:
+      strength: 30
+      critical_damage: 20
+      defense: 70
+      health: 220
+      intelligence: 5
+    lore:
+      - 'Tiered Bonus: Rekindle — Increase all of your outgoing burning damage by 200%/400%/600%. For each second you are on fire additionally increase all burning damage by 1.2%/2.5%/5% up to 50%/100%/200%. When wearing 2 or more armor pieces of this set, melee attacks from ignited mobs will set you on fire!'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+
+  - id: REKINDLED_EMBER_BOOTS
+    material: leather_boots
+    name: 'Rekindled Ember Boots'
+    rarity: EPIC
+    default_statistics:
+      strength: 30
+      critical_damage: 15
+      defense: 40
+      health: 140
+      intelligence: 5
+    lore:
+      - 'Tiered Bonus: Rekindle — Increase all of your outgoing burning damage by 200%/400%/600%. For each second you are on fire additionally increase all burning damage by 1.2%/2.5%/5% up to 50%/100%/200%. When wearing 2 or more armor pieces of this set, melee attacks from ignited mobs will set you on fire!'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+
+  - id: THUNDER_HELMET
+    material: leather_helmet
+    name: 'Thunder Helmet'
+    rarity: EPIC
+    default_statistics:
+      strength: 25
+      sea_creature_chance: 4
+      health: 200
+      defense: 175
+    lore:
+      - 'Tiered Bonus: Static Charge — Gains 1 static charge every 30/25/20/10 seconds. Hitting a target will cause a discharge, adding 15%/20%/25%/40% damage to that hit for each charge collected. Maximum Charge Capacity: 2/3/4/5'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: THUNDER_CHESTPLATE
+    material: leather_chestplate
+    name: 'Thunder Chestplate'
+    rarity: EPIC
+    default_statistics:
+      strength: 25
+      sea_creature_chance: 4
+      health: 250
+      defense: 225
+    lore:
+      - 'Tiered Bonus: Static Charge — Gains 1 static charge every 30/25/20/10 seconds. Hitting a target will cause a discharge, adding 15%/20%/25%/40% damage to that hit for each charge collected. Maximum Charge Capacity: 2/3/4/5'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+

@@ -1,0 +1,751 @@
+items:
+  - id: HOLY_DRAGON_LEGGINGS
+    material: leather_leggings
+    name: 'Holy Dragon Leggings'
+    rarity: LEGENDARY
+    default_statistics:
+      mending: 10
+      health: 155
+      defense: 140
+    lore:
+      - 'Full Set Bonus: Holy Blood — Grants +75 Health Regen to you and all players within 10 blocks.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+
+  - id: HOLY_DRAGON_BOOTS
+    material: leather_boots
+    name: 'Holy Dragon Boots'
+    rarity: LEGENDARY
+    default_statistics:
+      mending: 10
+      health: 100
+      defense: 90
+    lore:
+      - 'Full Set Bonus: Holy Blood — Grants +75 Health Regen to you and all players within 10 blocks.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+
+  - id: SORROW_HELMET
+    material: leather_helmet
+    name: 'Sorrow Helmet'
+    rarity: LEGENDARY
+    default_statistics:
+      true_defense: 50
+      mining_fortune: 20
+      magic_find: 5
+      mining_speed: 50
+    lore:
+      - 'Ability: 2-Piece Set Bonus: Mist Aura — Hides the wearer in a guise of mist, multiplying damage from ghosts by 0.6 x.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: MINING
+            pattern:
+              - AAA
+              - AOA
+            ingredients:
+              A:
+                type: SORROW
+                amount: 3
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: SORROW_HELMET
+              amount: 1
+
+  - id: SORROW_CHESTPLATE
+    material: leather_chestplate
+    name: 'Sorrow Chestplate'
+    rarity: LEGENDARY
+    default_statistics:
+      true_defense: 80
+      mining_fortune: 20
+      magic_find: 5
+      mining_speed: 50
+    lore:
+      - 'Ability: 2-Piece Set Bonus: Mist Aura — Hides the wearer in a guise of mist, multiplying damage from ghosts by 0.6 x.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: MINING
+            pattern:
+              - AOA
+              - AAA
+              - AAA
+            ingredients:
+              A:
+                type: SORROW
+                amount: 3
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: SORROW_CHESTPLATE
+              amount: 1
+
+  - id: SORROW_LEGGINGS
+    material: leather_leggings
+    name: 'Sorrow Leggings'
+    rarity: LEGENDARY
+    default_statistics:
+      true_defense: 70
+      mining_fortune: 20
+      magic_find: 5
+      mining_speed: 50
+    lore:
+      - 'Ability: 2-Piece Set Bonus: Mist Aura — Hides the wearer in a guise of mist, multiplying damage from ghosts by 0.6 x.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: MINING
+            pattern:
+              - AAA
+              - AOA
+              - AOA
+            ingredients:
+              A:
+                type: SORROW
+                amount: 3
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: SORROW_LEGGINGS
+              amount: 1
+
+  - id: SORROW_BOOTS
+    material: leather_boots
+    name: 'Sorrow Boots'
+    rarity: LEGENDARY
+    default_statistics:
+      true_defense: 40
+      mining_fortune: 20
+      magic_find: 5
+      mining_speed: 50
+    lore:
+      - 'Ability: 2-Piece Set Bonus: Mist Aura — Hides the wearer in a guise of mist, multiplying damage from ghosts by 0.6 x.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: MINING
+            pattern:
+              - AOA
+              - AOA
+            ingredients:
+              A:
+                type: SORROW
+                amount: 3
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: SORROW_BOOTS
+              amount: 1
+
+  - id: REAPER_CHESTPLATE
+    material: leather_chestplate
+    name: 'Reaper Chestplate'
+    rarity: LEGENDARY
+    default_statistics:
+      strength: 25
+      intelligence: 250
+      health: 180
+      defense: 70
+    lore:
+      - 'Full Set Bonus: Enrage — Enrage for 6 s gaining 100 Speed, 100 Damage, and 100 Strength.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: COMBAT
+            pattern:
+              - ABA
+              - ACA
+              - ADA
+            ingredients:
+              A:
+                type: ENCHANTED_DIAMOND_BLOCK
+                amount: 1
+              B:
+                type: REVENANT_CATALYST
+                amount: 1
+              C:
+                type: REVENANT_CHESTPLATE
+                amount: 1
+              D:
+                type: REVENANT_VISCERA
+                amount: 64
+            result:
+              type: REAPER_CHESTPLATE
+              amount: 1
+
+  - id: REAPER_LEGGINGS
+    material: leather_leggings
+    name: 'Reaper Leggings'
+    rarity: LEGENDARY
+    default_statistics:
+      strength: 25
+      intelligence: 250
+      health: 120
+      defense: 50
+    lore:
+      - 'Full Set Bonus: Enrage — Enrage for 6 s gaining 100 Speed, 100 Damage, and 100 Strength.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: COMBAT
+            pattern:
+              - ABA
+              - ACA
+              - ADA
+            ingredients:
+              A:
+                type: ENCHANTED_DIAMOND_BLOCK
+                amount: 1
+              B:
+                type: REVENANT_CATALYST
+                amount: 1
+              C:
+                type: REVENANT_LEGGINGS
+                amount: 1
+              D:
+                type: REVENANT_VISCERA
+                amount: 64
+            result:
+              type: REAPER_LEGGINGS
+              amount: 1
+
+  - id: REAPER_BOOTS
+    material: leather_boots
+    name: 'Reaper Boots'
+    rarity: LEGENDARY
+    default_statistics:
+      strength: 25
+      intelligence: 250
+      health: 100
+      defense: 30
+    lore:
+      - 'Full Set Bonus: Enrage — Enrage for 6 s gaining 100 Speed, 100 Damage, and 100 Strength.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: COMBAT
+            pattern:
+              - ABA
+              - ACA
+              - ADA
+            ingredients:
+              A:
+                type: ENCHANTED_DIAMOND_BLOCK
+                amount: 1
+              B:
+                type: REVENANT_CATALYST
+                amount: 1
+              C:
+                type: REVENANT_BOOTS
+                amount: 1
+              D:
+                type: REVENANT_VISCERA
+                amount: 64
+            result:
+              type: REAPER_BOOTS
+              amount: 1
+
+  - id: PRIMORDIAL_HELMET
+    material: leather_helmet
+    name: 'Primordial Helmet'
+    rarity: LEGENDARY
+    default_statistics:
+      health: 120
+      defense: 100
+      critical_damage: 10
+      intelligence: 100
+    lore:
+      - 'Tiered Bonus: Octodexterity — Every 3 rd strike, deal +50% Damage and apply Venom reducing healing by 10% for 4 seconds.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: PRIMORDIAL_CHESTPLATE
+    material: leather_chestplate
+    name: 'Primordial Chestplate'
+    rarity: LEGENDARY
+    default_statistics:
+      health: 150
+      defense: 115
+      intelligence: 110
+      critical_damage: 10
+    lore:
+      - 'Tiered Bonus: Octodexterity — Every 3 rd strike, deal +50% Damage and apply Venom reducing healing by 10% for 4 seconds.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+
+  - id: PRIMORDIAL_LEGGINGS
+    material: leather_leggings
+    name: 'Primordial Leggings'
+    rarity: LEGENDARY
+    default_statistics:
+      health: 135
+      intelligence: 105
+      critical_damage: 10
+      defense: 105
+    lore:
+      - 'Tiered Bonus: Octodexterity — Every 3 rd strike, deal +50% Damage and apply Venom reducing healing by 10% for 4 seconds.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+
+  - id: PRIMORDIAL_BOOTS
+    material: leather_boots
+    name: 'Primordial Boots'
+    rarity: LEGENDARY
+    default_statistics:
+      health: 75
+      defense: 90
+      critical_damage: 10
+      intelligence: 75
+      speed: 15
+    lore:
+      - 'Tiered Bonus: Octodexterity — Every 3 rd strike, deal +50% Damage and apply Venom reducing healing by 10% for 4 seconds.'
+      - 'Ability: Double Jump — Allows you to double jump by sneaking mid air!'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+
+  - id: FINAL_DESTINATION_HELMET
+    material: leather_helmet
+    name: 'Final Destination Helmet'
+    rarity: LEGENDARY
+    default_statistics:
+      intelligence: 100
+      health: 140
+      defense: 100
+    lore:
+      - 'Full Set Bonus: Vivacious Darkness — Costs 2 soulflow per 5 s in combat while sneaking: ; +30 Strength ; +20% Attack Speed ; +10 Speed ; 1.25 x Intelligence ; +200 Ferocity against Endermen ; +100% Damage against Endermen'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: FINAL_DESTINATION_CHESTPLATE
+    material: leather_chestplate
+    name: 'Final Destination Chestplate'
+    rarity: LEGENDARY
+    default_statistics:
+      intelligence: 100
+      health: 200
+      defense: 100
+    lore:
+      - 'Full Set Bonus: Vivacious Darkness — Costs 2 soulflow per 5 s in combat while sneaking: ; +30 Strength ; +20% Attack Speed ; +10 Speed ; 1.25 x Intelligence ; +200 Ferocity against Endermen ; +100% Damage against Endermen'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+
+  - id: FINAL_DESTINATION_LEGGINGS
+    material: leather_leggings
+    name: 'Final Destination Leggings'
+    rarity: LEGENDARY
+    default_statistics:
+      intelligence: 100
+      health: 160
+      defense: 100
+    lore:
+      - 'Full Set Bonus: Vivacious Darkness — Costs 2 soulflow per 5 s in combat while sneaking: ; +30 Strength ; +20% Attack Speed ; +10 Speed ; 1.25 x Intelligence ; +200 Ferocity against Endermen ; +100% Damage against Endermen'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+
+  - id: FINAL_DESTINATION_BOOTS
+    material: leather_boots
+    name: 'Final Destination Boots'
+    rarity: LEGENDARY
+    default_statistics:
+      intelligence: 100
+      health: 100
+      defense: 100
+    lore:
+      - 'Full Set Bonus: Vivacious Darkness — Costs 2 soulflow per 5 s in combat while sneaking: ; +30 Strength ; +20% Attack Speed ; +10 Speed ; 1.25 x Intelligence ; +200 Ferocity against Endermen ; +100% Damage against Endermen'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+
+  - id: GLOSSY_MINERAL_HELMET
+    material: leather_helmet
+    name: 'Glossy Mineral Helmet'
+    rarity: LEGENDARY
+    default_statistics:
+      block_fortune: 50
+      speed: 20
+      defense: 90
+    lore:
+      - 'Tiered Bonus: Glossy Mineralworks — Grants +150/300/450/600 Mining Spread on Ores and Blocks.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: MINING
+            pattern:
+              - AAA
+              - ABA
+              - AAA
+            ingredients:
+              A:
+                type: GLOSSY_GEMSTONE
+                amount: 2
+              B:
+                type: MINERAL_HELMET
+                amount: 1
+            result:
+              type: GLOSSY_MINERAL_HELMET
+              amount: 1
+
+  - id: GLOSSY_MINERAL_CHESTPLATE
+    material: leather_chestplate
+    name: 'Glossy Mineral Chestplate'
+    rarity: LEGENDARY
+    default_statistics:
+      block_fortune: 50
+      speed: 25
+      defense: 150
+    lore:
+      - 'Tiered Bonus: Glossy Mineralworks — Grants +150/300/450/600 Mining Spread on Ores and Blocks.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: MINING
+            pattern:
+              - AAA
+              - ABA
+              - AAA
+            ingredients:
+              A:
+                type: GLOSSY_GEMSTONE
+                amount: 2
+              B:
+                type: MINERAL_CHESTPLATE
+                amount: 1
+            result:
+              type: GLOSSY_MINERAL_CHESTPLATE
+              amount: 1
+
+  - id: GLOSSY_MINERAL_LEGGINGS
+    material: leather_leggings
+    name: 'Glossy Mineral Leggings'
+    rarity: LEGENDARY
+    default_statistics:
+      block_fortune: 50
+      speed: 25
+      defense: 150
+    lore:
+      - 'Tiered Bonus: Glossy Mineralworks — Grants +150/300/450/600 Mining Spread on Ores and Blocks.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: MINING
+            pattern:
+              - AAA
+              - ABA
+              - AAA
+            ingredients:
+              A:
+                type: GLOSSY_GEMSTONE
+                amount: 2
+              B:
+                type: MINERAL_LEGGINGS
+                amount: 1
+            result:
+              type: GLOSSY_MINERAL_LEGGINGS
+              amount: 1
+
+  - id: GLOSSY_MINERAL_BOOTS
+    material: leather_boots
+    name: 'Glossy Mineral Boots'
+    rarity: LEGENDARY
+    default_statistics:
+      block_fortune: 50
+      speed: 20
+      defense: 90
+    lore:
+      - 'Tiered Bonus: Glossy Mineralworks — Grants +150/300/450/600 Mining Spread on Ores and Blocks.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: MINING
+            pattern:
+              - AAA
+              - ABA
+              - AAA
+            ingredients:
+              A:
+                type: GLOSSY_GEMSTONE
+                amount: 2
+              B:
+                type: MINERAL_BOOTS
+                amount: 1
+            result:
+              type: GLOSSY_MINERAL_BOOTS
+              amount: 1
+
+  - id: WITHER_HELMET
+    material: leather_helmet
+    name: 'Wither Helmet'
+    rarity: LEGENDARY
+    default_statistics:
+      intelligence: 30
+      health: 200
+      defense: 100
+    lore:
+      - 'Full Set Bonus: Witherborn — Spawns a wither minion every 30 seconds up to a maximum of 1 wither. Your withers will travel to and explode on nearby enemies.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: WITHER_CHESTPLATE
+    material: leather_chestplate
+    name: 'Wither Chestplate'
+    rarity: LEGENDARY
+    default_statistics:
+      intelligence: 10
+      health: 300
+      defense: 250
+    lore:
+      - 'Full Set Bonus: Witherborn — Spawns a wither minion every 30 seconds up to a maximum of 1 wither. Your withers will travel to and explode on nearby enemies.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+
+  - id: WITHER_LEGGINGS
+    material: leather_leggings
+    name: 'Wither Leggings'
+    rarity: LEGENDARY
+    default_statistics:
+      intelligence: 10
+      health: 250
+      defense: 220
+    lore:
+      - 'Full Set Bonus: Witherborn — Spawns a wither minion every 30 seconds up to a maximum of 1 wither. Your withers will travel to and explode on nearby enemies.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+
+  - id: WITHER_BOOTS
+    material: leather_boots
+    name: 'Wither Boots'
+    rarity: LEGENDARY
+    default_statistics:
+      intelligence: 10
+      health: 180
+      defense: 150
+    lore:
+      - 'Full Set Bonus: Witherborn — Spawns a wither minion every 30 seconds up to a maximum of 1 wither. Your withers will travel to and explode on nearby enemies.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+
+  - id: SPEED_WITHER_HELMET
+    material: leather_helmet
+    name: 'Maxor''s Helmet'
+    rarity: LEGENDARY
+    default_statistics:
+      critical_damage: 45
+      defense: 80
+      intelligence: 15
+      health: 180
+      speed: 30
+    lore:
+      - 'Full Set Bonus: Witherborn — Spawns a wither minion every 30 seconds up to a maximum of 1 wither. Your withers will travel to and explode on nearby enemies.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: SPEED_WITHER_CHESTPLATE
+    material: leather_chestplate
+    name: 'Maxor''s Chestplate'
+    rarity: LEGENDARY
+    default_statistics:
+      critical_damage: 45
+      defense: 120
+      intelligence: 10
+      health: 260
+      speed: 30
+    lore:
+      - 'Full Set Bonus: Witherborn — Spawns a wither minion every 30 seconds up to a maximum of 1 wither. Your withers will travel to and explode on nearby enemies.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+
+  - id: SPEED_WITHER_LEGGINGS
+    material: leather_leggings
+    name: 'Maxor''s Leggings'
+    rarity: LEGENDARY
+    default_statistics:
+      critical_damage: 45
+      defense: 105
+      intelligence: 10
+      health: 230
+      speed: 30
+    lore:
+      - 'Full Set Bonus: Witherborn — Spawns a wither minion every 30 seconds up to a maximum of 1 wither. Your withers will travel to and explode on nearby enemies.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+
+  - id: SPEED_WITHER_BOOTS
+    material: leather_boots
+    name: 'Maxor''s Boots'
+    rarity: LEGENDARY
+    default_statistics:
+      critical_damage: 45
+      defense: 65
+      intelligence: 10
+      health: 145
+      speed: 30
+    lore:
+      - 'Full Set Bonus: Witherborn — Spawns a wither minion every 30 seconds up to a maximum of 1 wither. Your withers will travel to and explode on nearby enemies.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+
+  - id: WISE_WITHER_HELMET
+    material: leather_helmet
+    name: 'Storm''s Helmet'
+    rarity: LEGENDARY
+    default_statistics:
+      intelligence: 400
+      health: 180
+      defense: 80
+    lore:
+      - 'Full Set Bonus: Witherborn — Spawns a wither minion every 30 seconds up to a maximum of 1 wither. Your withers will travel to and explode on nearby enemies.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: WISE_WITHER_CHESTPLATE
+    material: leather_chestplate
+    name: 'Storm''s Chestplate'
+    rarity: LEGENDARY
+    default_statistics:
+      intelligence: 250
+      health: 260
+      defense: 120
+    lore:
+      - 'Full Set Bonus: Witherborn — Spawns a wither minion every 30 seconds up to a maximum of 1 wither. Your withers will travel to and explode on nearby enemies.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+
+  - id: WISE_WITHER_LEGGINGS
+    material: leather_leggings
+    name: 'Storm''s Leggings'
+    rarity: LEGENDARY
+    default_statistics:
+      intelligence: 250
+      health: 230
+      defense: 105
+    lore:
+      - 'Full Set Bonus: Witherborn — Spawns a wither minion every 30 seconds up to a maximum of 1 wither. Your withers will travel to and explode on nearby enemies.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+
+  - id: WISE_WITHER_BOOTS
+    material: leather_boots
+    name: 'Storm''s Boots'
+    rarity: LEGENDARY
+    default_statistics:
+      intelligence: 250
+      health: 145
+      defense: 65
+    lore:
+      - 'Full Set Bonus: Witherborn — Spawns a wither minion every 30 seconds up to a maximum of 1 wither. Your withers will travel to and explode on nearby enemies.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+
+  - id: TANK_WITHER_HELMET
+    material: leather_helmet
+    name: 'Goldor''s Helmet'
+    rarity: LEGENDARY
+    default_statistics:
+      intelligence: 30
+      health: 210
+      defense: 180
+    lore:
+      - 'Full Set Bonus: Witherborn — Spawns a wither minion every 30 seconds up to a maximum of 1 wither. Your withers will travel to and explode on nearby enemies.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: TANK_WITHER_CHESTPLATE
+    material: leather_chestplate
+    name: 'Goldor''s Chestplate'
+    rarity: LEGENDARY
+    default_statistics:
+      intelligence: 20
+      health: 310
+      defense: 275
+    lore:
+      - 'Full Set Bonus: Witherborn — Spawns a wither minion every 30 seconds up to a maximum of 1 wither. Your withers will travel to and explode on nearby enemies.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+
+  - id: TANK_WITHER_LEGGINGS
+    material: leather_leggings
+    name: 'Goldor''s Leggings'
+    rarity: LEGENDARY
+    default_statistics:
+      intelligence: 20
+      health: 260
+      defense: 240
+    lore:
+      - 'Full Set Bonus: Witherborn — Spawns a wither minion every 30 seconds up to a maximum of 1 wither. Your withers will travel to and explode on nearby enemies.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+

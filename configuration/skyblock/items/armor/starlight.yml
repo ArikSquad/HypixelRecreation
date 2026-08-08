@@ -4,9 +4,11 @@ items:
     name: "Starlight Boots"
     rarity: RARE
     default_statistics:
-      health: 30.0
-      defense: 30.0
-      intelligence: 50.0
+      health: 15.0
+      defense: 15.0
+      intelligence: 30.0
+    lore:
+      - 'Full Set Bonus: Starpower — Increases the duration of Starfall by 2x and its range by +1.'
     components:
       - id: STANDARD_ITEM
         standard_item_type: BOOTS
@@ -21,9 +23,11 @@ items:
     name: "Starlight Chestplate"
     rarity: RARE
     default_statistics:
-      health: 30.0
-      defense: 30.0
-      intelligence: 50.0
+      health: 40.0
+      defense: 40.0
+      intelligence: 90.0
+    lore:
+      - 'Full Set Bonus: Starpower — Increases the duration of Starfall by 2x and its range by +1.'
     components:
       - id: STANDARD_ITEM
         standard_item_type: CHESTPLATE
@@ -38,9 +42,11 @@ items:
     name: "Starlight Helmet"
     rarity: RARE
     default_statistics:
-      health: 30.0
-      defense: 30.0
-      intelligence: 50.0
+      health: 25.0
+      defense: 25.0
+      intelligence: 45.0
+    lore:
+      - 'Full Set Bonus: Starpower — Increases the duration of Starfall by 2x and its range by +1.'
     components:
       - id: STANDARD_ITEM
         standard_item_type: HELMET
@@ -53,7 +59,9 @@ items:
     default_statistics:
       health: 30.0
       defense: 30.0
-      intelligence: 50.0
+      intelligence: 60.0
+    lore:
+      - 'Full Set Bonus: Starpower — Increases the duration of Starfall by 2x and its range by +1.'
     components:
       - id: STANDARD_ITEM
         standard_item_type: LEGGINGS

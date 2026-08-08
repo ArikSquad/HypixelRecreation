@@ -1,0 +1,653 @@
+items:
+  - id: HEAT_BOOTS
+    material: leather_boots
+    name: 'Heat Boots'
+    rarity: RARE
+    default_statistics:
+      strength: 15
+      mining_fortune: 10
+      defense: 50
+      heat_resistance: 20
+      health: 20
+      mining_speed: 15
+    lore:
+      - 'Full Set Bonus: Heat Shield — You are immune to Heat.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: MINING
+            pattern:
+              - AAA
+              - ABA
+              - AAA
+            ingredients:
+              A:
+                type: HARD_STONE
+                amount: 32
+              B:
+                type: MINER_ARMOR_BOOTS
+                amount: 1
+            result:
+              type: HEAT_BOOTS
+              amount: 1
+
+  - id: TAURUS_HELMET
+    material: leather_helmet
+    name: 'Taurus Helmet'
+    rarity: RARE
+    default_statistics:
+      critical_damage: 20
+      sea_creature_chance: 3
+      health: 175
+      defense: 150
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: FLAMING_CHESTPLATE
+    material: leather_chestplate
+    name: 'Flaming Chestplate'
+    rarity: RARE
+    default_statistics:
+      sea_creature_chance: 3
+      health: 225
+      defense: 200
+      strength: 25
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+
+  - id: MOOGMA_LEGGINGS
+    material: leather_leggings
+    name: 'Moogma Leggings'
+    rarity: RARE
+    default_statistics:
+      critical_damage: 15
+      sea_creature_chance: 3
+      health: 200
+      defense: 175
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+
+  - id: SLUG_BOOTS
+    material: leather_boots
+    name: 'Slug Boots'
+    rarity: RARE
+    default_statistics:
+      sea_creature_chance: 3
+      health: 150
+      defense: 125
+      strength: 20
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+
+  - id: SILVER_HUNTER_HELMET
+    material: leather_helmet
+    name: 'Silver Hunter Helmet'
+    rarity: RARE
+    default_statistics:
+      health: 75
+    lore:
+      - 'Full Set Bonus: Star Fisher — Grants +0.4 Fishing Speed per ✪ Upgrade Star on your armor.'
+      - 'Tiered Bonus: Odger''s Blessing — Grants +0➜5➜7.5➜10 tfc.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: SILVER_HUNTER_CHESTPLATE
+    material: leather_chestplate
+    name: 'Silver Hunter Chestplate'
+    rarity: RARE
+    default_statistics:
+      health: 125
+    lore:
+      - 'Full Set Bonus: Star Fisher — Grants +0.4 Fishing Speed per ✪ Upgrade Star on your armor.'
+      - 'Tiered Bonus: Odger''s Blessing — Grants +0➜5➜7.5➜10 tfc.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+
+  - id: SILVER_HUNTER_LEGGINGS
+    material: leather_leggings
+    name: 'Silver Hunter Leggings'
+    rarity: RARE
+    default_statistics:
+      health: 100
+    lore:
+      - 'Full Set Bonus: Star Fisher — Grants +0.4 Fishing Speed per ✪ Upgrade Star on your armor.'
+      - 'Tiered Bonus: Odger''s Blessing — Grants +0➜5➜7.5➜10 tfc.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+
+  - id: SILVER_HUNTER_BOOTS
+    material: leather_boots
+    name: 'Silver Hunter Boots'
+    rarity: RARE
+    default_statistics:
+      health: 50
+    lore:
+      - 'Full Set Bonus: Star Fisher — Grants +0.4 Fishing Speed per ✪ Upgrade Star on your armor.'
+      - 'Tiered Bonus: Odger''s Blessing — Grants +0➜5➜7.5➜10 tfc.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+
+  - id: SHIMMERING_LIGHT_HOOD
+    material: leather_helmet
+    name: 'Shimmering Light Hood'
+    rarity: RARE
+    default_statistics:
+      intelligence: 70
+      speed: 10
+      health: 80
+      defense: 70
+    lore:
+      - 'Tiered Bonus: Shimmer — Increases all Experience Orbs gained from monsters and ores by 200%/200%/300%.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: SHIMMERING_LIGHT_TUNIC
+    material: leather_chestplate
+    name: 'Shimmering Light Tunic'
+    rarity: RARE
+    default_statistics:
+      intelligence: 120
+      health: 130
+      defense: 120
+    lore:
+      - 'Tiered Bonus: Shimmer — Increases all Experience Orbs gained from monsters and ores by 200%/200%/300%.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+
+  - id: SHIMMERING_LIGHT_TROUSERS
+    material: leather_leggings
+    name: 'Shimmering Light Trousers'
+    rarity: RARE
+    default_statistics:
+      intelligence: 100
+      health: 120
+      defense: 100
+    lore:
+      - 'Tiered Bonus: Shimmer — Increases all Experience Orbs gained from monsters and ores by 200%/200%/300%.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+
+  - id: SHIMMERING_LIGHT_SLIPPERS
+    material: leather_boots
+    name: 'Shimmering Light Slippers'
+    rarity: RARE
+    default_statistics:
+      intelligence: 60
+      health: 70
+      defense: 60
+    lore:
+      - 'Tiered Bonus: Shimmer — Increases all Experience Orbs gained from monsters and ores by 200%/200%/300%.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+
+  - id: ARMOR_OF_YOG_HELMET
+    material: leather_helmet
+    name: 'Yog Helmet'
+    rarity: EPIC
+    default_statistics:
+      mining_fortune: 20
+      defense: 15
+      heat_resistance: 10
+      health: 50
+      mining_speed: 25
+    lore:
+      - 'Full Set Bonus: Absorb — Every 5 Yogs killed grants the wearer +1 Mining Speed. (Max 500).'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: ARMOR_OF_YOG_CHESTPLATE
+    material: leather_chestplate
+    name: 'Yog Chestplate'
+    rarity: EPIC
+    default_statistics:
+      mining_fortune: 20
+      defense: 15
+      heat_resistance: 10
+      health: 50
+      mining_speed: 25
+    lore:
+      - 'Full Set Bonus: Absorb — Every 5 Yogs killed grants the wearer +1 Mining Speed. (Max 500).'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+
+  - id: ARMOR_OF_YOG_LEGGINGS
+    material: leather_leggings
+    name: 'Yog Leggings'
+    rarity: EPIC
+    default_statistics:
+      mining_fortune: 20
+      defense: 15
+      heat_resistance: 10
+      health: 50
+      mining_speed: 25
+    lore:
+      - 'Full Set Bonus: Absorb — Every 5 Yogs killed grants the wearer +1 Mining Speed. (Max 500).'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+
+  - id: ARMOR_OF_YOG_BOOTS
+    material: leather_boots
+    name: 'Yog Boots'
+    rarity: EPIC
+    default_statistics:
+      mining_fortune: 20
+      defense: 15
+      heat_resistance: 10
+      health: 50
+      mining_speed: 25
+    lore:
+      - 'Full Set Bonus: Absorb — Every 5 Yogs killed grants the wearer +1 Mining Speed. (Max 500).'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+
+  - id: RAMPART_HELMET
+    material: leather_helmet
+    name: 'Rampart Helmet'
+    rarity: RARE
+    default_statistics:
+      intelligence: 15
+      health: 100
+      defense: 45
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: RAMPART_CHESTPLATE
+    material: leather_chestplate
+    name: 'Rampart Chestplate'
+    rarity: RARE
+    default_statistics:
+      intelligence: 5
+      health: 175
+      defense: 60
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+
+  - id: RAMPART_LEGGINGS
+    material: leather_leggings
+    name: 'Rampart Leggings'
+    rarity: RARE
+    default_statistics:
+      intelligence: 5
+      health: 150
+      defense: 55
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+
+  - id: RAMPART_BOOTS
+    material: leather_boots
+    name: 'Rampart Boots'
+    rarity: RARE
+    default_statistics:
+      intelligence: 5
+      health: 75
+      defense: 40
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+
+  - id: FERMENTO_HELMET
+    material: leather_helmet
+    name: 'Fermento Helmet'
+    rarity: LEGENDARY
+    default_statistics:
+      speed: 5
+      defense: 40
+      bonus_pest_chance: 17.5
+      health: 130
+      farming_fortune: 30
+    lore:
+      - 'Tiered Bonus: Feast — Farming Wild Rose, Sunflower and Moonflower have a 0.000%➜0.002%➜0.003%➜0.004% chance of dropping a Helianthus. Inside the Greenhouse gives a 0.0%➜0.8%➜1.2%➜1.6% chance to drop one from any crop grown inside. Also combines the Tiered Bonuses of wearing 1➜2➜3➜4 pieces of the Tater Armor, Cropie Armor, and Squash Armor. Grants +0➜25➜50➜75 Farming Fortune.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: FERMENTO_CHESTPLATE
+    material: leather_chestplate
+    name: 'Fermento Chestplate'
+    rarity: LEGENDARY
+    default_statistics:
+      speed: 6
+      defense: 40
+      bonus_pest_chance: 17.5
+      health: 195
+      farming_fortune: 35
+    lore:
+      - 'Tiered Bonus: Feast — Farming Wild Rose, Sunflower and Moonflower have a 0.000%➜0.002%➜0.003%➜0.004% chance of dropping a Helianthus. Inside the Greenhouse gives a 0.0%➜0.8%➜1.2%➜1.6% chance to drop one from any crop grown inside. Also combines the Tiered Bonuses of wearing 1➜2➜3➜4 pieces of the Tater Armor, Cropie Armor, and Squash Armor. Grants +0➜25➜50➜75 Farming Fortune.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+
+  - id: FERMENTO_LEGGINGS
+    material: leather_leggings
+    name: 'Fermento Leggings'
+    rarity: LEGENDARY
+    default_statistics:
+      speed: 6
+      defense: 40
+      bonus_pest_chance: 17.5
+      health: 195
+      farming_fortune: 35
+    lore:
+      - 'Tiered Bonus: Feast — Farming Wild Rose, Sunflower and Moonflower have a 0.000%➜0.002%➜0.003%➜0.004% chance of dropping a Helianthus. Inside the Greenhouse gives a 0.0%➜0.8%➜1.2%➜1.6% chance to drop one from any crop grown inside. Also combines the Tiered Bonuses of wearing 1➜2➜3➜4 pieces of the Tater Armor, Cropie Armor, and Squash Armor. Grants +0➜25➜50➜75 Farming Fortune.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+
+  - id: FERMENTO_BOOTS
+    material: leather_boots
+    name: 'Fermento Boots'
+    rarity: LEGENDARY
+    default_statistics:
+      speed: 5
+      defense: 40
+      bonus_pest_chance: 17.5
+      health: 130
+      farming_fortune: 30
+    lore:
+      - 'Tiered Bonus: Feast — Farming Wild Rose, Sunflower and Moonflower have a 0.000%➜0.002%➜0.003%➜0.004% chance of dropping a Helianthus. Inside the Greenhouse gives a 0.0%➜0.8%➜1.2%➜1.6% chance to drop one from any crop grown inside. Also combines the Tiered Bonuses of wearing 1➜2➜3➜4 pieces of the Tater Armor, Cropie Armor, and Squash Armor. Grants +0➜25➜50➜75 Farming Fortune.'
+      - 'Ability: Farmer''s Grace — Grants immunity to trampling crops.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+
+  - id: FLAME_BREAKER_HELMET
+    material: leather_helmet
+    name: 'Flamebreaker Helmet'
+    rarity: EPIC
+    default_statistics:
+      mining_fortune: 15
+      defense: 40
+      heat_resistance: 5
+      health: 40
+      mining_speed: 25
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: MINING
+            pattern:
+              - AAA
+              - AOA
+            ingredients:
+              A:
+                type: ENCHANTED_HARD_STONE
+                amount: 20
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: FLAME_BREAKER_HELMET
+              amount: 1
+
+  - id: FLAME_BREAKER_CHESTPLATE
+    material: leather_chestplate
+    name: 'Flamebreaker Chestplate'
+    rarity: EPIC
+    default_statistics:
+      mining_fortune: 15
+      defense: 70
+      heat_resistance: 5
+      health: 70
+      mining_speed: 25
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: MINING
+            pattern:
+              - AOA
+              - AAA
+              - AAA
+            ingredients:
+              A:
+                type: ENCHANTED_HARD_STONE
+                amount: 20
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: FLAME_BREAKER_CHESTPLATE
+              amount: 1
+
+  - id: FLAME_BREAKER_LEGGINGS
+    material: leather_leggings
+    name: 'Flamebreaker Leggings'
+    rarity: EPIC
+    default_statistics:
+      mining_fortune: 15
+      defense: 60
+      heat_resistance: 5
+      health: 60
+      mining_speed: 25
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: MINING
+            pattern:
+              - AAA
+              - AOA
+              - AOA
+            ingredients:
+              A:
+                type: ENCHANTED_HARD_STONE
+                amount: 20
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: FLAME_BREAKER_LEGGINGS
+              amount: 1
+
+  - id: FLAME_BREAKER_BOOTS
+    material: leather_boots
+    name: 'Flamebreaker Boots'
+    rarity: EPIC
+    default_statistics:
+      mining_fortune: 15
+      defense: 35
+      heat_resistance: 5
+      health: 35
+      mining_speed: 25
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: MINING
+            pattern:
+              - AOA
+              - AOA
+            ingredients:
+              A:
+                type: ENCHANTED_HARD_STONE
+                amount: 20
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: FLAME_BREAKER_BOOTS
+              amount: 1
+
+  - id: HELMET_OF_THE_PACK
+    material: leather_helmet
+    name: 'Helmet of the Pack'
+    rarity: EPIC
+    default_statistics:
+      health: 70
+      defense: 65
+    lore:
+      - 'Full Set Bonus: Armor of the Pack — Gain +35 Strength and +80 Defense for each Armor of the Pack wearers within 30 blocks. Max of 3 players'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: CHESTPLATE_OF_THE_PACK
+    material: leather_chestplate
+    name: 'Chestplate of the Pack'
+    rarity: EPIC
+    default_statistics:
+      health: 100
+      defense: 95
+    lore:
+      - 'Full Set Bonus: Armor of the Pack — Gain +35 Strength and +80 Defense for each Armor of the Pack wearers within 30 blocks. Max of 3 players'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+
+  - id: LEGGINGS_OF_THE_PACK
+    material: leather_leggings
+    name: 'Leggings of the Pack'
+    rarity: EPIC
+    default_statistics:
+      health: 80
+      defense: 75
+    lore:
+      - 'Full Set Bonus: Armor of the Pack — Gain +35 Strength and +80 Defense for each Armor of the Pack wearers within 30 blocks. Max of 3 players'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+
+  - id: BOOTS_OF_THE_PACK
+    material: leather_boots
+    name: 'Boots of the Pack'
+    rarity: EPIC
+    default_statistics:
+      health: 50
+      defense: 45
+    lore:
+      - 'Full Set Bonus: Armor of the Pack — Gain +35 Strength and +80 Defense for each Armor of the Pack wearers within 30 blocks. Max of 3 players'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+
+  - id: ARMOR_OF_MAGMA_HELMET
+    material: leather_helmet
+    name: 'Armor of Magma Helmet'
+    rarity: EPIC
+    default_statistics:
+      health: 15
+      defense: 50
+    lore:
+      - 'Full Set Bonus: Absorb — Every 10 Magma Cube'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: SPECIAL
+            pattern:
+              - AAA
+              - AAA
+              - AOA
+            ingredients:
+              A:
+                type: ENCHANTED_MAGMA_CREAM
+                amount: 12
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: ARMOR_OF_MAGMA_HELMET
+              amount: 1
+
+  - id: ARMOR_OF_MAGMA_CHESTPLATE
+    material: leather_chestplate
+    name: 'Armor of Magma Chestplate'
+    rarity: EPIC
+    default_statistics:
+      health: 100
+      defense: 30
+    lore:
+      - 'Full Set Bonus: Absorb — Every 10 Magma Cube'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: SPECIAL
+            pattern:
+              - AOA
+              - AAA
+              - AAA
+            ingredients:
+              A:
+                type: ENCHANTED_MAGMA_CREAM
+                amount: 12
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: ARMOR_OF_MAGMA_CHESTPLATE
+              amount: 1
+
+  - id: ARMOR_OF_MAGMA_LEGGINGS
+    material: leather_leggings
+    name: 'Armor of Magma Leggings'
+    rarity: EPIC
+    default_statistics:
+      health: 75
+      defense: 25
+    lore:
+      - 'Full Set Bonus: Absorb — Every 10 Magma Cube'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: SPECIAL
+            pattern:
+              - AAA
+              - AOA
+              - AOA
+            ingredients:
+              A:
+                type: ENCHANTED_MAGMA_CREAM
+                amount: 12
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: ARMOR_OF_MAGMA_LEGGINGS
+              amount: 1
+

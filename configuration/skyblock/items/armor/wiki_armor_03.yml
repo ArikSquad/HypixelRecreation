@@ -1,0 +1,852 @@
+items:
+  - id: HARDENED_DIAMOND_HELMET
+    material: leather_helmet
+    name: 'Hardened Diamond Helmet'
+    rarity: RARE
+    default_statistics:
+      defense: 60
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: COMBAT
+            pattern:
+              - AAA
+              - AOA
+            ingredients:
+              A:
+                type: ENCHANTED_DIAMOND
+                amount: 1
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: HARDENED_DIAMOND_HELMET
+              amount: 1
+
+  - id: HARDENED_DIAMOND_CHESTPLATE
+    material: leather_chestplate
+    name: 'Hardened Diamond Chestplate'
+    rarity: RARE
+    default_statistics:
+      defense: 120
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: COMBAT
+            pattern:
+              - AOA
+              - AAA
+              - AAA
+            ingredients:
+              A:
+                type: ENCHANTED_DIAMOND
+                amount: 1
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: HARDENED_DIAMOND_CHESTPLATE
+              amount: 1
+
+  - id: HARDENED_DIAMOND_LEGGINGS
+    material: leather_leggings
+    name: 'Hardened Diamond Leggings'
+    rarity: RARE
+    default_statistics:
+      defense: 95
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: COMBAT
+            pattern:
+              - AAA
+              - AOA
+              - AOA
+            ingredients:
+              A:
+                type: ENCHANTED_DIAMOND
+                amount: 1
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: HARDENED_DIAMOND_LEGGINGS
+              amount: 1
+
+  - id: HARDENED_DIAMOND_BOOTS
+    material: leather_boots
+    name: 'Hardened Diamond Boots'
+    rarity: RARE
+    default_statistics:
+      defense: 55
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: COMBAT
+            pattern:
+              - AOA
+              - AOA
+            ingredients:
+              A:
+                type: ENCHANTED_DIAMOND
+                amount: 1
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: HARDENED_DIAMOND_BOOTS
+              amount: 1
+
+  - id: FAIRY_HELMET
+    material: leather_helmet
+    name: 'Fairy''s Fedora'
+    rarity: RARE
+    default_statistics:
+      intelligence: 1
+      speed: 10
+      health: 1
+      defense: 1
+    lore:
+      - 'Full Set Bonus: Fairy''s Outfit — Gain 1 Health per Fairy Soul found. Also alerts the player if they are near a fairy soul they haven''t discovered yet. Changelog/2019/December 18'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: FAIRY_CHESTPLATE
+    material: leather_chestplate
+    name: 'Fairy''s Polo'
+    rarity: RARE
+    default_statistics:
+      intelligence: 1
+      speed: 10
+      health: 1
+      defense: 1
+    lore:
+      - 'Full Set Bonus: Fairy''s Outfit — Gain 1 Health per Fairy Soul found. Also alerts the player if they are near a fairy soul they haven''t discovered yet. Changelog/2019/December 18'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+
+  - id: FAIRY_LEGGINGS
+    material: leather_leggings
+    name: 'Fairy''s Trousers'
+    rarity: RARE
+    default_statistics:
+      intelligence: 1
+      speed: 10
+      health: 1
+      defense: 1
+    lore:
+      - 'Full Set Bonus: Fairy''s Outfit — Gain 1 Health per Fairy Soul found. Also alerts the player if they are near a fairy soul they haven''t discovered yet. Changelog/2019/December 18'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+
+  - id: FAIRY_BOOTS
+    material: leather_boots
+    name: 'Fairy''s Galoshes'
+    rarity: RARE
+    default_statistics:
+      intelligence: 1
+      speed: 10
+      health: 1
+      defense: 1
+    lore:
+      - 'Full Set Bonus: Fairy''s Outfit — Gain 1 Health per Fairy Soul found. Also alerts the player if they are near a fairy soul they haven''t discovered yet. Changelog/2019/December 18'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+
+  - id: GROWTH_HELMET
+    material: leather_helmet
+    name: 'Helmet of Growth'
+    rarity: RARE
+    default_statistics:
+      health: 50
+      defense: 30
+    lore:
+      - 'Full Set Bonus: Growth — Regen 5 vit when killing a mob. Increase the health bonus of this armor by 1 (Max 100)'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: COMBAT
+            pattern:
+              - AAA
+              - AOA
+            ingredients:
+              A:
+                type: ENCHANTED_DARK_OAK_LOG
+                amount: 64
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: GROWTH_HELMET
+              amount: 1
+
+  - id: GROWTH_CHESTPLATE
+    material: leather_chestplate
+    name: 'Chestplate of Growth'
+    rarity: RARE
+    default_statistics:
+      health: 100
+      defense: 50
+    lore:
+      - 'Full Set Bonus: Growth — Regen 5 vit when killing a mob. Increase the health bonus of this armor by 1 (Max 100)'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: COMBAT
+            pattern:
+              - AOA
+              - AAA
+              - AAA
+            ingredients:
+              A:
+                type: ENCHANTED_DARK_OAK_LOG
+                amount: 64
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: GROWTH_CHESTPLATE
+              amount: 1
+
+  - id: GROWTH_LEGGINGS
+    material: leather_leggings
+    name: 'Leggings of Growth'
+    rarity: RARE
+    default_statistics:
+      health: 80
+      defense: 40
+    lore:
+      - 'Full Set Bonus: Growth — Regen 5 vit when killing a mob. Increase the health bonus of this armor by 1 (Max 100)'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: COMBAT
+            pattern:
+              - AAA
+              - AOA
+              - AOA
+            ingredients:
+              A:
+                type: ENCHANTED_DARK_OAK_LOG
+                amount: 64
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: GROWTH_LEGGINGS
+              amount: 1
+
+  - id: GROWTH_BOOTS
+    material: leather_boots
+    name: 'Boots of Growth'
+    rarity: RARE
+    default_statistics:
+      health: 50
+      defense: 25
+    lore:
+      - 'Full Set Bonus: Growth — Regen 5 vit when killing a mob. Increase the health bonus of this armor by 1 (Max 100)'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: COMBAT
+            pattern:
+              - AOA
+              - AOA
+            ingredients:
+              A:
+                type: ENCHANTED_DARK_OAK_LOG
+                amount: 64
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: GROWTH_BOOTS
+              amount: 1
+
+  - id: SALMON_HELMET_NEW
+    material: leather_helmet
+    name: 'Salmon Helmet'
+    rarity: RARE
+    default_statistics:
+      sea_creature_chance: 1.5
+      health: 100
+      defense: 30
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: FISHING
+            pattern:
+              - AAA
+              - AAA
+              - AOA
+            ingredients:
+              A:
+                type: ENCHANTED_RAW_SALMON
+                amount: 1
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: SALMON_HELMET_NEW
+              amount: 1
+
+  - id: SALMON_CHESTPLATE_NEW
+    material: leather_chestplate
+    name: 'Salmon Chestplate'
+    rarity: RARE
+    default_statistics:
+      sea_creature_chance: 1.5
+      health: 130
+      defense: 55
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: FISHING
+            pattern:
+              - AOA
+              - AAA
+              - AAA
+            ingredients:
+              A:
+                type: ENCHANTED_RAW_SALMON
+                amount: 1
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: SALMON_CHESTPLATE_NEW
+              amount: 1
+
+  - id: SALMON_LEGGINGS_NEW
+    material: leather_leggings
+    name: 'Salmon Leggings'
+    rarity: RARE
+    default_statistics:
+      sea_creature_chance: 1.5
+      health: 115
+      defense: 45
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: FISHING
+            pattern:
+              - AAA
+              - AOA
+              - AOA
+            ingredients:
+              A:
+                type: ENCHANTED_RAW_SALMON
+                amount: 1
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: SALMON_LEGGINGS_NEW
+              amount: 1
+
+  - id: SALMON_BOOTS_NEW
+    material: leather_boots
+    name: 'Salmon Boots'
+    rarity: RARE
+    default_statistics:
+      sea_creature_chance: 1.5
+      health: 85
+      defense: 20
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: FISHING
+            pattern:
+              - AOA
+              - AOA
+              - AOA
+            ingredients:
+              A:
+                type: ENCHANTED_RAW_SALMON
+                amount: 1
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: SALMON_BOOTS_NEW
+              amount: 1
+
+  - id: SKELETON_HELMET
+    material: leather_helmet
+    name: 'Skeleton''s Helmet'
+    rarity: RARE
+    default_statistics:
+      defense: 75
+    lore:
+      - 'Full Set Bonus: Monster Hunter — Take -25% damage when being attacked by Monsters, and deal +25% damage when attacking Monsters.'
+      - 'Full Set Bonus: Monster Raider — Take -35% damage when being attacked by Monsters, and deal +35% damage when attacking Monsters.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: GUARDIAN_CHESTPLATE
+    material: leather_chestplate
+    name: 'Guardian Chestplate'
+    rarity: RARE
+    default_statistics:
+      health: 20
+      defense: 50
+    lore:
+      - 'Full Set Bonus: Monster Hunter — Take -25% damage when being attacked by Monsters, and deal +25% damage when attacking Monsters.'
+      - 'Full Set Bonus: Monster Raider — Take -35% damage when being attacked by Monsters, and deal +35% damage when attacking Monsters.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+
+  - id: CREEPER_LEGGINGS
+    material: leather_leggings
+    name: 'Creeper Pants'
+    rarity: RARE
+    default_statistics:
+      health: 200
+      defense: 65
+    lore:
+      - 'Full Set Bonus: Monster Hunter — Take -25% damage when being attacked by Monsters, and deal +25% damage when attacking Monsters.'
+      - 'Full Set Bonus: Monster Raider — Take -35% damage when being attacked by Monsters, and deal +35% damage when attacking Monsters.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+
+  - id: SPIDER_BOOTS
+    material: leather_boots
+    name: 'Spider''s Boots'
+    rarity: RARE
+    default_statistics:
+      defense: 45
+      speed: 5
+      intelligence: 50
+    lore:
+      - 'Full Set Bonus: Monster Hunter — Take -25% damage when being attacked by Monsters, and deal +25% damage when attacking Monsters.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+
+  - id: TARANTULA_BOOTS
+    material: leather_boots
+    name: 'Tarantula Boots'
+    rarity: RARE
+    default_statistics:
+      health: 70
+      defense: 100
+      speed: 5
+      intelligence: 50
+    lore:
+      - 'Full Set Bonus: Monster Raider — Take -35% damage when being attacked by Monsters, and deal +35% damage when attacking Monsters.'
+      - 'Full Set Bonus: Octodexterity — Every 4 th strike, deal +100% Damage and apply Venom reducing healing by 40% for 4 seconds.'
+      - 'Ability: Double Jump — Allows you to double jump by sneaking mid air!'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: COMBAT
+            pattern:
+              - ABA
+              - CDC
+              - ACA
+            ingredients:
+              A:
+                type: TARANTULA_SILK
+                amount: 1
+              B:
+                type: SPIDER_CATALYST
+                amount: 1
+              C:
+                type: ENCHANTED_IRON_INGOT
+                amount: 64
+              D:
+                type: SPIDER_BOOTS
+                amount: 1
+            result:
+              type: TARANTULA_BOOTS
+              amount: 1
+
+  - id: PERFECT_HELMET_1
+    material: leather_helmet
+    name: 'Perfect Helmet'
+    rarity: RARE
+    default_statistics:
+      defense: 110
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: COMBAT
+            pattern:
+              - AAA
+              - AOA
+            ingredients:
+              A:
+                type: ENCHANTED_DIAMOND_BLOCK
+                amount: 1
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: PERFECT_HELMET_1
+              amount: 1
+
+  - id: PERFECT_CHESTPLATE_1
+    material: leather_chestplate
+    name: 'Perfect Chestplate'
+    rarity: RARE
+    default_statistics:
+      defense: 160
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: COMBAT
+            pattern:
+              - AOA
+              - AAA
+              - AAA
+            ingredients:
+              A:
+                type: ENCHANTED_DIAMOND_BLOCK
+                amount: 1
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: PERFECT_CHESTPLATE_1
+              amount: 1
+
+  - id: PERFECT_LEGGINGS_1
+    material: leather_leggings
+    name: 'Perfect Leggings'
+    rarity: RARE
+    default_statistics:
+      defense: 140
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: COMBAT
+            pattern:
+              - AAA
+              - AOA
+              - AOA
+            ingredients:
+              A:
+                type: ENCHANTED_DIAMOND_BLOCK
+                amount: 1
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: PERFECT_LEGGINGS_1
+              amount: 1
+
+  - id: PERFECT_BOOTS_1
+    material: leather_boots
+    name: 'Perfect Boots'
+    rarity: RARE
+    default_statistics:
+      defense: 90
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: COMBAT
+            pattern:
+              - AOA
+              - AOA
+            ingredients:
+              A:
+                type: ENCHANTED_DIAMOND_BLOCK
+                amount: 1
+              O:
+                type: AIR
+                amount: 1
+            result:
+              type: PERFECT_BOOTS_1
+              amount: 1
+
+  - id: GOBLIN_HELMET
+    material: leather_helmet
+    name: 'Goblin Helmet'
+    rarity: RARE
+    default_statistics:
+      intelligence: 1
+      health: 70
+      mining_speed: 10
+    lore:
+      - 'Full Set Bonus: Smart Miner — Converts your Intelligence into Mining Speed. +1 Mining Speed for every 15 Intelligence removed.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: GOBLIN_CHESTPLATE
+    material: leather_chestplate
+    name: 'Goblin Chestplate'
+    rarity: RARE
+    default_statistics:
+      intelligence: 1
+      health: 140
+      mining_speed: 10
+    lore:
+      - 'Full Set Bonus: Smart Miner — Converts your Intelligence into Mining Speed. +1 Mining Speed for every 15 Intelligence removed.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+
+  - id: GOBLIN_LEGGINGS
+    material: leather_leggings
+    name: 'Goblin Leggings'
+    rarity: RARE
+    default_statistics:
+      intelligence: 1
+      health: 125
+      mining_speed: 10
+    lore:
+      - 'Full Set Bonus: Smart Miner — Converts your Intelligence into Mining Speed. +1 Mining Speed for every 15 Intelligence removed.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+
+  - id: GOBLIN_BOOTS
+    material: leather_boots
+    name: 'Goblin Boots'
+    rarity: RARE
+    default_statistics:
+      intelligence: 1
+      health: 60
+      mining_speed: 10
+    lore:
+      - 'Full Set Bonus: Smart Miner — Converts your Intelligence into Mining Speed. +1 Mining Speed for every 15 Intelligence removed.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+
+  - id: ARACHNE_HELMET
+    material: leather_helmet
+    name: 'Arachne''s Helmet'
+    rarity: RARE
+    default_statistics:
+      health: 55
+      defense: 40
+    lore:
+      - 'Tiered Bonus: Arachne''s Faithful — Grants +5/10/20/35/50/70/100 Health and +5/10/20/35/50/70/100 Defense.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+
+  - id: ARACHNE_CHESTPLATE
+    material: leather_chestplate
+    name: 'Arachne''s Chestplate'
+    rarity: RARE
+    default_statistics:
+      health: 85
+      defense: 60
+    lore:
+      - 'Tiered Bonus: Arachne''s Faithful — Grants +5/10/20/35/50/70/100 Health and +5/10/20/35/50/70/100 Defense.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+
+  - id: ARACHNE_LEGGINGS
+    material: leather_leggings
+    name: 'Arachne''s Leggings'
+    rarity: RARE
+    default_statistics:
+      health: 75
+      defense: 50
+    lore:
+      - 'Tiered Bonus: Arachne''s Faithful — Grants +5/10/20/35/50/70/100 Health and +5/10/20/35/50/70/100 Defense.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+
+  - id: ARACHNE_BOOTS
+    material: leather_boots
+    name: 'Arachne''s Boots'
+    rarity: RARE
+    default_statistics:
+      health: 45
+      defense: 30
+    lore:
+      - 'Tiered Bonus: Arachne''s Faithful — Grants +5/10/20/35/50/70/100 Health and +5/10/20/35/50/70/100 Defense.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: BOOTS
+
+  - id: HEAT_HELMET
+    material: leather_helmet
+    name: 'Heat Helmet'
+    rarity: RARE
+    default_statistics:
+      strength: 15
+      mining_fortune: 10
+      defense: 50
+      heat_resistance: 20
+      health: 20
+      mining_speed: 15
+    lore:
+      - 'Full Set Bonus: Heat Shield — You are immune to Heat.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: HELMET
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: MINING
+            pattern:
+              - AAA
+              - ABA
+              - AAA
+            ingredients:
+              A:
+                type: HARD_STONE
+                amount: 32
+              B:
+                type: MINER_ARMOR_HELMET
+                amount: 1
+            result:
+              type: HEAT_HELMET
+              amount: 1
+
+  - id: HEAT_CHESTPLATE
+    material: leather_chestplate
+    name: 'Heat Chestplate'
+    rarity: RARE
+    default_statistics:
+      strength: 15
+      mining_fortune: 10
+      defense: 50
+      heat_resistance: 20
+      health: 20
+      mining_speed: 15
+    lore:
+      - 'Full Set Bonus: Heat Shield — You are immune to Heat.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: CHESTPLATE
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: MINING
+            pattern:
+              - AAA
+              - ABA
+              - AAA
+            ingredients:
+              A:
+                type: HARD_STONE
+                amount: 32
+              B:
+                type: MINER_ARMOR_CHESTPLATE
+                amount: 1
+            result:
+              type: HEAT_CHESTPLATE
+              amount: 1
+
+  - id: HEAT_LEGGINGS
+    material: leather_leggings
+    name: 'Heat Leggings'
+    rarity: RARE
+    default_statistics:
+      strength: 15
+      mining_fortune: 10
+      defense: 50
+      heat_resistance: 20
+      health: 20
+      mining_speed: 15
+    lore:
+      - 'Full Set Bonus: Heat Shield — You are immune to Heat.'
+    components:
+      - id: STANDARD_ITEM
+        standard_item_type: LEGGINGS
+      - id: DEFAULT_CRAFTABLE
+        default-craftable: false
+        recipes:
+          - type: SHAPED
+            recipe-type: MINING
+            pattern:
+              - AAA
+              - ABA
+              - AAA
+            ingredients:
+              A:
+                type: HARD_STONE
+                amount: 32
+              B:
+                type: MINER_ARMOR_LEGGINGS
+                amount: 1
+            result:
+              type: HEAT_LEGGINGS
+              amount: 1
+
