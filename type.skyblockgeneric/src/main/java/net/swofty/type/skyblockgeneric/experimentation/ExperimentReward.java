@@ -11,8 +11,8 @@ import java.util.Arrays;
 
 public enum ExperimentReward {
     EXPERIENCE("§bEnchanting XP", ItemType.EXPERIENCE_BOTTLE, 0),
-    GRAND_EXPERIENCE_BOTTLE("§aGrand Experience Bottle", ItemType.GRAND_EXPERIENCE_BOTTLE, 0),
-    TITANIC_EXPERIENCE_BOTTLE("§9Titanic Experience Bottle", ItemType.TITANIC_EXPERIENCE_BOTTLE, 15_000),
+    GRAND_EXPERIENCE_BOTTLE("§aGrand Experience Bottle", ItemType.GRAND_EXP_BOTTLE, 0),
+    TITANIC_EXPERIENCE_BOTTLE("§9Titanic Experience Bottle", ItemType.TITANIC_EXP_BOTTLE, 15_000),
     EXPERIMENT_THE_FISH("§dExperiment the Fish", ItemType.EXPERIMENT_THE_FISH, 50_000),
     METAPHYSICAL_SERUM("§5Metaphysical Serum", ItemType.METAPHYSICAL_SERUM, 50_000),
     GUARDIAN_PET("§5Guardian Pet", ItemType.GUARDIAN_PET, 50_000),

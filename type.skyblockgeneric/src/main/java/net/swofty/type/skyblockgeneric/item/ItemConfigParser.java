@@ -90,6 +90,9 @@ public class ItemConfigParser {
 
 		try {
 			return switch (id.toUpperCase()) {
+				case "EXPERIENCE_BOTTLE" -> new ExperienceBottleComponent(safeConfig.getInt("base_experience", 8));
+				case "ARMOR_DYE" -> new ArmorDyeComponent(itemId, safeConfig.getString("from_color"),
+						safeConfig.getString("to_color", null), safeConfig.getInt("animation_period_ms", 4000));
 				case "ATTRIBUTE_SHARD" -> new AttributeShardComponent(safeConfig.getString("shard_id", null));
 				case "ABILITY" -> {
 					List<String> abilities = safeConfig.getList("abilities", String.class);

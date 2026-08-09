@@ -99,11 +99,13 @@ items:
       - id: NOT_FINISHED_YET
   - id: PURE_BLACK_DYE
     material: ink_sac
-    rarity: COMMON
+    rarity: EPIC
     components:
-      - id: NOT_FINISHED_YET
+      - id: ARMOR_DYE
+        from_color: '#000000'
   - id: PURE_WHITE_DYE
     material: bone_meal
-    rarity: COMMON
+    rarity: EPIC
     components:
-      - id: NOT_FINISHED_YET
+      - id: ARMOR_DYE
+        from_color: '#FFFFFF'

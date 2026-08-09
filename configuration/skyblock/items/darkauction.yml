@@ -12,8 +12,8 @@ items:
     components:
       - id: SKULL_HEAD
         texture: e6182adee5276372c2258256d50e69b7d857c675f54765acf73af61690a62c7e
-      - id: ANVIL_COMBINABLE
-        handler_id: DARK_PURPLE_DYE
+      - id: ARMOR_DYE
+        from_color: '#301934'
   - id: MIDAS_SWORD
     material: GOLDEN_SWORD
     rarity: LEGENDARY

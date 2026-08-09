@@ -1,17 +1,81 @@
 items:
-  - id: GRAND_EXPERIENCE_BOTTLE
+  - id: GRAND_EXP_BOTTLE
     material: EXPERIENCE_BOTTLE
     rarity: UNCOMMON
+    lore:
+      - Grants +1,500 Experience when thrown.
     components:
       - id: CUSTOM_DISPLAY_NAME
         display_name: Grand Experience Bottle
+      - id: EXPERIENCE_BOTTLE
+        base_experience: 1500
+      - id: ITEM_MODEL
+        item_model: hypixel_skyblock:item/consumables/grand_experience_bottle
+      - id: SELLABLE
+        value: 480
+      - id: CRAFTABLE
+        recipes:
+          - type: SHAPED
+            recipe-type: NONE
+            pattern:
+              - LLL
+              - ' B '
+              - LLL
+            ingredients:
+              L:
+                type: ENCHANTED_LAPIS_LAZULI
+                amount: 1
+              B:
+                type: GLASS_BOTTLE
+                amount: 1
+            result:
+              type: GRAND_EXP_BOTTLE
+              amount: 1
+            requirements:
+              lapis_collection:
+                left: '%player.collection:LAPIS_LAZULI%'
+                operation: '>='
+                right: '10000'
+                fail-message: '§cRequires Lapis Lazuli Collection V!'
 
-  - id: TITANIC_EXPERIENCE_BOTTLE
+  - id: TITANIC_EXP_BOTTLE
     material: EXPERIENCE_BOTTLE
     rarity: RARE
+    lore:
+      - Grants +250,000 Experience when thrown.
     components:
       - id: CUSTOM_DISPLAY_NAME
         display_name: Titanic Experience Bottle
+      - id: EXPERIENCE_BOTTLE
+        base_experience: 250000
+      - id: ITEM_MODEL
+        item_model: hypixel_skyblock:item/consumables/titanic_experience_bottle
+      - id: SELLABLE
+        value: 5000
+      - id: CRAFTABLE
+        recipes:
+          - type: SHAPED
+            recipe-type: NONE
+            pattern:
+              - LLL
+              - ' B '
+              - LLL
+            ingredients:
+              L:
+                type: ENCHANTED_LAPIS_LAZULI_BLOCK
+                amount: 1
+              B:
+                type: GLASS_BOTTLE
+                amount: 1
+            result:
+              type: TITANIC_EXP_BOTTLE
+              amount: 1
+            requirements:
+              lapis_collection:
+                left: '%player.collection:LAPIS_LAZULI%'
+                operation: '>='
+                right: '100000'
+                fail-message: '§cRequires Lapis Lazuli Collection VIII!'
 
   - id: EXPERIMENT_THE_FISH
     material: TROPICAL_FISH
@@ -42,9 +106,11 @@ items:
 
   - id: NADESHIKO_DYE
     material: PINK_DYE
-    rarity: EPIC
+    rarity: LEGENDARY
     lore:
-      - Changes the color of a leather armor piece to #F6B2D7!
+      - Changes the color of a vanilla armor piece to #F6ADC6!
     components:
       - id: CUSTOM_DISPLAY_NAME
         display_name: Nadeshiko Dye
+      - id: ARMOR_DYE
+        from_color: '#F6ADC6'

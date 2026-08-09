@@ -376,6 +376,17 @@ public class ItemLore {
 			addLoreLine(null);
 		}
 
+		String dyeColor = handler.getDyeColor();
+		if (dyeColor != null) {
+			addLoreLine(null);
+			if (dyeColor.startsWith("animated:")) {
+				String[] colors = dyeColor.split(":");
+				addLoreLine("§7Color: §dAnimated §8(" + colors[1] + " §7➜ §8" + colors[2] + "§8)");
+			} else {
+				addLoreLine("§7Color: §8" + dyeColor);
+			}
+		}
+
 		if (recombobulated) {
 			displayRarity = Component.textOfChildren(
 					Component.text("L", rarity.getColor(), TextDecoration.OBFUSCATED),
