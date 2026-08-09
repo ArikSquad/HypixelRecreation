@@ -330,6 +330,27 @@ items:
       damage: 140
       strength: 115
     components:
+      - id: DEFAULT_CRAFTABLE
+        recipes:
+          - type: SHAPED
+            recipe-type: REVENANT_HORROR
+            pattern:
+              - ABA
+              - BCB
+              - ABA
+            ingredients:
+              A:
+                type: REVENANT_VISCERA
+                amount: 64
+              B:
+                type: SHARD_OF_THE_SHREDDED
+                amount: 1
+              C:
+                type: REAPER_FALCHION
+                amount: 1
+            result:
+              type: AXE_OF_THE_SHREDDED
+              amount: 1
       - id: STANDARD_ITEM
         standard_item_type: SWORD
       - id: ITEM_REQUIREMENTS
