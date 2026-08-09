@@ -9,6 +9,7 @@ import net.swofty.type.generic.gui.inventory.ItemStackCreator;
 import net.swofty.type.generic.gui.v2.*;
 import net.swofty.type.generic.gui.v2.context.ViewContext;
 import net.swofty.type.skyblockgeneric.experimentation.*;
+import net.swofty.type.skyblockgeneric.item.updater.PlayerItemUpdater;
 import net.swofty.type.skyblockgeneric.user.SkyBlockPlayer;
 
 import java.time.Duration;
@@ -129,10 +130,7 @@ public final class GUISuperPairsPlay extends StatelessView {
         }
 
         SuperPairItem item = game.board().get(tile);
-        ItemStack.Builder builder = ItemStackCreator.getStack(
-                item.displayName(), item.material(), 1,
-                game.matchedTiles().contains(tile) ? "§aMatched pair" : "§eRemember this item!");
-        return game.matchedTiles().contains(tile) ? ItemStackCreator.enchant(builder) : builder;
+        return PlayerItemUpdater.playerUpdate(player, item.reward().createItem().getItemStack());
     }
 
     private ItemStack.Builder clicksItem(SkyBlockPlayer player) {

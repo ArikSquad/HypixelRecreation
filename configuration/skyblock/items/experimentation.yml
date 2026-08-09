@@ -1,0 +1,50 @@
+items:
+  - id: GRAND_EXPERIENCE_BOTTLE
+    material: EXPERIENCE_BOTTLE
+    rarity: UNCOMMON
+    components:
+      - id: CUSTOM_DISPLAY_NAME
+        display_name: Grand Experience Bottle
+
+  - id: TITANIC_EXPERIENCE_BOTTLE
+    material: EXPERIENCE_BOTTLE
+    rarity: RARE
+    components:
+      - id: CUSTOM_DISPLAY_NAME
+        display_name: Titanic Experience Bottle
+
+  - id: EXPERIMENT_THE_FISH
+    material: TROPICAL_FISH
+    rarity: SPECIAL
+    lore:
+      - A special fish obtained from the Experimentation Table.
+    components:
+      - id: CUSTOM_DISPLAY_NAME
+        display_name: Experiment the Fish
+
+  - id: METAPHYSICAL_SERUM
+    material: POTION
+    rarity: EPIC
+    lore:
+      - Used to upgrade the rarity of a Guardian Pet at Kat.
+    components:
+      - id: CUSTOM_DISPLAY_NAME
+        display_name: Metaphysical Serum
+
+  - id: GUARDIAN_PET
+    material: PLAYER_HEAD
+    rarity: EPIC
+    lore:
+      - A Guardian Pet obtained from the Experimentation Table.
+    components:
+      - id: CUSTOM_DISPLAY_NAME
+        display_name: Guardian Pet
+
+  - id: NADESHIKO_DYE
+    material: PINK_DYE
+    rarity: EPIC
+    lore:
+      - Changes the color of a leather armor piece to #F6B2D7!
+    components:
+      - id: CUSTOM_DISPLAY_NAME
+        display_name: Nadeshiko Dye

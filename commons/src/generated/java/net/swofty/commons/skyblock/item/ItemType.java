@@ -1488,6 +1488,8 @@ public enum ItemType {
 
   EXPERIMENTATION_TABLE(Material.ENCHANTING_TABLE, Rarity.RARE),
 
+  EXPERIMENT_THE_FISH(Material.TROPICAL_FISH, Rarity.SPECIAL),
+
   EXPERTISE(Material.ENCHANTED_BOOK, Rarity.COMMON),
 
   EXPLOSIVE_BOW(Material.BOW, Rarity.EPIC),
@@ -1848,6 +1850,8 @@ public enum ItemType {
 
   GOLEM_SWORD(Material.IRON_SWORD, Rarity.RARE),
 
+  GRAND_EXPERIENCE_BOTTLE(Material.EXPERIENCE_BOTTLE, Rarity.UNCOMMON),
+
   GRANITE(Material.GRANITE, Rarity.COMMON),
 
   GRANITE_SLAB(Material.GRANITE_SLAB, Rarity.COMMON),
@@ -1925,6 +1929,8 @@ public enum ItemType {
   GRIFFIN_FEATHER(Material.FEATHER, Rarity.RARE),
 
   GRIZZLY_SALMON(Material.COOKED_SALMON, Rarity.RARE),
+
+  GUARDIAN_PET(Material.PLAYER_HEAD, Rarity.EPIC),
 
   GUNPOWDER(Material.GUNPOWDER, Rarity.COMMON),
 
@@ -2488,6 +2494,8 @@ public enum ItemType {
 
   MERCENARY_LEGGINGS(Material.CHAINMAIL_LEGGINGS, Rarity.RARE),
 
+  METAPHYSICAL_SERUM(Material.POTION, Rarity.EPIC),
+
   MIDAS_STAFF(Material.GOLDEN_SHOVEL, Rarity.LEGENDARY),
 
   MIDAS_SWORD(Material.GOLDEN_SWORD, Rarity.LEGENDARY),
@@ -2599,6 +2607,8 @@ public enum ItemType {
   MUTTON(Material.MUTTON, Rarity.COMMON),
 
   MYCELIUM(Material.MYCELIUM, Rarity.COMMON),
+
+  NADESHIKO_DYE(Material.PINK_DYE, Rarity.EPIC),
 
   NECROMANCER_SWORD(Material.IRON_SWORD, Rarity.LEGENDARY),
 
@@ -4243,6 +4253,8 @@ public enum ItemType {
   TIGHTLY_TIED_HAY_BALE(Material.PLAYER_HEAD, Rarity.RARE),
 
   TIME_KNIFE(Material.NETHER_STAR, Rarity.SPECIAL),
+
+  TITANIC_EXPERIENCE_BOTTLE(Material.EXPERIENCE_BOTTLE, Rarity.RARE),
 
   TITANIUM(Material.PLAYER_HEAD, Rarity.COMMON),
 

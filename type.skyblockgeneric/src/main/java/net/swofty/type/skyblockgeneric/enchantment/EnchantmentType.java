@@ -62,6 +62,10 @@ public enum EnchantmentType {
     VAMPIRISM(EnchantmentVampirism.class),
     VENOMOUS(EnchantmentVenomous.class),
     VICIOUS(EnchantmentVicious.class),
+    POWER(EnchantmentPower.class),
+    FIRE_PROTECTION(EnchantmentFireProtection.class),
+    TITAN_KILLER(EnchantmentTitanKiller.class),
+    CHANCE(EnchantmentChance.class),
     ;
 
     private final Class<? extends Ench> clazz;
