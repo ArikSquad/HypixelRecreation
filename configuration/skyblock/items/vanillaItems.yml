@@ -227,7 +227,42 @@ items:
     material: enchanting_table
     components:
       - id: PLACEABLE
+  - id: EXPERIMENTATION_TABLE
+    material: enchanting_table
+    rarity: RARE
+    lore:
+      - Place this furniture on your island to gain access to the Experimentation Table!
+      - ''
+      - Right-click to place!
+    components:
+      - id: CUSTOM_DISPLAY_NAME
+        display_name: Experimentation Table
+      - id: PLACEABLE
         block_type: EXPERIMENTATION_TABLE
+      - id: CRAFTABLE
+        recipes:
+          - type: SHAPED
+            recipe-type: NONE
+            pattern:
+              - OOO
+              - OBO
+              - OOO
+            ingredients:
+              O:
+                type: OAK_LOG
+                amount: 1
+              B:
+                type: EXPERIENCE_BOTTLE
+                amount: 1
+            result:
+              type: EXPERIMENTATION_TABLE
+              amount: 1
+            requirements:
+              enchanting_level:
+                left: '%player.skill_level:ENCHANTING%'
+                operation: '>='
+                right: '10'
+                fail-message: '§cRequires Enchanting Skill 10!'
   - id: FURNACE
     material: FURNACE
     rarity: COMMON

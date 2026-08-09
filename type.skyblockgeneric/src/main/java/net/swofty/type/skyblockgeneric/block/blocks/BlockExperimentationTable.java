@@ -18,6 +18,8 @@ import net.swofty.type.skyblockgeneric.block.impl.BlockInteractable;
 import net.swofty.type.skyblockgeneric.block.impl.BlockPlaceable;
 import net.swofty.type.skyblockgeneric.block.impl.CustomSkyBlockBlock;
 import net.swofty.type.skyblockgeneric.furniture.Furniture;
+import net.swofty.type.skyblockgeneric.furniture.FurnitureLimitPool;
+import net.swofty.type.skyblockgeneric.furniture.IslandFurnitureManager;
 import net.swofty.type.skyblockgeneric.gui.inventories.experiments.GUIExperiments;
 import net.swofty.type.skyblockgeneric.item.SkyBlockItem;
 import net.swofty.type.skyblockgeneric.user.SkyBlockPlayer;
@@ -51,6 +53,13 @@ public final class BlockExperimentationTable implements CustomSkyBlockBlock, Blo
     @Override
     public void onPlace(PlayerBlockPlaceEvent event, SkyBlockBlock block) {
         if (!HypixelConst.isIslandServer()) {
+            event.setCancelled(true);
+            return;
+        }
+
+        SkyBlockPlayer player = (SkyBlockPlayer) event.getPlayer();
+        if (!IslandFurnitureManager.of(player).place(player, FurnitureLimitPool.EXPERIMENTATION_TABLE,
+                "Experimentation Table")) {
             event.setCancelled(true);
             return;
         }
@@ -101,8 +110,11 @@ public final class BlockExperimentationTable implements CustomSkyBlockBlock, Blo
 
         event.setResultBlock(Block.AIR);
         if (event.getPlayer().getGameMode() != GameMode.CREATIVE) {
-            ((SkyBlockPlayer) event.getPlayer()).addAndUpdateItem(new SkyBlockItem(ItemType.ENCHANTING_TABLE));
+            ((SkyBlockPlayer) event.getPlayer()).addAndUpdateItem(new SkyBlockItem(ItemType.EXPERIMENTATION_TABLE));
         }
+        SkyBlockPlayer player = (SkyBlockPlayer) event.getPlayer();
+        IslandFurnitureManager.of(player).remove(player, FurnitureLimitPool.EXPERIMENTATION_TABLE,
+                "Experimentation Table");
     }
 
     public static void interactWithPart(SkyBlockPlayer player, String tableId) {
@@ -126,8 +138,10 @@ public final class BlockExperimentationTable implements CustomSkyBlockBlock, Blo
             remove(UUID.fromString(tableId));
             placement.instance().setBlock((int) placement.x(), (int) placement.y(), (int) placement.z(), Block.AIR);
             if (player.getGameMode() != GameMode.CREATIVE) {
-                player.addAndUpdateItem(new SkyBlockItem(ItemType.ENCHANTING_TABLE));
+                player.addAndUpdateItem(new SkyBlockItem(ItemType.EXPERIMENTATION_TABLE));
             }
+            IslandFurnitureManager.of(player).remove(player, FurnitureLimitPool.EXPERIMENTATION_TABLE,
+                    "Experimentation Table");
         } catch (IllegalArgumentException ignored) {
         }
     }

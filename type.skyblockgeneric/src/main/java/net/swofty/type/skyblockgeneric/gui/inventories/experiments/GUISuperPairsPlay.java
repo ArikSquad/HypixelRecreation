@@ -130,7 +130,7 @@ public final class GUISuperPairsPlay extends StatelessView {
 
         SuperPairItem item = game.board().get(tile);
         ItemStack.Builder builder = ItemStackCreator.getStack(
-                "§f" + item.name().replace('_', ' '), item.material(), 1,
+                item.displayName(), item.material(), 1,
                 game.matchedTiles().contains(tile) ? "§aMatched pair" : "§eRemember this item!");
         return game.matchedTiles().contains(tile) ? ItemStackCreator.enchant(builder) : builder;
     }
