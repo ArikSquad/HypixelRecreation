@@ -18,7 +18,7 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class GameManager {
-    public static final int SLEEP_TIME = 1000;
+    public static final int SLEEP_TIME = 300;
     @Getter
     private static Map<ServerType, ArrayList<GameServer>> servers = new HashMap<>();
 
