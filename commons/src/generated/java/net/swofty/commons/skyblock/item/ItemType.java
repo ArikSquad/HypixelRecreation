@@ -172,7 +172,7 @@ public enum ItemType {
 
   AWKWARD_POTION(Material.POTION, Rarity.COMMON),
 
-  AXE_OF_THE_SHREDDED(Material.DIAMOND_SWORD, Rarity.LEGENDARY),
+  AXE_OF_THE_SHREDDED(Material.DIAMOND_AXE, Rarity.LEGENDARY),
 
   AZALEA(Material.AZALEA, Rarity.COMMON),
 
@@ -3265,8 +3265,6 @@ public enum ItemType {
   RUSTY_SHIP_ENGINE(Material.PLAYER_HEAD, Rarity.SPECIAL),
 
   SAND(Material.SAND, Rarity.COMMON),
-
-  SANDBOX_ITEM(Material.BLAZE_POWDER, Rarity.COMMON),
 
   SANDSTONE(Material.SANDSTONE, Rarity.COMMON),
 
