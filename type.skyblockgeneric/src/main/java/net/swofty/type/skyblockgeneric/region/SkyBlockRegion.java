@@ -95,9 +95,9 @@ public class SkyBlockRegion {
             }
 
             if (instance.isChunkLoaded(randomPosition)
-                && instance.getBlock(randomPosition).isAir()
-                && instance.getBlock(blockAbove).isAir()
-                && !instance.getBlock(blockBelow).isAir())
+                && instance.getBlock(randomPosition).air()
+                && instance.getBlock(blockAbove).air()
+                && !instance.getBlock(blockBelow).air())
                 return randomPosition;
         }
     }
