@@ -35,7 +35,7 @@ public class ActionBlockInteract implements HypixelEventClass {
 
         if (item.hasComponent(BlockDataToolComponent.class)) {
             player.sendMessage("§aBlock data for §e" + event.getBlockPosition() + "§a:");
-            player.sendMessage("§e- Block ID: §f" + event.getBlock().registry().material());
+            player.sendMessage("§e- Block ID: §f" + event.getBlock().material());
             player.sendMessage("§e- Block State: §f" + event.getBlock().state());
             event.setCancelled(true);
             return;

@@ -128,7 +128,7 @@ public class SplatcraftBoots implements LuckyBlockArmor {
         );
 
         Block currentBlock = instance.getBlock(blockBelow);
-        if (!currentBlock.isSolid() || currentBlock.compare(Block.BEDROCK)) {
+        if (!currentBlock.solid() || currentBlock.compare(Block.BEDROCK)) {
             return;
         }
 

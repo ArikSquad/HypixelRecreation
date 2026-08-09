@@ -1,5 +1,6 @@
 package net.swofty.type.skywarsgame.luckyblock.oprule;
 
+import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.minestom.server.coordinate.Pos;
@@ -7,7 +8,9 @@ import net.minestom.server.entity.EntityCreature;
 import net.minestom.server.entity.EntityType;
 import net.minestom.server.entity.ai.goal.MeleeAttackGoal;
 import net.minestom.server.entity.ai.target.ClosestEntityTarget;
+import net.minestom.server.entity.damage.Damage;
 import net.minestom.server.instance.Instance;
+import net.minestom.server.instance.block.Block;
 import net.minestom.server.timer.Task;
 import net.minestom.server.timer.TaskSchedule;
 import net.swofty.type.skywarsgame.game.SkywarsGame;
@@ -27,6 +30,7 @@ public class OPRuleManager {
 
     private final SkywarsGame game;
     private OPRule activeRule = null;
+    @Getter
     private boolean opRuleUsed = false;
     private Task continuousEffectTask = null;
 
@@ -122,7 +126,7 @@ public class OPRuleManager {
             double distance = player.getPosition().distance(pos);
             if (distance < 5) {
                 float damage = (float) (10 * (1 - distance / 5));
-                player.damage(net.minestom.server.entity.damage.Damage.fromEntity(null, damage));
+                player.damage(Damage.fromEntity(null, damage));
             }
         }
 
@@ -132,10 +136,10 @@ public class OPRuleManager {
                     if (RANDOM.nextDouble() < 0.4) {
                         Pos blockPos = pos.add(dx, dy, dz);
                         var block = instance.getBlock(blockPos);
-                        if (!block.isAir()
-                                && !block.compare(net.minestom.server.instance.block.Block.BEDROCK)
+                        if (!block.air()
+                                && !block.compare(Block.BEDROCK)
                                 && !game.getChestManager().isChestPosition(blockPos)) {
-                            instance.setBlock(blockPos, net.minestom.server.instance.block.Block.AIR);
+                            instance.setBlock(blockPos, Block.AIR);
                         }
                     }
                 }
@@ -196,10 +200,6 @@ public class OPRuleManager {
     @Nullable
     public OPRule getActiveRule() {
         return activeRule;
-    }
-
-    public boolean isOpRuleUsed() {
-        return opRuleUsed;
     }
 
     public boolean isRuleActive(OPRule rule) {

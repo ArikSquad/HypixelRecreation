@@ -23,7 +23,7 @@ import java.util.concurrent.ThreadLocalRandom;
 // https://gist.github.com/hapily04/a463cbed41d2cfba04a58ecc62fa61f9
 public class ArrowProjectile extends AbstractProjectile {
     private static final BoundingBox SMALL_BOUNDING_BOX = new BoundingBox(0.01, 0.01, 0.01);
-    private static final BoundingBox REGULAR_BOUNDING_BOX = EntityType.ARROW.registry().boundingBox();
+    private static final BoundingBox REGULAR_BOUNDING_BOX = EntityType.ARROW.boundingBox();
 
     @Getter
     private boolean critical = false;
@@ -125,7 +125,7 @@ public class ArrowProjectile extends AbstractProjectile {
         if (!positionChanged) {
             return entityFlying ? Vec.ZERO : new Vec(0.0, entityNoGravity ? 0.0 : -aerodynamics.gravity() * aerodynamics.verticalAirResistance(), 0.0);
         } else {
-            double drag = entityOnGround ? blockGetter.getBlock(entityPosition.sub(0.0, 0.5000001, 0.0)).registry().friction() * aerodynamics.horizontalAirResistance() : aerodynamics.horizontalAirResistance();
+            double drag = entityOnGround ? blockGetter.getBlock(entityPosition.sub(0.0, 0.5000001, 0.0)).friction() * aerodynamics.horizontalAirResistance() : aerodynamics.horizontalAirResistance();
             double gravity = entityFlying ? 0.0 : aerodynamics.gravity();
             double gravityDrag = entityFlying ? 0.6 : aerodynamics.verticalAirResistance();
             double x = currentVelocity.x() * drag;

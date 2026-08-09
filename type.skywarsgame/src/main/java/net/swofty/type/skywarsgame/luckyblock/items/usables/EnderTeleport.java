@@ -53,8 +53,8 @@ public class EnderTeleport implements LuckyBlockConsumable {
             return;
         }
 
-        if (!player.getInstance().getBlock(targetBlock.add(0, 1, 0)).isAir() ||
-                !player.getInstance().getBlock(targetBlock.add(0, 2, 0)).isAir()) {
+        if (!player.getInstance().getBlock(targetBlock.add(0, 1, 0)).air() ||
+                !player.getInstance().getBlock(targetBlock.add(0, 2, 0)).air()) {
             player.sendMessage(Component.text("Not enough space to teleport!", NamedTextColor.RED));
             return;
         }
