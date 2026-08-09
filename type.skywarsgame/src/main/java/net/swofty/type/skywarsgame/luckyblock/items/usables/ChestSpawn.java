@@ -64,7 +64,7 @@ public class ChestSpawn implements LuckyBlockConsumable {
         if (instance == null) return;
 
         Point chestPos = targetBlock.add(0, 1, 0);
-        if (!instance.getBlock(chestPos).isAir()) {
+        if (!instance.getBlock(chestPos).air()) {
             player.sendMessage(Component.text("Not enough space to place chest!", NamedTextColor.RED));
             return;
         }

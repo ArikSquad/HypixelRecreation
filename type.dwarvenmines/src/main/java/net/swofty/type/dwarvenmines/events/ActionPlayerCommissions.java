@@ -28,7 +28,7 @@ public class ActionPlayerCommissions implements HypixelEventClass {
 	public void run(PlayerBlockBreakEvent event) {
 		if (!(event.getPlayer() instanceof SkyBlockPlayer player)) return;
 
-		Material brokenMaterial = event.getBlock().registry().material();
+		Material brokenMaterial = event.getBlock().material();
 		if (brokenMaterial == null) return;
 
 		Objective.BlockTarget target = null;

@@ -83,7 +83,7 @@ public class BridgeEggs implements LuckyBlockConsumable {
                     for (int x = -1; x <= 0; x++) {
                         for (int z = -1; z <= 0; z++) {
                             Point blockPos = center.add(x, 0, z);
-                            if (this.instance.getBlock(blockPos).isAir()) {
+                            if (this.instance.getBlock(blockPos).air()) {
                                 this.instance.setBlock(blockPos, block);
                             }
                         }

@@ -147,8 +147,8 @@ public final class VanillaExplosionSupplier implements ExplosionSupplier {
                                         Vec position = new Vec(centerX, centerY, centerZ);
                                         Block block = instance.getBlock(position);
 
-                                        if (!block.isAir()) {
-                                            float explosionResistance = block.registry().explosionResistance();
+                                        if (!block.air()) {
+                                            float explosionResistance = block.explosionResistance();
                                             strengthLeft -= (explosionResistance + 0.3F) * 0.3F;
 
                                             if (strengthLeft > 0.0F) {
@@ -346,8 +346,8 @@ public final class VanillaExplosionSupplier implements ExplosionSupplier {
                         ThreadLocalRandom random = ThreadLocalRandom.current();
                         for (Point point : blocks) {
                             if (random.nextInt(3) != 0
-                                || !instance.getBlock(point).isAir()
-                                || !instance.getBlock(point.sub(0, 1, 0)).isSolid())
+                                || !instance.getBlock(point).air()
+                                || !instance.getBlock(point.sub(0, 1, 0)).solid())
                                 continue;
 
                             instance.setBlock(point, Block.FIRE);

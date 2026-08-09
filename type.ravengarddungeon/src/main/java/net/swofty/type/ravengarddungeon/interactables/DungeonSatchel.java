@@ -72,7 +72,7 @@ public final class DungeonSatchel extends DungeonInteractable {
         int x = (int) Math.floor(position.x()), z = (int) Math.floor(position.z());
         for (int y = (int) Math.floor(position.y()) + 1; y >= (int) Math.floor(position.y()) - 8; y--) {
             try {
-                if (!instance.getBlock(x, y, z).isAir()) {
+                if (!instance.getBlock(x, y, z).air()) {
                     return y + 1;
                 }
             } catch (Exception exception) {

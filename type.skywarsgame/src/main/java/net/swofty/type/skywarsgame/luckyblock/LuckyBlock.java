@@ -245,7 +245,7 @@ public class LuckyBlock {
                         Pos destroyPos = blockPos.add(dx, dy, dz);
                         Block block = instance.getBlock(destroyPos);
                         boolean isChest = game != null && game.getChestManager().isChestPosition(destroyPos);
-                        if (!block.isAir() && block.isSolid() && !block.compare(Block.BEDROCK) && !isChest) {
+                        if (!block.air() && block.solid() && !block.compare(Block.BEDROCK) && !isChest) {
                             instance.setBlock(destroyPos, Block.AIR);
                         }
                     }

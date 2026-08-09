@@ -108,12 +108,12 @@ public class LitBoots implements LuckyBlockArmor {
 
         Block currentBlock = instance.getBlock(blockAbove);
 
-        if (!currentBlock.isAir()) {
+        if (!currentBlock.air()) {
             return;
         }
 
         Block blockBelow = instance.getBlock(blockAbove.add(0, -1, 0));
-        if (!blockBelow.isSolid()) {
+        if (!blockBelow.solid()) {
             return;
         }
 
