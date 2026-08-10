@@ -304,6 +304,9 @@ public class SkyBlockDataHandler extends DataHandler {
         EXPERIMENTATION("experimentation", false, false, false,
                 DatapointExperimentation.class, new DatapointExperimentation("experimentation")),
 
+        RNG_METERS("rng_meters", false, false, false,
+                DatapointRNGMeters.class, new DatapointRNGMeters("rng_meters")),
+
         EXPERIENCE("experience", false, false, false,
                 DatapointLong.class, new DatapointLong("experience", 0L),
                 (player, datapoint) -> {

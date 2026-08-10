@@ -5,12 +5,13 @@ import net.swofty.commons.skyblock.item.ItemType;
 import net.swofty.type.skyblockgeneric.enchantment.EnchantmentType;
 import net.swofty.type.skyblockgeneric.enchantment.SkyBlockEnchantment;
 import net.swofty.type.skyblockgeneric.item.SkyBlockItem;
+import net.swofty.type.skyblockgeneric.rngmeter.RNGMeterReward;
 import net.swofty.type.skyblockgeneric.user.SkyBlockPlayer;
 
 import java.util.Arrays;
 import java.util.function.Supplier;
 
-public enum ExperimentReward {
+public enum ExperimentReward implements RNGMeterReward {
     EXPERIENCE("§bEnchanting XP", ItemType.EXPERIENCE_BOTTLE, 0),
     GRAND_EXPERIENCE_BOTTLE("§aGrand Experience Bottle", ItemType.GRAND_EXP_BOTTLE, 0),
     TITANIC_EXPERIENCE_BOTTLE("§9Titanic Experience Bottle", ItemType.TITANIC_EXP_BOTTLE, 15_000),
@@ -69,6 +70,8 @@ public enum ExperimentReward {
     }
 
     public String displayName() { return displayName; }
+    public String id() { return name(); }
+    public double requiredXp() { return meterRequirement; }
     public Material material() { return material; }
     public int meterRequirement() { return meterRequirement; }
 

@@ -8,7 +8,8 @@ import net.swofty.type.generic.gui.v2.*;
 import net.swofty.type.generic.gui.v2.context.ViewContext;
 import net.swofty.type.skyblockgeneric.experimentation.ExperimentType;
 import net.swofty.type.skyblockgeneric.experimentation.ExperimentReward;
-import net.swofty.type.skyblockgeneric.experimentation.ExperimentationManager;
+import net.swofty.type.skyblockgeneric.experimentation.ExperimentationRNGMeter;
+import net.swofty.type.skyblockgeneric.rngmeter.RNGMeterService;
 import net.swofty.type.skyblockgeneric.user.SkyBlockPlayer;
 
 import java.util.Arrays;
@@ -51,23 +52,24 @@ public final class GUIExperiments extends StatelessView {
     }
 
     private ItemStack.Builder meterItem(SkyBlockPlayer player) {
-        var meter = ExperimentationManager.meter(player);
-        ExperimentReward reward = ExperimentReward.fromName(meter.rngMeterReward());
-        double percent = reward.meterRequirement() == 0 ? 0 : meter.rngMeterXp() * 100d / reward.meterRequirement();
+        var meter = RNGMeterService.get(player, ExperimentationRNGMeter.INSTANCE);
+        ExperimentReward reward = ExperimentReward.fromName(meter.selectedReward());
+        double percent = meter.storedXp() * 100d / reward.requiredXp();
         return ItemStackCreator.getStack("§dExperimentation RNG Meter", Material.MAGENTA_DYE, 1,
                 "§7Selected: " + reward.displayName(),
-                "§7Progress: §d" + meter.rngMeterXp() + "§7/§d" + reward.meterRequirement()
+                "§7Progress: §d" + String.format("%.1f", meter.storedXp()) + "§7/§d" + reward.meterRequirement()
                         + " §7(" + String.format("%.1f", Math.min(100, percent)) + "%)",
                 "", "§eClick to change your selected reward!");
     }
 
     private void cycleMeter(SkyBlockPlayer player, ViewContext ctx) {
-        ExperimentReward current = ExperimentReward.fromName(ExperimentationManager.meter(player).rngMeterReward());
+        ExperimentReward current = ExperimentReward.fromName(
+                RNGMeterService.get(player, ExperimentationRNGMeter.INSTANCE).selectedReward());
         ExperimentReward[] rewards = Arrays.stream(ExperimentReward.values())
                 .filter(reward -> reward.meterRequirement() > 0).toArray(ExperimentReward[]::new);
         int index = Arrays.asList(rewards).indexOf(current);
         ExperimentReward next = rewards[(index + 1) % rewards.length];
-        ExperimentationManager.selectMeterReward(player, next);
+        RNGMeterService.select(player, ExperimentationRNGMeter.INSTANCE, next);
         player.sendMessage("§aYou selected " + next.displayName() + "§a for your Experimentation RNG Meter!");
         ctx.session(DefaultState.class).refresh();
     }

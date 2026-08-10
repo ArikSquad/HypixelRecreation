@@ -4,6 +4,7 @@ import net.swofty.commons.StringUtility;
 import net.swofty.type.skyblockgeneric.data.SkyBlockDataHandler;
 import net.swofty.type.skyblockgeneric.data.datapoints.DatapointExperimentation;
 import net.swofty.type.skyblockgeneric.skill.SkillCategories;
+import net.swofty.type.skyblockgeneric.rngmeter.RNGMeterService;
 import net.swofty.type.skyblockgeneric.user.SkyBlockPlayer;
 
 import java.util.*;
@@ -270,9 +271,10 @@ public final class ExperimentationManager {
         int bonus = pairs >= 8 ? 3 : pairs >= 6 ? 2 : pairs >= 4 ? 1 : 0;
         EnumSet<SuperPairItem> awarded = EnumSet.noneOf(SuperPairItem.class);
         for (int tile : state.matchedTiles()) awarded.add(state.board().get(tile));
-        awarded.forEach(item -> item.reward().give(player));
+        awarded.forEach(item -> RNGMeterService.giveReward(
+                player, ExperimentationRNGMeter.INSTANCE, item.reward()));
         award(player, xp, bonus);
-        addMeterXp(player, xp);
+        RNGMeterService.addProgress(player, ExperimentationRNGMeter.INSTANCE, xp * 0.001);
         return new SuperPairsFinishResult(true, null, pairs, xp, bonus);
     }
 
@@ -317,8 +319,7 @@ public final class ExperimentationManager {
         DatapointExperimentation datapoint = player.getSkyblockDataHandler()
                 .get(SkyBlockDataHandler.Data.EXPERIMENTATION, DatapointExperimentation.class);
         DatapointExperimentation.PlayerExperimentation current = datapoint.getValue();
-        datapoint.setValue(new DatapointExperimentation.PlayerExperimentation(0,
-                current.rngMeterReward(), current.rngMeterXp()));
+        datapoint.setValue(new DatapointExperimentation.PlayerExperimentation(0));
     }
 
     private static void award(SkyBlockPlayer player, int xp, int bonusClicks) {
@@ -326,37 +327,7 @@ public final class ExperimentationManager {
         DatapointExperimentation datapoint = player.getSkyblockDataHandler()
                 .get(SkyBlockDataHandler.Data.EXPERIMENTATION, DatapointExperimentation.class);
         int current = datapoint.getValue().superpairsBonusClicks();
-        DatapointExperimentation.PlayerExperimentation value = datapoint.getValue();
-        datapoint.setValue(new DatapointExperimentation.PlayerExperimentation(current + bonusClicks,
-                value.rngMeterReward(), value.rngMeterXp()));
-    }
-
-    public static DatapointExperimentation.PlayerExperimentation meter(SkyBlockPlayer player) {
-        return player.getSkyblockDataHandler()
-                .get(SkyBlockDataHandler.Data.EXPERIMENTATION, DatapointExperimentation.class).getValue();
-    }
-
-    public static void selectMeterReward(SkyBlockPlayer player, ExperimentReward reward) {
-        DatapointExperimentation datapoint = player.getSkyblockDataHandler()
-                .get(SkyBlockDataHandler.Data.EXPERIMENTATION, DatapointExperimentation.class);
-        DatapointExperimentation.PlayerExperimentation current = datapoint.getValue();
-        datapoint.setValue(new DatapointExperimentation.PlayerExperimentation(current.superpairsBonusClicks(),
-                reward.name(), current.rngMeterXp()));
-    }
-
-    private static void addMeterXp(SkyBlockPlayer player, int xp) {
-        DatapointExperimentation datapoint = player.getSkyblockDataHandler()
-                .get(SkyBlockDataHandler.Data.EXPERIMENTATION, DatapointExperimentation.class);
-        DatapointExperimentation.PlayerExperimentation current = datapoint.getValue();
-        ExperimentReward reward = ExperimentReward.fromName(current.rngMeterReward());
-        int progress = current.rngMeterXp() + xp;
-        if (reward.meterRequirement() > 0 && progress >= reward.meterRequirement()) {
-            reward.give(player);
-            progress -= reward.meterRequirement();
-            player.sendMessage("§d§lRNG METER! §fYou filled your Experimentation Table RNG Meter!");
-        }
-        datapoint.setValue(new DatapointExperimentation.PlayerExperimentation(current.superpairsBonusClicks(),
-                current.rngMeterReward(), progress));
+        datapoint.setValue(new DatapointExperimentation.PlayerExperimentation(current + bonusClicks));
     }
 
     public record ChronomatronInputResult(boolean success, String errorMessage, boolean correct, boolean complete) {
