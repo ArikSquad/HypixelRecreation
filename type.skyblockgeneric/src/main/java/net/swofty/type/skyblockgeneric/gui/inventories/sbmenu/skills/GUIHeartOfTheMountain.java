@@ -4,7 +4,8 @@ import net.minestom.server.inventory.InventoryType;
 import net.minestom.server.inventory.click.Click;
 import net.minestom.server.item.Material;
 import net.swofty.commons.StringUtility;
-import net.swofty.type.generic.gui.inventory.ItemStackCreator;
+import net.swofty.commons.text.Text;
+import net.swofty.type.generic.gui.inventory.ItemStacks;
 import net.swofty.type.generic.gui.v2.Components;
 import net.swofty.type.generic.gui.v2.StatefulView;
 import net.swofty.type.generic.gui.v2.ViewConfiguration;
@@ -89,7 +90,7 @@ public class GUIHeartOfTheMountain implements StatefulView<GUIHeartOfTheMountain
 
     private void layoutBack(ViewLayout<State> layout, ViewContext ctx) {
         if (commandEntry) {
-            layout.slot(48, ItemStackCreator.getStack("§aGo Back", Material.ARROW, 1, "§7To Mining Skill"),
+            layout.slot(48, ItemStacks.item(Material.ARROW, "<a>Go Back\n<7>To Mining Skill"),
                     (_, c) -> c.replace(new GUISkillCategory(net.swofty.type.skyblockgeneric.skill.SkillCategories.MINING, 0)));
             return;
         }
@@ -137,23 +138,23 @@ public class GUIHeartOfTheMountain implements StatefulView<GUIHeartOfTheMountain
         boolean unlocked = HotmService.data(player).getTier() >= tierNumber;
         List<String> lore = new ArrayList<>();
         if (unlocked) {
-            lore.add("§7You have unlocked this tier. All");
-            lore.add("§7perks and abilities on this tier are");
-            lore.add("§7available for unlocking with §5Token of");
-            lore.add("§5the Mountain§7.");
+            lore.add("<7>You have unlocked this tier. All");
+            lore.add("<7>perks and abilities on this tier are");
+            lore.add("<7>available for unlocking with <5>Token of");
+            lore.add("<5>the Mountain<7>.");
             lore.add("");
-            lore.add("§7Rewards");
-            for (String reward : tier.rewards()) lore.add("§8+§f" + reward);
+            lore.add("<7>Rewards");
+            for (String reward : tier.rewards()) lore.add("<8>+<f>" + reward);
             lore.add("");
-            lore.add("§a§lUNLOCKED");
+            lore.add("<a><l>UNLOCKED");
         } else {
-            lore.add("§7Reach §5Heart of the Mountain " + tierNumber + "§7");
-            lore.add("§7to unlock this tier.");
+            lore.add("<7>Reach <5>Heart of the Mountain " + tierNumber + "<7>");
+            lore.add("<7>to unlock this tier.");
             lore.add("");
-            lore.add("§c§lLOCKED");
+            lore.add("<c><l>LOCKED");
         }
-        return ItemStackCreator.getStack((unlocked ? "§a" : "§c") + "Tier " + tierNumber,
-                unlocked ? Material.LIME_STAINED_GLASS_PANE : Material.RED_STAINED_GLASS_PANE, 1, lore);
+        return ItemStacks.item(unlocked ? Material.LIME_STAINED_GLASS_PANE : Material.RED_STAINED_GLASS_PANE, 1,
+                Text.of((unlocked ? "<a>" : "<c>") + "Tier {}", tierNumber), text(lore));
     }
 
     private net.minestom.server.item.ItemStack.Builder nodeItem(SkyBlockPlayer player, TreeNodeDefinition node) {
@@ -163,25 +164,25 @@ public class GUIHeartOfTheMountain implements StatefulView<GUIHeartOfTheMountain
         boolean available = HotmService.available(player, node);
         boolean selected = HotmService.isSelected(player, node);
         boolean enabled = HotmService.isEnabled(player, node);
-        String titleColor = current >= node.maxLevel() || selected ? "§a" : current > 0 || available ? "§e" : "§c";
+        String titleColor = current >= node.maxLevel() || selected ? "<a>" : current > 0 || available ? "<e>" : "<c>";
 
         List<String> lore = new ArrayList<>();
-        if (!node.ability()) lore.add("§7Level " + displayLevel + "/" + node.maxLevel());
+        if (!node.ability()) lore.add("<7>Level " + displayLevel + "/" + node.maxLevel());
         lore.addAll(node.renderLore(displayLevel, data.getTier(), HotmService.level(player, HotmService.node("core_of_the_mountain"))));
 
         if (current > 0 && current < node.maxLevel()) {
             lore.add("");
-            lore.add("§a§l=====[ UPGRADE ]=====");
-            if (!node.ability()) lore.add("§7Level " + (current + 1) + "/" + node.maxLevel());
+            lore.add("<a><l>=====[ UPGRADE ]=====");
+            if (!node.ability()) lore.add("<7>Level " + (current + 1) + "/" + node.maxLevel());
             lore.add("");
             lore.addAll(node.renderLore(current + 1, data.getTier(), HotmService.level(player, HotmService.node("core_of_the_mountain"))));
         }
 
         if (current < node.maxLevel()) {
             lore.add("");
-            lore.add("§7Cost");
+            lore.add("<7>Cost");
             if (current == 0) {
-                lore.add("§5§l1 §5Token of the Mountain");
+                lore.add("<5><l>1 <5>Token of the Mountain");
             } else {
                 TreePowder powder = node.powder(current);
                 lore.add(powder.color() + StringUtility.commaify(node.cost(current)) + " " + powder.displayName());
@@ -189,38 +190,38 @@ public class GUIHeartOfTheMountain implements StatefulView<GUIHeartOfTheMountain
             lore.add("");
             if (!available) {
                 for (String requirement : HotmService.missingRequirements(player, node)) {
-                    lore.add("§cRequires " + requirement);
+                    lore.add("<c>Requires " + requirement);
                 }
             } else if (!HotmService.canAffordNextLevel(player, node)) {
                 if (current == 0) {
-                    lore.add("§cYou don't have enough Token of the Mountain!");
+                    lore.add("<c>You don't have enough Token of the Mountain!");
                 } else {
-                    lore.add("§cYou don't have enough " + node.powder(current).displayName() + "!");
+                    lore.add("<c>You don't have enough " + node.powder(current).displayName() + "!");
                 }
             } else if (current == 0) {
-                lore.add("§eClick to unlock!");
+                lore.add("<e>Click to unlock!");
             } else {
-                lore.add(enabled ? "§a§lENABLED" : "§c§lDISABLED");
+                lore.add(enabled ? "<a><l>ENABLED" : "<c><l>DISABLED");
                 lore.add("");
-                lore.add(enabled ? "§eRight-click to §cdisable§e!" : "§eRight-click to §aenable§e!");
-                lore.add("§eLeft-click to upgrade!");
-                lore.add("§eShift Left-click to upgrade 10 levels!");
+                lore.add(enabled ? "<e>Right-click to <c>disable<e>!" : "<e>Right-click to <a>enable<e>!");
+                lore.add("<e>Left-click to upgrade!");
+                lore.add("<e>Shift Left-click to upgrade 10 levels!");
             }
         } else if (node.ability()) {
             lore.add("");
-            lore.add(selected ? "§a§lSELECTED" : "§eClick to select!");
+            lore.add(selected ? "<a><l>SELECTED" : "<e>Click to select!");
             if (selected) {
                 lore.add("");
-                lore.add("§eRight-click to §cdisable§e!");
+                lore.add("<e>Right-click to <c>disable<e>!");
             }
         } else {
             lore.add("");
-            lore.add(enabled ? "§a§lENABLED" : "§c§lDISABLED");
+            lore.add(enabled ? "<a><l>ENABLED" : "<c><l>DISABLED");
             lore.add("");
-            lore.add(enabled ? "§eRight-click to §cdisable§e!" : "§eRight-click to §aenable§e!");
+            lore.add(enabled ? "<e>Right-click to <c>disable<e>!" : "<e>Right-click to <a>enable<e>!");
         }
 
-        return ItemStackCreator.getStack(titleColor + node.name(), node.material(current), 1, lore);
+        return ItemStacks.item(node.material(current), 1, Text.of(titleColor + "{}", node.name()), text(lore));
     }
 
     private net.minestom.server.item.ItemStack.Builder scrollItem(State state, SkyBlockPlayer player, SkillTreeDefinition definition, boolean up) {
@@ -230,67 +231,116 @@ public class GUIHeartOfTheMountain implements StatefulView<GUIHeartOfTheMountain
         }
         String action = up ? "up" : "down";
         String destination = up ? "top tier" : "bottom tier";
-        return ItemStackCreator.getStack("§aScroll " + (up ? "Up" : "Down"), Material.ARROW, 1,
-                "§eLeft-click §7to scroll " + action + "!", "", "§eRight-click §7to go to the " + destination + "!");
+        return ItemStacks.item(Material.ARROW, 1, """
+                <a>Scroll {}
+                <e>Left-click <7>to scroll {}!
+
+                <e>Right-click <7>to go to the {}!""", up ? "Up" : "Down", action, destination);
     }
 
     private net.minestom.server.item.ItemStack.Builder treeSlotItem(SkyBlockPlayer player) {
         DatapointLoadouts.LoadoutsData data = LoadoutManager.data(player);
         int active = data.getActiveHotmSlot();
-        return ItemStackCreator.getStack("§aHeart of the Mountain Slot", Material.CHEST, 1,
-                "§7Quickly swap between saved trees.", "", "§7Current: §a" + data.getHotmNames()[active], "",
-                "§cSwapping trees has a 10m cooldown!", "", "§eClick to view!");
+        return ItemStacks.item(Material.CHEST, 1, """
+                <a>Heart of the Mountain Slot
+                <7>Quickly swap between saved trees.
+
+                <7>Current: <a>{}
+
+                <c>Swapping trees has a 10m cooldown!
+
+                <e>Click to view!""", data.getHotmNames()[active]);
     }
 
     private net.minestom.server.item.ItemStack.Builder informationItem(SkyBlockPlayer player) {
         DatapointHOTM.PlayerHOTMData data = HotmService.data(player);
         List<String> lore = new ArrayList<>();
-        lore.add("§7Token of the Mountain: §5" + data.getAvailableTokens());
+        lore.add("<7>Token of the Mountain: <5>" + data.getAvailableTokens());
         lore.add("");
-        lore.add("§8Use §5Token of the Mountain §8to unlock");
-        lore.add("§8perks and abilities above!");
+        lore.add("<8>Use <5>Token of the Mountain <8>to unlock");
+        lore.add("<8>perks and abilities above!");
         lore.add("");
-        lore.add("§7Mithril Powder: §2" + StringUtility.commaify(data.getMithrilPowder()));
-        lore.add("  §8(+§2more powder§8)");
-        lore.add("§7Gemstone Powder: §d" + StringUtility.commaify(data.getGemstonePowder()));
-        lore.add("§7Glacite Powder: §b" + StringUtility.commaify(data.getGlacitePowder()));
+        lore.add("<7>Mithril Powder: <2>" + StringUtility.commaify(data.getMithrilPowder()));
+        lore.add("  <8>(+<2>more powder<8>)");
+        lore.add("<7>Gemstone Powder: <d>" + StringUtility.commaify(data.getGemstonePowder()));
+        lore.add("<7>Glacite Powder: <b>" + StringUtility.commaify(data.getGlacitePowder()));
         lore.add("");
-        lore.add("§7Obtain §2Mithril Powder §7by mining and");
-        lore.add("§7taking part in events in the §2Dwarven Mines§7.");
-        lore.add("§7Obtain §dGemstone Powder §7by mining");
-        lore.add("§7Gemstones and opening Treasure Chests in the §5Crystal Hollows§7.");
-        lore.add("§7Obtain §bGlacite Powder §7by mining Glacite");
-        lore.add("§7and looting Frozen Corpses in the §bGlacite Tunnels§7.");
+        lore.add("<7>Obtain <2>Mithril Powder <7>by mining and");
+        lore.add("<7>taking part in events in the <2>Dwarven Mines<7>.");
+        lore.add("<7>Obtain <d>Gemstone Powder <7>by mining");
+        lore.add("<7>Gemstones and opening Treasure Chests in the <5>Crystal Hollows<7>.");
+        lore.add("<7>Obtain <b>Glacite Powder <7>by mining Glacite");
+        lore.add("<7>and looting Frozen Corpses in the <b>Glacite Tunnels<7>.");
         lore.add("");
-        lore.add("§8Increase your chance to gain extra");
-        lore.add("§8Powder by unlocking perks, equipping");
-        lore.add("§8the §2Mithril Golem Pet§8, and more!");
-        return ItemStackCreator.getStackHead("§5Heart of the Mountain",
-                HotmService.definition().headTexture(), 1, lore);
+        lore.add("<8>Increase your chance to gain extra");
+        lore.add("<8>Powder by unlocking perks, equipping");
+        lore.add("<8>the <2>Mithril Golem Pet<8>, and more!");
+        return ItemStacks.head(HotmService.definition().headTexture(), 1,
+                Text.of("<5>Heart of the Mountain"), text(lore));
     }
 
     private net.minestom.server.item.ItemStack.Builder crystalsItem() {
-        return ItemStackCreator.getStack("§5Crystal Hollows Crystals", Material.PAPER, 1,
-                "§8Crystals are used to forge Gems", "§8into §dPerfect §8Gems. They can be", "§8found hidden within the §5Crystal", "§8Hollows§8.", "", "§dYour Crystal Nucleus", "  §aJade §c✖ Not Found", "  §6Amber §c✖ Not Found", "  §5Amethyst §c✖ Not Found", "  §bSapphire §c✖ Not Found", "  §eTopaz §c✖ Not Found", "", "§dYour Other Crystals", "  §cRuby §a✔ Found", "  §fOpal §c✖ Not Found", "  §9Aquamarine §c✖ Not Found", "  §2Peridot §c✖ Not Found", "  §8Onyx §c✖ Not Found", "  §4Citrine §c✖ Not Found");
+        return ItemStacks.item(Material.PAPER, 1, """
+                <5>Crystal Hollows Crystals
+                <8>Crystals are used to forge Gems
+                <8>into <d>Perfect <8>Gems. They can be
+                <8>found hidden within the <5>Crystal
+                <8>Hollows<8>.
+
+                <d>Your Crystal Nucleus
+                  <a>Jade <c>✖ Not Found
+                  <6>Amber <c>✖ Not Found
+                  <5>Amethyst <c>✖ Not Found
+                  <b>Sapphire <c>✖ Not Found
+                  <e>Topaz <c>✖ Not Found
+
+                <d>Your Other Crystals
+                  <c>Ruby <a>✔ Found
+                  <f>Opal <c>✖ Not Found
+                  <9>Aquamarine <c>✖ Not Found
+                  <2>Peridot <c>✖ Not Found
+                  <8>Onyx <c>✖ Not Found
+                  <4>Citrine <c>✖ Not Found""");
     }
 
     private net.minestom.server.item.ItemStack.Builder rngMeterItem() {
-        return ItemStackCreator.getStack("§dCrystal Nucleus RNG Meter", Material.PAPER, 1,
-                "§7Your §dCrystal Nucleus RNG Meter §7fills", "§7with §91,000 Nucleus XP §7every time you", "§7complete the §dCrystal Nucleus§7!", "", "§7Selected Drop", "§6" + RNG_METER_DROP, "", "§7Progress: §d1.1%", "§d§m                         §f  §d11,000§5/§d1M", "", "§eClick to view!");
+        return ItemStacks.item(Material.PAPER, 1, """
+                <d>Crystal Nucleus RNG Meter
+                <7>Your <d>Crystal Nucleus RNG Meter <7>fills
+                <7>with <9>1,000 Nucleus XP <7>every time you
+                <7>complete the <d>Crystal Nucleus<7>!
+
+                <7>Selected Drop
+                <6>{}
+
+                <7>Progress: <d>1.1%
+                <d><m>                         <f>  <d>11,000<5>/<d>1M
+
+                <e>Click to view!""", RNG_METER_DROP);
     }
 
     private net.minestom.server.item.ItemStack.Builder resetItem() {
-        return ItemStackCreator.getStackHead("§cReset Heart of the Mountain", RESET_TEXTURE, 1,
-                "§7Resets the Perks and Abilities of", "§7your §5Heart of the Mountain§7, locking", "§7them and resetting their levels.", "", "§cWARNING: This is permanent.", "§cYou can not go back after resetting!");
+        return ItemStacks.head(RESET_TEXTURE, 1, """
+                <c>Reset Heart of the Mountain
+                <7>Resets the Perks and Abilities of
+                <7>your <5>Heart of the Mountain<7>, locking
+                <7>them and resetting their levels.
+
+                <c>WARNING: This is permanent.
+                <c>You can not go back after resetting!""");
     }
 
     private void reset(SkyBlockPlayer player, ViewContext ctx) {
         if (HotmService.resetActiveTree(player) > 0) {
-            player.sendMessage("§aYour Heart of the Mountain perks have been reset.");
+            player.sendMessage(Text.of("<a>Your Heart of the Mountain perks have been reset."));
             ctx.session(State.class).refresh();
         }
     }
 
     public record State(int topY) {
+    }
+
+    private static List<Text> text(List<String> markup) {
+        return markup.stream().map(Text::of).toList();
     }
 }
