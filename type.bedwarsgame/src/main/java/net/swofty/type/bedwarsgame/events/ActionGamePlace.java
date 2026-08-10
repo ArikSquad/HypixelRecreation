@@ -62,7 +62,7 @@ public class ActionGamePlace implements HypixelEventClass {
 			}
 		}
 
-		if (event.getBlock().registry().material() == Material.TNT) {
+		if (event.getBlock().material() == Material.TNT) {
 			TntEntity entity = new TntEntity(event.getPlayer());
 			entity.setFuse(50);
 			entity.setInstance(event.getInstance(), blockPosition.add(0.5, 0, 0.5));

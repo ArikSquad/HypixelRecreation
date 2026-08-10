@@ -35,7 +35,7 @@ public class CombatPotionEffect {
 		this.potionEffect = potionEffect;
 		this.particleSupplier = potion -> {
 			int alpha = potion.isAmbient() ? 38 : 255;
-			return Particle.ENTITY_EFFECT.withColor(new AlphaColor(alpha, new Color(potion.effect().registry().color())));
+			return Particle.ENTITY_EFFECT.withColor(new AlphaColor(alpha, new Color(potion.effect().color())));
 		};
 	}
 	

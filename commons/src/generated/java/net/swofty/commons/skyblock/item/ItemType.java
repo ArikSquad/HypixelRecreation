@@ -172,7 +172,7 @@ public enum ItemType {
 
   AWKWARD_POTION(Material.POTION, Rarity.COMMON),
 
-  AXE_OF_THE_SHREDDED(Material.DIAMOND_AXE, Rarity.LEGENDARY),
+  AXE_OF_THE_SHREDDED(Material.DIAMOND_SWORD, Rarity.LEGENDARY),
 
   AZALEA(Material.AZALEA, Rarity.COMMON),
 
@@ -262,7 +262,7 @@ public enum ItemType {
 
   BEE_MINION_SKIN(Material.PLAYER_HEAD, Rarity.COMMON),
 
-  BEE_PET(Material.PLAYER_HEAD, Rarity.EPIC),
+  BEE_PET(Material.PLAYER_HEAD, Rarity.MYTHIC),
 
   BEHEADED_HORROR(Material.PLAYER_HEAD, Rarity.EPIC),
 
@@ -721,6 +721,8 @@ public enum ItemType {
   CHICKEN_AXE(Material.STONE_AXE, Rarity.UNCOMMON),
 
   CHICKEN_MINION(Material.PLAYER_HEAD, Rarity.COMMON),
+
+  CHICKEN_PET(Material.PLAYER_HEAD, Rarity.LEGENDARY),
 
   CHILI_PEPPER(Material.PLAYER_HEAD, Rarity.UNCOMMON),
 
@@ -1845,6 +1847,8 @@ public enum ItemType {
   GOLD_VOLCANIC_STONEFISH(Material.PLAYER_HEAD, Rarity.COMMON),
 
   GOLEM_SWORD(Material.IRON_SWORD, Rarity.RARE),
+
+  GRANDMA_WOLF_PET(Material.PLAYER_HEAD, Rarity.LEGENDARY),
 
   GRANITE(Material.GRANITE, Rarity.COMMON),
 
@@ -3262,8 +3266,6 @@ public enum ItemType {
 
   SAND(Material.SAND, Rarity.COMMON),
 
-  SANDBOX_ITEM(Material.BLAZE_POWDER, Rarity.COMMON),
-
   SANDSTONE(Material.SANDSTONE, Rarity.COMMON),
 
   SANDSTONE_SLAB(Material.SANDSTONE_SLAB, Rarity.COMMON),
@@ -3734,6 +3736,8 @@ public enum ItemType {
 
   SILVER_BLOBFISH(Material.PLAYER_HEAD, Rarity.COMMON),
 
+  SILVER_FANG(Material.GHAST_TEAR, Rarity.UNCOMMON),
+
   SILVER_FLYFISH(Material.PLAYER_HEAD, Rarity.COMMON),
 
   SILVER_GOLDEN_FISH(Material.PLAYER_HEAD, Rarity.COMMON),
@@ -3775,8 +3779,6 @@ public enum ItemType {
   SINFUL_DICE(Material.PLAYER_HEAD, Rarity.EPIC),
 
   SINSEEKER_SCYTHE(Material.GOLDEN_HOE, Rarity.EPIC),
-
-  SKELETON_LORD_BOW(Material.BOW, Rarity.EPIC),
 
   SKELETON_MINION(Material.PLAYER_HEAD, Rarity.COMMON),
 

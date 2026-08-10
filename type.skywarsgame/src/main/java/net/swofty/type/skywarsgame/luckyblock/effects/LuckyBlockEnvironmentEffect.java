@@ -9,6 +9,7 @@ import net.minestom.server.entity.Entity;
 import net.minestom.server.entity.EntityProjectile;
 import net.minestom.server.entity.EntityType;
 import net.minestom.server.entity.damage.Damage;
+import net.minestom.server.entity.metadata.other.PrimedTntMeta;
 import net.minestom.server.instance.Instance;
 import net.minestom.server.instance.block.Block;
 import net.minestom.server.potion.Potion;
@@ -38,7 +39,7 @@ public enum LuckyBlockEnvironmentEffect {
                         for (int dy = 0; dy <= 1; dy++) {
                             Pos webPos = pos.add(dx, dy, dz);
                             Block current = instance.getBlock(webPos);
-                            if (current.isAir()) {
+                            if (current.air()) {
                                 instance.setBlock(webPos, Block.COBWEB);
                             }
                         }
@@ -102,7 +103,7 @@ public enum LuckyBlockEnvironmentEffect {
                 Pos underPos = pos.add(0, -1, 0);
                 Block underBlock = instance.getBlock(underPos);
 
-                if (underBlock.isSolid() && !underBlock.compare(Block.BEDROCK)) {
+                if (underBlock.solid() && !underBlock.compare(Block.BEDROCK)) {
                     instance.setBlock(underPos, Block.LAVA);
 
                     player.scheduler().buildTask(() -> {
@@ -161,7 +162,7 @@ public enum LuckyBlockEnvironmentEffect {
                     Entity tnt = new Entity(EntityType.TNT);
                     tnt.setInstance(instance, tntPos);
 
-                    if (tnt.getEntityMeta() instanceof net.minestom.server.entity.metadata.other.PrimedTntMeta tntMeta) {
+                    if (tnt.getEntityMeta() instanceof PrimedTntMeta tntMeta) {
                         tntMeta.setFuseTime(60 + random.nextInt(20));
                     }
                 }
@@ -205,7 +206,7 @@ public enum LuckyBlockEnvironmentEffect {
                 for (int i = 1; i <= 10; i++) {
                     Pos bridgePos = startPos.add(dx * i, 0, dz * i);
                     Block current = instance.getBlock(bridgePos);
-                    if (current.isAir()) {
+                    if (current.air()) {
                         instance.setBlock(bridgePos, Block.OAK_PLANKS);
                     }
                 }
@@ -230,7 +231,7 @@ public enum LuckyBlockEnvironmentEffect {
                     for (int dy = 0; dy < 3; dy++) {
                         Pos wallPos = pos.add(dx, dy, dz);
                         Block current = instance.getBlock(wallPos);
-                        if (current.isAir()) {
+                        if (current.air()) {
                             instance.setBlock(wallPos, Block.COBBLESTONE);
                         }
                     }
@@ -344,7 +345,7 @@ public enum LuckyBlockEnvironmentEffect {
                             Pos blockPos = new Pos(pos.x() + dx, y, pos.z() + dz);
                             Block current = instance.getBlock(blockPos);
                             boolean isChest = game != null && game.getChestManager().isChestPosition(blockPos);
-                            if (!current.compare(Block.BEDROCK) && !current.isAir() && !isChest) {
+                            if (!current.compare(Block.BEDROCK) && !current.air() && !isChest) {
                                 instance.setBlock(blockPos, Block.AIR);
                             }
                         }
@@ -433,7 +434,7 @@ public enum LuckyBlockEnvironmentEffect {
                             if (distance <= leafRadius + 0.5 && distance > 0) {
                                 Pos leafPos = topPos.add(dx, dy, dz);
                                 Block current = instance.getBlock(leafPos);
-                                if (current.isAir()) {
+                                if (current.air()) {
                                     instance.setBlock(leafPos, Block.OAK_LEAVES);
                                 }
                             }
@@ -482,7 +483,7 @@ public enum LuckyBlockEnvironmentEffect {
                     for (int h = 0; h < 4; h++) {
                         Pos wallPos = wallCenter.add(perpX * w, h, perpZ * w);
                         Block current = instance.getBlock(wallPos);
-                        if (current.isAir()) {
+                        if (current.air()) {
                             instance.setBlock(wallPos, Block.BRICKS);
                         }
                     }

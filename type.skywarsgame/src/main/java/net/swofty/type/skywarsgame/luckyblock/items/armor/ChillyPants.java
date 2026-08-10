@@ -93,7 +93,7 @@ public class ChillyPants implements LuckyBlockArmor {
 
         Block currentBlock = instance.getBlock(blockBelow);
 
-        if (!currentBlock.isSolid() || currentBlock.compare(Block.PACKED_ICE) || currentBlock.compare(Block.BEDROCK)) {
+        if (!currentBlock.solid() || currentBlock.compare(Block.PACKED_ICE) || currentBlock.compare(Block.BEDROCK)) {
             return;
         }
 

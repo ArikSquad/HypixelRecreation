@@ -1,4 +1,9 @@
 items:
+  - id: SILVER_FANG
+    material: IRON_SWORD
+    rarity: RARE
+    name: "Silver Fang"
+
   - id: AIMING_BOW
     material: BOW
     rarity: EPIC
@@ -7,7 +12,6 @@ items:
     components:
       - id: STANDARD_ITEM
         standard_item_type: BOW
-      - id: BOW
       - id: ITEM_MODEL
         item_model: hypixel_skyblock:item/broken/broken_bow
   - id: ALCHEMISTS_STAFF
@@ -53,7 +57,6 @@ items:
     components:
       - id: STANDARD_ITEM
         standard_item_type: BOW
-      - id: BOW
       - id: DUNGEON_ITEM
       - id: ITEM_MODEL
         item_model: hypixel_skyblock:item/broken/broken_bow
@@ -63,19 +66,18 @@ items:
     components:
       - id: STANDARD_ITEM
         standard_item_type: BOW
-      - id: BOW
       - id: DUNGEON_ITEM
       - id: ITEM_MODEL
         item_model: hypixel_skyblock:item/broken/broken_bow
   - id: ARTISANAL_SHORTBOW
     material: BOW
+    name: "Artisanal Shortbow"
     rarity: RARE
     default_statistics:
       damage: 40
     components:
       - id: STANDARD_ITEM
         standard_item_type: BOW
-      - id: BOW
       - id: ITEM_REQUIREMENTS
         requirements:
           - type: SKILL
@@ -85,6 +87,7 @@ items:
         item_model: hypixel_skyblock:item/uncategorized/artisanal_shortbow
   - id: ASPECT_OF_THE_DRAGON
     material: DIAMOND_SWORD
+    name: "Aspect Of The Dragon"
     rarity: LEGENDARY
     default_statistics:
       damage: 225
@@ -118,6 +121,7 @@ items:
         item_model: hypixel_skyblock:item/uncategorized/aspect_of_the_dragon
   - id: ASPECT_OF_THE_END
     material: DIAMOND_SWORD
+    name: "Aspect Of The End"
     rarity: RARE
     default_statistics:
       damage: 100
@@ -162,6 +166,7 @@ items:
         item_model: hypixel_skyblock:item/uncategorized/aspect_of_the_end
   - id: ASPECT_OF_THE_JERRY
     material: WOODEN_SWORD
+    name: "Aspect Of The Jerry"
     rarity: COMMON
     default_statistics:
       damage: 1
@@ -226,6 +231,7 @@ items:
         item_model: hypixel_skyblock:item/island_relevant/rift/wands/aspect_of_the_leech_3
   - id: ASPECT_OF_THE_VOID
     material: DIAMOND_SHOVEL
+    name: "Aspect Of The Void"
     rarity: EPIC
     default_statistics:
       damage: 120
@@ -286,6 +292,7 @@ items:
         item_model: hypixel_skyblock:item/uncategorized/astraea
   - id: ATOMSPLIT_KATANA
     material: BLAZE_ROD
+    name: "Atomsplit Katana"
     rarity: LEGENDARY
     default_statistics:
       damage: 305
@@ -317,11 +324,33 @@ items:
         item_model: hypixel_skyblock:item/slayer/enderman/weapons/katanas/atomsplit_katana
   - id: AXE_OF_THE_SHREDDED
     material: DIAMOND_SWORD
+    name: "Axe Of The Shredded"
     rarity: LEGENDARY
     default_statistics:
       damage: 140
       strength: 115
     components:
+      - id: DEFAULT_CRAFTABLE
+        recipes:
+          - type: SHAPED
+            recipe-type: REVENANT_HORROR
+            pattern:
+              - ABA
+              - BCB
+              - ABA
+            ingredients:
+              A:
+                type: REVENANT_VISCERA
+                amount: 64
+              B:
+                type: SHARD_OF_THE_SHREDDED
+                amount: 1
+              C:
+                type: REAPER_FALCHION
+                amount: 1
+            result:
+              type: AXE_OF_THE_SHREDDED
+              amount: 1
       - id: STANDARD_ITEM
         standard_item_type: SWORD
       - id: ITEM_REQUIREMENTS
@@ -463,7 +492,6 @@ items:
     components:
       - id: STANDARD_ITEM
         standard_item_type: BOW
-      - id: BOW
       - id: DUNGEON_ITEM
       - id: ITEM_REQUIREMENTS
         requirements:
@@ -500,7 +528,6 @@ items:
     components:
       - id: STANDARD_ITEM
         standard_item_type: BOW
-      - id: BOW
       - id: DUNGEON_ITEM
       - id: ITEM_MODEL
         item_model: hypixel_skyblock:item/island_relevant/dungeons/spirit_shortbow
@@ -536,7 +563,6 @@ items:
     components:
       - id: STANDARD_ITEM
         standard_item_type: BOW
-      - id: BOW
   - id: BURSTFIRE_DAGGER
     material: STONE_SWORD
     rarity: EPIC
@@ -663,6 +689,7 @@ items:
         item_model: hypixel_skyblock:item/uncategorized/cow_axe
   - id: CROWN_OF_GREED
     material: GOLDEN_HELMET
+    name: "Crown Of Greed"
     rarity: LEGENDARY
     default_statistics:
       defense: 50
@@ -676,7 +703,6 @@ items:
     components:
       - id: STANDARD_ITEM
         standard_item_type: BOW
-      - id: BOW
       - id: DUNGEON_ITEM
       - id: ITEM_REQUIREMENTS
         requirements:
@@ -727,6 +753,7 @@ items:
         item_model: hypixel_skyblock:item/broken/broken_sword
   - id: DAEDALUS_AXE
     material: GOLDEN_SWORD
+    name: "Daedalus Axe"
     rarity: LEGENDARY
     components:
       - id: STANDARD_ITEM
@@ -751,7 +778,6 @@ items:
     components:
       - id: STANDARD_ITEM
         standard_item_type: BOW
-      - id: BOW
       - id: DUNGEON_ITEM
       - id: ITEM_REQUIREMENTS
         requirements:
@@ -768,7 +794,6 @@ items:
     components:
       - id: STANDARD_ITEM
         standard_item_type: BOW
-      - id: BOW
       - id: ITEM_MODEL
         item_model: hypixel_skyblock:item/uncategorized/decent_bow
   - id: DIAMOND_SWORD
@@ -790,7 +815,6 @@ items:
     components:
       - id: STANDARD_ITEM
         standard_item_type: BOW
-      - id: BOW
       - id: ITEM_MODEL
         item_model: hypixel_skyblock:item/island_relevant/combat_3/dragon_shortbow
   - id: EARTH_SHARD
@@ -809,6 +833,7 @@ items:
         item_model: hypixel_skyblock:item/uncategorized/earth_shard
   - id: EDIBLE_MACE
     material: MUTTON
+    name: "Edible Mace"
     rarity: RARE
     default_statistics:
       damage: 125
@@ -868,7 +893,6 @@ items:
     components:
       - id: STANDARD_ITEM
         standard_item_type: BOW
-      - id: BOW
       - id: ITEM_MODEL
         item_model: hypixel_skyblock:item/island_relevant/combat_3/weapons/ender_bow
   - id: END_STONE_BOW
@@ -879,7 +903,6 @@ items:
     components:
       - id: STANDARD_ITEM
         standard_item_type: BOW
-      - id: BOW
       - id: ITEM_REQUIREMENTS
         requirements:
           - type: SKILL
@@ -900,6 +923,7 @@ items:
         item_model: hypixel_skyblock:item/island_relevant/combat_3/weapons/endstone_blade
   - id: END_SWORD
     material: DIAMOND_SWORD
+    name: "End Sword"
     rarity: UNCOMMON
     default_statistics:
       damage: 35
@@ -951,11 +975,11 @@ items:
     components:
       - id: STANDARD_ITEM
         standard_item_type: BOW
-      - id: BOW
       - id: ITEM_MODEL
         item_model: hypixel_skyblock:item/uncategorized/explosive_bow
   - id: FANCY_SWORD
     material: GOLDEN_SWORD
+    name: "Fancy Sword"
     rarity: UNCOMMON
     default_statistics:
       damage: 20
@@ -1155,6 +1179,7 @@ items:
         item_model: hypixel_skyblock:item/uncategorized/flower_of_truth
   - id: FLY_SWATTER
     material: PAPER
+    name: "Fly Swatter"
     rarity: EPIC
     components:
       - id: STANDARD_ITEM
@@ -1287,6 +1312,7 @@ items:
         item_model: hypixel_skyblock:item/great_spook/great_spook_sword
   - id: GYROKINETIC_WAND
     material: BLAZE_ROD
+    name: "Gyrokinetic Wand"
     rarity: EPIC
     components:
       - id: STANDARD_ITEM
@@ -1423,6 +1449,7 @@ items:
         item_model: hypixel_skyblock:item/broken/broken_hoe
   - id: HUNTER_KNIFE
     material: IRON_SWORD
+    name: "Hunter Knife"
     rarity: UNCOMMON
     default_statistics:
       speed: 40
@@ -1443,11 +1470,11 @@ items:
     components:
       - id: STANDARD_ITEM
         standard_item_type: BOW
-      - id: BOW
       - id: ITEM_MODEL
         item_model: hypixel_skyblock:item/uncategorized/hurricane_bow
   - id: HYPERION
     material: IRON_SWORD
+    name: "Hyperion"
     rarity: LEGENDARY
     default_statistics:
       damage: 260
@@ -1554,7 +1581,6 @@ items:
     components:
       - id: STANDARD_ITEM
         standard_item_type: BOW
-      - id: BOW
       - id: DUNGEON_ITEM
       - id: ITEM_REQUIREMENTS
         requirements:
@@ -1576,6 +1602,7 @@ items:
         item_model: hypixel_skyblock:item/community_center/mayor/jerry/jerrychine_gun
   - id: JUJU_SHORTBOW
     material: BOW
+    name: "Juju Shortbow"
     rarity: EPIC
     default_statistics:
       damage: 310
@@ -1585,7 +1612,6 @@ items:
     components:
       - id: STANDARD_ITEM
         standard_item_type: BOW
-      - id: BOW
       - id: ITEM_REQUIREMENTS
         requirements:
           - type: PENDING
@@ -1602,7 +1628,6 @@ items:
     components:
       - id: STANDARD_ITEM
         standard_item_type: BOW
-      - id: BOW
       - id: DUNGEON_ITEM
       - id: ITEM_REQUIREMENTS
         requirements:
@@ -1670,7 +1695,6 @@ items:
     components:
       - id: STANDARD_ITEM
         standard_item_type: BOW
-      - id: BOW
       - id: DUNGEON_ITEM
       - id: ITEM_REQUIREMENTS
         requirements:
@@ -1688,7 +1712,6 @@ items:
     components:
       - id: STANDARD_ITEM
         standard_item_type: BOW
-      - id: BOW
       - id: ITEM_MODEL
         item_model: hypixel_skyblock:item/uncategorized/magma_bow
   - id: MAWDUST_DAGGER
@@ -1713,6 +1736,7 @@ items:
         item_model: hypixel_skyblock:item/slayer/blaze/swords/twilight_dagger
   - id: MERCENARY_AXE
     material: IRON_SWORD
+    name: "Mercenary Axe"
     rarity: RARE
     default_statistics:
       strength: 20
@@ -1743,6 +1767,7 @@ items:
         item_model: hypixel_skyblock:item/community_center/mayor/scorpius/midas_staff
   - id: MIDAS_SWORD
     material: GOLDEN_SWORD
+    name: "Midas Sword"
     rarity: LEGENDARY
     default_statistics:
       damage: 170
@@ -1775,11 +1800,11 @@ items:
     components:
       - id: STANDARD_ITEM
         standard_item_type: BOW
-      - id: BOW
       - id: ITEM_MODEL
         item_model: hypixel_skyblock:item/island_relevant/rift/zones/mirrorcosm/crafting_room/crafts/wob
   - id: MOSQUITO_BOW
     material: BOW
+    name: "Mosquito Bow"
     rarity: LEGENDARY
     default_statistics:
       damage: 319
@@ -1788,7 +1813,6 @@ items:
     components:
       - id: STANDARD_ITEM
         standard_item_type: BOW
-      - id: BOW
       - id: ITEM_REQUIREMENTS
         requirements:
           - type: PENDING
@@ -1849,6 +1873,7 @@ items:
         item_model: hypixel_skyblock:item/uncategorized/necrons_blade
   - id: NULL_BLADE
     material: PAPER
+    name: "Null Blade"
     rarity: LEGENDARY
     components:
       - id: STANDARD_ITEM
@@ -1857,6 +1882,7 @@ items:
         item_model: hypixel_skyblock:item/slayer/enderman/crafts/null_blade
   - id: NULL_EDGE
     material: STICK
+    name: "Null Edge"
     rarity: EPIC
     components:
       - id: STANDARD_ITEM
@@ -1931,6 +1957,7 @@ items:
         item_model: hypixel_skyblock:item/broken/broken_wand
   - id: POOCH_SWORD
     material: GOLDEN_SWORD
+    name: "Pooch Sword"
     rarity: LEGENDARY
     default_statistics:
       speed: 10
@@ -1954,6 +1981,7 @@ items:
         item_model: hypixel_skyblock:item/slayer/wolf/weapons/pooch_sword
   - id: PRISMARINE_BLADE
     material: PRISMARINE_SHARD
+    name: "Prismarine Blade"
     rarity: UNCOMMON
     default_statistics:
       damage: 50
@@ -1993,7 +2021,6 @@ items:
     components:
       - id: STANDARD_ITEM
         standard_item_type: BOW
-      - id: BOW
       - id: ITEM_MODEL
         item_model: hypixel_skyblock:item/uncategorized/prismarine_bow
   - id: RABBIT_AXE
@@ -2043,6 +2070,7 @@ items:
         item_model: hypixel_skyblock:item/uncategorized/raider_sword
   - id: REAPER_SCYTHE
     material: DIAMOND_HOE
+    name: "Reaper Scythe"
     rarity: LEGENDARY
     default_statistics:
       speed: 10
@@ -2080,6 +2108,7 @@ items:
         item_model: hypixel_skyblock:item/slayer/zombie/weapons/reaper_falchion
   - id: RECLUSE_FANG
     material: IRON_SWORD
+    name: "Recluse Fang"
     rarity: UNCOMMON
     default_statistics:
       damage: 60
@@ -2112,6 +2141,7 @@ items:
         item_model: hypixel_skyblock:item/slayer/zombie/weapons/revenant_falchion
   - id: ROGUE_SWORD
     material: GOLDEN_SWORD
+    name: "Rogue Sword"
     rarity: COMMON
     default_statistics:
       damage: 20
@@ -2135,7 +2165,6 @@ items:
     components:
       - id: STANDARD_ITEM
         standard_item_type: BOW
-      - id: BOW
       - id: ITEM_MODEL
         item_model: hypixel_skyblock:item/uncategorized/runaans_bow
   - id: RUNIC_STAFF
@@ -2170,11 +2199,11 @@ items:
     components:
       - id: STANDARD_ITEM
         standard_item_type: BOW
-      - id: BOW
       - id: ITEM_MODEL
         item_model: hypixel_skyblock:item/uncategorized/savanna_bow
   - id: SCORPION_BOW
     material: BOW
+    name: "Scorpion Bow"
     rarity: EPIC
     default_statistics:
       damage: 50
@@ -2183,7 +2212,6 @@ items:
     components:
       - id: STANDARD_ITEM
         standard_item_type: BOW
-      - id: BOW
       - id: ITEM_REQUIREMENTS
         requirements:
           - type: PENDING
@@ -2192,6 +2220,7 @@ items:
         item_model: hypixel_skyblock:item/slayer/spider/weapons/spider_shortbow
   - id: SCORPION_FOIL
     material: WOODEN_SWORD
+    name: "Scorpion Foil"
     rarity: EPIC
     default_statistics:
       damage: 120
@@ -2294,6 +2323,7 @@ items:
         item_model: hypixel_skyblock:item/uncategorized/shadow_fury
   - id: SHAMAN_SWORD
     material: IRON_SWORD
+    name: "Shaman Sword"
     rarity: EPIC
     default_statistics:
       speed: 5
@@ -2366,6 +2396,22 @@ items:
             level: 13
       - id: ITEM_MODEL
         item_model: hypixel_skyblock:item/uncategorized/silk_edge_sword
+  - id: SILVER_FANG
+    material: GHAST_TEAR
+    rarity: UNCOMMON
+    components:
+      - id: DEFAULT_CRAFTABLE
+        recipes:
+          - type: SHAPELESS
+            recipe-type: COMBAT
+            ingredients:
+              - type: ENCHANTED_GHAST_TEAR
+                amount: 25
+            result:
+              type: SILVER_FANG
+              amount: 1
+      - id: ITEM_MODEL
+        item_model: hypixel_skyblock:item/uncategorized/silver_fang
   - id: SILVERTWIST_KARAMBIT
     material: IRON_SWORD
     rarity: EPIC
@@ -2396,6 +2442,7 @@ items:
         item_model: hypixel_skyblock:item/island_relevant/rift/zones/castle/swords/silver_laced_karambit
   - id: SINSEEKER_SCYTHE
     material: GOLDEN_HOE
+    name: "Sinseeker Scythe"
     rarity: EPIC
     default_statistics:
       damage: 100
@@ -2409,21 +2456,6 @@ items:
             description: slayer_boss_type=enderman level=6
       - id: ITEM_MODEL
         item_model: hypixel_skyblock:item/slayer/enderman/weapons/sinseeker_scythe
-  - id: SKELETON_LORD_BOW
-    material: BOW
-    rarity: EPIC
-    components:
-      - id: STANDARD_ITEM
-        standard_item_type: BOW
-      - id: BOW
-      - id: DUNGEON_ITEM
-      - id: ITEM_REQUIREMENTS
-        requirements:
-          - type: DUNGEON_SKILL
-            dungeon: CATACOMBS
-            level: 30
-      - id: ITEM_MODEL
-        item_model: hypixel_skyblock:item/broken/broken_bow
   - id: SLIME_BOW
     material: BOW
     rarity: EPIC
@@ -2433,7 +2465,6 @@ items:
     components:
       - id: STANDARD_ITEM
         standard_item_type: BOW
-      - id: BOW
       - id: ITEM_MODEL
         item_model: hypixel_skyblock:item/uncategorized/slime_bow
   - id: SNIPER_BOW
@@ -2442,7 +2473,6 @@ items:
     components:
       - id: STANDARD_ITEM
         standard_item_type: BOW
-      - id: BOW
       - id: DUNGEON_ITEM
       - id: ITEM_REQUIREMENTS
         requirements:
@@ -2459,11 +2489,11 @@ items:
     components:
       - id: STANDARD_ITEM
         standard_item_type: BOW
-      - id: BOW
       - id: ITEM_MODEL
         item_model: hypixel_skyblock:item/uncategorized/souls_rebound
   - id: SOUL_ESOWARD
     material: OAK_SAPLING
+    name: "Soul Esoward"
     rarity: RARE
     components:
       - id: STANDARD_ITEM
@@ -2501,11 +2531,11 @@ items:
     components:
       - id: STANDARD_ITEM
         standard_item_type: BOW
-      - id: BOW
       - id: ITEM_MODEL
         item_model: hypixel_skyblock:item/uncategorized/spider_queens_stinger
   - id: SPIDER_SWORD
     material: IRON_SWORD
+    name: "Spider Sword"
     rarity: UNCOMMON
     default_statistics:
       damage: 30
@@ -2540,6 +2570,7 @@ items:
         item_model: hypixel_skyblock:item/uncategorized/spirit_sword
   - id: SQUIRE_SWORD
     material: IRON_SWORD
+    name: "Squire Sword"
     rarity: UNCOMMON
     default_statistics:
       strength: 10
@@ -2625,7 +2656,6 @@ items:
     components:
       - id: STANDARD_ITEM
         standard_item_type: BOW
-      - id: BOW
       - id: DUNGEON_ITEM
       - id: ITEM_REQUIREMENTS
         requirements:
@@ -2719,7 +2749,6 @@ items:
     components:
       - id: STANDARD_ITEM
         standard_item_type: BOW
-      - id: BOW
       - id: DUNGEON_ITEM
       - id: ITEM_REQUIREMENTS
         requirements:
@@ -2738,7 +2767,6 @@ items:
     components:
       - id: STANDARD_ITEM
         standard_item_type: BOW
-      - id: BOW
       - id: DUNGEON_ITEM
       - id: ITEM_REQUIREMENTS
         requirements:
@@ -2827,7 +2855,6 @@ items:
     components:
       - id: STANDARD_ITEM
         standard_item_type: BOW
-      - id: BOW
       - id: ITEM_MODEL
         item_model: hypixel_skyblock:item/uncategorized/spider_queens_stinger
   - id: STARRED_STONE_BLADE
@@ -2858,7 +2885,6 @@ items:
     components:
       - id: STANDARD_ITEM
         standard_item_type: BOW
-      - id: BOW
       - id: ITEM_MODEL
         item_model: hypixel_skyblock:item/uncategorized/venoms_touch
   - id: STARRED_YETI_SWORD
@@ -2927,7 +2953,6 @@ items:
     components:
       - id: STANDARD_ITEM
         standard_item_type: BOW
-      - id: BOW
       - id: DUNGEON_ITEM
       - id: ITEM_REQUIREMENTS
         requirements:
@@ -2965,6 +2990,7 @@ items:
         standard_item_type: SWORD
   - id: STRETCHING_STICKS
     material: STICK
+    name: "Stretching Sticks"
     rarity: UNCOMMON
     components:
       - id: STANDARD_ITEM
@@ -2980,7 +3006,6 @@ items:
     components:
       - id: STANDARD_ITEM
         standard_item_type: BOW
-      - id: BOW
       - id: ITEM_REQUIREMENTS
         requirements:
           - type: SKILL
@@ -3012,7 +3037,6 @@ items:
     components:
       - id: STANDARD_ITEM
         standard_item_type: BOW
-      - id: BOW
       - id: DUNGEON_ITEM
       - id: ITEM_REQUIREMENTS
         requirements:
@@ -3040,6 +3064,7 @@ items:
         item_model: hypixel_skyblock:item/uncategorized/sword_of_bad_health
   - id: SWORD_OF_REVELATIONS
     material: WOODEN_SWORD
+    name: "Sword Of Revelations"
     rarity: EPIC
     default_statistics:
       damage: 180
@@ -3094,6 +3119,7 @@ items:
         item_model: hypixel_skyblock:item/slayer/spider/weapons/tarantula_fang
   - id: TERMINATOR
     material: BOW
+    name: "Terminator"
     rarity: LEGENDARY
     default_statistics:
       damage: 310
@@ -3103,7 +3129,6 @@ items:
     components:
       - id: STANDARD_ITEM
         standard_item_type: BOW
-      - id: BOW
       - id: ITEM_REQUIREMENTS
         requirements:
           - type: PENDING
@@ -3179,12 +3204,12 @@ items:
     components:
       - id: STANDARD_ITEM
         standard_item_type: BOW
-      - id: BOW
       - id: DUNGEON_ITEM
       - id: ITEM_MODEL
         item_model: hypixel_skyblock:item/uncategorized/undead_bow
   - id: UNDEAD_SWORD
     material: IRON_SWORD
+    name: "Undead Sword"
     rarity: UNCOMMON
     default_statistics:
       damage: 30
@@ -3250,11 +3275,11 @@ items:
     components:
       - id: STANDARD_ITEM
         standard_item_type: BOW
-      - id: BOW
       - id: ITEM_MODEL
         item_model: hypixel_skyblock:item/uncategorized/venoms_touch
   - id: VOIDEDGE_KATANA
     material: BLAZE_ROD
+    name: "Voidedge Katana"
     rarity: RARE
     default_statistics:
       damage: 155
@@ -3282,6 +3307,7 @@ items:
         item_model: hypixel_skyblock:item/slayer/enderman/weapons/katanas/voidedge_katana
   - id: VOIDWALKER_KATANA
     material: BLAZE_ROD
+    name: "Voidwalker Katana"
     rarity: UNCOMMON
     default_statistics:
       damage: 105
@@ -3304,6 +3330,7 @@ items:
         item_model: hypixel_skyblock:item/island_relevant/combat_3/void_sword
   - id: VORPAL_KATANA
     material: BLAZE_ROD
+    name: "Vorpal Katana"
     rarity: EPIC
     default_statistics:
       damage: 190
@@ -3403,13 +3430,13 @@ items:
         item_model: hypixel_skyblock:item/uncategorized/wand_of_strength
   - id: WITHER_BOW
     material: BOW
+    name: "Wither Bow"
     rarity: UNCOMMON
     default_statistics:
       damage: 30
     components:
       - id: STANDARD_ITEM
         standard_item_type: BOW
-      - id: BOW
       - id: ITEM_MODEL
         item_model: hypixel_skyblock:item/uncategorized/wither_bow
   - id: WITHER_CLOAK

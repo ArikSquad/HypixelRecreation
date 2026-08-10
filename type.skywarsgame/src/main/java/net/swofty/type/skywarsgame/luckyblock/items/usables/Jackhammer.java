@@ -79,7 +79,7 @@ public class Jackhammer implements LuckyBlockItem {
                     Block block = instance.getBlock(blockPos);
                     boolean isChest = game != null && game.getChestManager().isChestPosition(new net.minestom.server.coordinate.Pos(blockPos));
 
-                    if (!block.isAir() && !block.compare(Block.BEDROCK) && !isChest) {
+                    if (!block.air() && !block.compare(Block.BEDROCK) && !isChest) {
                         instance.setBlock(blockPos, Block.AIR);
                         blocksDestroyed++;
                     }
@@ -128,7 +128,7 @@ public class Jackhammer implements LuckyBlockItem {
         for (double d = 0; d <= MAX_REACH; d += 0.25) {
             Vec checkPos = eyePos.add(direction.mul(d));
             Block block = instance.getBlock(checkPos);
-            if (!block.isAir()) {
+            if (!block.air()) {
                 return checkPos;
             }
         }

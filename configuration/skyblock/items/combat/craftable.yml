@@ -1,52 +1,7 @@
 items:
-  - id: AXE_OF_THE_SHREDDED
-    material: diamond_axe
-    rarity: LEGENDARY
-    default_statistics:
-      damage: 140.0
-      strength: 115.0
-    components:
-      - id: DEFAULT_CRAFTABLE
-        recipes:
-          - type: SHAPED
-            recipe-type: REVENANT_HORROR
-            pattern:
-              - ABA
-              - BCB
-              - ABA
-            ingredients:
-              A:
-                type: REVENANT_VISCERA
-                amount: 64
-              B:
-                type: SHARD_OF_THE_SHREDDED
-                amount: 1
-              C:
-                type: REAPER_FALCHION
-                amount: 1
-            result:
-              type: AXE_OF_THE_SHREDDED
-              amount: 1
-      - id: STANDARD_ITEM
-        standard_item_type: SWORD
-      - id: GEMSTONE
-        gemstone_slots:
-          - gemstone: JASPER
-            coins: 50000
-            items:
-              - FINE_JASPER_GEM:20
-          - gemstone: COMBAT
-            coins: 100000
-            items:
-              - FINE_JASPER_GEM:40
-              - FINE_SAPPHIRE_GEM:40
-              - FINE_RUBY_GEM:40
-              - FINE_AMETHYST_GEM:40
-      - id: NOT_FINISHED_YET
-      - id: ITEM_MODEL
-        item_model: hypixel_skyblock:item/slayer/zombie/weapons/halberd_of_the_shredded
   - id: CRYSTALLIZED_HEART
     material: player_head
+    name: "Crystallized Heart"
     rarity: RARE
     default_statistics:
       health: 50.0
@@ -79,6 +34,7 @@ items:
       - id: NOT_FINISHED_YET
   - id: REAPER_FALCHION
     material: diamond_sword
+    name: "Reaper Falchion"
     rarity: COMMON
     default_statistics:
       damage: 120.0
@@ -117,6 +73,7 @@ items:
       - id: NOT_FINISHED_YET
   - id: REAPER_MASK
     material: player_head
+    name: "Reaper Mask"
     rarity: LEGENDARY
     default_statistics:
       health: 150.0
@@ -166,6 +123,7 @@ items:
       - id: NOT_FINISHED_YET
   - id: REAPER_SCYTHE
     material: diamond_hoe
+    name: "Reaper Scythe"
     rarity: LEGENDARY
     default_statistics:
       damage: 333.0
@@ -202,6 +160,7 @@ items:
         item_model: hypixel_skyblock:item/slayer/zombie/weapons/reaper_scythe
   - id: REVENANT_FALCHION
     material: diamond_sword
+    name: "Revenant Falchion"
     rarity: COMMON
     default_statistics:
       damage: 90.0
@@ -234,6 +193,7 @@ items:
       - id: NOT_FINISHED_YET
   - id: REVIVED_HEART
     material: player_head
+    name: "Revived Heart"
     rarity: EPIC
     default_statistics:
       health: 100.0
@@ -270,6 +230,7 @@ items:
       - id: NOT_FINISHED_YET
   - id: WARDEN_HELMET
     material: player_head
+    name: "Warden Helmet"
     rarity: LEGENDARY
     default_statistics:
       health: 300.0

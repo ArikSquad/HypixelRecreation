@@ -1,5 +1,6 @@
 package net.swofty.pvp.enums;
 
+import lombok.Getter;
 import net.kyori.adventure.key.Key;
 import net.minestom.server.component.DataComponents;
 import net.minestom.server.entity.EquipmentSlot;
@@ -39,8 +40,10 @@ public enum ArmorMaterial {
 	private final int[] protectionAmounts;
 	private final int[] legacyProtectionAmounts;
 	private final SoundEvent equipSound;
-	private final float toughness;
-	private final float knockbackResistance;
+	@Getter
+    private final float toughness;
+	@Getter
+    private final float knockbackResistance;
 	private final Material[] items;
 
 	ArmorMaterial(int[] protectionAmounts, int[] legacyProtectionAmounts, SoundEvent equipSound, float toughness, float knockbackResistance, Material... items) {
@@ -87,7 +90,7 @@ public enum ArmorMaterial {
 	}
 
 	public static EquipmentSlot getRequiredSlot(Material material) {
-		EquipmentSlot slot = material.registry().equipmentSlot();
+		EquipmentSlot slot = material.equipmentSlot();
 		return slot == null ? EquipmentSlot.HELMET : slot;
 	}
 
@@ -114,15 +117,4 @@ public enum ArmorMaterial {
 		return version.legacy() ? this.legacyProtectionAmounts[id] : this.protectionAmounts[id];
 	}
 
-	public SoundEvent getEquipSound() {
-		return this.equipSound;
-	}
-
-	public float getToughness() {
-		return this.toughness;
-	}
-
-	public float getKnockbackResistance() {
-		return this.knockbackResistance;
-	}
 }
