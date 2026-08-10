@@ -5,6 +5,8 @@ import net.minestom.server.coordinate.Point;
 import net.minestom.server.entity.GameMode;
 import net.minestom.server.entity.LivingEntity;
 import net.minestom.server.event.player.PlayerBlockBreakEvent;
+import net.minestom.server.event.entity.EntityAttackEvent;
+import net.minestom.server.event.player.PlayerEntityInteractEvent;
 import net.minestom.server.event.player.PlayerBlockInteractEvent;
 import net.minestom.server.event.player.PlayerBlockPlaceEvent;
 import net.minestom.server.instance.Instance;
@@ -17,9 +19,9 @@ import net.swofty.type.skyblockgeneric.block.impl.BlockBreakable;
 import net.swofty.type.skyblockgeneric.block.impl.BlockInteractable;
 import net.swofty.type.skyblockgeneric.block.impl.BlockPlaceable;
 import net.swofty.type.skyblockgeneric.block.impl.CustomSkyBlockBlock;
+import net.swofty.type.skyblockgeneric.block.impl.EntityBackedBlock;
 import net.swofty.type.skyblockgeneric.furniture.Furniture;
 import net.swofty.type.skyblockgeneric.furniture.FurnitureLimitPool;
-import net.swofty.type.skyblockgeneric.furniture.IslandFurnitureManager;
 import net.swofty.type.skyblockgeneric.gui.inventories.experiments.GUIExperiments;
 import net.swofty.type.skyblockgeneric.item.SkyBlockItem;
 import net.swofty.type.skyblockgeneric.user.SkyBlockPlayer;
@@ -29,9 +31,9 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-public final class BlockExperimentationTable implements CustomSkyBlockBlock, BlockPlaceable, BlockInteractable, BlockBreakable {
+public final class BlockExperimentationTable implements CustomSkyBlockBlock, BlockPlaceable, BlockInteractable,
+        BlockBreakable, EntityBackedBlock {
     private static final Tag<String> TABLE_ID_TAG = Tag.String("experimentation_table_id");
-    private static final Tag<String> ENTITY_TABLE_ID_TAG = Tag.String("experimentation_table");
     private static final Map<Placement, List<LivingEntity>> PLACED_TABLES = new ConcurrentHashMap<>();
     private static final Map<UUID, Placement> PLACEMENTS_BY_ID = new ConcurrentHashMap<>();
 
@@ -58,7 +60,7 @@ public final class BlockExperimentationTable implements CustomSkyBlockBlock, Blo
         }
 
         SkyBlockPlayer player = (SkyBlockPlayer) event.getPlayer();
-        if (!IslandFurnitureManager.of(player).place(player, FurnitureLimitPool.EXPERIMENTATION_TABLE,
+        if (!player.getSkyBlockIsland().getFurnitureManager().place(player, FurnitureLimitPool.EXPERIMENTATION_TABLE,
                 "Experimentation Table")) {
             event.setCancelled(true);
             return;
@@ -74,7 +76,10 @@ public final class BlockExperimentationTable implements CustomSkyBlockBlock, Blo
                 event.getInstance(),
                 position.asPos().add(0.5, 1.5, 0.5)
         );
-        entities.forEach(entity -> entity.setTag(ENTITY_TABLE_ID_TAG, tableId.toString()));
+        entities.forEach(entity -> {
+            entity.setTag(EntityBackedBlock.BLOCK_TYPE_TAG, "EXPERIMENTATION_TABLE");
+            entity.setTag(EntityBackedBlock.BLOCK_ID_TAG, tableId.toString());
+        });
 
         PLACED_TABLES.put(placement, entities);
         PLACEMENTS_BY_ID.put(tableId, placement);
@@ -93,54 +98,44 @@ public final class BlockExperimentationTable implements CustomSkyBlockBlock, Blo
     public void onBreak(PlayerBlockBreakEvent event, SkyBlockBlock block) {
         if (!HypixelConst.isIslandServer()) return;
 
-        String tableId = event.getBlock().getTag(TABLE_ID_TAG);
-        if (tableId != null) {
-            try {
-                if (!remove(UUID.fromString(tableId))) {
-                    remove(new Placement(event.getInstance(), event.getBlockPosition().x(),
-                            event.getBlockPosition().y(), event.getBlockPosition().z()));
-                }
-            } catch (IllegalArgumentException ignored) {
-                remove(new Placement(event.getInstance(), event.getBlockPosition().x(),
-                        event.getBlockPosition().y(), event.getBlockPosition().z()));
-            }
-        } else {
-            remove(new Placement(event.getInstance(), event.getBlockPosition().x(), event.getBlockPosition().y(), event.getBlockPosition().z()));
-        }
+        remove(event.getBlock().getTag(TABLE_ID_TAG), placementAt(event));
 
         event.setResultBlock(Block.AIR);
         if (event.getPlayer().getGameMode() != GameMode.CREATIVE) {
             ((SkyBlockPlayer) event.getPlayer()).addAndUpdateItem(new SkyBlockItem(ItemType.EXPERIMENTATION_TABLE));
         }
         SkyBlockPlayer player = (SkyBlockPlayer) event.getPlayer();
-        IslandFurnitureManager.of(player).remove(player, FurnitureLimitPool.EXPERIMENTATION_TABLE,
+        player.getSkyBlockIsland().getFurnitureManager().remove(player, FurnitureLimitPool.EXPERIMENTATION_TABLE,
                 "Experimentation Table");
     }
 
-    public static void interactWithPart(SkyBlockPlayer player, String tableId) {
+    @Override
+    public void onEntityInteract(PlayerEntityInteractEvent event, SkyBlockBlock block, String tableId) {
         if (!HypixelConst.isIslandServer()) return;
 
         try {
             if (PLACEMENTS_BY_ID.containsKey(UUID.fromString(tableId))) {
-                player.openView(new GUIExperiments());
+                ((SkyBlockPlayer) event.getPlayer()).openView(new GUIExperiments());
             }
         } catch (IllegalArgumentException ignored) {
         }
     }
 
-    public static void destroyFromPart(SkyBlockPlayer player, String tableId) {
+    @Override
+    public void onEntityAttack(EntityAttackEvent event, SkyBlockBlock block, String tableId) {
         if (!HypixelConst.isIslandServer()) return;
 
         try {
             Placement placement = PLACEMENTS_BY_ID.get(UUID.fromString(tableId));
             if (placement == null) return;
 
+            SkyBlockPlayer player = (SkyBlockPlayer) event.getEntity();
             remove(UUID.fromString(tableId));
             placement.instance().setBlock((int) placement.x(), (int) placement.y(), (int) placement.z(), Block.AIR);
             if (player.getGameMode() != GameMode.CREATIVE) {
                 player.addAndUpdateItem(new SkyBlockItem(ItemType.EXPERIMENTATION_TABLE));
             }
-            IslandFurnitureManager.of(player).remove(player, FurnitureLimitPool.EXPERIMENTATION_TABLE,
+            player.getSkyBlockIsland().getFurnitureManager().remove(player, FurnitureLimitPool.EXPERIMENTATION_TABLE,
                     "Experimentation Table");
         } catch (IllegalArgumentException ignored) {
         }
@@ -151,6 +146,24 @@ public final class BlockExperimentationTable implements CustomSkyBlockBlock, Blo
         if (placement == null) return false;
         remove(placement);
         return true;
+    }
+
+    private static void remove(String tableId, Placement fallback) {
+        if (tableId == null) {
+            remove(fallback);
+            return;
+        }
+
+        try {
+            if (!remove(UUID.fromString(tableId))) remove(fallback);
+        } catch (IllegalArgumentException ignored) {
+            remove(fallback);
+        }
+    }
+
+    private static Placement placementAt(PlayerBlockBreakEvent event) {
+        Point position = event.getBlockPosition();
+        return new Placement(event.getInstance(), position.x(), position.y(), position.z());
     }
 
     private static void remove(Placement placement) {

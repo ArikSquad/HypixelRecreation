@@ -19,6 +19,7 @@ import net.swofty.type.generic.utility.MathUtility;
 import net.swofty.type.skyblockgeneric.SkyBlockGenericLoader;
 import net.swofty.type.skyblockgeneric.data.monogdb.CoopDatabase;
 import net.swofty.type.skyblockgeneric.data.monogdb.IslandDatabase;
+import net.swofty.type.skyblockgeneric.furniture.IslandFurnitureManager;
 import net.swofty.type.skyblockgeneric.minion.IslandMinionData;
 import net.swofty.type.skyblockgeneric.user.SkyBlockPlayer;
 import net.swofty.type.skyblockgeneric.utility.JerryInformation;
@@ -40,6 +41,7 @@ public class SkyBlockIsland {
     private final IslandDatabase database;
     private final CoopDatabase.Coop coop;
     private final UUID islandID;
+    private final IslandFurnitureManager furnitureManager;
     private Boolean created = false;
     private SharedInstance islandInstance;
     private PolarWorld world;
@@ -57,6 +59,7 @@ public class SkyBlockIsland {
         this.islandID = islandID;
         this.database = new IslandDatabase(islandID.toString());
         this.coop = CoopDatabase.getFromMemberProfile(profileID);
+        this.furnitureManager = new IslandFurnitureManager(this);
 
         loadedIslands.put(islandID, this);
     }

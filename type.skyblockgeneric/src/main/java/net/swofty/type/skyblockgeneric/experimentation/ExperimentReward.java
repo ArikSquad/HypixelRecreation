@@ -8,6 +8,7 @@ import net.swofty.type.skyblockgeneric.item.SkyBlockItem;
 import net.swofty.type.skyblockgeneric.user.SkyBlockPlayer;
 
 import java.util.Arrays;
+import java.util.function.Supplier;
 
 public enum ExperimentReward {
     EXPERIENCE("§bEnchanting XP", ItemType.EXPERIENCE_BOTTLE, 0),
@@ -47,38 +48,32 @@ public enum ExperimentReward {
     TITAN_KILLER_VII("§6Titan Killer VII", EnchantmentType.TITAN_KILLER, 7, 500_000);
 
     private final String displayName;
-    private final ItemType itemType;
-    private final EnchantmentType enchantmentType;
-    private final int enchantmentLevel;
+    private final Material material;
+    private final Supplier<SkyBlockItem> itemSupplier;
     private final int meterRequirement;
 
     ExperimentReward(String displayName, ItemType itemType, int meterRequirement) {
-        this(displayName, itemType, null, 0, meterRequirement);
+        this(displayName, itemType.material, () -> new SkyBlockItem(itemType), meterRequirement);
     }
 
     ExperimentReward(String displayName, EnchantmentType enchantmentType, int enchantmentLevel, int meterRequirement) {
-        this(displayName, ItemType.ENCHANTED_BOOK, enchantmentType, enchantmentLevel, meterRequirement);
+        this(displayName, ItemType.ENCHANTED_BOOK.material,
+                () -> enchantedBook(enchantmentType, enchantmentLevel), meterRequirement);
     }
 
-    ExperimentReward(String displayName, ItemType itemType, EnchantmentType enchantmentType,
-                     int enchantmentLevel, int meterRequirement) {
+    ExperimentReward(String displayName, Material material, Supplier<SkyBlockItem> itemSupplier, int meterRequirement) {
         this.displayName = displayName;
-        this.itemType = itemType;
-        this.enchantmentType = enchantmentType;
-        this.enchantmentLevel = enchantmentLevel;
+        this.material = material;
+        this.itemSupplier = itemSupplier;
         this.meterRequirement = meterRequirement;
     }
 
     public String displayName() { return displayName; }
-    public Material material() { return itemType.material; }
+    public Material material() { return material; }
     public int meterRequirement() { return meterRequirement; }
 
     public SkyBlockItem createItem() {
-        SkyBlockItem item = new SkyBlockItem(itemType);
-        if (enchantmentType != null) {
-            item.getAttributeHandler().addEnchantment(new SkyBlockEnchantment(enchantmentType, enchantmentLevel));
-        }
-        return item;
+        return itemSupplier.get();
     }
 
     public void give(SkyBlockPlayer player) {
@@ -89,5 +84,11 @@ public enum ExperimentReward {
     public static ExperimentReward fromName(String name) {
         return Arrays.stream(values()).filter(reward -> reward.name().equals(name)).findFirst()
                 .orElse(TITANIC_EXPERIENCE_BOTTLE);
+    }
+
+    private static SkyBlockItem enchantedBook(EnchantmentType type, int level) {
+        SkyBlockItem item = new SkyBlockItem(ItemType.ENCHANTED_BOOK);
+        item.getAttributeHandler().addEnchantment(new SkyBlockEnchantment(type, level));
+        return item;
     }
 }

@@ -1,5 +1,7 @@
 package net.swofty.type.skyblockgeneric.experimentation;
 
+import lombok.Getter;
+import lombok.experimental.Accessors;
 import net.minestom.server.item.Material;
 import net.swofty.type.skyblockgeneric.skill.SkillCategories;
 import net.swofty.type.skyblockgeneric.user.SkyBlockPlayer;
@@ -7,6 +9,8 @@ import net.swofty.type.skyblockgeneric.user.SkyBlockPlayer;
 import java.util.Arrays;
 import java.util.List;
 
+@Getter
+@Accessors(fluent = true)
 public enum ExperimentTier {
     HIGH("High", 20, 3, 1_500, 100, 20, Material.LIME_DYE),
     GRAND("Grand", 25, 5, 2_500, 150, 18, Material.YELLOW_DYE),
@@ -31,34 +35,6 @@ public enum ExperimentTier {
         this.superPairsXpPerPair = superPairsXpPerPair;
         this.baseClicks = baseClicks;
         this.icon = icon;
-    }
-
-    public String displayName() {
-        return displayName;
-    }
-
-    public int requiredEnchantingLevel() {
-        return requiredEnchantingLevel;
-    }
-
-    public int colorCount() {
-        return colorCount;
-    }
-
-    public int xpPerStep() {
-        return xpPerStep;
-    }
-
-    public int superPairsXpPerPair() {
-        return superPairsXpPerPair;
-    }
-
-    public int baseClicks() {
-        return baseClicks;
-    }
-
-    public Material icon() {
-        return icon;
     }
 
     public boolean isUnlocked(SkyBlockPlayer player) {

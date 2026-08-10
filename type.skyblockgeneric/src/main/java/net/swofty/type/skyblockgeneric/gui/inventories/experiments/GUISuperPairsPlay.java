@@ -103,16 +103,12 @@ public final class GUISuperPairsPlay extends StatelessView {
         if (result.complete()) {
             player.playSound(MATCH_SOUND);
             showResults(player, ctx, true);
-        } else if (result.match()) {
-            player.playSound(MATCH_SOUND);
-            ctx.session(DefaultState.class).refresh();
-        } else if (result.secondTile() >= 0) {
-            player.playSound(MISS_SOUND);
-            ctx.session(DefaultState.class).refresh();
-        } else {
-            player.playSound(FLIP_SOUND);
-            ctx.session(DefaultState.class).refresh();
+            return;
         }
+
+        Sound sound = result.match() ? MATCH_SOUND : result.secondTile() >= 0 ? MISS_SOUND : FLIP_SOUND;
+        player.playSound(sound);
+        ctx.session(DefaultState.class).refresh();
     }
 
     private ItemStack.Builder tileItem(SkyBlockPlayer player, int tile) {
