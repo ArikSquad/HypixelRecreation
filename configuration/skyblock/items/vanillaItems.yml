@@ -229,6 +229,7 @@ items:
     material: enchanting_table
     components:
       - id: PLACEABLE
+        block_type: ENCHANTMENT_TABLE
   - id: EXPERIMENTATION_TABLE
     material: enchanting_table
     rarity: RARE
