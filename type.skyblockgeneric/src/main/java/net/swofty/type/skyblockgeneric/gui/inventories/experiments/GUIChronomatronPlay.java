@@ -5,7 +5,7 @@ import net.kyori.adventure.sound.Sound;
 import net.minestom.server.inventory.InventoryType;
 import net.minestom.server.item.ItemStack;
 import net.minestom.server.item.Material;
-import net.swofty.type.generic.gui.inventory.ItemStackCreator;
+import net.swofty.type.generic.gui.inventory.ItemStacks;
 import net.swofty.type.generic.gui.v2.*;
 import net.swofty.type.generic.gui.v2.context.ViewContext;
 import net.swofty.type.skyblockgeneric.experimentation.ExperimentTier;
@@ -57,7 +57,7 @@ public final class GUIChronomatronPlay extends StatelessView {
         SkyBlockPlayer player = (SkyBlockPlayer) ctx.player();
         if (ExperimentationManager.getChronomatronState(player) == null
                 && !ExperimentationManager.start(player, ExperimentType.CHRONOMATRON, tier)) {
-            player.sendMessage("§cUnable to start this experiment.");
+            player.sendMessage("<c>Unable to start this experiment.");
             ctx.backOrClose();
             return;
         }
@@ -83,7 +83,7 @@ public final class GUIChronomatronPlay extends StatelessView {
             SkyBlockPlayer player = (SkyBlockPlayer) viewCtx.player();
             ExperimentationManager.ChronomatronInputResult result = ExperimentationManager.inputChronomatron(player, color);
             if (!result.success()) {
-                player.sendMessage("§c" + result.errorMessage());
+                player.sendMessage("<c>" + result.errorMessage());
                 return;
             }
             if (!result.correct()) {
@@ -124,20 +124,20 @@ public final class GUIChronomatronPlay extends StatelessView {
     }
 
     private ItemStack.Builder colorItem(int color) {
-        ItemStack.Builder item = ItemStackCreator.getStack("§fColor " + (color + 1), COLOR_MATERIALS[color], 1);
-        return highlightedColor == color ? ItemStackCreator.enchant(item) : item;
+        ItemStack.Builder item = ExperimentationGuiSupport.item("<f>Color " + (color + 1), COLOR_MATERIALS[color], 1);
+        return highlightedColor == color ? ItemStacks.enchanted(item) : item;
     }
 
     private ItemStack.Builder timeItem(SkyBlockPlayer player) {
         GameSession.ChronomatronState game = ExperimentationManager.getChronomatronState(player);
         if (game == null || game.deadline() <= 0) {
-            return ItemStackCreator.getStack("§eWatch the sequence", Material.CLOCK, 1,
-                    "§7Repeat the displayed sequence before time runs out.");
+            return ExperimentationGuiSupport.item("<e>Watch the sequence", Material.CLOCK, 1,
+                    "<7>Repeat the displayed sequence before time runs out.");
         }
         int seconds = Math.max(0, (int) Math.ceil((game.deadline() - System.currentTimeMillis()) / 1_000d));
-        return ItemStackCreator.getStack("§eTime Left: §f" + seconds, Material.CLOCK,
+        return ExperimentationGuiSupport.item("<e>Time Left: <f>" + seconds, Material.CLOCK,
                 Math.max(1, Math.min(64, seconds)),
-                "§7Repeat the displayed sequence before time runs out.");
+                "<7>Repeat the displayed sequence before time runs out.");
     }
 
     private void startRound(SkyBlockPlayer player) {

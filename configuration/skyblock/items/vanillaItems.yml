@@ -264,7 +264,7 @@ items:
                 left: '%player.skill_level:ENCHANTING%'
                 operation: '>='
                 right: '10'
-                fail-message: '§cRequires Enchanting Skill 10!'
+                fail-message: '<c>Requires Enchanting Skill 10!'
   - id: FURNACE
     material: FURNACE
     rarity: COMMON

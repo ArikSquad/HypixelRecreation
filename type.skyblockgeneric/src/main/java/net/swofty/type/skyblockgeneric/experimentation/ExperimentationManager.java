@@ -22,7 +22,7 @@ public final class ExperimentationManager {
     }
 
     public static String requirementMessage(ExperimentTier tier) {
-        return "§cYou need Enchanting " + StringUtility.getAsRomanNumeral(tier.requiredEnchantingLevel())
+        return "<c>You need Enchanting " + StringUtility.getAsRomanNumeral(tier.requiredEnchantingLevel())
                 + " to play this experiment.";
     }
 

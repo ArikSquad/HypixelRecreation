@@ -57,7 +57,7 @@ public final class ExperienceBottleEntity extends Entity {
         instance.sendGroupedPacket(new ParticlePacket(Particle.HAPPY_VILLAGER,
                 position.x(), position.y(), position.z(), .35f, .35f, .35f, .1f, 30));
         thrower.addExperience(experience);
-        thrower.sendMessage("§a+" + String.format("%,d", experience) + " Experience");
+        thrower.sendMessage("<a>+" + String.format("%,d", experience) + " Experience");
         remove();
     }
 }

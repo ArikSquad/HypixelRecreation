@@ -23,11 +23,11 @@ public final class ArmorDyeComponent extends SkyBlockItemComponent {
                 (armor, dye, player) -> 0,
                 (player, armor, dye) -> {
                     if (player.getBits() < 100) {
-                        player.sendMessage("§cYou need at least §b100 Bits §cto apply this dye!");
+                        player.sendMessage("<c>You need at least <b>100 Bits <c>to apply this dye!");
                         return false;
                     }
                     player.removeBits(100);
-                    player.sendMessage("§aDye applied! §7(§b-100 Bits§7)");
+                    player.sendMessage("<a>Dye applied! <7>(<b>-100 Bits<7>)");
                     return true;
                 }
         ));

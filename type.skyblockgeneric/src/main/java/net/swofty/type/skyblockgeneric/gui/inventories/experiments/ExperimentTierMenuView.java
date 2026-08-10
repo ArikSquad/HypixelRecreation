@@ -2,7 +2,7 @@ package net.swofty.type.skyblockgeneric.gui.inventories.experiments;
 
 import net.minestom.server.inventory.InventoryType;
 import net.minestom.server.item.Material;
-import net.swofty.type.generic.gui.inventory.ItemStackCreator;
+import net.swofty.type.generic.gui.inventory.ItemStacks;
 import net.swofty.type.generic.gui.v2.*;
 import net.swofty.type.generic.gui.v2.context.ViewContext;
 import net.swofty.type.skyblockgeneric.experimentation.ExperimentTier;
@@ -27,7 +27,7 @@ abstract class ExperimentTierMenuView extends StatelessView {
     public void layout(ViewLayout<DefaultState> layout, DefaultState state, ViewContext ctx) {
         Components.fill(layout);
         layout.filler(Arrays.stream(BORDER_SLOTS).boxed().toList(),
-                ItemStackCreator.getStack(" ", Material.PURPLE_STAINED_GLASS_PANE, 1));
+                ExperimentationGuiSupport.item(" ", Material.PURPLE_STAINED_GLASS_PANE, 1));
         Components.backOrClose(layout, 40, ctx);
 
         ExperimentTier[] tiers = ExperimentTier.values();
@@ -41,7 +41,7 @@ abstract class ExperimentTierMenuView extends StatelessView {
                     return;
                 }
                 if (!ExperimentationManager.start(player, experimentType(), tier)) {
-                    player.sendMessage("§cYou already have an experiment in progress.");
+                    player.sendMessage("<c>You already have an experiment in progress.");
                     return;
                 }
                 viewCtx.push(playView(tier));

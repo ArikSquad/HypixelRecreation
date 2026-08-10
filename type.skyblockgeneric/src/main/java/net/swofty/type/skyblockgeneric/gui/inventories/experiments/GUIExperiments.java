@@ -3,7 +3,7 @@ package net.swofty.type.skyblockgeneric.gui.inventories.experiments;
 import net.minestom.server.inventory.InventoryType;
 import net.minestom.server.item.ItemStack;
 import net.minestom.server.item.Material;
-import net.swofty.type.generic.gui.inventory.ItemStackCreator;
+import net.swofty.type.generic.gui.inventory.ItemStacks;
 import net.swofty.type.generic.gui.v2.*;
 import net.swofty.type.generic.gui.v2.context.ViewContext;
 import net.swofty.type.skyblockgeneric.experimentation.ExperimentType;
@@ -27,7 +27,7 @@ public final class GUIExperiments extends StatelessView {
     public void layout(ViewLayout<DefaultState> layout, DefaultState state, ViewContext ctx) {
         Components.fill(layout);
         layout.filler(Arrays.stream(BORDER_SLOTS).boxed().toList(),
-                ItemStackCreator.getStack(" ", Material.PURPLE_STAINED_GLASS_PANE, 1));
+                ExperimentationGuiSupport.item(" ", Material.PURPLE_STAINED_GLASS_PANE, 1));
         Components.close(layout, 49);
 
         layout.slot(22, ExperimentationGuiSupport.experimentIcon(ExperimentType.SUPERPAIRS),
@@ -38,14 +38,14 @@ public final class GUIExperiments extends StatelessView {
                 (_, viewCtx) -> viewCtx.push(new GUIUltrasequencer()));
 
         layout.filler(List.of(20, 21, 23, 24),
-                ItemStackCreator.getStack("§7Pending Experiment...", Material.PINK_STAINED_GLASS_PANE, 1));
-        layout.slot(50, ItemStackCreator.getStack(
-                "§bExperience Bottles",
+                ExperimentationGuiSupport.item("<7>Pending Experiment...", Material.PINK_STAINED_GLASS_PANE, 1));
+        layout.slot(50, ExperimentationGuiSupport.item(
+                "<b>Experience Bottles",
                 Material.EXPERIENCE_BOTTLE,
                 1,
-                "§7Use experience bottles to restore missing experience.",
+                "<7>Use experience bottles to restore missing experience.",
                 "",
-                "§7Experiment rewards grant §bEnchanting XP§7."
+                "<7>Experiment rewards grant <b>Enchanting XP<7>."
         ));
         layout.slot(48, (_, viewCtx) -> meterItem((SkyBlockPlayer) viewCtx.player()),
                 (_, viewCtx) -> cycleMeter((SkyBlockPlayer) viewCtx.player(), viewCtx));
@@ -55,11 +55,11 @@ public final class GUIExperiments extends StatelessView {
         var meter = RNGMeterService.get(player, ExperimentationRNGMeter.INSTANCE);
         ExperimentReward reward = ExperimentReward.fromName(meter.selectedReward());
         double percent = meter.storedXp() * 100d / reward.requiredXp();
-        return ItemStackCreator.getStack("§dExperimentation RNG Meter", Material.MAGENTA_DYE, 1,
-                "§7Selected: " + reward.displayName(),
-                "§7Progress: §d" + String.format("%.1f", meter.storedXp()) + "§7/§d" + reward.meterRequirement()
-                        + " §7(" + String.format("%.1f", Math.min(100, percent)) + "%)",
-                "", "§eClick to change your selected reward!");
+        return ExperimentationGuiSupport.item("<d>Experimentation RNG Meter", Material.MAGENTA_DYE, 1,
+                "<7>Selected: " + reward.displayName(),
+                "<7>Progress: <d>" + String.format("%.1f", meter.storedXp()) + "<7>/<d>" + reward.meterRequirement()
+                        + " <7>(" + String.format("%.1f", Math.min(100, percent)) + "%)",
+                "", "<e>Click to change your selected reward!");
     }
 
     private void cycleMeter(SkyBlockPlayer player, ViewContext ctx) {
@@ -70,7 +70,7 @@ public final class GUIExperiments extends StatelessView {
         int index = Arrays.asList(rewards).indexOf(current);
         ExperimentReward next = rewards[(index + 1) % rewards.length];
         RNGMeterService.select(player, ExperimentationRNGMeter.INSTANCE, next);
-        player.sendMessage("§aYou selected " + next.displayName() + "§a for your Experimentation RNG Meter!");
+        player.sendMessage("<a>You selected " + next.displayName() + "<a> for your Experimentation RNG Meter!");
         ctx.session(DefaultState.class).refresh();
     }
 }

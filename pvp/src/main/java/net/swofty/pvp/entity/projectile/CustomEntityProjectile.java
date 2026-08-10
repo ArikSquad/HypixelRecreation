@@ -194,7 +194,7 @@ public class CustomEntityProjectile extends Entity {
 		Point collidedBlockVec = collidedPoint.asBlockVec();
 		Block block = instance.getBlock(collidedPoint);
 
-		return !block.registry().collisionShape().intersectBox(collidedPoint.sub(collidedBlockVec).sub(0, 0.6, 0), UNSTUCK_BOX);
+		return !block.collisionShape().intersectBox(collidedPoint.sub(collidedBlockVec).sub(0, 0.6, 0), UNSTUCK_BOX);
 	}
 
 	protected boolean canHit(Entity entity) {

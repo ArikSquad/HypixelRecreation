@@ -5,7 +5,7 @@ import net.kyori.adventure.sound.Sound;
 import net.minestom.server.inventory.InventoryType;
 import net.minestom.server.item.ItemStack;
 import net.minestom.server.item.Material;
-import net.swofty.type.generic.gui.inventory.ItemStackCreator;
+import net.swofty.type.generic.gui.inventory.ItemStacks;
 import net.swofty.type.generic.gui.v2.*;
 import net.swofty.type.generic.gui.v2.context.ViewContext;
 import net.swofty.type.skyblockgeneric.experimentation.*;
@@ -46,7 +46,7 @@ public final class GUISuperPairsPlay extends StatelessView {
         SkyBlockPlayer player = (SkyBlockPlayer) ctx.player();
         if (ExperimentationManager.getSuperPairsState(player) == null
                 && !ExperimentationManager.start(player, ExperimentType.SUPERPAIRS, tier)) {
-            player.sendMessage("§cUnable to start this experiment.");
+            player.sendMessage("<c>Unable to start this experiment.");
             ctx.backOrClose();
             return;
         }
@@ -96,7 +96,7 @@ public final class GUISuperPairsPlay extends StatelessView {
         ExperimentationManager.SuperPairsFlipResult result =
                 ExperimentationManager.flipSuperPair(player, tile);
         if (!result.success()) {
-            if (result.errorMessage() != null) player.sendMessage("§c" + result.errorMessage());
+            if (result.errorMessage() != null) player.sendMessage("<c>" + result.errorMessage());
             return;
         }
 
@@ -114,7 +114,7 @@ public final class GUISuperPairsPlay extends StatelessView {
     private ItemStack.Builder tileItem(SkyBlockPlayer player, int tile) {
         GameSession.SuperPairsState game = ExperimentationManager.getSuperPairsState(player);
         if (game == null || game.board().size() <= tile) {
-            return ItemStackCreator.getStack(" ", Material.GRAY_STAINED_GLASS_PANE, 1);
+            return ExperimentationGuiSupport.item(" ", Material.GRAY_STAINED_GLASS_PANE, 1);
         }
 
         boolean visible = game.matchedTiles().contains(tile)
@@ -122,7 +122,7 @@ public final class GUISuperPairsPlay extends StatelessView {
                 || game.mismatchFirst() == tile
                 || game.mismatchSecond() == tile;
         if (!visible) {
-            return ItemStackCreator.getStack("§7Click to reveal", Material.GRAY_STAINED_GLASS_PANE, 1);
+            return ExperimentationGuiSupport.item("<7>Click to reveal", Material.GRAY_STAINED_GLASS_PANE, 1);
         }
 
         SuperPairItem item = game.board().get(tile);
@@ -132,19 +132,19 @@ public final class GUISuperPairsPlay extends StatelessView {
     private ItemStack.Builder clicksItem(SkyBlockPlayer player) {
         GameSession.SuperPairsState game = ExperimentationManager.getSuperPairsState(player);
         int clicks = game == null ? 0 : game.clicksRemaining();
-        return ItemStackCreator.getStack(
-                "§eClicks Left: §f" + clicks,
+        return ExperimentationGuiSupport.item(
+                "<e>Clicks Left: <f>" + clicks,
                 Material.CLOCK,
                 Math.max(1, Math.min(64, clicks)),
-                "§7Each tile flip uses one click.",
-                "§7Match every pair before you run out.");
+                "<7>Each tile flip uses one click.",
+                "<7>Match every pair before you run out.");
     }
 
     private ItemStack.Builder scoreItem(SkyBlockPlayer player) {
         GameSession.SuperPairsState game = ExperimentationManager.getSuperPairsState(player);
         int pairs = game == null ? 0 : game.pairsFound();
-        return ItemStackCreator.getStack("§aPairs Found: §f" + pairs + "/8", Material.CHEST, 1,
-                "§7Find matching items to earn Enchanting XP.");
+        return ExperimentationGuiSupport.item("<a>Pairs Found: <f>" + pairs + "/8", Material.CHEST, 1,
+                "<7>Find matching items to earn Enchanting XP.");
     }
 
     private void showResults(SkyBlockPlayer player, ViewContext ctx, boolean completed) {

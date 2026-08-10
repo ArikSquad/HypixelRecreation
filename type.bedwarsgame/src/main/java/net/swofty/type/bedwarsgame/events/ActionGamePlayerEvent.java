@@ -1,6 +1,5 @@
 package net.swofty.type.bedwarsgame.events;
 
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.minestom.server.entity.ItemEntity;
 import net.minestom.server.event.inventory.InventoryPreClickEvent;
 import net.minestom.server.event.item.ItemDropEvent;
@@ -14,6 +13,7 @@ import net.swofty.commons.StringUtility;
 import net.swofty.commons.bedwars.map.BedWarsMapsConfig.MapTeam;
 import net.swofty.commons.bedwars.map.BedWarsMapsConfig.TeamKey;
 import net.swofty.commons.mc.HypixelPosition;
+import net.swofty.commons.text.Text;
 import net.swofty.type.bedwarsgame.game.v2.BedWarsGame;
 import net.swofty.type.bedwarsgame.gui.GUIEnderChest;
 import net.swofty.type.bedwarsgame.gui.GUITeamChest;
@@ -67,7 +67,7 @@ public class ActionGamePlayerEvent implements HypixelEventClass {
             case "diamond_pickaxe":
             case "diamond_axe":
                 event.setCancelled(true);
-                event.getPlayer().sendMessage("§cYou cannot drop your tools!");
+                ((BedWarsPlayer) event.getPlayer()).sendMessage("<c>You cannot drop your tools!");
                 break;
             default:
                 ItemEntity itemEntity = new ItemEntity(event.getItemStack());
@@ -86,12 +86,12 @@ public class ActionGamePlayerEvent implements HypixelEventClass {
             event.setCancelled(true);
             return;
         }
-        if (block.registry().material() == Material.ENDER_CHEST) {
+        if (block.material() == Material.ENDER_CHEST) {
             player.openView(new GUIEnderChest());
             return;
         }
 
-        if (block.registry().material() != Material.CHEST) return;
+        if (block.material() != Material.CHEST) return;
 
         BedWarsGame game = player.getGame();
         if (game == null || game.getState() != GameState.IN_PROGRESS) {
@@ -133,7 +133,7 @@ public class ActionGamePlayerEvent implements HypixelEventClass {
         boolean sameTeam = chestTeamKey.equals(playerTeamKey);
         if (!sameTeam && game.isBedAlive(chestTeamKey)) {
             event.setCancelled(true);
-            player.sendMessage("§cYou can only access enemy team chests if their bed is destroyed!");
+            player.sendMessage("<c>You can only access enemy team chests if their bed is destroyed!");
             return;
         }
 
@@ -152,25 +152,25 @@ public class ActionGamePlayerEvent implements HypixelEventClass {
         }
 
         if (itemInHand.isAir()) {
-            if (block.registry().material() == Material.CHEST || block.registry().material() == Material.ENDER_CHEST) {
+            if (block.material() == Material.CHEST || block.material() == Material.ENDER_CHEST) {
                 event.setCancelled(true);
             }
             return;
         }
 
-        if (block.registry().material() != Material.CHEST &&
-            block.registry().material() != Material.ENDER_CHEST) {
+        if (block.material() != Material.CHEST &&
+            block.material() != Material.ENDER_CHEST) {
             return;
         }
 
         if (!BedWarsInventoryManipulator.canBeChested(itemInHand.material())) {
-            player.sendMessage("§cYou cannot store this item in the chest!");
+            player.sendMessage("<c>You cannot store this item in the chest!");
             event.setCancelled(true);
             return;
         }
 
         // Handle Ender Chest
-        if (block.registry().material() == Material.ENDER_CHEST) {
+        if (block.material() == Material.ENDER_CHEST) {
             event.setCancelled(true);
             try {
                 Map<Integer, ItemStack> playerEnderChest = game.getEnderChests().computeIfAbsent(player.getUuid(), k -> new ConcurrentHashMap<>());
@@ -189,17 +189,17 @@ public class ActionGamePlayerEvent implements HypixelEventClass {
                     if (player.allowsPersistentProgress())
                         player.getAchievementHandler().addProgressByTrigger("bedwars.chest_deposit", 1);
                 } else {
-                    player.sendMessage("§cYour ender chest is full!");
+                    player.sendMessage("<c>Your ender chest is full!");
                 }
             } catch (Exception e) {
                 Logger.error("Failed to add item to ender chest for player {}: {}", player.getUsername(), e.getMessage());
                 e.printStackTrace();
-                player.sendMessage("§cFailed to add item to ender chest!");
+                player.sendMessage("<c>Failed to add item to ender chest!");
             }
             return;
         }
 
-        if (block.registry().material() == Material.CHEST) {
+        if (block.material() == Material.CHEST) {
             event.setCancelled(true);
 
             TeamKey playerTeamName = player.getTeamKey();
@@ -235,7 +235,7 @@ public class ActionGamePlayerEvent implements HypixelEventClass {
 
             boolean sameTeam = chestTeamName.equals(playerTeamName);
             if (!sameTeam && game.isBedAlive(chestTeamName)) {
-                player.sendMessage(MiniMessage.miniMessage().deserialize("§cYou can only access enemy team chests if their bed is destroyed!"));
+                player.sendMessage("<c>You can only access enemy team chests if their bed is destroyed!");
                 return;
             }
 
@@ -256,24 +256,24 @@ public class ActionGamePlayerEvent implements HypixelEventClass {
                     if (player.allowsPersistentProgress())
                         player.getAchievementHandler().addProgressByTrigger("bedwars.chest_deposit", 1);
                 } else {
-                    player.sendMessage("§cThe team chest is full!");
+                    player.sendMessage("<c>The team chest is full!");
                 }
             } catch (Exception e) {
                 Logger.error("Failed to add item to team chest for team {}: {}", chestTeamName, e);
                 e.printStackTrace();
-                player.sendMessage("§cFailed to add item to chest!");
+                player.sendMessage("<c>Failed to add item to chest!");
             }
         }
     }
 
-    private String depositMessage(ItemStack itemStack, boolean enderChest) {
-        String chestType = enderChest ? "§dEnder Chest§7" : "§dTeam Chest§7";
+    private Text depositMessage(ItemStack itemStack, boolean enderChest) {
+        String chestName = enderChest ? "Ender Chest" : "Team Chest";
         Currency currency = Currency.byMaterial(itemStack.material());
         String itemName = StringUtility.capitalizeSentence(itemStack.material().name().toLowerCase().replace("minecraft:", "").replace("_", " "));
-        if (currency != null) {
-            return "§7Deposited " + currency.getColor() + "x" + itemStack.amount() + " " + itemName + "§7 into " + chestType + "! §8(?? Total)";
-        }
-        return "§7Deposited §fx" + itemStack.amount() + " " + itemName + " §7into " + chestType + "! §8(?? Total)";
+        Text amountText = currency != null
+                ? Text.of("<color:{}>x{} {}", currency.getColor(), itemStack.amount(), itemName)
+                : Text.of("<f>x{} {}", itemStack.amount(), itemName);
+        return Text.of("<7>Deposited {}<7> into <d>{}<7>! <8>(?? Total)", amountText, chestName);
     }
 
 }

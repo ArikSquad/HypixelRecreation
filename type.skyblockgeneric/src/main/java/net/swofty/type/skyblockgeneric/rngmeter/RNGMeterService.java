@@ -36,7 +36,7 @@ public final class RNGMeterService {
         double overflow = progress - reward.requiredXp();
         set(player, definition.type(), new RNGMeterState(reward.id(), overflow));
         reward.give(player);
-        player.sendMessage("§d§lRNG METER! §fYou filled your " + definition.displayName() + " RNG Meter!");
+        player.sendMessage("<d><l>RNG METER! <f>You filled your " + definition.displayName() + " RNG Meter!");
         return new ProgressResult(overflow, true, reward);
     }
 

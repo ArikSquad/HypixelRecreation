@@ -2,7 +2,7 @@ package net.swofty.type.skyblockgeneric.gui.inventories.experiments;
 
 import net.minestom.server.inventory.InventoryType;
 import net.minestom.server.item.Material;
-import net.swofty.type.generic.gui.inventory.ItemStackCreator;
+import net.swofty.type.generic.gui.inventory.ItemStacks;
 import net.swofty.type.generic.gui.v2.*;
 import net.swofty.type.generic.gui.v2.context.ViewContext;
 import net.swofty.type.skyblockgeneric.experimentation.ExperimentTier;
@@ -37,17 +37,17 @@ public final class GUIExperimentOver extends StatelessView {
     public void layout(ViewLayout<DefaultState> layout, DefaultState state, ViewContext ctx) {
         Components.fill(layout);
         Components.backOrClose(layout, 22, ctx);
-        layout.slot(13, ItemStackCreator.getStack(
-                completed ? "§aExperiment Complete!" : "§cExperiment Over",
+        layout.slot(13, ExperimentationGuiSupport.item(
+                completed ? "<a>Experiment Complete!" : "<c>Experiment Over",
                 completed ? Material.LIME_DYE : Material.RED_DYE,
                 1,
-                "§7" + experiment.displayName() + " · " + tier.displayName(),
+                "<7>" + experiment.displayName() + " · " + tier.displayName(),
                 "",
-                "§7" + message,
+                "<7>" + message,
                 "",
-                "§7Best score: §e" + score,
-                "§7Enchanting XP: §b+" + xp,
-                bonusClicks > 0 ? "§7Superpairs clicks earned: §a+" + bonusClicks : ""
+                "<7>Best score: <e>" + score,
+                "<7>Enchanting XP: <b>+" + xp,
+                bonusClicks > 0 ? "<7>Superpairs clicks earned: <a>+" + bonusClicks : ""
         ));
     }
 }

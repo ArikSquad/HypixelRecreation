@@ -27,13 +27,13 @@ public final class IslandFurnitureManager {
     public synchronized boolean place(SkyBlockPlayer player, FurnitureLimitPool pool, String displayName) {
         int current = count(pool);
         if (current >= pool.limit()) {
-            player.sendMessage("§cYou have the maximum number of this furniture allowed on your island. (§e"
-                    + current + "§c/§e" + pool.limit() + "§c)");
+            player.sendMessage("<c>You have the maximum number of this furniture allowed on your island. (<e>"
+                    + current + "<c>/<e>" + pool.limit() + "<c>)");
             return false;
         }
         counts.put(pool, current + 1);
         save();
-        player.sendMessage("§7You placed an §e" + displayName + "§7. (§e" + (current + 1) + "§7/§e" + pool.limit() + "§7)");
+        player.sendMessage("<7>You placed an <e>" + displayName + "<7>. (<e>" + (current + 1) + "<7>/<e>" + pool.limit() + "<7>)");
         return true;
     }
 
@@ -41,7 +41,7 @@ public final class IslandFurnitureManager {
         int remaining = Math.max(0, count(pool) - 1);
         counts.put(pool, remaining);
         save();
-        player.sendMessage("§7You removed an §e" + displayName + "§7. (§e" + remaining + "§7/§e" + pool.limit() + "§7)");
+        player.sendMessage("<7>You removed an <e>" + displayName + "<7>. (<e>" + remaining + "<7>/<e>" + pool.limit() + "<7>)");
     }
 
     public int count(FurnitureLimitPool pool) {
