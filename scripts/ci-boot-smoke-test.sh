@@ -218,26 +218,12 @@ declared_server_types() {
 		commons/src/main/java/net/swofty/commons/ServerType.java
 }
 
-has_type_loader() {
-	grep -rqF --include='Type*Loader.java' "return ServerType.$1;" "$REPO_ROOT"/type.*/src/main/java 2>/dev/null
-}
-
 resolve_server_types() {
 	if [ -n "$SERVER_TYPES" ]; then
 		return 0
 	fi
-	skipped=
-	for type in $(declared_server_types); do
-		if has_type_loader "$type"; then
-			SERVER_TYPES="$SERVER_TYPES $type"
-		else
-			skipped="$skipped $type"
-		fi
-	done
-	SERVER_TYPES=${SERVER_TYPES# }
-	if [ -n "$skipped" ]; then
-		log "skipping declared types that have no TypeLoader:$skipped"
-	fi
+	SERVER_TYPES=$(declared_server_types | tr '\n' ' ')
+	SERVER_TYPES=${SERVER_TYPES% }
 	if [ -z "$SERVER_TYPES" ]; then
 		log "could not resolve any server types from ServerType.java"
 		exit 1
