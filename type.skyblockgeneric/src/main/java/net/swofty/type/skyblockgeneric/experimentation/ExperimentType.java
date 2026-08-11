@@ -14,4 +14,11 @@ public enum ExperimentType {
     public String displayName() {
         return displayName;
     }
+
+    public static ExperimentType fromName(String name) {
+        return java.util.Arrays.stream(values())
+                .filter(type -> type.name().equalsIgnoreCase(name) || type.displayName.equalsIgnoreCase(name))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Unknown experiment type: " + name));
+    }
 }

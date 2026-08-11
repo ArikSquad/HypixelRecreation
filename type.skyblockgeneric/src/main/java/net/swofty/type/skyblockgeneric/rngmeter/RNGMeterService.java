@@ -12,69 +12,72 @@ public final class RNGMeterService {
     }
 
     public static RNGMeterState get(SkyBlockPlayer player, RNGMeterDefinition definition) {
-        return data(player).getOrDefault(key(definition), defaultState());
+        synchronized (player) {
+            return data(player).getOrDefault(key(definition), defaultState());
+        }
     }
 
     public static void select(SkyBlockPlayer player, RNGMeterDefinition definition, RNGMeterReward reward) {
-        if (!definition.rewards().contains(reward)) {
-            throw new IllegalArgumentException("Reward does not belong to " + definition.type());
+        synchronized (player) {
+            if (!definition.rewards().contains(reward)) {
+                throw new IllegalArgumentException("Reward does not belong to " + definition.type());
+            }
+            RNGMeterState current = get(player, definition);
+            set(player, key(definition), new RNGMeterState(reward.id(), current.storedXp()));
         }
-        RNGMeterState current = get(player, definition);
-        set(player, key(definition), new RNGMeterState(reward.id(), current.storedXp()));
     }
 
     public static ProgressResult addProgress(SkyBlockPlayer player, RNGMeterDefinition definition, double xp) {
-        if (xp < 0) throw new IllegalArgumentException("RNG Meter XP cannot be negative");
+        synchronized (player) {
+            if (xp < 0) throw new IllegalArgumentException("RNG Meter XP cannot be negative");
 
-        RNGMeterState current = get(player, definition);
-        if (current.selectedReward().isBlank()) {
+            RNGMeterState current = get(player, definition);
             double progress = current.storedXp() + xp;
-            set(player, key(definition), new RNGMeterState("", progress));
-            return new ProgressResult(progress, false, null);
-        }
-        RNGMeterReward reward = definition.reward(current.selectedReward());
-        double progress = current.storedXp() + xp;
-        if (progress < reward.requiredXp()) {
-            set(player, key(definition), new RNGMeterState(reward.id(), progress));
-            return new ProgressResult(progress, false, reward);
-        }
+            if (current.selectedReward().isBlank()) {
+                set(player, key(definition), new RNGMeterState("", progress));
+                return new ProgressResult(progress, false, null);
+            }
+            RNGMeterReward reward = definition.reward(current.selectedReward());
+            if (progress < reward.requiredXp()) {
+                set(player, key(definition), new RNGMeterState(reward.id(), progress));
+                return new ProgressResult(progress, false, reward);
+            }
 
-        set(player, key(definition), new RNGMeterState(reward.id(), reward.requiredXp()));
-        player.sendMessage("<d><l>RNG METER! <f>Your " + definition.displayName()
-                + " RNG Meter is full and will guarantee your next drop!");
-        return new ProgressResult(reward.requiredXp(), true, reward);
+            if (current.storedXp() < reward.requiredXp()) {
+                player.sendMessage("<d><l>RNG METER! <f>Your " + definition.displayName()
+                        + " RNG Meter is full and will guarantee your next drop!");
+            }
+            set(player, key(definition), new RNGMeterState(reward.id(), progress));
+            return new ProgressResult(progress, true, reward);
+        }
     }
 
     public static void reset(SkyBlockPlayer player, RNGMeterDefinition definition) {
-        RNGMeterState current = get(player, definition);
-        set(player, key(definition), new RNGMeterState("", current.storedXp()));
+        synchronized (player) {
+            RNGMeterState current = get(player, definition);
+            set(player, key(definition), new RNGMeterState("", current.storedXp()));
+        }
     }
 
     public static boolean selectedDropObtained(SkyBlockPlayer player, RNGMeterDefinition definition,
                                                RNGMeterReward obtainedReward) {
-        RNGMeterState current = get(player, definition);
-        if (!current.selectedReward().equalsIgnoreCase(obtainedReward.id())) return false;
+        synchronized (player) {
+            RNGMeterState current = get(player, definition);
+            if (!current.selectedReward().equalsIgnoreCase(obtainedReward.id())) return false;
 
-        set(player, key(definition), new RNGMeterState(current.selectedReward(), 0));
-        return true;
-    }
-
-    public static boolean giveSelectedReward(SkyBlockPlayer player, RNGMeterDefinition definition) {
-        RNGMeterState current = get(player, definition);
-        if (current.selectedReward().isBlank()) return false;
-
-        RNGMeterReward reward = definition.reward(current.selectedReward());
-        if (current.storedXp() < reward.requiredXp()) return false;
-
-        reward.give(player);
-        set(player, key(definition), new RNGMeterState(reward.id(), 0));
-        return true;
+            RNGMeterReward selected = definition.reward(current.selectedReward());
+            double remaining = Math.max(0, current.storedXp() - selected.requiredXp());
+            set(player, key(definition), new RNGMeterState("", remaining));
+            return true;
+        }
     }
 
     public static boolean giveReward(SkyBlockPlayer player, RNGMeterDefinition definition,
                                      RNGMeterReward reward) {
-        reward.give(player);
-        return selectedDropObtained(player, definition, reward);
+        synchronized (player) {
+            reward.give(player);
+            return selectedDropObtained(player, definition, reward);
+        }
     }
 
     public static double applyDropRate(RNGMeterState state, RNGMeterReward reward, double baseDropRate) {

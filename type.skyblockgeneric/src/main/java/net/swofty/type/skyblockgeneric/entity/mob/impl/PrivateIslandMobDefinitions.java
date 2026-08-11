@@ -25,7 +25,7 @@ public final class PrivateIslandMobDefinitions {
             drop(ItemType.GUNPOWDER, 1, 100, COMMON));
     public static final MobDefinition ENDERMAN = hostile("ENDERMAN", "Enderman", EntityType.ENDERMAN,
             160, 40, 15, 2, 4, Material.ENDER_PEARL, new MobType[]{MobType.ENDER},
-            drop(ItemType.ENDER_PEARL, 1, 100, COMMON));
+            false, drop(ItemType.ENDER_PEARL, 1, 100, COMMON));
     public static final MobDefinition WITCH = hostile("WITCH", "Witch", EntityType.WITCH,
             150, 20, 15, 1, 4, Material.POTION, new MobType[]{MobType.HUMANOID, MobType.ARCANE},
             drop(ItemType.GUNPOWDER, 1, 50, UNCOMMON), drop(ItemType.GLOWSTONE_DUST, 1, 50, UNCOMMON),
@@ -64,9 +64,15 @@ public final class PrivateIslandMobDefinitions {
     private static MobDefinition hostile(String id, String name, EntityType type, double health, double damage,
                                           long xp, int coins, int orbs, Material material, MobType[] mobTypes,
                                           MobLootTable.Drop... drops) {
+        return hostile(id, name, type, health, damage, xp, coins, orbs, material, mobTypes, true, drops);
+    }
+
+    private static MobDefinition hostile(String id, String name, EntityType type, double health, double damage,
+                                          long xp, int coins, int orbs, Material material, MobType[] mobTypes,
+                                          boolean targetsPlayers, MobLootTable.Drop... drops) {
         return MobDefinition.builder(id, name, type).stats(health, damage, 100).rewards(xp, coins, orbs)
                 .types(mobTypes).loot(new MobLootTable(id, drops)).gui(new GUIMaterial(material))
-                .behaviour(RegionType.PRIVATE_ISLAND, true, true).build();
+                .behaviour(RegionType.PRIVATE_ISLAND, true, targetsPlayers).build();
     }
 
     private static MobDefinition passive(String id, String name, EntityType type, double health, long xp,

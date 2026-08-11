@@ -66,6 +66,11 @@ public enum EnchantmentType {
     FIRE_PROTECTION(EnchantmentFireProtection.class),
     TITAN_KILLER(EnchantmentTitanKiller.class),
     CHANCE(EnchantmentChance.class),
+    BLAST_PROTECTION(EnchantmentBlastProtection.class),
+    PROJECTILE_PROTECTION(EnchantmentProjectileProtection.class),
+    RESPITE(EnchantmentRespite.class),
+    SNIPE(EnchantmentSnipe.class),
+    TRIPLE_STRIKE(EnchantmentTripleStrike.class),
     ;
 
     private final Class<? extends Ench> clazz;

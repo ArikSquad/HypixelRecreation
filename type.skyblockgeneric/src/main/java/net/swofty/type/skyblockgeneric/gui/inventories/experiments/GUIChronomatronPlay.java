@@ -9,6 +9,7 @@ import net.swofty.type.generic.gui.inventory.ItemStacks;
 import net.swofty.type.generic.gui.v2.*;
 import net.swofty.type.generic.gui.v2.context.ViewContext;
 import net.swofty.type.skyblockgeneric.experimentation.ExperimentTier;
+import net.swofty.type.skyblockgeneric.experimentation.ExperimentRules;
 import net.swofty.type.skyblockgeneric.experimentation.ExperimentType;
 import net.swofty.type.skyblockgeneric.experimentation.ExperimentationManager;
 import net.swofty.type.skyblockgeneric.experimentation.GameSession;
@@ -41,9 +42,10 @@ public final class GUIChronomatronPlay extends StatelessView {
 
     public GUIChronomatronPlay(ExperimentTier tier) {
         this.tier = tier;
-        for (int color = 0; color < tier.colorCount(); color++) {
+        ExperimentRules.Rule rule = ExperimentRules.forExperiment(ExperimentType.CHRONOMATRON, tier);
+        for (int color = 0; color < rule.colorCount(); color++) {
             int colorIndex = color;
-            tier.slotsForColor(colorIndex).forEach(slot -> slotColors.put(slot, colorIndex));
+            rule.slotsForColor(colorIndex).forEach(slot -> slotColors.put(slot, colorIndex));
         }
     }
 
@@ -92,7 +94,10 @@ public final class GUIChronomatronPlay extends StatelessView {
                 return;
             }
             player.playSound(Sound.sound(Key.key("block.note_block.pling"), Sound.Source.PLAYER, 1f, 1f));
-            if (result.complete()) startRound(player);
+            if (result.complete() && !startRound(player)) {
+                showResults(player, viewCtx, true);
+                return;
+            }
             viewCtx.session(DefaultState.class).refresh();
         }));
     }
@@ -140,12 +145,13 @@ public final class GUIChronomatronPlay extends StatelessView {
                 "<7>Repeat the displayed sequence before time runs out.");
     }
 
-    private void startRound(SkyBlockPlayer player) {
-        if (!ExperimentationManager.startChronomatronRound(player)) return;
+    private boolean startRound(SkyBlockPlayer player) {
+        if (!ExperimentationManager.startChronomatronRound(player)) return false;
         revealTicks = 0;
         revealIndex = 0;
         highlightedColor = -1;
         sequencePlaying = true;
+        return true;
     }
 
     private void showResults(SkyBlockPlayer player, ViewContext ctx, boolean completed) {
@@ -156,6 +162,9 @@ public final class GUIChronomatronPlay extends StatelessView {
             ctx.replace(new GUIExperimentOver(ExperimentType.CHRONOMATRON, tier, completed,
                     completed ? "You completed the experiment." : "The sequence was broken.",
                     result.bestChain(), result.xpAward(), result.bonusClicksEarned()));
+        } else {
+            gameOver = false;
+            player.sendMessage("<c>Unable to save your experiment result. Please try again.");
         }
     }
 

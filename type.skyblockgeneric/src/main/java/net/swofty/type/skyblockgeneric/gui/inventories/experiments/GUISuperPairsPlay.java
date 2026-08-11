@@ -16,12 +16,6 @@ import java.time.Duration;
 import java.util.List;
 
 public final class GUISuperPairsPlay extends StatelessView {
-    private static final List<Integer> BOARD_SLOTS = List.of(
-            10, 11, 12, 13,
-            19, 20, 21, 22,
-            28, 29, 30, 31,
-            37, 38, 39, 40
-    );
     private static final Sound FLIP_SOUND = Sound.sound(
             Key.key("block.note_block.bit"), Sound.Source.PLAYER, 1f, 1.15f);
     private static final Sound MATCH_SOUND = Sound.sound(
@@ -68,9 +62,10 @@ public final class GUISuperPairsPlay extends StatelessView {
         layout.slot(4, (s, c) -> clicksItem((SkyBlockPlayer) c.player()));
         layout.slot(6, (s, c) -> scoreItem((SkyBlockPlayer) c.player()));
 
-        for (int index = 0; index < BOARD_SLOTS.size(); index++) {
+        List<Integer> boardSlots = ExperimentRules.forExperiment(ExperimentType.SUPERPAIRS, tier).boardSlots();
+        for (int index = 0; index < boardSlots.size(); index++) {
             int tile = index;
-            layout.slot(BOARD_SLOTS.get(index),
+            layout.slot(boardSlots.get(index),
                     (s, c) -> tileItem((SkyBlockPlayer) c.player(), tile),
                     (click, viewCtx) -> flip((SkyBlockPlayer) viewCtx.player(), viewCtx, tile));
         }
@@ -84,9 +79,10 @@ public final class GUISuperPairsPlay extends StatelessView {
         GameSession.SuperPairsState game = ExperimentationManager.getSuperPairsState(player);
         if (game == null) return;
 
-        if (game.pairsFound() == SuperPairItem.values().length
+        if (game.pairsFound() == game.rewardPairCount()
+                || System.currentTimeMillis() >= game.deadline()
                 || (game.clicksRemaining() <= 0 && game.mismatchUntil() <= System.currentTimeMillis())) {
-            showResults(player, ctx, game.pairsFound() == SuperPairItem.values().length);
+            showResults(player, ctx, game.pairsFound() == game.rewardPairCount());
         }
     }
 
@@ -125,8 +121,18 @@ public final class GUISuperPairsPlay extends StatelessView {
             return ExperimentationGuiSupport.item("<7>Click to reveal", Material.GRAY_STAINED_GLASS_PANE, 1);
         }
 
-        SuperPairItem item = game.board().get(tile);
-        return PlayerItemUpdater.playerUpdate(player, item.reward().createItem().getItemStack());
+        SuperPairTile tileData = game.board().get(tile);
+        if (tileData.isPowerUp()) {
+            return ExperimentationGuiSupport.item(tileData.item().displayNameOrPowerUp(), tileData.item().material(), 1,
+                    "<7>Power-ups take effect when revealed.");
+        }
+        if (tileData.reward() == ExperimentReward.EXPERIENCE) {
+            return ExperimentationGuiSupport.item(tileData.reward().displayName(), Material.EXPERIENCE_BOTTLE, 1,
+                    "<7>Grants <3>" + tileData.amount() + " Enchanting XP<7>.");
+        }
+        var item = tileData.reward().createItem();
+        item.setAmount(tileData.amount());
+        return PlayerItemUpdater.playerUpdate(player, item.getItemStack());
     }
 
     private ItemStack.Builder clicksItem(SkyBlockPlayer player) {
@@ -143,7 +149,8 @@ public final class GUISuperPairsPlay extends StatelessView {
     private ItemStack.Builder scoreItem(SkyBlockPlayer player) {
         GameSession.SuperPairsState game = ExperimentationManager.getSuperPairsState(player);
         int pairs = game == null ? 0 : game.pairsFound();
-        return ExperimentationGuiSupport.item("<a>Pairs Found: <f>" + pairs + "/8", Material.CHEST, 1,
+        int total = ExperimentRules.forExperiment(ExperimentType.SUPERPAIRS, tier).pairCount();
+        return ExperimentationGuiSupport.item("<a>Pairs Found: <f>" + pairs + "/" + total, Material.CHEST, 1,
                 "<7>Find matching items to earn Enchanting XP.");
     }
 
@@ -156,6 +163,9 @@ public final class GUISuperPairsPlay extends StatelessView {
             ctx.replace(new GUIExperimentOver(ExperimentType.SUPERPAIRS, tier, completed,
                     completed ? "You found every pair." : "You ran out of clicks.",
                     result.pairsFound(), result.xpAward(), result.bonusClicksEarned()));
+        } else {
+            gameOver = false;
+            player.sendMessage("<c>Unable to save your experiment result. Please try again.");
         }
     }
 }

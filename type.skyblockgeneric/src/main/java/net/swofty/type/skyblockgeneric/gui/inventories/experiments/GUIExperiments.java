@@ -29,15 +29,32 @@ public final class GUIExperiments extends StatelessView {
                 ExperimentationGuiSupport.item(" ", Material.PURPLE_STAINED_GLASS_PANE, 1));
         Components.close(layout, 49);
 
-        layout.slot(22, ExperimentationGuiSupport.experimentIcon(ExperimentType.SUPERPAIRS),
+        SkyBlockPlayer player = (SkyBlockPlayer) ctx.player();
+        layout.slot(22, ExperimentationGuiSupport.experimentIcon(ExperimentType.SUPERPAIRS, player),
                 (_, viewCtx) -> viewCtx.push(new GUISuperPairs()));
-        layout.slot(29, ExperimentationGuiSupport.experimentIcon(ExperimentType.CHRONOMATRON),
+        layout.slot(29, ExperimentationGuiSupport.experimentIcon(ExperimentType.CHRONOMATRON, player),
                 (_, viewCtx) -> viewCtx.push(new GUIChronomatron()));
-        layout.slot(33, ExperimentationGuiSupport.experimentIcon(ExperimentType.ULTRASEQUENCER),
+        layout.slot(33, ExperimentationGuiSupport.experimentIcon(ExperimentType.ULTRASEQUENCER, player),
                 (_, viewCtx) -> viewCtx.push(new GUIUltrasequencer()));
 
-        layout.filler(List.of(20, 21, 23, 24),
-                ExperimentationGuiSupport.item("<7>Pending experiment...", Material.PINK_STAINED_GLASS_PANE, 1));
+        var pending = net.swofty.type.skyblockgeneric.experimentation.ExperimentationManager.pendingResult(player);
+        if (pending == null) {
+            layout.filler(List.of(20, 21, 23, 24),
+                    ExperimentationGuiSupport.item("<7>No pending experiment", Material.PINK_STAINED_GLASS_PANE, 1));
+        } else {
+            layout.slot(20, ExperimentationGuiSupport.item("<e>Pending result", Material.CHEST, 1,
+                            "<7>Claim or decline your experiment result.", "", "<e>Click to view!"),
+                    (_, viewCtx) -> {
+                        try {
+                            viewCtx.push(GUIExperimentOver.fromPending(pending));
+                        } catch (IllegalArgumentException exception) {
+                            ((SkyBlockPlayer) viewCtx.player()).sendMessage(
+                                    "<c>This experiment result is invalid and needs staff attention.");
+                        }
+                    });
+            layout.filler(List.of(21, 23, 24),
+                    ExperimentationGuiSupport.item("<7>Pending experiment...", Material.PINK_STAINED_GLASS_PANE, 1));
+        }
         layout.slot(50, ExperimentationGuiSupport.item(
                 "<3>Experience Bottles",
                 Material.EXPERIENCE_BOTTLE,
@@ -53,5 +70,15 @@ public final class GUIExperiments extends StatelessView {
                         net.swofty.type.skyblockgeneric.experimentation.ExperimentationRNGMeter.INSTANCE,
                         (SkyBlockPlayer) viewCtx.player()),
                 (_, viewCtx) -> viewCtx.push(new GUIExperimentationRNGMeter()));
+        layout.slot(47, (_, viewCtx) -> {
+                    var cost = net.swofty.type.skyblockgeneric.experimentation.ExperimentationManager
+                            .renewalCost((SkyBlockPlayer) viewCtx.player());
+                    if (cost == null) return ExperimentationGuiSupport.item("<7>No renewals left", Material.BARRIER, 1);
+                    return ExperimentationGuiSupport.item("<d>Renew Experiments", Material.NETHER_STAR, 1,
+                            "<7>Cost: <b>" + cost.levels() + " XP Levels <7>and <d>" + cost.bits() + " Bits",
+                            "", "<e>Click to renew!");
+                },
+                (_, viewCtx) -> net.swofty.type.skyblockgeneric.experimentation.ExperimentationManager
+                        .renew((SkyBlockPlayer) viewCtx.player()));
     }
 }

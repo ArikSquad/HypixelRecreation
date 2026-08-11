@@ -125,7 +125,8 @@ public enum BestiaryCategory {
     @Getter
     public enum CRIMSON_ISLE implements BestiaryEntry {
         WITHER_SKELETON("<a>Wither Skeleton", "A skeleton touched by the Wither.", new GUIMaterial(Material.WITHER_SKELETON_SKULL), List.of(new MobWitherSkeleton())),
-        MUSHROOM_BULL("<a>Mushroom Bull", "A hostile mushroom cow.", new GUIMaterial(Material.RED_MUSHROOM), List.of(new MobMushroomBull()));
+        MUSHROOM_BULL("<a>Mushroom Bull", "A hostile mushroom cow.", new GUIMaterial(Material.RED_MUSHROOM), List.of(new MobMushroomBull())),
+        BARBARIAN("<a>Barbarian", "An aggressive inhabitant of the Crimson Isle.", new GUIMaterial(Material.PIGLIN_SPAWN_EGG), List.of(new MobBarbarian()));
 
         private final String name, description;
         private final GUIMaterial guiMaterial;

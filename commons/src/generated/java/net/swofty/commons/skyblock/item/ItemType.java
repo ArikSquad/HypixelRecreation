@@ -182,6 +182,8 @@ public enum ItemType {
 
   AZURE_BLUET(Material.AZURE_BLUET, Rarity.COMMON),
 
+  A_BEGINNERS_GUIDE_TO_PESTHUNTING(Material.PLAYER_HEAD, Rarity.SPECIAL),
+
   BAKED_POTATO(Material.BAKED_POTATO, Rarity.COMMON),
 
   BAMBOO(Material.BAMBOO, Rarity.COMMON),
@@ -668,6 +670,8 @@ public enum ItemType {
 
   CHAINMAIL_LEGGINGS(Material.CHAINMAIL_LEGGINGS, Rarity.UNCOMMON),
 
+  CHAIN_OF_THE_END_TIMES(Material.PLAYER_HEAD, Rarity.SPECIAL),
+
   CHALLENGE_ROD(Material.FISHING_ROD, Rarity.UNCOMMON),
 
   CHAMPION(Material.ENCHANTED_BOOK, Rarity.COMMON),
@@ -787,6 +791,8 @@ public enum ItemType {
   COIN_TALISMAN(Material.PLAYER_HEAD, Rarity.COMMON),
 
   COLOSSAL_EXPERIENCE_BOTTLE_UPGRADE(Material.PLAYER_HEAD, Rarity.COMMON),
+
+  COLOSSAL_EXP_BOTTLE(Material.EXPERIENCE_BOTTLE, Rarity.EPIC),
 
   COMBAT_EXP_BOOST(Material.IRON_SWORD, Rarity.COMMON),
 
@@ -1484,6 +1490,8 @@ public enum ItemType {
 
   END_STONE_BRICKS(Material.END_STONE_BRICKS, Rarity.COMMON),
 
+  END_STONE_IDOL(Material.PLAYER_HEAD, Rarity.SPECIAL),
+
   END_STONE_MINION(Material.PLAYER_HEAD, Rarity.COMMON),
 
   END_STONE_SWORD(Material.GOLDEN_SWORD, Rarity.EPIC),
@@ -1491,6 +1499,8 @@ public enum ItemType {
   END_SWORD(Material.DIAMOND_SWORD, Rarity.UNCOMMON),
 
   ENRAGER(Material.IRON_SWORD, Rarity.EPIC),
+
+  ENSNARED_SNAIL(Material.PLAYER_HEAD, Rarity.SPECIAL),
 
   EON_PICKAXE(Material.GOLDEN_PICKAXE, Rarity.EPIC),
 
@@ -1543,6 +1553,8 @@ public enum ItemType {
   FARM_SUIT_HELMET(Material.LEATHER_HELMET, Rarity.COMMON),
 
   FARM_SUIT_LEGGINGS(Material.LEATHER_LEGGINGS, Rarity.COMMON),
+
+  FATEFUL_STINGER(Material.PLAYER_HEAD, Rarity.SPECIAL),
 
   FEATHER(Material.FEATHER, Rarity.COMMON),
 
@@ -1804,6 +1816,8 @@ public enum ItemType {
 
   GOLDEN_BOOTS(Material.GOLDEN_BOOTS, Rarity.COMMON),
 
+  GOLDEN_BOUNTY(Material.PLAYER_HEAD, Rarity.SPECIAL),
+
   GOLDEN_CARROT(Material.GOLDEN_CARROT, Rarity.COMMON),
 
   GOLDEN_CHESTPLATE(Material.GOLDEN_CHESTPLATE, Rarity.COMMON),
@@ -1827,6 +1841,8 @@ public enum ItemType {
   GOLD_BLOBFISH(Material.PLAYER_HEAD, Rarity.COMMON),
 
   GOLD_BLOCK(Material.GOLD_BLOCK, Rarity.COMMON),
+
+  GOLD_BOTTLE_CAP(Material.PLAYER_HEAD, Rarity.SPECIAL),
 
   GOLD_FLYFISH(Material.PLAYER_HEAD, Rarity.COMMON),
 
@@ -2752,6 +2768,8 @@ public enum ItemType {
 
   OCEAN_DYE(Material.BLUE_DYE, Rarity.MYTHIC),
 
+  OCTOPUS_TENDRIL(Material.PLAYER_HEAD, Rarity.SPECIAL),
+
   ODGERS_BRONZE_TOOTH(Material.PLAYER_HEAD, Rarity.COMMON),
 
   ODGERS_DIAMOND_TOOTH(Material.PLAYER_HEAD, Rarity.EPIC),
@@ -3389,6 +3407,10 @@ public enum ItemType {
   SEISMIC_WAVE_STICK(Material.STICK, Rarity.RARE),
 
   SELF_RECURSIVE_PICKAXE(Material.DIAMOND_PICKAXE, Rarity.RARE),
+
+  SEVERED_HAND(Material.PLAYER_HEAD, Rarity.SPECIAL),
+
+  SEVERED_PINCER(Material.PLAYER_HEAD, Rarity.SPECIAL),
 
   SHADOW_FURY(Material.DIAMOND_SWORD, Rarity.LEGENDARY),
 
@@ -4370,6 +4392,8 @@ public enum ItemType {
 
   TROPICAL_FISH(Material.TROPICAL_FISH, Rarity.COMMON),
 
+  TROUBLED_BUBBLE(Material.PLAYER_HEAD, Rarity.SPECIAL),
+
   TUNGSTEN(Material.PLAYER_HEAD, Rarity.COMMON),
 
   TWILIGHT_ARROW_POISON(Material.PURPLE_DYE, Rarity.UNCOMMON),
@@ -4395,6 +4419,8 @@ public enum ItemType {
   VENOMOUS_SWORD(Material.IRON_SWORD, Rarity.UNCOMMON),
 
   VENOMS_TOUCH(Material.BOW, Rarity.EPIC),
+
+  VIBRANT_CORAL(Material.PLAYER_HEAD, Rarity.SPECIAL),
 
   VILLAGE_AFFINITY_TALISMAN(Material.PLAYER_HEAD, Rarity.COMMON),
 

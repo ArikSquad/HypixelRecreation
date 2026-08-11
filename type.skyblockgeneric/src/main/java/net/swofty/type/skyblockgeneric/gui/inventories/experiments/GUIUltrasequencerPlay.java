@@ -9,6 +9,7 @@ import net.swofty.type.generic.gui.inventory.ItemStacks;
 import net.swofty.type.generic.gui.v2.*;
 import net.swofty.type.generic.gui.v2.context.ViewContext;
 import net.swofty.type.skyblockgeneric.experimentation.ExperimentTier;
+import net.swofty.type.skyblockgeneric.experimentation.ExperimentRules;
 import net.swofty.type.skyblockgeneric.experimentation.ExperimentType;
 import net.swofty.type.skyblockgeneric.experimentation.ExperimentationManager;
 import net.swofty.type.skyblockgeneric.experimentation.GameSession;
@@ -18,7 +19,6 @@ import java.time.Duration;
 import java.util.List;
 
 public final class GUIUltrasequencerPlay extends StatelessView {
-    private static final List<Integer> BOARD_SLOTS = List.of(12, 13, 14, 21, 22, 23, 30, 31, 32);
     private static final Sound CLICK_SOUND = Sound.sound(
             Key.key("block.note_block.pling"), Sound.Source.PLAYER, 1f, 1.25f);
     private static final Sound ERROR_SOUND = Sound.sound(
@@ -66,11 +66,18 @@ public final class GUIUltrasequencerPlay extends StatelessView {
         Components.backOrClose(layout, 49, ctx);
         layout.slot(4, (s, c) -> timeItem((SkyBlockPlayer) c.player()));
 
-        for (int index = 0; index < BOARD_SLOTS.size(); index++) {
-            int number = index + 1;
-            layout.slot(BOARD_SLOTS.get(index),
-                    (s, c) -> numberItem(number),
-                    (click, viewCtx) -> input((SkyBlockPlayer) viewCtx.player(), viewCtx, number));
+        List<Integer> boardSlots = ExperimentRules.forExperiment(ExperimentType.ULTRASEQUENCER, tier).boardSlots();
+        for (int index = 0; index < boardSlots.size(); index++) {
+            int boardIndex = index;
+            layout.slot(boardSlots.get(index),
+                    (s, c) -> numberItem((SkyBlockPlayer) c.player(), boardIndex),
+                    (click, viewCtx) -> {
+                        GameSession.UltraSequencerState game = ExperimentationManager
+                                .getUltraSequencerState((SkyBlockPlayer) viewCtx.player());
+                        if (game != null && boardIndex < game.boardNumbers().size()) {
+                            input((SkyBlockPlayer) viewCtx.player(), viewCtx, game.boardNumbers().get(boardIndex));
+                        }
+                    });
         }
     }
 
@@ -100,7 +107,20 @@ public final class GUIUltrasequencerPlay extends StatelessView {
         }
     }
 
-    private ItemStack.Builder numberItem(int number) {
+    private ItemStack.Builder numberItem(SkyBlockPlayer player, int boardIndex) {
+        GameSession.UltraSequencerState game = ExperimentationManager.getUltraSequencerState(player);
+        if (game == null || boardIndex >= game.boardNumbers().size()) {
+            return ExperimentationGuiSupport.item(" ", Material.GRAY_STAINED_GLASS_PANE, 1);
+        }
+        int number = game.boardNumbers().get(boardIndex);
+        if (sequencePlaying && highlightedNumber != number) {
+            return ExperimentationGuiSupport.item(" ", Material.GRAY_STAINED_GLASS_PANE, 1,
+                    "<7>Watch the sequence...");
+        }
+        if (!sequencePlaying && game.phase() == GameSession.GamePhase.PLAYING) {
+            return ExperimentationGuiSupport.item(" ", Material.GRAY_STAINED_GLASS_PANE, 1,
+                    "<7>Click the numbers in sequence.");
+        }
         ItemStack.Builder item = ExperimentationGuiSupport.item("<f>" + number, Material.LIME_STAINED_GLASS_PANE, 1,
                 "<7>Click the numbers in sequence.");
         return highlightedNumber == number ? ItemStacks.enchanted(item) : item;
@@ -134,16 +154,20 @@ public final class GUIUltrasequencerPlay extends StatelessView {
         }
 
         player.playSound(CLICK_SOUND);
-        if (result.complete()) startRound(player);
+        if (result.complete() && !startRound(player)) {
+            showResults(player, ctx, true);
+            return;
+        }
         ctx.session(DefaultState.class).refresh();
     }
 
-    private void startRound(SkyBlockPlayer player) {
-        if (!ExperimentationManager.startUltraSequencerRound(player)) return;
+    private boolean startRound(SkyBlockPlayer player) {
+        if (!ExperimentationManager.startUltraSequencerRound(player)) return false;
         revealTicks = 0;
         revealIndex = 0;
         highlightedNumber = -1;
         sequencePlaying = true;
+        return true;
     }
 
     private void showResults(SkyBlockPlayer player, ViewContext ctx, boolean completed) {
@@ -156,6 +180,9 @@ public final class GUIUltrasequencerPlay extends StatelessView {
             ctx.replace(new GUIExperimentOver(ExperimentType.ULTRASEQUENCER, tier, completed,
                     completed ? "You completed the experiment." : "The sequence was broken.",
                     result.bestSeriesLength(), result.xpAward(), result.bonusClicksEarned()));
+        } else {
+            gameOver = false;
+            player.sendMessage("<c>Unable to save your experiment result. Please try again.");
         }
     }
 

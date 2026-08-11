@@ -3,6 +3,7 @@ package net.swofty.type.skyblockgeneric.entity.mob.impl;
 import net.minestom.server.entity.ai.GoalSelector;
 import net.minestom.server.entity.ai.TargetSelector;
 import net.minestom.server.entity.ai.target.LastEntityDamagerTarget;
+import net.minestom.server.instance.Instance;
 import net.minestom.server.utils.time.TimeUnit;
 import net.swofty.commons.skyblock.statistics.ItemStatistic;
 import net.swofty.commons.skyblock.statistics.ItemStatistics;
@@ -23,7 +24,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class ProfiledBestiaryMob extends BestiaryMob {
+public abstract class ProfiledBestiaryMob extends BestiaryMob implements RegionPopulator {
     protected final MobDefinition definition;
 
     protected ProfiledBestiaryMob(MobDefinition definition) {
@@ -44,6 +45,17 @@ public abstract class ProfiledBestiaryMob extends BestiaryMob {
     @Override public long damageCooldown() { return 500; }
     @Override public OtherLoot getOtherLoot() { return definition.otherLoot(); }
     @Override public List<MobType> getMobTypes() { return definition.mobTypes(); }
+
+    @Override
+    public List<RegionPopulator.Populator> getPopulators() {
+        return definition.targetRegion() == null ? List.of()
+                : List.of(new RegionPopulator.Populator(definition.targetRegion(), 1));
+    }
+
+    @Override
+    public boolean canPopulate(Instance instance) {
+        return true;
+    }
     @Override public int getMaxBestiaryTier() { return definition.maxBestiaryTier(); }
     @Override public int getBestiaryBracket() { return definition.bestiaryBracket(); }
     @Override public String getMobID() { return definition.mobId(); }

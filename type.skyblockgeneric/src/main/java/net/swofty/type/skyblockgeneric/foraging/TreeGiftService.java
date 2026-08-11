@@ -92,7 +92,7 @@ public final class TreeGiftService {
         int guaranteedRewards = rewards.size();
         double treeLurker = AttributeEffectService.value(player.getHuntingData(), AttributeId.parse("C24")) / 100D;
         double signalChance = AttributeEffectService.value(player.getHuntingData(), AttributeId.parse("R7")) / 100D;
-        if (signalChance > 0) bonuses.add(new Bonus(null, ItemType.SIGNAL_ENHANCER, signalChance));
+        if (signalChance > 0) bonuses.add(new Bonus(null, ItemType.SIGNAL_ENHANCER, signalChance, false));
         boolean guaranteeTreeFish = PityService.guaranteesNext(player, TREE_THE_FISH_PITY);
         TreeGiftRollContext context = new TreeGiftRollContext(scaled, treeLurker, guaranteeTreeFish);
         List<LootEntry<TreeGiftRollContext, Bonus>> entries = new ArrayList<>();
@@ -102,7 +102,7 @@ public final class TreeGiftService {
                     ignored -> true,
                     List.of((rollContext, ignored, chance) -> {
                         if (bonus.item == ItemType.TREE_THE_FISH && rollContext.guaranteeTreeFish()) return 1;
-                        double effective = chance * rollContext.multiplier();
+                        double effective = chance * (bonus.scalesWithTreeSize() ? rollContext.multiplier() : 1);
                         return bonus.shard == null ? effective : effective * (1 + rollContext.treeLurker());
                     })));
         }
@@ -112,7 +112,8 @@ public final class TreeGiftService {
         boolean obtainedTreeFish = false;
         for (Bonus bonus : rolledBonuses) {
             double chance = bonus.item == ItemType.TREE_THE_FISH && guaranteeTreeFish
-                    ? 1 : Math.min(1, bonus.chance * scaled * (bonus.shard == null ? 1 : 1 + treeLurker));
+                    ? 1 : Math.min(1, bonus.chance * (bonus.scalesWithTreeSize() ? scaled : 1)
+                    * (bonus.shard == null ? 1 : 1 + treeLurker));
             if (bonus.shard != null) {
                 AttributeDefinition definition = AttributeRegistry.findByShard(bonus.shard).orElse(null);
                 if (definition == null) continue;
@@ -180,7 +181,10 @@ public final class TreeGiftService {
                 : Double.toString(chance * 100D));
     }
 
-    private record Bonus(String shard, ItemType item, double chance) {
+    private record Bonus(String shard, ItemType item, double chance, boolean scalesWithTreeSize) {
+        private Bonus(String shard, ItemType item, double chance) {
+            this(shard, item, chance, true);
+        }
     }
 
     private record TreeGiftRollContext(int multiplier, double treeLurker, boolean guaranteeTreeFish) {

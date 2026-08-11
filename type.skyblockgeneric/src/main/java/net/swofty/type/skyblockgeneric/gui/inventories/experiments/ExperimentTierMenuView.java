@@ -16,7 +16,7 @@ import net.swofty.type.skyblockgeneric.user.SkyBlockPlayer;
 import java.util.Arrays;
 
 abstract class ExperimentTierMenuView extends StatelessView {
-    private static final int[] TIER_SLOTS = {20, 21, 22, 23, 24};
+    private static final int[] TIER_SLOTS = {19, 20, 21, 22, 23, 24};
     private static final int[] BORDER_SLOTS = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27,
             35, 36, 37, 38, 41, 42, 43, 44};
 
@@ -35,9 +35,13 @@ abstract class ExperimentTierMenuView extends StatelessView {
         if (!Components.back(layout, 39, ctx)) Components.close(layout, 39);
         Components.close(layout, 40);
 
-        ExperimentTier[] tiers = experimentType() == ExperimentType.ULTRASEQUENCER
-                ? new ExperimentTier[]{ExperimentTier.SUPREME, ExperimentTier.TRANSCENDENT, ExperimentTier.METAPHYSICAL}
-                : ExperimentTier.values();
+        ExperimentTier[] tiers = switch (experimentType()) {
+            case SUPERPAIRS -> ExperimentTier.values();
+            case CHRONOMATRON -> new ExperimentTier[]{ExperimentTier.HIGH, ExperimentTier.GRAND,
+                    ExperimentTier.SUPREME, ExperimentTier.TRANSCENDENT, ExperimentTier.METAPHYSICAL};
+            case ULTRASEQUENCER -> new ExperimentTier[]{ExperimentTier.SUPREME, ExperimentTier.TRANSCENDENT,
+                    ExperimentTier.METAPHYSICAL};
+        };
         int[] tierSlots = experimentType() == ExperimentType.ULTRASEQUENCER
                 ? new int[]{21, 22, 23} : TIER_SLOTS;
         for (int i = 0; i < tiers.length; i++) {
@@ -45,14 +49,7 @@ abstract class ExperimentTierMenuView extends StatelessView {
             layout.slot(tierSlots[i], (s, c) -> ExperimentationGuiSupport.tierIcon(
                     experimentType(), tier, (SkyBlockPlayer) c.player()), (click, viewCtx) -> {
                 SkyBlockPlayer player = (SkyBlockPlayer) viewCtx.player();
-                if (!tier.isUnlocked(player)) {
-                    player.sendMessage(ExperimentationManager.requirementMessage(tier));
-                    return;
-                }
-                if (!ExperimentationManager.start(player, experimentType(), tier)) {
-                    player.sendMessage("<c>You already have an experiment in progress.");
-                    return;
-                }
+                if (!ExperimentationManager.start(player, experimentType(), tier)) return;
                 viewCtx.push(playView(tier));
             });
         }

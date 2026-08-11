@@ -24,10 +24,12 @@ public final class GameSession {
         this.type = type;
         this.tier = tier;
         this.startTime = System.currentTimeMillis();
+        ExperimentRules.Rule rule = ExperimentRules.forExperiment(type, tier);
         this.state = switch (type) {
-            case SUPERPAIRS -> new SuperPairsState(tier.baseClicks());
+            case SUPERPAIRS -> new SuperPairsState(rule.baseClicks(), rule.pairCount(),
+                    startTime + rule.deadlineSeconds() * 1_000L);
             case CHRONOMATRON -> new ChronomatronState();
-            case ULTRASEQUENCER -> new UltraSequencerState();
+            case ULTRASEQUENCER -> new UltraSequencerState(rule.boardSize());
         };
     }
 
@@ -66,9 +68,15 @@ public final class GameSession {
     @Accessors(fluent = true)
     public static final class UltraSequencerState extends GameState {
         private final List<Integer> sequence = new ArrayList<>();
+        private final List<Integer> boardNumbers = new ArrayList<>();
         private GamePhase phase = GamePhase.READY;
         private int inputIndex;
         private long deadline;
+
+        public UltraSequencerState(int boardSize) {
+            for (int number = 1; number <= boardSize; number++) boardNumbers.add(number);
+            java.util.Collections.shuffle(boardNumbers);
+        }
 
     }
 
@@ -76,22 +84,29 @@ public final class GameSession {
     @Setter
     @Accessors(fluent = true)
     public static final class SuperPairsState extends GameState {
-        private final List<SuperPairItem> board = new ArrayList<>();
+        private final List<SuperPairTile> board = new ArrayList<>();
         private final Set<Integer> matchedTiles = new java.util.HashSet<>();
+        private final Set<String> matchedPairs = new java.util.HashSet<>();
         private final int totalClicks;
+        private final int rewardPairCount;
+        private final long deadline;
         private int clicksRemaining;
+        private int bonusXp;
+        private boolean nextClickFree;
         private int firstFlip = -1;
         private int mismatchFirst = -1;
         private int mismatchSecond = -1;
         private long mismatchUntil;
 
-        public SuperPairsState(int totalClicks) {
+        public SuperPairsState(int totalClicks, int rewardPairCount, long deadline) {
             this.totalClicks = totalClicks;
+            this.rewardPairCount = rewardPairCount;
+            this.deadline = deadline;
             this.clicksRemaining = totalClicks;
         }
 
         public int pairsFound() {
-            return matchedTiles.size() / 2;
+            return matchedPairs.size();
         }
     }
 }

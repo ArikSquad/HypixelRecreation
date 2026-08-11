@@ -75,6 +75,17 @@ items:
                 operation: '>='
                 right: '100000'
 
+  - id: COLOSSAL_EXP_BOTTLE
+    material: EXPERIENCE_BOTTLE
+    rarity: EPIC
+    lore:
+      - Grants +500,000 Experience when thrown.
+    components:
+      - id: CUSTOM_DISPLAY_NAME
+        display_name: Colossal Experience Bottle
+      - id: EXPERIENCE_BOTTLE
+        base_experience: 500000
+
   - id: EXPERIMENT_THE_FISH
     material: TROPICAL_FISH
     rarity: SPECIAL
@@ -99,8 +110,41 @@ items:
     lore:
       - A Guardian Pet obtained from the Experimentation Table.
     components:
-      - id: CUSTOM_DISPLAY_NAME
-        display_name: Guardian Pet
+      - id: PET
+        pet_name: Guardian
+        george_price:
+          common: 0
+          uncommon: 0
+          rare: 0
+          epic: 0
+          legendary: 0
+          mythic: 0
+          rest: 0
+        base_statistics: {}
+        per_level_statistics:
+          common:
+            defense: 0.5
+            intelligence: 1
+          uncommon:
+            defense: 0.5
+            intelligence: 1
+          rare:
+            defense: 0.5
+            intelligence: 1
+          epic:
+            defense: 0.5
+            intelligence: 1
+          legendary:
+            defense: 0.5
+            intelligence: 1
+          mythic:
+            defense: 0.5
+            intelligence: 1
+          rest: {}
+        particle: 3
+        skill_category: ENCHANTING
+        skull_texture: 221025434045bda7025b3e514b316a4b770c6faa4ba9adb4be3809526db77f9d
+        handler_id: GUARDIAN
 
   - id: NADESHIKO_DYE
     material: PINK_DYE
@@ -112,3 +156,135 @@ items:
         display_name: Nadeshiko Dye
       - id: ARMOR_DYE
         from_color: '#F6ADC6'
+
+  - id: A_BEGINNERS_GUIDE_TO_PESTHUNTING
+    material: PLAYER_HEAD
+    rarity: SPECIAL
+    lore:
+      - A guide to pesthunting.
+    components:
+      - id: CUSTOM_DISPLAY_NAME
+        display_name: A Beginner's Guide to Pesthunting
+      - id: SKULL_HEAD
+        texture: 38a7c9e0c1dab89e14b788d96157ab0152136f8fd7a23d6db3eebe555d448ec3
+
+  - id: SEVERED_PINCER
+    material: PLAYER_HEAD
+    rarity: SPECIAL
+    lore:
+      - A severed pincer.
+    components:
+      - id: CUSTOM_DISPLAY_NAME
+        display_name: Severed Pincer
+      - id: SKULL_HEAD
+        texture: 7e1e0701f1f9e974765e4f2a7c33a9458c598334401538dc9f21f5ed7e35f79a
+
+  - id: ENSNARED_SNAIL
+    material: PLAYER_HEAD
+    rarity: SPECIAL
+    lore:
+      - An ensnared snail.
+    components:
+      - id: CUSTOM_DISPLAY_NAME
+        display_name: Ensnared Snail
+      - id: SKULL_HEAD
+        texture: 64532b7e0fbd976d559fbb218d9f4e53c9354f68b1f363c0482127092724274d
+
+  - id: GOLDEN_BOUNTY
+    material: PLAYER_HEAD
+    rarity: SPECIAL
+    lore:
+      - A golden bounty.
+    components:
+      - id: CUSTOM_DISPLAY_NAME
+        display_name: Golden Bounty
+      - id: SKULL_HEAD
+        texture: 8e6e10a9ef1b2cdd998557554b209f369ada7bc50b47c81ed14ab2632dab3834
+
+  - id: SEVERED_HAND
+    material: PLAYER_HEAD
+    rarity: SPECIAL
+    lore:
+      - A severed hand.
+    components:
+      - id: CUSTOM_DISPLAY_NAME
+        display_name: Severed Hand
+      - id: SKULL_HEAD
+        texture: 111ee65b56d50cd1ef81a7d33ae2421927592ccd92ad7c2ec4fb1aac29ba422f
+
+  - id: VIBRANT_CORAL
+    material: PLAYER_HEAD
+    rarity: SPECIAL
+    lore:
+      - Vibrant coral.
+    components:
+      - id: CUSTOM_DISPLAY_NAME
+        display_name: Vibrant Coral
+      - id: SKULL_HEAD
+        texture: 453dd6c6add09c11ff19f5fe75370b6cec17324945cac05c0e2c4631ff418672
+
+  - id: GOLD_BOTTLE_CAP
+    material: PLAYER_HEAD
+    rarity: SPECIAL
+    lore:
+      - A gold bottle cap.
+    components:
+      - id: CUSTOM_DISPLAY_NAME
+        display_name: Gold Bottle Cap
+      - id: SKULL_HEAD
+        texture: 269698fd92fb14827af97e54a3f28f5e2685d7e94bd128c0c27f259df996717c
+
+  - id: CHAIN_OF_THE_END_TIMES
+    material: PLAYER_HEAD
+    rarity: SPECIAL
+    lore:
+      - A chain from the end times.
+    components:
+      - id: CUSTOM_DISPLAY_NAME
+        display_name: Chain of the End Times
+      - id: SKULL_HEAD
+        texture: 93d9bc6294ecb85d9c4af66136027faf67413f1dbabbe1b6dfee289083fc2049
+
+  - id: FATEFUL_STINGER
+    material: PLAYER_HEAD
+    rarity: SPECIAL
+    lore:
+      - A fateful stinger.
+    components:
+      - id: CUSTOM_DISPLAY_NAME
+        display_name: Fateful Stinger
+      - id: SKULL_HEAD
+        texture: 4e2c26ad88fdd10381284650770d9b59d3688a52868b3bcc7762f88a34303de8
+
+  - id: OCTOPUS_TENDRIL
+    material: PLAYER_HEAD
+    rarity: SPECIAL
+    lore:
+      - An octopus tendril.
+    components:
+      - id: CUSTOM_DISPLAY_NAME
+        display_name: Octopus Tendril
+      - id: SKULL_HEAD
+        texture: 4bf58283ffca8bdc59436e83d94e9f134426316b99bab5b9af90dffdb082a056
+
+  - id: END_STONE_IDOL
+    material: PLAYER_HEAD
+    rarity: SPECIAL
+    lore:
+      - An end stone idol.
+    components:
+      - id: CUSTOM_DISPLAY_NAME
+        display_name: End Stone Idol
+      - id: SKULL_HEAD
+        texture: c24d46459b70b9ad641506f97b8d93349d8705d0935ebbf16012fad3aca32cb4
+
+  - id: TROUBLED_BUBBLE
+    material: PLAYER_HEAD
+    rarity: SPECIAL
+    lore:
+      - A troubled bubble.
+    components:
+      - id: CUSTOM_DISPLAY_NAME
+        display_name: Troubled Bubble
+      - id: SKULL_HEAD
+        texture: bdfcc530ad4f645a201abc05912f194862611c33739a0826a8bb9ad0d9b98375

@@ -27,6 +27,7 @@ import net.swofty.commons.skyblock.statistics.ItemStatistics;
 import net.swofty.commons.text.Text;
 import net.swofty.type.generic.entity.ai.vanilla.VanillaNavigator;
 import net.swofty.type.generic.event.HypixelEventHandler;
+import net.swofty.type.generic.HypixelConst;
 import net.swofty.type.generic.utility.MathUtility;
 import net.swofty.type.skyblockgeneric.SkyBlockGenericLoader;
 import net.swofty.type.skyblockgeneric.entity.DroppedItemEntityImpl;
@@ -329,6 +330,7 @@ public abstract class SkyBlockMob extends EntityCreature {
 
             MobRegistry.getMobsToRegionPopulate().forEach(mobRegistry -> {
                 RegionPopulator regionPopulator = (RegionPopulator) mobRegistry.getMobCache();
+                if (!regionPopulator.canPopulate(HypixelConst.getInstanceContainer())) return;
 
                 regionPopulator.getPopulators().forEach(populator -> {
                     RegionType regionType = populator.regionType();
@@ -337,7 +339,7 @@ public abstract class SkyBlockMob extends EntityCreature {
                     int amountInRegion = 0;
 
                     for (SkyBlockMob mob : SkyBlockRegion.getMobsInRegion(regionType)) {
-                        if (!MobRegistry.getFromMob(mob).equals(mobRegistry)) {
+                        if (!mobRegistry.equals(MobRegistry.getFromMob(mob))) {
                             continue;
                         }
 

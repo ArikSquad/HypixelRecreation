@@ -85,14 +85,14 @@ public final class StandardMobDefinitions {
             drop(ItemType.PEARLESCENT_DYE, 1, 0.00002, RNGESUS));
 
     public static final MobDefinition WITHER_SKELETON = hostile("WITHER_SKELETON", "Wither Skeleton",
-            EntityType.WITHER_SKELETON, 70, 300_000, 2_000, 70, 20, 100, RegionType.STRONGHOLD,
+            EntityType.WITHER_SKELETON, 70, 600_000, 3_000, 120, 20, 100, RegionType.STRONGHOLD,
             Material.WITHER_SKELETON_SKULL, 20, 4, new MobType[]{MobType.WITHER, MobType.SKELETAL},
             drop(ItemType.BONE, 3, 100, COMMON), drop(ItemType.SWORD_OF_BAD_HEALTH, 1, 0.05, RNGESUS),
             drop(ItemType.BONE_DYE, 1, 0.000033, RNGESUS),
             drop(ItemType.CYCLAMEN_DYE, 1, 0.00001, RNGESUS));
 
     public static final MobDefinition MUSHROOM_BULL = hostile("CHARGING_MUSHROOM_COW", "Mushroom Bull",
-            EntityType.MOOSHROOM, 80, 1_000_000, 1_500, 80, 20, 80, RegionType.MYSTIC_MARSH,
+            EntityType.MOOSHROOM, 80, 2_500_000, 5_000, 120, 20, 80, RegionType.MYSTIC_MARSH,
             Material.RED_MUSHROOM, 20, 3, new MobType[]{MobType.ANIMAL},
             drop(ItemType.RAW_BEEF, 1, 100, COMMON), drop(ItemType.RED_MUSHROOM, 4, 100, COMMON),
             drop(ItemType.LEATHER, 1, 100, COMMON), drop(ItemType.DIGESTED_MUSHROOMS, 1, 20, UNCOMMON),
@@ -119,13 +119,16 @@ public final class StandardMobDefinitions {
 
     private static MobDefinition enderman(int level, double health, double damage, long xp, int coins, int orbs) {
         String id = "ENDERMAN_" + level;
-        return hostile(id, "Enderman", EntityType.ENDERMAN, level, health, damage, xp, coins, orbs,
-                RegionType.THE_END, Material.ENDER_PEARL, 25, 4, new MobType[]{MobType.ENDER},
-                drop(ItemType.ENDER_PEARL, 1, 100, COMMON),
-                drop(ItemType.ENDER_PEARL, 1, 75, COMMON),
-                drop(ItemType.ENDER_PEARL, 1, 25, COMMON),
-                drop(ItemType.ENCHANTED_ENDER_PEARL, 1, 1, UNCOMMON),
-                drop(ItemType.PEARLESCENT_DYE, 1, 0.00001, RNGESUS));
+        return MobDefinition.builder(id, "Enderman", EntityType.ENDERMAN).level(level).stats(health, damage, 100)
+                .rewards(xp, coins, orbs).types(MobType.ENDER)
+                .loot(new MobLootTable(id,
+                        drop(ItemType.ENDER_PEARL, 1, 100, COMMON),
+                        drop(ItemType.ENDER_PEARL, 1, 75, COMMON),
+                        drop(ItemType.ENDER_PEARL, 1, 25, COMMON),
+                        drop(ItemType.ENCHANTED_ENDER_PEARL, 1, 1, UNCOMMON),
+                        drop(ItemType.PEARLESCENT_DYE, 1, 0.00001, RNGESUS)))
+                .gui(new GUIMaterial(Material.ENDER_PEARL)).bestiary(25, 4)
+                .behaviour(RegionType.THE_END, true, false).build();
     }
 
     private static MobDefinition endermite(int level, double health, double damage, int coins, int orbs,
