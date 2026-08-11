@@ -1,18 +1,20 @@
 package net.swofty.commons.loot;
 
+import net.kyori.adventure.key.Key;
+
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
 
 public record LootEntry<C, T>(
-        String id,
+        Key id,
         T value,
         double chance,
         Predicate<C> condition,
         List<LootModifier<C, T>> modifiers
 ) {
     public LootEntry {
-        if (id == null || id.isBlank()) throw new IllegalArgumentException("Loot entry id cannot be blank");
+        Objects.requireNonNull(id, "id");
         Objects.requireNonNull(value, "value");
         if (!Double.isFinite(chance) || chance < 0)
             throw new IllegalArgumentException("Chance must be finite and non-negative");
@@ -20,7 +22,7 @@ public record LootEntry<C, T>(
         modifiers = modifiers == null ? List.of() : List.copyOf(modifiers);
     }
 
-    public LootEntry(String id, T value, double chance) {
+    public LootEntry(Key id, T value, double chance) {
         this(id, value, chance, null, List.of());
     }
 

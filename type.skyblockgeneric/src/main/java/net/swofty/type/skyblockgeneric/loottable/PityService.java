@@ -11,7 +11,7 @@ import java.util.Map;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class PityService {
     public static long progress(SkyBlockPlayer player, PityDefinition definition) {
-        return counters(player).getOrDefault(definition.id(), 0L);
+        return counters(player).getOrDefault(definition.id().asString(), 0L);
     }
 
     public static boolean guaranteesNext(SkyBlockPlayer player, PityDefinition definition) {
@@ -21,15 +21,15 @@ public final class PityService {
     public static long recordAttempt(SkyBlockPlayer player, PityDefinition definition, boolean obtained) {
         Map<String, Long> counters = counters(player);
         long progress = obtained ? 0 : Math.min(definition.threshold() - 1,
-                counters.getOrDefault(definition.id(), 0L) + 1);
-        counters.put(definition.id(), progress);
+                counters.getOrDefault(definition.id().asString(), 0L) + 1);
+        counters.put(definition.id().asString(), progress);
         datapoint(player).setValue(counters);
         return progress;
     }
 
     public static void reset(SkyBlockPlayer player, PityDefinition definition) {
         Map<String, Long> counters = counters(player);
-        counters.remove(definition.id());
+        counters.remove(definition.id().asString());
         datapoint(player).setValue(counters);
     }
 

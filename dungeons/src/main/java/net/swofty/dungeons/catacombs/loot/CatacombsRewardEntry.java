@@ -1,9 +1,11 @@
 package net.swofty.dungeons.catacombs.loot;
 
+import net.kyori.adventure.key.Key;
+
 import java.util.Set;
 
 public record CatacombsRewardEntry<T>(
-        String id,
+        Key id,
         T reward,
         double weight,
         Set<CatacombsRewardChest> chests,
@@ -11,7 +13,7 @@ public record CatacombsRewardEntry<T>(
         int addedChestCost
 ) {
     public CatacombsRewardEntry {
-        if (id == null || id.isBlank()) throw new IllegalArgumentException("Reward id cannot be blank");
+        if (id == null) throw new IllegalArgumentException("Reward id cannot be null");
         if (reward == null) throw new IllegalArgumentException("Reward cannot be null");
         if (!Double.isFinite(weight) || weight < 0) throw new IllegalArgumentException("Weight must be non-negative");
         chests = Set.copyOf(chests);

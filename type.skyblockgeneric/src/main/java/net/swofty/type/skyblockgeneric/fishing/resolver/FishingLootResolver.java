@@ -2,6 +2,7 @@ package net.swofty.type.skyblockgeneric.fishing.resolver;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import net.kyori.adventure.key.Key;
 import net.swofty.commons.loot.LootEntry;
 import net.swofty.commons.loot.LootPool;
 import net.swofty.commons.loot.LootRoll;
@@ -74,11 +75,11 @@ public final class FishingLootResolver {
         eligible.sort(Comparator.comparingDouble(TrophyFishDefinition::catchChance).thenComparing(TrophyFishDefinition::id));
         double trophyBonus = bonus;
         List<LootEntry<FishingContext, TrophyFishDefinition>> entries = eligible.stream()
-                .map(definition -> new LootEntry<FishingContext, TrophyFishDefinition>(definition.id(), definition,
+                .map(definition -> new LootEntry<FishingContext, TrophyFishDefinition>(key("trophy/" + definition.id()), definition,
                         effectiveTrophyChance(context, definition, trophyBonus) / 100D))
                 .toList();
         Optional<TrophyFishDefinition> selected = new LootTable<FishingContext, TrophyFishDefinition>(
-                "fishing:trophy_fish", List.of(new LootPool<>("species", LootPool.Mode.FIRST_SUCCESS, entries)))
+                key("trophy_fish"), List.of(new LootPool<>(key("species"), LootPool.Mode.FIRST_SUCCESS, entries)))
                 .roll(context).stream().map(LootRoll::value).findFirst();
         if (selected.isEmpty()) return Optional.empty();
 
@@ -182,13 +183,13 @@ public final class FishingLootResolver {
 
         double multiplier = 1 + charmBonus / 100D;
         List<LootEntry<FishingContext, TrophyTier>> entries = List.of(
-                new LootEntry<>("diamond", TrophyTier.DIAMOND, 0.002D * multiplier),
-                new LootEntry<>("gold", TrophyTier.GOLD, 0.02D * multiplier),
-                new LootEntry<>("silver", TrophyTier.SILVER, 0.25D * multiplier),
-                new LootEntry<>("bronze", TrophyTier.BRONZE, 1)
+                new LootEntry<>(key("tier/diamond"), TrophyTier.DIAMOND, 0.002D * multiplier),
+                new LootEntry<>(key("tier/gold"), TrophyTier.GOLD, 0.02D * multiplier),
+                new LootEntry<>(key("tier/silver"), TrophyTier.SILVER, 0.25D * multiplier),
+                new LootEntry<>(key("tier/bronze"), TrophyTier.BRONZE, 1)
         );
-        return new LootTable<FishingContext, TrophyTier>("fishing:trophy_tier", List.of(
-                new LootPool<>("tier", LootPool.Mode.FIRST_SUCCESS, entries)
+        return new LootTable<FishingContext, TrophyTier>(key("trophy_tier"), List.of(
+                new LootPool<>(key("tier"), LootPool.Mode.FIRST_SUCCESS, entries)
         )).roll(context).getFirst().value();
     }
 
@@ -213,11 +214,11 @@ public final class FishingLootResolver {
             }
             double tagBonus = definition == null ? 0.0D : getTagBonus(context, definition.tags());
             if (definition == null) continue;
-            entries.add(new LootEntry<>(roll.seaCreatureId(), definition,
+            entries.add(new LootEntry<>(key("sea_creature/" + roll.seaCreatureId()), definition,
                     Math.min(100, roll.chance() + seaCreatureChance + tagBonus) / 100D));
         }
         Optional<SeaCreatureDefinition> selected = new LootTable<FishingContext, SeaCreatureDefinition>(
-                "fishing:sea_creatures", List.of(new LootPool<>("creatures", LootPool.Mode.FIRST_SUCCESS, entries)))
+                key("sea_creatures"), List.of(new LootPool<>(key("creatures"), LootPool.Mode.FIRST_SUCCESS, entries)))
                 .roll(context).stream().map(LootRoll::value).findFirst();
         if (selected.isEmpty()) return Optional.empty();
         SeaCreatureDefinition definition = selected.get();
@@ -252,10 +253,10 @@ public final class FishingLootResolver {
     private static Optional<CatchPayload> pick(List<FishingTableDefinition.LootEntry> pool, boolean fromTreasure) {
         if (pool.isEmpty()) return Optional.empty();
         List<LootEntry<Void, FishingTableDefinition.LootEntry>> entries = pool.stream()
-                .map(entry -> new LootEntry<Void, FishingTableDefinition.LootEntry>(entry.itemId(), entry, entry.chance()))
+                .map(entry -> new LootEntry<Void, FishingTableDefinition.LootEntry>(key("item/" + entry.itemId()), entry, entry.chance()))
                 .toList();
-        return new LootTable<Void, FishingTableDefinition.LootEntry>("fishing:items", List.of(
-                new LootPool<>("items", LootPool.Mode.WEIGHTED, entries)
+        return new LootTable<Void, FishingTableDefinition.LootEntry>(key("items"), List.of(
+                new LootPool<>(key("items"), LootPool.Mode.WEIGHTED, entries)
         )).roll(null).stream().map(LootRoll::value).findFirst()
                 .map(entry -> new CatchPayload.Item(entry.itemId(), entry.amount(), entry.skillXp(), fromTreasure));
     }
@@ -285,8 +286,12 @@ public final class FishingLootResolver {
     }
 
     private static boolean rollChance(String id, double percent) {
-        return LootTable.rollSingle("fishing:" + id, Boolean.TRUE,
+        return LootTable.rollSingle(key(id), Boolean.TRUE,
                 Math.clamp(percent / 100D, 0, 1)).isPresent();
+    }
+
+    private static Key key(String value) {
+        return Key.key("skyblock", "fishing/" + value.toLowerCase());
     }
 
     private static double getTotalStatistic(FishingContext context, ItemStatistic statistic) {

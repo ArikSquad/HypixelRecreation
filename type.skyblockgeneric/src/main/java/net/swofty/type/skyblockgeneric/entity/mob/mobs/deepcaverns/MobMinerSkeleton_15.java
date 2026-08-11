@@ -1,6 +1,7 @@
 package net.swofty.type.skyblockgeneric.entity.mob.mobs.deepcaverns;
 
 import lombok.NonNull;
+import net.kyori.adventure.key.Key;
 import net.minestom.server.entity.EntityType;
 import net.minestom.server.entity.ai.GoalSelector;
 import net.minestom.server.entity.ai.TargetSelector;
@@ -15,6 +16,7 @@ import net.swofty.type.skyblockgeneric.entity.mob.ai.ClosestEntityRegionTarget;
 import net.swofty.type.skyblockgeneric.entity.mob.ai.RandomRegionStrollGoal;
 import net.swofty.type.skyblockgeneric.entity.mob.impl.RegionPopulator;
 import net.swofty.type.skyblockgeneric.item.SkyBlockItem;
+import net.swofty.type.skyblockgeneric.loottable.BestiaryDropRarity;
 import net.swofty.type.skyblockgeneric.loottable.OtherLoot;
 import net.swofty.type.skyblockgeneric.loottable.SkyBlockLootTable;
 import net.swofty.type.skyblockgeneric.region.RegionType;
@@ -78,15 +80,15 @@ public class MobMinerSkeleton_15 extends BestiaryMob implements RegionPopulator 
 
 	@Override
 	public @Nullable SkyBlockLootTable getLootTable() {
-		return new SkyBlockLootTable() {
+        return new SkyBlockLootTable(Key.key("skyblock", "mob/miner_skeleton_15")) {
 			@Override
 			public @NonNull List<LootRecord> getLootTable() {
 				return List.of(
-						new LootRecord(ItemType.BONE, 1, 300), // hypixel, why is it 300% and what does that mean?
-						new LootRecord(ItemType.MINER_ARMOR_BOOTS, 1, 1),
-						new LootRecord(ItemType.MINER_ARMOR_LEGGINGS, 1, 1),
-						new LootRecord(ItemType.MINER_ARMOR_CHESTPLATE, 1, 1),
-						new LootRecord(ItemType.MINER_ARMOR_HELMET, 1, 1)
+                        new LootRecord(ItemType.BONE, 1, 300, BestiaryDropRarity.COMMON),
+                        new LootRecord(ItemType.MINER_ARMOR_BOOTS, 1, 1, BestiaryDropRarity.RARE),
+                        new LootRecord(ItemType.MINER_ARMOR_LEGGINGS, 1, 1, BestiaryDropRarity.RARE),
+                        new LootRecord(ItemType.MINER_ARMOR_CHESTPLATE, 1, 1, BestiaryDropRarity.RARE),
+                        new LootRecord(ItemType.MINER_ARMOR_HELMET, 1, 1, BestiaryDropRarity.RARE)
 
 						//new LootRecord(ItemType.EXP_SHARE_CORE, 1, 0.01)
 						// bone dye

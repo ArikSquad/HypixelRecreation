@@ -1,5 +1,6 @@
 package net.swofty.type.skyblockgeneric.foraging;
 
+import net.kyori.adventure.key.Key;
 import net.minestom.server.entity.Player;
 import net.minestom.server.instance.Instance;
 import net.swofty.commons.loot.LootEntry;
@@ -26,7 +27,8 @@ import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 public final class TreeGiftService {
-    private static final PityDefinition TREE_THE_FISH_PITY = new PityDefinition("moonglade:tree_the_fish", 1_000);
+    private static final PityDefinition TREE_THE_FISH_PITY =
+            new PityDefinition(Key.key("skyblock", "foraging/tree_the_fish"), 1_000);
 
     private TreeGiftService() {
     }
@@ -96,7 +98,7 @@ public final class TreeGiftService {
         List<LootEntry<TreeGiftRollContext, Bonus>> entries = new ArrayList<>();
         for (int index = 0; index < bonuses.size(); index++) {
             Bonus bonus = bonuses.get(index);
-            entries.add(new LootEntry<>("bonus#" + index, bonus, bonus.chance,
+            entries.add(new LootEntry<>(Key.key("skyblock", "foraging/tree_gift/bonus_" + index), bonus, bonus.chance,
                     ignored -> true,
                     List.of((rollContext, ignored, chance) -> {
                         if (bonus.item == ItemType.TREE_THE_FISH && rollContext.guaranteeTreeFish()) return 1;
@@ -104,8 +106,8 @@ public final class TreeGiftService {
                         return bonus.shard == null ? effective : effective * (1 + rollContext.treeLurker());
                     })));
         }
-        List<Bonus> rolledBonuses = new LootTable<TreeGiftRollContext, Bonus>("foraging:tree_gift", List.of(
-                new LootPool<>("bonuses", LootPool.Mode.INDEPENDENT, entries)
+        List<Bonus> rolledBonuses = new LootTable<TreeGiftRollContext, Bonus>(Key.key("skyblock", "foraging/tree_gift"), List.of(
+                new LootPool<>(Key.key("skyblock", "bonuses"), LootPool.Mode.INDEPENDENT, entries)
         )).roll(context).stream().map(LootRoll::value).toList();
         boolean obtainedTreeFish = false;
         for (Bonus bonus : rolledBonuses) {

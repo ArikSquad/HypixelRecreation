@@ -300,6 +300,7 @@ public abstract class SkyBlockMob extends EntityCreature {
                 DroppedItemEntityImpl droppedItem = new DroppedItemEntityImpl(item, player);
                 droppedItem.setInstance(getInstance(), getPosition().add(0, 0.5, 0));
             }
+            record.getRarity().announcement().announce(player, record.getItemType().getDisplayName());
         }
     }
 

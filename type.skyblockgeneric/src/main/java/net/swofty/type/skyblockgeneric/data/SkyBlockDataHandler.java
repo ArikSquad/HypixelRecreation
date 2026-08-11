@@ -48,6 +48,7 @@ import net.swofty.type.skyblockgeneric.data.datapoints.DatapointMinionData;
 import net.swofty.type.skyblockgeneric.data.datapoints.DatapointMissionData;
 import net.swofty.type.skyblockgeneric.data.datapoints.DatapointMuseum;
 import net.swofty.type.skyblockgeneric.data.datapoints.DatapointPetData;
+import net.swofty.type.skyblockgeneric.data.datapoints.DatapointPityCounters;
 import net.swofty.type.skyblockgeneric.data.datapoints.DatapointQuiver;
 import net.swofty.type.skyblockgeneric.data.datapoints.DatapointRNGMeters;
 import net.swofty.type.skyblockgeneric.data.datapoints.DatapointSackOfSacks;

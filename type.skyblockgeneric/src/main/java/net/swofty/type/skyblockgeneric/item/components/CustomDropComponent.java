@@ -1,6 +1,7 @@
 package net.swofty.type.skyblockgeneric.item.components;
 
 import lombok.Getter;
+import net.kyori.adventure.key.Key;
 import net.swofty.commons.ServerType;
 import net.swofty.commons.loot.LootEntry;
 import net.swofty.commons.loot.LootPool;
@@ -62,10 +63,12 @@ public class CustomDropComponent extends SkyBlockItemComponent {
                 List<LootEntry<Void, Drop>> entries = new ArrayList<>();
                 for (int index = 0; index < rule.drops().size(); index++) {
                     Drop drop = rule.drops().get(index);
-                    entries.add(new LootEntry<>(drop.item().name() + "#" + index, drop, drop.chance()));
+                    entries.add(new LootEntry<>(Key.key("skyblock", "blocks/" + drop.item().name().toLowerCase()
+                            + "/" + index), drop, drop.chance()));
                 }
-                List<Drop> selected = new LootTable<Void, Drop>("blocks:" + brokenItem.getMaterial().name(), List.of(
-                        new LootPool<>("drops", LootPool.Mode.INDEPENDENT, entries)
+                List<Drop> selected = new LootTable<Void, Drop>(Key.key("skyblock", "blocks/"
+                        + brokenItem.getMaterial().name().toLowerCase()), List.of(
+                        new LootPool<>(Key.key("skyblock", "drops"), LootPool.Mode.INDEPENDENT, entries)
                 )).roll(null).stream().map(LootRoll::value).toList();
                 for (Drop drop : selected) {
                     int amount = calculateAmount(drop.amount());

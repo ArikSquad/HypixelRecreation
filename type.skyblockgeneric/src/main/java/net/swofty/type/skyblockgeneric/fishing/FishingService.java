@@ -2,6 +2,7 @@ package net.swofty.type.skyblockgeneric.fishing;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import net.kyori.adventure.key.Key;
 import net.swofty.commons.loot.LootTable;
 import net.swofty.type.generic.data.datapoints.DatapointToggles;
 import net.swofty.type.skyblockgeneric.entity.FishingHook;
@@ -154,7 +155,7 @@ public final class FishingService {
         if (sinker == null || sinker.getMaterializedItemId() == null) {
             return;
         }
-        boolean materialized = LootTable.rollSingle("fishing:sinker_materialize",
+        boolean materialized = LootTable.rollSingle(Key.key("skyblock", "fishing/sinker_materialize"),
                 sinker.getMaterializedItemId(), sinker.getMaterializedChance()).isPresent();
         if (materialized) {
             player.addAndUpdateItem(net.swofty.commons.skyblock.item.ItemType.valueOf(sinker.getMaterializedItemId()));

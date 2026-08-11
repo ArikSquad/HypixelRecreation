@@ -3,6 +3,7 @@ package net.swofty.type.skyblockgeneric.minion;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
+import net.kyori.adventure.key.Key;
 import net.minestom.server.coordinate.Pos;
 import net.minestom.server.instance.Instance;
 import net.swofty.commons.loot.LootEntry;
@@ -68,9 +69,9 @@ public abstract class MinionAction {
 
         if (extensionData.hasMinionUpgrade(ItemType.DIAMOND_SPREADING)) {
             int baseDrops = items.stream().mapToInt(SkyBlockItem::getAmount).sum();
-            int diamonds = new LootTable<Void, ItemType>("minion:diamond_spreading", List.of(
-                    new LootPool<>("diamonds", LootPool.Mode.INDEPENDENT, baseDrops, 0,
-                            List.of(new LootEntry<>("diamond", ItemType.DIAMOND, 0.1)))
+            int diamonds = new LootTable<Void, ItemType>(Key.key("skyblock", "minion/diamond_spreading"), List.of(
+                    new LootPool<>(Key.key("skyblock", "diamonds"), LootPool.Mode.INDEPENDENT, baseDrops, 0,
+                            List.of(new LootEntry<>(Key.key("skyblock", "diamond"), ItemType.DIAMOND, 0.1)))
             )).roll(null).size();
             if (diamonds > 0) islandMinion.addItem(new SkyBlockItem(ItemType.DIAMOND, diamonds));
         }

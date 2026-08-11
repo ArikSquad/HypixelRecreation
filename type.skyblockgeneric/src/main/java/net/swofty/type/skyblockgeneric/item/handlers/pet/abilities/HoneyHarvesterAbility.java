@@ -1,5 +1,6 @@
 package net.swofty.type.skyblockgeneric.item.handlers.pet.abilities;
 
+import net.kyori.adventure.key.Key;
 import net.swofty.commons.loot.LootTable;
 import net.swofty.commons.skyblock.item.ItemType;
 import net.swofty.commons.skyblock.item.Rarity;
@@ -46,7 +47,8 @@ public final class HoneyHarvesterAbility implements PetAbility {
         Rarity rarity = event.pet().getAttributeHandler().getRarity();
         int level = event.pet().getAttributeHandler().getPetData().getAsLevel(rarity);
         double chance = CHANCE_PER_LEVEL * level;
-        if (LootTable.rollSingle("pet:honey_harvester", ItemType.HONEY_JAR, chance / 100D).isEmpty()) return;
+        if (LootTable.rollSingle(Key.key("skyblock", "pet/honey_harvester"), ItemType.HONEY_JAR,
+                chance / 100D).isEmpty()) return;
 
         player.addAndUpdateItem(new SkyBlockItem(ItemType.HONEY_JAR));
     }

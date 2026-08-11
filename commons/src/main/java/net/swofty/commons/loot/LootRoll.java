@@ -1,8 +1,10 @@
 package net.swofty.commons.loot;
 
+import net.kyori.adventure.key.Key;
+
 public record LootRoll<T>(
-        String poolId,
-        String entryId,
+        Key poolId,
+        Key entryId,
         T value,
         double baseChance,
         double effectiveChance

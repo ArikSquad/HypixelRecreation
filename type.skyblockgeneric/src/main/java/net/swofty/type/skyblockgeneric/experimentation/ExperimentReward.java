@@ -1,5 +1,6 @@
 package net.swofty.type.skyblockgeneric.experimentation;
 
+import net.kyori.adventure.key.Key;
 import net.minestom.server.item.ItemStack;
 import net.minestom.server.item.Material;
 import net.swofty.commons.skyblock.item.ItemType;
@@ -8,11 +9,16 @@ import net.swofty.type.generic.gui.inventory.ItemStacks;
 import net.swofty.type.skyblockgeneric.enchantment.EnchantmentType;
 import net.swofty.type.skyblockgeneric.enchantment.SkyBlockEnchantment;
 import net.swofty.type.skyblockgeneric.item.SkyBlockItem;
+import net.swofty.type.skyblockgeneric.loottable.BossDropRarity;
+import net.swofty.type.skyblockgeneric.loottable.LootAnnouncement;
+import net.swofty.type.skyblockgeneric.rngmeter.RNGMeterLoot;
 import net.swofty.type.skyblockgeneric.rngmeter.RNGMeterReward;
 import net.swofty.type.skyblockgeneric.user.SkyBlockPlayer;
 
 import java.util.Arrays;
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
 
 public enum ExperimentReward implements RNGMeterReward {
@@ -87,6 +93,7 @@ public enum ExperimentReward implements RNGMeterReward {
     private final Material material;
     private final Supplier<SkyBlockItem> itemSupplier;
     private final int meterRequirement;
+    private static final Map<ExperimentReward, RNGMeterLoot> LOOT = createLootRegistry();
 
     ExperimentReward(String displayName, ItemType itemType, int meterRequirement) {
         this(displayName, itemType.material, () -> new SkyBlockItem(itemType), meterRequirement);
@@ -146,16 +153,64 @@ public enum ExperimentReward implements RNGMeterReward {
     public void give(SkyBlockPlayer player) {
         player.addAndUpdateItem(createItem());
         player.sendMessage("<a>Experiment reward: " + displayName + "<a>!");
+        loot().announcement().announce(player, Text.of(displayName));
     }
 
-    @Override
-    public String dropRarity() {
-        return this == GUARDIAN_PET ? "RNGesus Incarnate" : RNGMeterReward.super.dropRarity();
+    public RNGMeterLoot loot() {
+        return LOOT.get(this);
     }
 
-    @Override
-    public double baseDropRate() {
-        return this == GUARDIAN_PET ? 0.0263 : RNGMeterReward.super.baseDropRate();
+    private RNGMeterLoot createLoot() {
+        BossDropRarity rarity;
+        double chance;
+        LootAnnouncement announcement;
+        switch (this) {
+            case EXPERIENCE, GRAND_EXPERIENCE_BOTTLE -> {
+                rarity = BossDropRarity.COMMON;
+                chance = 100;
+                announcement = LootAnnouncement.NONE;
+            }
+            case TITANIC_EXPERIENCE_BOTTLE, EXPERIMENT_THE_FISH, METAPHYSICAL_SERUM -> {
+                rarity = BossDropRarity.EXTRAORDINARY;
+                chance = 1.0638;
+                announcement = LootAnnouncement.NONE;
+            }
+            case SCAVENGER_V, SHARPNESS_VI, LIFE_STEAL_IV, POWER_VI, ENDER_SLAYER_VI,
+                 THUNDERBOLT_VI, GROWTH_VI, CHANCE_IV, BLAST_PROTECTION_VI, RESPITE_III,
+                 VENOMOUS_VI, PROJECTILE_PROTECTION_VI, FIRE_PROTECTION_VI, WOODSPLITTER_VI,
+                 GIANT_KILLER_VI, DRAIN_IV, PROTECTION_VI, TITAN_KILLER_VI -> {
+                rarity = BossDropRarity.RARE;
+                chance = 5.3191;
+                announcement = LootAnnouncement.RARE;
+            }
+            case NADESHIKO_DYE -> {
+                rarity = BossDropRarity.RNGESUS_INCARNATE;
+                chance = 0.004;
+                announcement = LootAnnouncement.INSANE;
+            }
+            case GUARDIAN_PET, A_BEGINNERS_GUIDE_TO_PESTHUNTING, SEVERED_PINCER, CHANCE_V,
+                 THUNDERLORD_VII, ENSNARED_SNAIL, GIANT_KILLER_VII, GRAVITY_VI, GOLDEN_BOUNTY,
+                 SEVERED_HAND, CRITICAL_VII, VIBRANT_CORAL, SNIPE_IV, LIFE_STEAL_V,
+                 GOLD_BOTTLE_CAP, LOOTING_V, FIRST_STRIKE_V, FIRE_PROTECTION_VII,
+                 THUNDERBOLT_VII, CUBISM_VI, TRIPLE_STRIKE_V, CHAIN_OF_THE_END_TIMES, DRAIN_V,
+                 FATEFUL_STINGER, BLAST_PROTECTION_VII, CLEAVE_VI, OCTOPUS_TENDRIL,
+                 TITAN_KILLER_VII, LUCK_VII, END_STONE_IDOL, EXECUTE_VI, POWER_VII,
+                 TROUBLED_BUBBLE, PROJECTILE_PROTECTION_VII, GROWTH_VII, SHARPNESS_VII,
+                 PROTECTION_VII, PROSECUTE_VI -> {
+                rarity = BossDropRarity.RNGESUS_INCARNATE;
+                chance = 0.0263;
+                announcement = LootAnnouncement.INSANE;
+            }
+            default -> throw new IllegalStateException("Missing loot definition for " + name());
+        }
+        return new RNGMeterLoot(Key.key("skyblock", "experimentation/" + name().toLowerCase()),
+                rarity, chance, announcement);
+    }
+
+    private static Map<ExperimentReward, RNGMeterLoot> createLootRegistry() {
+        Map<ExperimentReward, RNGMeterLoot> loot = new EnumMap<>(ExperimentReward.class);
+        for (ExperimentReward reward : values()) loot.put(reward, reward.createLoot());
+        return Map.copyOf(loot);
     }
 
     public static ExperimentReward fromName(String name) {

@@ -1,11 +1,16 @@
 package net.swofty.type.skyblockgeneric.loottable;
 
 import lombok.NonNull;
+import net.kyori.adventure.key.Key;
 import net.swofty.type.skyblockgeneric.user.SkyBlockPlayer;
 
 import java.util.List;
 
 public abstract class PityLootTable extends SkyBlockLootTable {
+    protected PityLootTable(Key key) {
+        super(key);
+    }
+
     public abstract @NonNull PityDefinition getPityDefinition();
 
     public abstract boolean isPityReward(LootRecord record);

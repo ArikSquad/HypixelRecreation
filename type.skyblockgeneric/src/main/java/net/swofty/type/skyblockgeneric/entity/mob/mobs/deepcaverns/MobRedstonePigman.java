@@ -1,6 +1,7 @@
 package net.swofty.type.skyblockgeneric.entity.mob.mobs.deepcaverns;
 
 import lombok.NonNull;
+import net.kyori.adventure.key.Key;
 import net.minestom.server.entity.EntityType;
 import net.minestom.server.entity.ai.GoalSelector;
 import net.minestom.server.entity.ai.TargetSelector;
@@ -16,6 +17,7 @@ import net.swofty.type.skyblockgeneric.entity.mob.ai.ClosestEntityRegionTarget;
 import net.swofty.type.skyblockgeneric.entity.mob.ai.MeleeAttackWithinRegionGoal;
 import net.swofty.type.skyblockgeneric.entity.mob.ai.RandomRegionStrollGoal;
 import net.swofty.type.skyblockgeneric.entity.mob.impl.RegionPopulator;
+import net.swofty.type.skyblockgeneric.loottable.BestiaryDropRarity;
 import net.swofty.type.skyblockgeneric.loottable.OtherLoot;
 import net.swofty.type.skyblockgeneric.loottable.SkyBlockLootTable;
 import net.swofty.type.skyblockgeneric.region.RegionType;
@@ -76,12 +78,12 @@ public class MobRedstonePigman extends BestiaryMob implements RegionPopulator {
 
 	@Override
 	public @Nullable SkyBlockLootTable getLootTable() {
-		return new SkyBlockLootTable() {
+        return new SkyBlockLootTable(Key.key("skyblock", "mob/redstone_pigman")) {
 			@Override
 			public @NonNull List<LootRecord> getLootTable() {
 				return List.of(
-						new LootRecord(ItemType.GOLD_NUGGET, 2, 50),
-						new LootRecord(ItemType.REDSTONE, 5, 50)
+                        new LootRecord(ItemType.GOLD_NUGGET, 2, 50, BestiaryDropRarity.COMMON),
+                        new LootRecord(ItemType.REDSTONE, 5, 50, BestiaryDropRarity.COMMON)
 						//new LootRecord(ItemType.FLAMING_SWORD, 1, 0.01),
 						//new LootRecord(ItemType.EXP_SHARE_CORE, 1, 0.01)
 				);

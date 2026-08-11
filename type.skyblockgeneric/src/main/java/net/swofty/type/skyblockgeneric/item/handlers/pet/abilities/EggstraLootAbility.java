@@ -1,5 +1,6 @@
 package net.swofty.type.skyblockgeneric.item.handlers.pet.abilities;
 
+import net.kyori.adventure.key.Key;
 import net.minestom.server.entity.EntityType;
 import net.minestom.server.item.ItemStack;
 import net.minestom.server.item.Material;
@@ -65,7 +66,8 @@ public final class EggstraLootAbility implements PetAbility {
         Rarity rarity = context.pet().getAttributeHandler().getRarity();
         int level = context.pet().getAttributeHandler().getPetData().getAsLevel(rarity);
         double chance = CHANCE_PER_LEVEL.getForRarity(rarity) * level;
-        if (LootTable.rollSingle("pet:eggstra_loot", Boolean.TRUE, chance / 100D).isEmpty()) return;
+        if (LootTable.rollSingle(Key.key("skyblock", "pet/eggstra_loot"), Boolean.TRUE,
+                chance / 100D).isEmpty()) return;
 
         SkyBlockLootTable lootTable = context.mob().getLootTable();
         if (lootTable == null) return;

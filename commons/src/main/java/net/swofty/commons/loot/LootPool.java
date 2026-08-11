@@ -1,19 +1,21 @@
 package net.swofty.commons.loot;
 
+import net.kyori.adventure.key.Key;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.random.RandomGenerator;
 
 public record LootPool<C, T>(
-        String id,
+        Key id,
         Mode mode,
         int rolls,
         double emptyWeight,
         List<LootEntry<C, T>> entries
 ) {
     public LootPool {
-        if (id == null || id.isBlank()) throw new IllegalArgumentException("Loot pool id cannot be blank");
+        Objects.requireNonNull(id, "id");
         Objects.requireNonNull(mode, "mode");
         if (rolls < 0) throw new IllegalArgumentException("Roll count cannot be negative");
         if (!Double.isFinite(emptyWeight) || emptyWeight < 0) {
@@ -22,7 +24,7 @@ public record LootPool<C, T>(
         entries = List.copyOf(entries);
     }
 
-    public LootPool(String id, Mode mode, List<LootEntry<C, T>> entries) {
+    public LootPool(Key id, Mode mode, List<LootEntry<C, T>> entries) {
         this(id, mode, 1, 0, entries);
     }
 

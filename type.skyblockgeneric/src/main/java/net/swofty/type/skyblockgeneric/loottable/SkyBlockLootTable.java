@@ -3,7 +3,7 @@ package net.swofty.type.skyblockgeneric.loottable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import net.kyori.adventure.key.Key;
 import net.minestom.server.entity.LivingEntity;
 import net.swofty.commons.loot.LootEntry;
 import net.swofty.commons.loot.LootPool;
@@ -25,6 +25,13 @@ import java.util.random.RandomGenerator;
  * all selection semantics live in {@link LootTable}.
  */
 public abstract class SkyBlockLootTable {
+    private static final String NAMESPACE = "skyblock";
+    private final Key key;
+
+    protected SkyBlockLootTable(Key key) {
+        this.key = key;
+    }
+
     public abstract @NonNull List<LootRecord> getLootTable();
     public abstract @NonNull CalculationMode getCalculationMode();
 
@@ -57,7 +64,7 @@ public abstract class SkyBlockLootTable {
                         : affector.apply(context.player(), chance, context.source()));
             }
             entries.add(new LootEntry<>(
-                    record.itemType.name() + "#" + index,
+                    Key.key(NAMESPACE, record.itemType.name().toLowerCase() + "/" + index),
                     record,
                     record.chancePercent / 100D,
                     context -> context.player() == null || record.shouldCalculate.apply(context.player()),
@@ -68,8 +75,8 @@ public abstract class SkyBlockLootTable {
         LootPool.Mode mode = getCalculationMode() == CalculationMode.PICK_ONE
                 ? LootPool.Mode.WEIGHTED
                 : LootPool.Mode.INDEPENDENT;
-        LootTable<RollContext, LootRecord> table = new LootTable<>(getClass().getName(), List.of(
-                new LootPool<>("main", mode, entries)
+        LootTable<RollContext, LootRecord> table = new LootTable<>(key(), List.of(
+                new LootPool<>(Key.key(NAMESPACE, "main"), mode, entries)
         ));
         List<LootRecord> rolled = table.roll(new RollContext(player, source)).stream().map(LootRoll::value).toList();
         if (player != null) {
@@ -87,6 +94,10 @@ public abstract class SkyBlockLootTable {
     }
 
     protected void afterRoll(SkyBlockPlayer player, List<LootRecord> records) {
+    }
+
+    public Key key() {
+        return key;
     }
 
     /**
@@ -111,20 +122,24 @@ public abstract class SkyBlockLootTable {
     }
 
     @Getter
-    @RequiredArgsConstructor
     @AllArgsConstructor
     public static class LootRecord {
         private final ItemType itemType;
         private final int amount;
         private final double chancePercent;
+        private final BestiaryDropRarity rarity;
         private Function<SkyBlockPlayer, Boolean> shouldCalculate = player -> true;
 
+        public LootRecord(ItemType itemType, int amount, double chancePercent, BestiaryDropRarity rarity) {
+            this(itemType, amount, chancePercent, rarity, player -> true);
+        }
+
         public static LootRecord none(int chance) {
-            return new LootRecord(ItemType.AIR, 0, chance, player -> true);
+            return new LootRecord(ItemType.AIR, 0, chance, BestiaryDropRarity.COMMON, player -> true);
         }
 
         public static LootRecord none(int chance, Function<SkyBlockPlayer, Boolean> shouldCalculate) {
-            return new LootRecord(ItemType.AIR, 0, chance, shouldCalculate);
+            return new LootRecord(ItemType.AIR, 0, chance, BestiaryDropRarity.COMMON, shouldCalculate);
         }
 
         public static boolean isNone(LootRecord lootRecord) {

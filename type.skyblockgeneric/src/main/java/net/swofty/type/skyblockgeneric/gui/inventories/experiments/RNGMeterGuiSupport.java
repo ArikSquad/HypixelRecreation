@@ -72,12 +72,11 @@ public final class RNGMeterGuiSupport {
 
     public static List<Text> rewardLore(RNGMeterDefinition definition, RNGMeterState state, RNGMeterReward reward) {
         double chance = state.selectedReward().equalsIgnoreCase(reward.id())
-                ? RNGMeterService.applyDropRate(state, reward, reward.baseDropRate())
-                : reward.baseDropRate();
+                ? RNGMeterService.applyDropRate(state, reward, reward.loot().baseChancePercent())
+                : reward.loot().baseChancePercent();
         String chanceText = String.format(Locale.ROOT, "%.4f", chance);
         List<Text> lore = new ArrayList<>(List.of(
-                Text.of("<7>Odds: " + rarityColor(reward) + reward.dropRarity()
-                        + " <7>(" + chanceText + "%)"),
+                Text.of("<7>Odds: {} <7>({}%)", reward.loot().rarity().displayName(), chanceText),
                 Text.empty()
         ));
 
@@ -97,14 +96,6 @@ public final class RNGMeterGuiSupport {
             lore.add(Text.of("<e>Click to select!"));
         }
         return lore;
-    }
-
-    private static String rarityColor(RNGMeterReward reward) {
-        return switch (reward.dropRarity()) {
-            case "Extraordinary" -> "<5>";
-            case "Rare" -> "<b>";
-            default -> "<c>";
-        };
     }
 
     private static String number(double value) {

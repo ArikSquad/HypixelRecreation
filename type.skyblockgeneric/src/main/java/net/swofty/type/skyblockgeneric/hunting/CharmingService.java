@@ -1,5 +1,6 @@
 package net.swofty.type.skyblockgeneric.hunting;
 
+import net.kyori.adventure.key.Key;
 import net.swofty.commons.loot.LootTable;
 import net.swofty.type.skyblockgeneric.entity.mob.BestiaryMob;
 import net.swofty.type.skyblockgeneric.entity.mob.SkyBlockMob;
@@ -16,7 +17,8 @@ public final class CharmingService {
         int huntingLevel = player.getSkills().getCurrentLevel(SkillCategories.HUNTING);
         double skillChance = huntingLevel * 0.0004D;
         double charmedChance = AttributeEffectService.value(player.getHuntingData(), AttributeId.parse("L11")) / 100D;
-        if (LootTable.rollSingle("hunting:charming", definition, skillChance + charmedChance).isEmpty()) return false;
+        if (LootTable.rollSingle(Key.key("skyblock", "hunting/charming"), definition,
+                skillChance + charmedChance).isEmpty()) return false;
         int amount = AttributeEffectService.fortunateAmount(player, definition);
         player.getHuntingData().addShards(definition.id(), amount);
         player.getSkills().increase(player, SkillCategories.HUNTING, huntingExperience(definition));
