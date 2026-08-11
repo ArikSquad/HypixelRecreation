@@ -11,6 +11,22 @@ public interface RNGMeterDefinition {
 
     RNGMeterReward defaultReward();
 
+    default String activityName() {
+        return displayName();
+    }
+
+    default String progressName() {
+        return "Experience";
+    }
+
+    default String rewardProgressName() {
+        return progressName();
+    }
+
+    default String iconTexture() {
+        return null;
+    }
+
     default RNGMeterReward reward(String id) {
         return rewards().stream()
                 .filter(reward -> reward.id().equalsIgnoreCase(id))

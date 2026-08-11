@@ -28,6 +28,26 @@ public final class ExperimentationRNGMeter implements RNGMeterDefinition {
     }
 
     @Override
+    public String activityName() {
+        return "Superpairs";
+    }
+
+    @Override
+    public String progressName() {
+        return "Enchanting XP";
+    }
+
+    @Override
+    public String rewardProgressName() {
+        return "Experimental XP";
+    }
+
+    @Override
+    public String iconTexture() {
+        return "81b843451184a8ccd8e6e49d0edf3451d3dea50fde5b6a2f98ab7cf1138bcece";
+    }
+
+    @Override
     public List<? extends RNGMeterReward> rewards() {
         return rewards;
     }

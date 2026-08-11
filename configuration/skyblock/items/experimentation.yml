@@ -36,7 +36,6 @@ items:
                 left: '%player.collection:LAPIS_LAZULI%'
                 operation: '>='
                 right: '10000'
-                fail-message: '<c>Requires Lapis Lazuli Collection V!'
 
   - id: TITANIC_EXP_BOTTLE
     material: EXPERIENCE_BOTTLE
@@ -75,7 +74,6 @@ items:
                 left: '%player.collection:LAPIS_LAZULI%'
                 operation: '>='
                 right: '100000'
-                fail-message: '<c>Requires Lapis Lazuli Collection VIII!'
 
   - id: EXPERIMENT_THE_FISH
     material: TROPICAL_FISH

@@ -95,6 +95,7 @@ public class SkyBlockIsland {
 
                 this.created = true;
                 IslandLifecycle.run(IslandLifecyclePhase.LOAD, context);
+                furnitureManager.restore(islandInstance);
 
                 future.complete(islandInstance);
                 context.onlineMembers().forEach(HypixelPlayer::setReadyForEvents);
@@ -114,6 +115,7 @@ public class SkyBlockIsland {
         if (islandInstance.getPlayers().isEmpty()) {
             IslandLifecycle.run(IslandLifecyclePhase.SAVE, lifecycleContext());
 
+            furnitureManager.clearRuntime();
             save();
             this.created = false;
             islandInstance.getChunks().forEach(chunk -> {

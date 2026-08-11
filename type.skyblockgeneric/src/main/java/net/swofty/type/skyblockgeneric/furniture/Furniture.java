@@ -42,6 +42,10 @@ public class Furniture {
     }
 
     public static List<LivingEntity> load(String furnitureName, Instance instance, Pos offset) {
+        return load(furnitureName, instance, offset, 0f);
+    }
+
+    public static List<LivingEntity> load(String furnitureName, Instance instance, Pos offset, float rotationYaw) {
         final List<LivingEntity> spawned = new ArrayList<>();
 		try {
 			if (instance == null) {
@@ -63,21 +67,21 @@ public class Furniture {
 				if ("minecraft:item_display".equals(type)) {
 					LivingEntity entity = createItemDisplay(entry);
                     spawned.add(entity);
-					spawnEntity(entity, entry, offset, instance);
+                    spawnEntity(entity, entry, offset, instance, rotationYaw);
 					continue;
 				}
 
 				if ("minecraft:block_display".equals(type)) {
 					LivingEntity entity = createBlockDisplay(entry);
                     spawned.add(entity);
-					spawnEntity(entity, entry, offset, instance);
+                    spawnEntity(entity, entry, offset, instance, rotationYaw);
                     continue;
                 }
 
                 if ("minecraft:armor_stand".equals(type)) {
                     LivingEntity entity = createArmorStand(entry);
 					spawned.add(entity);
-                    spawnEntity(entity, entry, offset, instance);
+                    spawnEntity(entity, entry, offset, instance, rotationYaw);
 				}
 			}
 
@@ -92,15 +96,22 @@ public class Furniture {
         entities.forEach(LivingEntity::remove);
     }
 
-	private static void spawnEntity(LivingEntity entity, JSONObject entry, Pos offset, Instance instance) {
+    public static float facingPlayerYaw(float playerYaw) {
+        return playerYaw + 180f;
+    }
+
+    private static void spawnEntity(LivingEntity entity, JSONObject entry, Pos offset, Instance instance, float rotationYaw) {
 		final JSONObject position = entry.getJSONObject("position");
 		final JSONObject rotation = entry.optJSONObject("rotation");
+        final double radians = Math.toRadians(rotationYaw);
+        final double localX = position.getDouble("x");
+        final double localZ = position.getDouble("z");
 
-		final double x = position.getDouble("x") + offset.x();
+        final double x = localX * Math.cos(radians) - localZ * Math.sin(radians) + offset.x();
 		final double y = position.getDouble("y") + offset.y();
-		final double z = position.getDouble("z") + offset.z();
+        final double z = localX * Math.sin(radians) + localZ * Math.cos(radians) + offset.z();
 
-		final float yaw = rotation == null ? 0f : (float) rotation.optDouble("yaw", 0d);
+        final float yaw = (rotation == null ? 0f : (float) rotation.optDouble("yaw", 0d)) + rotationYaw;
 		final float pitch = rotation == null ? 0f : (float) rotation.optDouble("pitch", 0d);
 
 		entity.setInstance(instance, new Pos(x, y, z, yaw, pitch));

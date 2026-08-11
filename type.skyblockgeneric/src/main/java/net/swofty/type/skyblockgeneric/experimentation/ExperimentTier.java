@@ -62,6 +62,16 @@ public enum ExperimentTier {
         return Arrays.stream(rows).map(row -> row + localColor).boxed().toList();
     }
 
+    public int xpReward(ExperimentType type) {
+        if (type != ExperimentType.ULTRASEQUENCER) return xpPerStep;
+        return switch (this) {
+            case HIGH, GRAND -> xpPerStep;
+            case SUPREME -> 3_500;
+            case TRANSCENDENT -> 5_000;
+            case METAPHYSICAL -> 7_000;
+        };
+    }
+
     public static ExperimentTier fromName(String name) {
         return Arrays.stream(values())
                 .filter(tier -> tier.name().equalsIgnoreCase(name) || tier.displayName.equalsIgnoreCase(name))

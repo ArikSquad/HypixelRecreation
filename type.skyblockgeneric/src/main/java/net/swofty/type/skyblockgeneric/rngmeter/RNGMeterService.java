@@ -26,6 +26,11 @@ public final class RNGMeterService {
         if (xp < 0) throw new IllegalArgumentException("RNG Meter XP cannot be negative");
 
         RNGMeterState current = get(player, definition);
+        if (current.selectedReward().isBlank()) {
+            double progress = current.storedXp() + xp;
+            set(player, definition.type(), new RNGMeterState("", progress));
+            return new ProgressResult(progress, false, null);
+        }
         RNGMeterReward reward = definition.reward(current.selectedReward());
         double progress = current.storedXp() + xp;
         if (progress < reward.requiredXp()) {
@@ -33,11 +38,15 @@ public final class RNGMeterService {
             return new ProgressResult(progress, false, reward);
         }
 
-        double overflow = progress - reward.requiredXp();
-        set(player, definition.type(), new RNGMeterState(reward.id(), overflow));
-        reward.give(player);
-        player.sendMessage("<d><l>RNG METER! <f>You filled your " + definition.displayName() + " RNG Meter!");
-        return new ProgressResult(overflow, true, reward);
+        set(player, definition.type(), new RNGMeterState(reward.id(), reward.requiredXp()));
+        player.sendMessage("<d><l>RNG METER! <f>Your " + definition.displayName()
+                + " RNG Meter is full and will guarantee your next drop!");
+        return new ProgressResult(reward.requiredXp(), true, reward);
+    }
+
+    public static void reset(SkyBlockPlayer player, RNGMeterDefinition definition) {
+        RNGMeterState current = get(player, definition);
+        set(player, definition.type(), new RNGMeterState("", current.storedXp()));
     }
 
     public static boolean selectedDropObtained(SkyBlockPlayer player, RNGMeterDefinition definition,
@@ -46,6 +55,18 @@ public final class RNGMeterService {
         if (!current.selectedReward().equalsIgnoreCase(obtainedReward.id())) return false;
 
         set(player, definition.type(), new RNGMeterState(current.selectedReward(), 0));
+        return true;
+    }
+
+    public static boolean giveSelectedReward(SkyBlockPlayer player, RNGMeterDefinition definition) {
+        RNGMeterState current = get(player, definition);
+        if (current.selectedReward().isBlank()) return false;
+
+        RNGMeterReward reward = definition.reward(current.selectedReward());
+        if (current.storedXp() < reward.requiredXp()) return false;
+
+        reward.give(player);
+        set(player, definition.type(), new RNGMeterState(reward.id(), 0));
         return true;
     }
 

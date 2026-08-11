@@ -1,15 +1,14 @@
 package net.swofty.type.skyblockgeneric.gui.inventories.experiments;
 
 import net.minestom.server.inventory.InventoryType;
-import net.minestom.server.item.ItemStack;
 import net.minestom.server.item.Material;
-import net.swofty.type.generic.gui.inventory.ItemStacks;
-import net.swofty.type.generic.gui.v2.*;
+import net.swofty.type.generic.gui.v2.Components;
+import net.swofty.type.generic.gui.v2.DefaultState;
+import net.swofty.type.generic.gui.v2.StatelessView;
+import net.swofty.type.generic.gui.v2.ViewConfiguration;
+import net.swofty.type.generic.gui.v2.ViewLayout;
 import net.swofty.type.generic.gui.v2.context.ViewContext;
 import net.swofty.type.skyblockgeneric.experimentation.ExperimentType;
-import net.swofty.type.skyblockgeneric.experimentation.ExperimentReward;
-import net.swofty.type.skyblockgeneric.experimentation.ExperimentationRNGMeter;
-import net.swofty.type.skyblockgeneric.rngmeter.RNGMeterService;
 import net.swofty.type.skyblockgeneric.user.SkyBlockPlayer;
 
 import java.util.Arrays;
@@ -38,39 +37,21 @@ public final class GUIExperiments extends StatelessView {
                 (_, viewCtx) -> viewCtx.push(new GUIUltrasequencer()));
 
         layout.filler(List.of(20, 21, 23, 24),
-                ExperimentationGuiSupport.item("<7>Pending Experiment...", Material.PINK_STAINED_GLASS_PANE, 1));
+                ExperimentationGuiSupport.item("<7>Pending experiment...", Material.PINK_STAINED_GLASS_PANE, 1));
         layout.slot(50, ExperimentationGuiSupport.item(
-                "<b>Experience Bottles",
+                "<3>Experience Bottles",
                 Material.EXPERIENCE_BOTTLE,
                 1,
-                "<7>Use experience bottles to restore missing experience.",
+                "<7>Missing experience?",
+                "<7>Simple! Just consume the <3>Experience",
+                "<3>Bottles <7>from your inventories",
+                "<7>directly or purchase some at the",
+                "<7>current <6>Bazaar <7>price!",
                 "",
-                "<7>Experiment rewards grant <b>Enchanting XP<7>."
-        ));
-        layout.slot(48, (_, viewCtx) -> meterItem((SkyBlockPlayer) viewCtx.player()),
-                (_, viewCtx) -> cycleMeter((SkyBlockPlayer) viewCtx.player(), viewCtx));
-    }
-
-    private ItemStack.Builder meterItem(SkyBlockPlayer player) {
-        var meter = RNGMeterService.get(player, ExperimentationRNGMeter.INSTANCE);
-        ExperimentReward reward = ExperimentReward.fromName(meter.selectedReward());
-        double percent = meter.storedXp() * 100d / reward.requiredXp();
-        return ExperimentationGuiSupport.item("<d>Experimentation RNG Meter", Material.MAGENTA_DYE, 1,
-                "<7>Selected: " + reward.displayName(),
-                "<7>Progress: <d>" + String.format("%.1f", meter.storedXp()) + "<7>/<d>" + reward.meterRequirement()
-                        + " <7>(" + String.format("%.1f", Math.min(100, percent)) + "%)",
-                "", "<e>Click to change your selected reward!");
-    }
-
-    private void cycleMeter(SkyBlockPlayer player, ViewContext ctx) {
-        ExperimentReward current = ExperimentReward.fromName(
-                RNGMeterService.get(player, ExperimentationRNGMeter.INSTANCE).selectedReward());
-        ExperimentReward[] rewards = Arrays.stream(ExperimentReward.values())
-                .filter(reward -> reward.meterRequirement() > 0).toArray(ExperimentReward[]::new);
-        int index = Arrays.asList(rewards).indexOf(current);
-        ExperimentReward next = rewards[(index + 1) % rewards.length];
-        RNGMeterService.select(player, ExperimentationRNGMeter.INSTANCE, next);
-        player.sendMessage("<a>You selected " + next.displayName() + "<a> for your Experimentation RNG Meter!");
-        ctx.session(DefaultState.class).refresh();
+                "<e>Click to view!"), (_, viewCtx) -> viewCtx.push(new GUIExperienceBottles()));
+        layout.slot(48, (_, viewCtx) -> RNGMeterGuiSupport.meterItem(
+                        net.swofty.type.skyblockgeneric.experimentation.ExperimentationRNGMeter.INSTANCE,
+                        (SkyBlockPlayer) viewCtx.player()),
+                (_, viewCtx) -> viewCtx.push(new GUIExperimentationRNGMeter()));
     }
 }

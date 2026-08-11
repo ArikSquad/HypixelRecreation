@@ -3,11 +3,16 @@ package net.swofty.type.skyblockgeneric.experimentation;
 import net.swofty.commons.StringUtility;
 import net.swofty.type.skyblockgeneric.data.SkyBlockDataHandler;
 import net.swofty.type.skyblockgeneric.data.datapoints.DatapointExperimentation;
-import net.swofty.type.skyblockgeneric.skill.SkillCategories;
 import net.swofty.type.skyblockgeneric.rngmeter.RNGMeterService;
+import net.swofty.type.skyblockgeneric.skill.SkillCategories;
 import net.swofty.type.skyblockgeneric.user.SkyBlockPlayer;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -144,7 +149,7 @@ public final class ExperimentationManager {
         }
 
         int score = session.bestScore();
-        int xp = Math.min(score, 15) * session.tier().xpPerStep();
+        int xp = Math.min(score, 15) * session.tier().xpReward(ExperimentType.CHRONOMATRON);
         int bonus = bonusClicksForScore(score);
         award(player, xp, bonus);
         return new ChronomatronFinishResult(true, null, score, xp, bonus);
@@ -214,7 +219,7 @@ public final class ExperimentationManager {
         }
 
         int score = session.bestScore();
-        int xp = Math.min(score, 20) * session.tier().xpPerStep();
+        int xp = Math.min(score, 20) * session.tier().xpReward(ExperimentType.ULTRASEQUENCER);
         int bonus = bonusClicksForScore(score);
         award(player, xp, bonus);
         return new UltraSequencerFinishResult(true, null, score, xp, bonus);
@@ -273,8 +278,9 @@ public final class ExperimentationManager {
         for (int tile : state.matchedTiles()) awarded.add(state.board().get(tile));
         awarded.forEach(item -> RNGMeterService.giveReward(
                 player, ExperimentationRNGMeter.INSTANCE, item.reward()));
+        RNGMeterService.giveSelectedReward(player, ExperimentationRNGMeter.INSTANCE);
         award(player, xp, bonus);
-        RNGMeterService.addProgress(player, ExperimentationRNGMeter.INSTANCE, xp * 0.001);
+        RNGMeterService.addProgress(player, ExperimentationRNGMeter.INSTANCE, xp);
         return new SuperPairsFinishResult(true, null, pairs, xp, bonus);
     }
 
