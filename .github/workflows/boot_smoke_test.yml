@@ -1,0 +1,95 @@
+name: Full Stack Boot Smoke Test
+
+on:
+  pull_request:
+    branches:
+      - master
+  push:
+    branches:
+      - master
+
+concurrency:
+  group: boot-smoke-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  WORLD_ASSETS_URL: https://files.catbox.moe/flri48.zip
+
+jobs:
+  boot:
+    name: Boot the proxy, the services and every server type
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+
+    services:
+      mongodb:
+        image: mongo:8.0.9
+        ports:
+          - 27017:27017
+        options: >-
+          --health-cmd "mongosh --quiet --eval 'db.adminCommand({ ping: 1 }).ok'"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+
+      redis:
+        image: redis:latest
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up JDK 25
+        uses: actions/setup-java@v5
+        with:
+          java-version: '25'
+          distribution: 'temurin'
+          check-latest: false
+
+      - name: Grant Gradlew Permissions
+        run: chmod +x gradlew
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v6
+
+      - name: Build with Gradle
+        run: ./gradlew shadowJar --no-daemon
+
+      - name: Cache world assets
+        id: world-assets
+        uses: actions/cache@v4
+        with:
+          path: ~/world-assets
+          key: world-assets-flri48
+
+      - name: Download world assets
+        if: steps.world-assets.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p ~/world-assets
+          curl -fSL --retry 3 --retry-delay 10 -o ~/world-assets/assets.zip "$WORLD_ASSETS_URL"
+
+      - name: Extract world assets
+        run: |
+          unzip -q -o ~/world-assets/assets.zip -d configuration
+          ls configuration/world
+
+      - name: Boot smoke test
+        run: ./scripts/ci-boot-smoke-test.sh
+
+      - name: Upload boot logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: boot-smoke-logs
+          path: smoke-logs
+          retention-days: 7
+          if-no-files-found: warn
