@@ -72,7 +72,7 @@ public class MobGraveyardZombie extends BestiaryMob implements RegionPopulator {
     public ItemStatistics getBaseStatistics() {
         return ItemStatistics.builder()
                 .withBase(ItemStatistic.HEALTH, 100D)
-                .withBase(ItemStatistic.DAMAGE, 5D)
+                .withBase(ItemStatistic.DAMAGE, 20D)
                 .withBase(ItemStatistic.SPEED, 100D)
                 .build();
     }
@@ -82,8 +82,11 @@ public class MobGraveyardZombie extends BestiaryMob implements RegionPopulator {
         return new SkyBlockLootTable(Key.key("skyblock", "mob/graveyard_zombie")) {
             @Override
             public @NonNull List<LootRecord> getLootTable() {
-                return List.of(new LootRecord(ItemType.ROTTEN_FLESH, makeAmountBetween(1, 3), 20,
-                        BestiaryDropRarity.UNCOMMON));
+                return List.of(
+                        new LootRecord(ItemType.ROTTEN_FLESH, 1, 100, BestiaryDropRarity.COMMON),
+                        new LootRecord(ItemType.POISONOUS_POTATO, 1, 2, BestiaryDropRarity.UNCOMMON),
+                        new LootRecord(ItemType.CARROT, 1, 1, BestiaryDropRarity.UNCOMMON),
+                        new LootRecord(ItemType.POTATO, 1, 1, BestiaryDropRarity.UNCOMMON));
             }
 
             @Override

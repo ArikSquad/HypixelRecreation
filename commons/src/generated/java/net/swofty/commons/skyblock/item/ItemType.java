@@ -426,6 +426,8 @@ public enum ItemType {
 
   BONE_BOOMERANG(Material.BONE, Rarity.LEGENDARY),
 
+  BONE_DYE(Material.WHITE_DYE, Rarity.LEGENDARY),
+
   BONE_MEAL(Material.BONE_MEAL, Rarity.COMMON),
 
   BONZO_FRAGMENT(Material.RED_MUSHROOM, Rarity.RARE),
@@ -912,6 +914,8 @@ public enum ItemType {
 
   CYAN_WOOL(Material.CYAN_WOOL, Rarity.COMMON),
 
+  CYCLAMEN_DYE(Material.PINK_DYE, Rarity.LEGENDARY),
+
   DAEDALUS_AXE(Material.GOLDEN_SWORD, Rarity.LEGENDARY),
 
   DAEDALUS_STICK(Material.STICK, Rarity.LEGENDARY),
@@ -1093,6 +1097,8 @@ public enum ItemType {
   DIAMOND_VOLCANIC_STONEFISH(Material.PLAYER_HEAD, Rarity.COMMON),
 
   DIGESTED_MOSQUITO(Material.ROTTEN_FLESH, Rarity.LEGENDARY),
+
+  DIGESTED_MUSHROOMS(Material.BROWN_MUSHROOM, Rarity.UNCOMMON),
 
   DIORITE(Material.DIORITE, Rarity.COMMON),
 
@@ -1508,6 +1514,8 @@ public enum ItemType {
 
   EXPLOSIVE_BOW(Material.BOW, Rarity.EPIC),
 
+  EXP_SHARE_CORE(Material.ENDER_EYE, Rarity.EPIC),
+
   EYE_OF_ENDER(Material.ENDER_EYE, Rarity.COMMON),
 
   FANCY_SWORD(Material.GOLDEN_SWORD, Rarity.UNCOMMON),
@@ -1807,6 +1815,8 @@ public enum ItemType {
   GOLDEN_LEGGINGS(Material.GOLDEN_LEGGINGS, Rarity.COMMON),
 
   GOLDEN_PICKAXE(Material.GOLDEN_PICKAXE, Rarity.COMMON),
+
+  GOLDEN_POWDER(Material.GLOWSTONE_DUST, Rarity.EPIC),
 
   GOLDEN_SHOVEL(Material.GOLDEN_SHOVEL, Rarity.COMMON),
 
@@ -2238,6 +2248,8 @@ public enum ItemType {
 
   LAPIS_ARMOR_LEGGINGS(Material.LEATHER_LEGGINGS, Rarity.UNCOMMON),
 
+  LAPIS_CRYSTAL(Material.PRISMARINE_CRYSTALS, Rarity.RARE),
+
   LAPIS_LAZULI(Material.LAPIS_LAZULI, Rarity.COMMON),
 
   LAPIS_LAZULI_BLOCK(Material.LAPIS_BLOCK, Rarity.COMMON),
@@ -2578,6 +2590,8 @@ public enum ItemType {
 
   MIRRORED_BOW(Material.BOW, Rarity.COMMON),
 
+  MITE_GEL(Material.MAGENTA_DYE, Rarity.EPIC),
+
   MITHRIL(Material.PRISMARINE_CRYSTALS, Rarity.COMMON),
 
   MITHRIL_BELT(Material.PLAYER_HEAD, Rarity.UNCOMMON),
@@ -2819,6 +2833,8 @@ public enum ItemType {
   PAPER(Material.PAPER, Rarity.COMMON),
 
   PASTEL_SKY_DYE(Material.MAGENTA_DYE, Rarity.MYTHIC),
+
+  PEARLESCENT_DYE(Material.CYAN_DYE, Rarity.LEGENDARY),
 
   PEONY(Material.PEONY, Rarity.COMMON),
 

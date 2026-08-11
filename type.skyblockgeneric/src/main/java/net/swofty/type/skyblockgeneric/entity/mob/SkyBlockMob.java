@@ -8,13 +8,7 @@ import net.kyori.adventure.sound.Sound;
 import net.minestom.server.component.DataComponents;
 import net.minestom.server.coordinate.Pos;
 import net.minestom.server.coordinate.Vec;
-import net.minestom.server.entity.Entity;
-import net.minestom.server.entity.EntityCreature;
-import net.minestom.server.entity.EntityType;
-import net.minestom.server.entity.GameMode;
-import net.minestom.server.entity.Metadata;
-import net.minestom.server.entity.MetadataDef;
-import net.minestom.server.entity.Player;
+import net.minestom.server.entity.*;
 import net.minestom.server.entity.ai.GoalSelector;
 import net.minestom.server.entity.ai.TargetSelector;
 import net.minestom.server.entity.attribute.Attribute;
@@ -82,7 +76,17 @@ public abstract class SkyBlockMob extends EntityCreature {
     }
 
     public SkyBlockMob(EntityType entityType) {
+        this(entityType, true);
+    }
+
+    protected SkyBlockMob(EntityType entityType, boolean initialize) {
         super(entityType);
+        if (initialize) {
+            init();
+        }
+    }
+
+    protected final void initializeMob() {
         init();
     }
 
@@ -97,7 +101,7 @@ public abstract class SkyBlockMob extends EntityCreature {
 
         this.customName = Text.of("<8>[<7>Lv{}<8>] <c>{}<c> {} <a>{}<f>/<a>{}",
                 getLevel(),
-                Text.parse(getMobTypes().getFirst().getColor() + getMobTypes().getFirst().getSymbol()),
+                getMobTypes().getFirst().getColoredSymbol(),
                 getDisplayName(),
                 Math.round(getHealth()),
                 Math.round(getBaseStatistics().getOverall(ItemStatistic.HEALTH).floatValue())

@@ -1,0 +1,84 @@
+items:
+  - id: EXP_SHARE_CORE
+    material: ENDER_EYE
+    name: "Exp Share Core"
+    rarity: EPIC
+    lore:
+      - Used to craft the Exp Share pet item.
+    components:
+      - id: CUSTOM_DISPLAY_NAME
+        display_name: Exp Share Core
+
+  - id: LAPIS_CRYSTAL
+    material: PRISMARINE_CRYSTALS
+    name: "Lapis Crystal"
+    rarity: RARE
+    lore:
+      - Can be used to reforge pickaxes.
+    components:
+      - id: CUSTOM_DISPLAY_NAME
+        display_name: Lapis Crystal
+
+  - id: GOLDEN_POWDER
+    material: GLOWSTONE_DUST
+    name: "Golden Powder"
+    rarity: EPIC
+    components:
+      - id: CUSTOM_DISPLAY_NAME
+        display_name: Golden Powder
+
+  - id: DIGESTED_MUSHROOMS
+    material: BROWN_MUSHROOM
+    name: "Digested Mushrooms"
+    rarity: UNCOMMON
+    lore:
+      - Sometimes digested multiple times.
+    components:
+      - id: CUSTOM_DISPLAY_NAME
+        display_name: Digested Mushrooms
+
+  - id: MITE_GEL
+    material: MAGENTA_DYE
+    name: "Mite Gel"
+    rarity: EPIC
+    lore:
+      - Sticky goo scraped off an Endermite.
+    components:
+      - id: CUSTOM_DISPLAY_NAME
+        display_name: Mite Gel
+
+  - id: BONE_DYE
+    material: WHITE_DYE
+    name: "Bone Dye"
+    rarity: LEGENDARY
+    lore:
+      - Changes the color of a vanilla armor piece to #E3DAC9!
+    components:
+      - id: CUSTOM_DISPLAY_NAME
+        display_name: Bone Dye
+      - id: ARMOR_DYE
+        from_color: '#E3DAC9'
+
+  - id: CYCLAMEN_DYE
+    material: PINK_DYE
+    name: "Cyclamen Dye"
+    rarity: LEGENDARY
+    lore:
+      - Changes the color of a vanilla armor piece to #F56FA1!
+    components:
+      - id: CUSTOM_DISPLAY_NAME
+        display_name: Cyclamen Dye
+      - id: ARMOR_DYE
+        from_color: '#F56FA1'
+
+  - id: PEARLESCENT_DYE
+    material: CYAN_DYE
+    name: "Pearlescent Dye"
+    rarity: LEGENDARY
+    lore:
+      - Changes the color of a vanilla armor piece to #115555!
+    components:
+      - id: CUSTOM_DISPLAY_NAME
+        display_name: Pearlescent Dye
+      - id: ARMOR_DYE
+        from_color: '#115555'

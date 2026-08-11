@@ -35,6 +35,13 @@ public abstract class SkyBlockLootTable {
     public abstract @NonNull List<LootRecord> getLootTable();
     public abstract @NonNull CalculationMode getCalculationMode();
 
+    public @NonNull List<LootPoolDefinition> getLootPools() {
+        LootPool.Mode mode = getCalculationMode() == CalculationMode.PICK_ONE
+                ? LootPool.Mode.WEIGHTED
+                : LootPool.Mode.INDEPENDENT;
+        return List.of(new LootPoolDefinition("main", mode, 1, 0, getLootTable()));
+    }
+
     public int makeAmountBetween(int min, int max) {
         return RandomGenerator.getDefault().nextInt(min, max + 1);
     }
@@ -50,35 +57,34 @@ public abstract class SkyBlockLootTable {
 
     public @NonNull List<LootRecord> roll(@Nullable SkyBlockPlayer player, @Nullable LivingEntity source,
                                           Function<LootRecord, List<LootAffector>> affectors) {
-        List<LootRecord> records = getLootTable();
-        List<LootEntry<RollContext, LootRecord>> entries = new ArrayList<>(records.size());
-        for (int index = 0; index < records.size(); index++) {
-            LootRecord record = records.get(index);
-            List<LootEntry.LootModifier<RollContext, LootRecord>> modifiers = new ArrayList<>();
-            modifiers.add((context, ignored, chance) -> context.player() == null
-                    ? chance
-                    : adjustChance(context.player(), record, chance));
-            for (LootAffector affector : affectors.apply(record)) {
+        List<LootPool<RollContext, LootRecord>> pools = new ArrayList<>();
+        for (LootPoolDefinition pool : getLootPools()) {
+            List<LootEntry<RollContext, LootRecord>> entries = new ArrayList<>(pool.records().size());
+            for (int index = 0; index < pool.records().size(); index++) {
+                LootRecord record = pool.records().get(index);
+                List<LootEntry.LootModifier<RollContext, LootRecord>> modifiers = new ArrayList<>();
                 modifiers.add((context, ignored, chance) -> context.player() == null
                         ? chance
-                        : affector.apply(context.player(), chance, context.source()));
+                        : adjustChance(context.player(), record, chance));
+                for (LootAffector affector : affectors.apply(record)) {
+                    modifiers.add((context, ignored, chance) -> context.player() == null
+                            ? chance
+                            : affector.apply(context.player(), chance, context.source()));
+                }
+                entries.add(new LootEntry<>(
+                        Key.key(NAMESPACE, pool.id() + "/" + record.itemType.name().toLowerCase() + "/" + index),
+                        record,
+                        record.chancePercent / 100D,
+                        context -> context.player() == null || record.shouldCalculate.apply(context.player()),
+                        modifiers
+                ));
             }
-            entries.add(new LootEntry<>(
-                    Key.key(NAMESPACE, record.itemType.name().toLowerCase() + "/" + index),
-                    record,
-                    record.chancePercent / 100D,
-                    context -> context.player() == null || record.shouldCalculate.apply(context.player()),
-                    modifiers
-            ));
+            pools.add(new LootPool<>(Key.key(NAMESPACE, pool.id()), pool.mode(), pool.rolls(),
+                    pool.emptyWeight(), entries));
         }
-
-        LootPool.Mode mode = getCalculationMode() == CalculationMode.PICK_ONE
-                ? LootPool.Mode.WEIGHTED
-                : LootPool.Mode.INDEPENDENT;
-        LootTable<RollContext, LootRecord> table = new LootTable<>(key(), List.of(
-                new LootPool<>(Key.key(NAMESPACE, "main"), mode, entries)
-        ));
-        List<LootRecord> rolled = table.roll(new RollContext(player, source)).stream().map(LootRoll::value).toList();
+        LootTable<RollContext, LootRecord> table = new LootTable<>(key(), pools);
+        List<LootRecord> rolled = mergeDuplicateItems(
+                table.roll(new RollContext(player, source)).stream().map(LootRoll::value).toList());
         if (player != null) {
             rolled.forEach(record -> onRolled(player, record));
             afterRoll(player, rolled);
@@ -118,7 +124,34 @@ public abstract class SkyBlockLootTable {
         return result;
     }
 
+    private List<LootRecord> mergeDuplicateItems(List<LootRecord> rolls) {
+        Map<ItemType, LootRecord> merged = new LinkedHashMap<>();
+        for (LootRecord roll : rolls) {
+            merged.merge(roll.itemType, roll, (first, duplicate) -> new LootRecord(
+                    first.itemType,
+                    first.amount + duplicate.amount,
+                    first.chancePercent,
+                    first.rarity,
+                    first.shouldCalculate
+            ));
+        }
+        return List.copyOf(merged.values());
+    }
+
     private record RollContext(@Nullable SkyBlockPlayer player, @Nullable LivingEntity source) {
+    }
+
+    public record LootPoolDefinition(String id, LootPool.Mode mode, int rolls, double emptyWeight,
+                                     List<LootRecord> records) {
+        public LootPoolDefinition {
+            if (id == null || id.isBlank()) throw new IllegalArgumentException("Loot pool id must be present");
+            if (mode == null) throw new IllegalArgumentException("Loot pool mode must be present");
+            if (rolls < 0) throw new IllegalArgumentException("Loot pool rolls cannot be negative");
+            if (!Double.isFinite(emptyWeight) || emptyWeight < 0) {
+                throw new IllegalArgumentException("Loot pool empty weight must be finite and non-negative");
+            }
+            records = List.copyOf(records);
+        }
     }
 
     @Getter

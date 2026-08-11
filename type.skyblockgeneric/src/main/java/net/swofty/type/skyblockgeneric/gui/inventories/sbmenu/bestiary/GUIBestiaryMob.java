@@ -110,12 +110,12 @@ public class GUIBestiaryMob extends StatelessView {
                 List<MobType> mobtypes = mob.getMobTypes();
 
                 if (mobtypes.size() == 1) {
-                    lore.add(Text.of("<7>Mob Type: {}", Text.parse(mobtypes.getFirst().getFullDisplayName())));
+                    lore.add(Text.of("<7>Mob Type: {}", mobtypes.getFirst().getFullDisplayName()));
                     lore.add(Text.empty());
                 } else if (mobtypes.size() > 1) {
                     List<Text> displayNames = new ArrayList<>();
                     for (MobType mobType : mobtypes) {
-                        displayNames.add(Text.parse(mobType.getFullDisplayName()));
+                        displayNames.add(mobType.getFullDisplayName());
                     }
 
                     lore.add(Text.of("<7>Mob Types: {}", Text.join(Text.of("<7>, "), displayNames)));
