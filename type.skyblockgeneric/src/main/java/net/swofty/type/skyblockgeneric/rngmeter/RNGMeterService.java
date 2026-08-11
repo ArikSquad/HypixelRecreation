@@ -4,6 +4,7 @@ import net.swofty.type.skyblockgeneric.data.SkyBlockDataHandler;
 import net.swofty.type.skyblockgeneric.data.datapoints.DatapointRNGMeters;
 import net.swofty.type.skyblockgeneric.user.SkyBlockPlayer;
 
+import java.util.Locale;
 import java.util.Map;
 
 public final class RNGMeterService {
@@ -11,7 +12,7 @@ public final class RNGMeterService {
     }
 
     public static RNGMeterState get(SkyBlockPlayer player, RNGMeterDefinition definition) {
-        return data(player).getOrDefault(definition.type(), defaultState(definition));
+        return data(player).getOrDefault(key(definition), defaultState());
     }
 
     public static void select(SkyBlockPlayer player, RNGMeterDefinition definition, RNGMeterReward reward) {
@@ -19,7 +20,7 @@ public final class RNGMeterService {
             throw new IllegalArgumentException("Reward does not belong to " + definition.type());
         }
         RNGMeterState current = get(player, definition);
-        set(player, definition.type(), new RNGMeterState(reward.id(), current.storedXp()));
+        set(player, key(definition), new RNGMeterState(reward.id(), current.storedXp()));
     }
 
     public static ProgressResult addProgress(SkyBlockPlayer player, RNGMeterDefinition definition, double xp) {
@@ -28,17 +29,17 @@ public final class RNGMeterService {
         RNGMeterState current = get(player, definition);
         if (current.selectedReward().isBlank()) {
             double progress = current.storedXp() + xp;
-            set(player, definition.type(), new RNGMeterState("", progress));
+            set(player, key(definition), new RNGMeterState("", progress));
             return new ProgressResult(progress, false, null);
         }
         RNGMeterReward reward = definition.reward(current.selectedReward());
         double progress = current.storedXp() + xp;
         if (progress < reward.requiredXp()) {
-            set(player, definition.type(), new RNGMeterState(reward.id(), progress));
+            set(player, key(definition), new RNGMeterState(reward.id(), progress));
             return new ProgressResult(progress, false, reward);
         }
 
-        set(player, definition.type(), new RNGMeterState(reward.id(), reward.requiredXp()));
+        set(player, key(definition), new RNGMeterState(reward.id(), reward.requiredXp()));
         player.sendMessage("<d><l>RNG METER! <f>Your " + definition.displayName()
                 + " RNG Meter is full and will guarantee your next drop!");
         return new ProgressResult(reward.requiredXp(), true, reward);
@@ -46,7 +47,7 @@ public final class RNGMeterService {
 
     public static void reset(SkyBlockPlayer player, RNGMeterDefinition definition) {
         RNGMeterState current = get(player, definition);
-        set(player, definition.type(), new RNGMeterState("", current.storedXp()));
+        set(player, key(definition), new RNGMeterState("", current.storedXp()));
     }
 
     public static boolean selectedDropObtained(SkyBlockPlayer player, RNGMeterDefinition definition,
@@ -54,7 +55,7 @@ public final class RNGMeterService {
         RNGMeterState current = get(player, definition);
         if (!current.selectedReward().equalsIgnoreCase(obtainedReward.id())) return false;
 
-        set(player, definition.type(), new RNGMeterState(current.selectedReward(), 0));
+        set(player, key(definition), new RNGMeterState(current.selectedReward(), 0));
         return true;
     }
 
@@ -66,7 +67,7 @@ public final class RNGMeterService {
         if (current.storedXp() < reward.requiredXp()) return false;
 
         reward.give(player);
-        set(player, definition.type(), new RNGMeterState(reward.id(), 0));
+        set(player, key(definition), new RNGMeterState(reward.id(), 0));
         return true;
     }
 
@@ -82,13 +83,21 @@ public final class RNGMeterService {
         return baseDropRate * (1 + 2 * completion);
     }
 
-    private static Map<RNGMeterType, RNGMeterState> data(SkyBlockPlayer player) {
+    public static double applyDropRate(SkyBlockPlayer player, RNGMeterDefinition definition,
+                                       RNGMeterReward reward, double baseDropRate) {
+        RNGMeterState state = get(player, definition);
+        if (!state.selectedReward().equalsIgnoreCase(reward.id())) return baseDropRate;
+        if (state.storedXp() >= reward.requiredXp()) return 1;
+        return Math.min(1, applyDropRate(state, reward, baseDropRate));
+    }
+
+    private static Map<String, RNGMeterState> data(SkyBlockPlayer player) {
         return datapoint(player).getValue();
     }
 
-    private static void set(SkyBlockPlayer player, RNGMeterType type, RNGMeterState state) {
+    private static void set(SkyBlockPlayer player, String type, RNGMeterState state) {
         DatapointRNGMeters datapoint = datapoint(player);
-        Map<RNGMeterType, RNGMeterState> meters = data(player);
+        Map<String, RNGMeterState> meters = data(player);
         meters.put(type, state);
         datapoint.setValue(meters);
     }
@@ -98,8 +107,15 @@ public final class RNGMeterService {
                 .get(SkyBlockDataHandler.Data.RNG_METERS, DatapointRNGMeters.class);
     }
 
-    private static RNGMeterState defaultState(RNGMeterDefinition definition) {
-        return new RNGMeterState(definition.defaultReward().id(), 0);
+    private static RNGMeterState defaultState() {
+        return new RNGMeterState("", 0);
+    }
+
+    private static String key(RNGMeterDefinition definition) {
+        if (definition.id() == null || definition.id().isBlank()) {
+            throw new IllegalArgumentException("RNG Meter id cannot be blank");
+        }
+        return definition.id().toUpperCase(Locale.ROOT);
     }
 
     public record ProgressResult(double storedXp, boolean completed, RNGMeterReward reward) {

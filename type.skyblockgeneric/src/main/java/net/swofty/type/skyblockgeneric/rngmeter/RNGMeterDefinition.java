@@ -5,6 +5,13 @@ import java.util.List;
 public interface RNGMeterDefinition {
     RNGMeterType type();
 
+    /**
+     * Stable persistence key. Override for individual Slayer types or Catacombs floors.
+     */
+    default String id() {
+        return type().name();
+    }
+
     String displayName();
 
     List<? extends RNGMeterReward> rewards();

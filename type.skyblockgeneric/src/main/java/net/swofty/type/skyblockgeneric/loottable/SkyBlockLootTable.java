@@ -4,117 +4,110 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import net.minestom.server.entity.LivingEntity;
+import net.swofty.commons.loot.LootEntry;
+import net.swofty.commons.loot.LootPool;
+import net.swofty.commons.loot.LootRoll;
+import net.swofty.commons.loot.LootTable;
 import net.swofty.commons.skyblock.item.ItemType;
 import net.swofty.type.skyblockgeneric.user.SkyBlockPlayer;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
+import java.util.random.RandomGenerator;
 
+/**
+ * SkyBlock item adapter for the shared pool engine. Existing mob declarations remain data-only while
+ * all selection semantics live in {@link LootTable}.
+ */
 public abstract class SkyBlockLootTable {
     public abstract @NonNull List<LootRecord> getLootTable();
     public abstract @NonNull CalculationMode getCalculationMode();
 
     public int makeAmountBetween(int min, int max) {
-        return (int) (Math.random() * (max - min + 1) + min);
+        return RandomGenerator.getDefault().nextInt(min, max + 1);
     }
 
     public @NonNull List<ItemType> getLootTableItems() {
-        List<ItemType> items = new ArrayList<>();
-        for (LootRecord record : getLootTable()) {
-            items.add(record.itemType);
+        return getLootTable().stream().map(LootRecord::getItemType).toList();
+    }
+
+    public @NonNull List<LootRecord> roll(@Nullable SkyBlockPlayer player, @Nullable LivingEntity source,
+                                          LootAffector... affectors) {
+        return roll(player, source, ignored -> List.of(affectors));
+    }
+
+    public @NonNull List<LootRecord> roll(@Nullable SkyBlockPlayer player, @Nullable LivingEntity source,
+                                          Function<LootRecord, List<LootAffector>> affectors) {
+        List<LootRecord> records = getLootTable();
+        List<LootEntry<RollContext, LootRecord>> entries = new ArrayList<>(records.size());
+        for (int index = 0; index < records.size(); index++) {
+            LootRecord record = records.get(index);
+            List<LootEntry.LootModifier<RollContext, LootRecord>> modifiers = new ArrayList<>();
+            modifiers.add((context, ignored, chance) -> context.player() == null
+                    ? chance
+                    : adjustChance(context.player(), record, chance));
+            for (LootAffector affector : affectors.apply(record)) {
+                modifiers.add((context, ignored, chance) -> context.player() == null
+                        ? chance
+                        : affector.apply(context.player(), chance, context.source()));
+            }
+            entries.add(new LootEntry<>(
+                    record.itemType.name() + "#" + index,
+                    record,
+                    record.chancePercent / 100D,
+                    context -> context.player() == null || record.shouldCalculate.apply(context.player()),
+                    modifiers
+            ));
         }
-        return items;
+
+        LootPool.Mode mode = getCalculationMode() == CalculationMode.PICK_ONE
+                ? LootPool.Mode.WEIGHTED
+                : LootPool.Mode.INDEPENDENT;
+        LootTable<RollContext, LootRecord> table = new LootTable<>(getClass().getName(), List.of(
+                new LootPool<>("main", mode, entries)
+        ));
+        List<LootRecord> rolled = table.roll(new RollContext(player, source)).stream().map(LootRoll::value).toList();
+        if (player != null) {
+            rolled.forEach(record -> onRolled(player, record));
+            afterRoll(player, rolled);
+        }
+        return rolled;
+    }
+
+    protected double adjustChance(SkyBlockPlayer player, LootRecord record, double chance) {
+        return chance;
+    }
+
+    protected void onRolled(SkyBlockPlayer player, LootRecord record) {
+    }
+
+    protected void afterRoll(SkyBlockPlayer player, List<LootRecord> records) {
     }
 
     /**
-     * Runs the chances without a player
-     * @return A map of the loot that the player will receive
+     * Compatibility for callers not yet able to consume duplicate item rolls.
      */
     public @NonNull Map<ItemType, LootRecord> runChancesNoPlayer() {
-        Map<ItemType, LootRecord> loot = new HashMap<>();
-        CalculationMode mode = getCalculationMode();
-
-        if (mode == CalculationMode.PICK_ONE) {
-            double cumulativeChance = 0;
-
-            for (LootRecord record : getLootTable()) {
-                cumulativeChance += record.chancePercent;
-            }
-
-            int random = (int) (Math.random() * cumulativeChance);
-            double current = 0;
-
-            for (LootRecord record : getLootTable()) {
-                current += record.chancePercent;
-                if (random < current) {
-                    loot.put(record.itemType, record);
-                    break;
-                }
-            }
-        } else if (mode == CalculationMode.CALCULATE_INDIVIDUAL) {
-            for (LootRecord record : getLootTable()) {
-                double adjustedChancePercent = record.chancePercent;
-
-                if (Math.random() * 100 < adjustedChancePercent) {
-                    loot.put(record.itemType, record);
-                }
-            }
-        }
-
-        return loot;
+        return asMap(roll(null, null));
     }
 
-    /**
-     * Function will always return a LootRecord for every itemtype
-     * @param player The player to run the chances for
-     * @return A map of the loot that the player will receive
-     */
+    /** Compatibility for callers not yet able to consume duplicate item rolls. */
     public @NonNull Map<ItemType, LootRecord> runChances(SkyBlockPlayer player, LootAffector... affectors) {
-        Map<ItemType, LootRecord> loot = new HashMap<>();
-        CalculationMode mode = getCalculationMode();
+        return asMap(roll(player, null, affectors));
+    }
 
-        if (mode == CalculationMode.PICK_ONE) {
-            double cumulativeChance = 0;
+    private Map<ItemType, LootRecord> asMap(List<LootRecord> rolls) {
+        Map<ItemType, LootRecord> result = new LinkedHashMap<>();
+        for (LootRecord roll : rolls) result.put(roll.itemType, roll);
+        return result;
+    }
 
-            for (LootRecord record : getLootTable()) {
-                if (record.shouldCalculate.apply(player)) {
-                    cumulativeChance += record.chancePercent;
-                }
-            }
-
-            int random = (int) (Math.random() * cumulativeChance);
-            double current = 0;
-
-            List<LootRecord> records = getLootTable();
-            Collections.shuffle(records);
-
-            for (LootRecord record : records) {
-                if (record.shouldCalculate.apply(player)) {
-                    current += record.chancePercent;
-                    if (random < current) {
-                        loot.put(record.itemType, record);
-                        break;
-                    }
-                }
-            }
-        } else if (mode == CalculationMode.CALCULATE_INDIVIDUAL) {
-            for (LootRecord record : getLootTable()) {
-                if (record.shouldCalculate.apply(player)) {
-                    double adjustedChancePercent = record.chancePercent;
-
-                    // Apply LootAffectors to the chance percentage
-                    for (LootAffector affector : affectors) {
-                        adjustedChancePercent = affector.getAffector().apply(player, adjustedChancePercent, null);
-                    }
-
-                    if (Math.random() * 100 < adjustedChancePercent) {
-                        loot.put(record.itemType, record);
-                    }
-                }
-            }
-        }
-
-        return loot;
+    private record RollContext(@Nullable SkyBlockPlayer player, @Nullable LivingEntity source) {
     }
 
     @Getter
@@ -140,9 +133,7 @@ public abstract class SkyBlockLootTable {
     }
 
     public enum CalculationMode {
-        // Adds up all the chances and picks one based on that
         PICK_ONE,
-        // Calculates each item individually, and gives the player each item that they have a chance to get
         CALCULATE_INDIVIDUAL
     }
 }

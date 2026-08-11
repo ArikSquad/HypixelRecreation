@@ -2,10 +2,7 @@ package net.swofty.type.skyblockgeneric.fishing;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-
-import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
+import net.swofty.commons.loot.LootTable;
 import net.swofty.type.generic.data.datapoints.DatapointToggles;
 import net.swofty.type.skyblockgeneric.entity.FishingHook;
 import net.swofty.type.skyblockgeneric.fishing.bait.FishingBaitService;
@@ -21,6 +18,10 @@ import net.swofty.type.skyblockgeneric.item.components.FishingRodPartComponent;
 import net.swofty.type.skyblockgeneric.region.SkyBlockRegion;
 import net.swofty.type.skyblockgeneric.user.SkyBlockPlayer;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class FishingService {
@@ -153,7 +154,9 @@ public final class FishingService {
         if (sinker == null || sinker.getMaterializedItemId() == null) {
             return;
         }
-        if (Math.random() <= sinker.getMaterializedChance()) {
+        boolean materialized = LootTable.rollSingle("fishing:sinker_materialize",
+                sinker.getMaterializedItemId(), sinker.getMaterializedChance()).isPresent();
+        if (materialized) {
             player.addAndUpdateItem(net.swofty.commons.skyblock.item.ItemType.valueOf(sinker.getMaterializedItemId()));
         }
     }

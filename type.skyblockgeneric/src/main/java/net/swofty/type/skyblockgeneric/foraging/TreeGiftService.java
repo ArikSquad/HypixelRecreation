@@ -2,6 +2,10 @@ package net.swofty.type.skyblockgeneric.foraging;
 
 import net.minestom.server.entity.Player;
 import net.minestom.server.instance.Instance;
+import net.swofty.commons.loot.LootEntry;
+import net.swofty.commons.loot.LootPool;
+import net.swofty.commons.loot.LootRoll;
+import net.swofty.commons.loot.LootTable;
 import net.swofty.commons.skyblock.item.ItemType;
 import net.swofty.commons.text.Text;
 import net.swofty.type.generic.data.datapoints.DatapointLong;
@@ -10,6 +14,8 @@ import net.swofty.type.skyblockgeneric.hunting.AttributeDefinition;
 import net.swofty.type.skyblockgeneric.hunting.AttributeEffectService;
 import net.swofty.type.skyblockgeneric.hunting.AttributeId;
 import net.swofty.type.skyblockgeneric.hunting.AttributeRegistry;
+import net.swofty.type.skyblockgeneric.loottable.PityDefinition;
+import net.swofty.type.skyblockgeneric.loottable.PityService;
 import net.swofty.type.skyblockgeneric.skill.SkillCategories;
 import net.swofty.type.skyblockgeneric.user.SkyBlockPlayer;
 
@@ -20,6 +26,8 @@ import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 public final class TreeGiftService {
+    private static final PityDefinition TREE_THE_FISH_PITY = new PityDefinition("moonglade:tree_the_fish", 1_000);
+
     private TreeGiftService() {
     }
 
@@ -78,13 +86,31 @@ public final class TreeGiftService {
             increase(player, SkyBlockDataHandler.Data.FOREST_WHISPERS, whispers);
             rewards.add(Text.of("<a>Forest Whispers <7>x<f>{}", whispers));
         }
-        List<Bonus> bonuses = bonuses(treeType);
+        List<Bonus> bonuses = new ArrayList<>(bonuses(treeType));
         int guaranteedRewards = rewards.size();
         double treeLurker = AttributeEffectService.value(player.getHuntingData(), AttributeId.parse("C24")) / 100D;
-        for (Bonus bonus : bonuses) {
-            double chance = bonus.chance * scaled;
-            if (bonus.shard != null) chance *= 1 + treeLurker;
-            if (ThreadLocalRandom.current().nextDouble() >= Math.min(1, chance)) continue;
+        double signalChance = AttributeEffectService.value(player.getHuntingData(), AttributeId.parse("R7")) / 100D;
+        if (signalChance > 0) bonuses.add(new Bonus(null, ItemType.SIGNAL_ENHANCER, signalChance));
+        boolean guaranteeTreeFish = PityService.guaranteesNext(player, TREE_THE_FISH_PITY);
+        TreeGiftRollContext context = new TreeGiftRollContext(scaled, treeLurker, guaranteeTreeFish);
+        List<LootEntry<TreeGiftRollContext, Bonus>> entries = new ArrayList<>();
+        for (int index = 0; index < bonuses.size(); index++) {
+            Bonus bonus = bonuses.get(index);
+            entries.add(new LootEntry<>("bonus#" + index, bonus, bonus.chance,
+                    ignored -> true,
+                    List.of((rollContext, ignored, chance) -> {
+                        if (bonus.item == ItemType.TREE_THE_FISH && rollContext.guaranteeTreeFish()) return 1;
+                        double effective = chance * rollContext.multiplier();
+                        return bonus.shard == null ? effective : effective * (1 + rollContext.treeLurker());
+                    })));
+        }
+        List<Bonus> rolledBonuses = new LootTable<TreeGiftRollContext, Bonus>("foraging:tree_gift", List.of(
+                new LootPool<>("bonuses", LootPool.Mode.INDEPENDENT, entries)
+        )).roll(context).stream().map(LootRoll::value).toList();
+        boolean obtainedTreeFish = false;
+        for (Bonus bonus : rolledBonuses) {
+            double chance = bonus.item == ItemType.TREE_THE_FISH && guaranteeTreeFish
+                    ? 1 : Math.min(1, bonus.chance * scaled * (bonus.shard == null ? 1 : 1 + treeLurker));
             if (bonus.shard != null) {
                 AttributeDefinition definition = AttributeRegistry.findByShard(bonus.shard).orElse(null);
                 if (definition == null) continue;
@@ -94,17 +120,13 @@ public final class TreeGiftService {
                 bonusMessages.add(shardText.append(" <7>(<a>{}<7>)", chance(bonus.chance)));
             } else if (bonus.item != null) {
                 player.addAndUpdateItem(bonus.item);
+                if (bonus.item == ItemType.TREE_THE_FISH) obtainedTreeFish = true;
                 Text itemText = Text.of("<color:{}>{}", bonus.item.rarity.getColor(), bonus.item.getDisplayName());
                 rewards.add(itemText);
                 bonusMessages.add(itemText.append(" <7>(<a>{}<7>)", chance(bonus.chance)));
             }
         }
-        double signalChance = AttributeEffectService.value(player.getHuntingData(), AttributeId.parse("R7")) / 100D;
-        if (signalChance > 0 && ThreadLocalRandom.current().nextDouble() < signalChance) {
-            player.addAndUpdateItem(ItemType.SIGNAL_ENHANCER);
-            rewards.add(Text.of("<6>Signal Enhancer"));
-            bonusMessages.add(Text.of("<6>Signal Enhancer <7>(<a>{}<7>)", chance(signalChance)));
-        }
+        PityService.recordAttempt(player, TREE_THE_FISH_PITY, obtainedTreeFish);
         int percent = (int) Math.round(share * 100);
         Text body = Text.of("<2><l>▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n")
                 .append("""
@@ -157,5 +179,8 @@ public final class TreeGiftService {
     }
 
     private record Bonus(String shard, ItemType item, double chance) {
+    }
+
+    private record TreeGiftRollContext(int multiplier, double treeLurker, boolean guaranteeTreeFish) {
     }
 }
