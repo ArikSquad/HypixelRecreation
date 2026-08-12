@@ -888,11 +888,7 @@ func dashboardItems() []list.Item {
 }
 
 func allServerOptions() []string {
-	options := make([]string, 0, len(installer.RequiredServers)+len(installer.SkyBlockServers)+len(installer.MinigameServers))
-	options = append(options, installer.RequiredServers...)
-	options = append(options, installer.SkyBlockServers...)
-	options = append(options, installer.MinigameServers...)
-	return options
+	return installer.AllServers()
 }
 
 func selectedTitle(l list.Model) string {
