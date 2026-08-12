@@ -11,7 +11,6 @@ Services are independent microservices that handle specific features. They commu
 | Bazaar        | `ServiceBazaar.jar`       | Market/trading operations    |
 | Party         | `ServiceParty.jar`        | Player party management      |
 | Item Tracker  | `ServiceItemTracker.jar`  | Tracks items across servers  |
-| Data Mutex    | `ServiceDataMutex.jar`    | Distributed data locking     |
 | Dark Auction  | `ServiceDarkAuction.jar`  | Dark auction events          |
 | Orchestrator  | `ServiceOrchestrator.jar` | Game server orchestration    |
 | Store         | `ServiceStore.jar`        | Stripe purchase fulfillment  |
@@ -31,7 +30,6 @@ services/
 ├── ServiceBazaar.jar
 ├── ServiceParty.jar
 ├── ServiceItemTracker.jar
-├── ServiceDataMutex.jar
 ├── ServiceDarkAuction.jar
 ├── ServiceOrchestrator.jar
 ├── ServiceStore.jar
@@ -49,7 +47,6 @@ java -jar ServiceAuctionHouse.jar
 java -jar ServiceBazaar.jar
 java -jar ServiceParty.jar
 java -jar ServiceItemTracker.jar
-java -jar ServiceDataMutex.jar
 java -jar ServiceDarkAuction.jar
 java -jar ServiceOrchestrator.jar
 java -jar ServiceStore.jar
@@ -133,17 +130,6 @@ java -jar ServiceItemTracker.jar
 **MongoDB Collections**:
 - `tracked_items` - Item tracking data
 
-### Data Mutex Service
-
-Provides distributed locking for data synchronization.
-
-```bash
-java -jar ServiceDataMutex.jar
-```
-
-**Features**:
-- Prevents data corruption during server transfers
-- Ensures atomic operations across services
 
 ### Dark Auction Service
 
@@ -196,7 +182,6 @@ See [Store Payments](/docs/setup/store-payments) for Stripe setup.
 ## Required vs Optional Services
 
 ### Required for Core Gameplay
-- **Data Mutex** - Essential for player data integrity
 - **Party** - Needed for party features
 - **Store** - Needed for paid store delivery
 

@@ -2,6 +2,7 @@ package net.swofty.type.ravengardgeneric.data;
 
 import lombok.Getter;
 import net.swofty.type.generic.data.DataHandler;
+import net.swofty.type.generic.data.domain.PlayerDataService;
 import net.swofty.type.generic.data.Datapoint;
 import net.swofty.type.generic.data.mongodb.UserDatabase;
 import net.swofty.type.generic.user.HypixelPlayer;
@@ -20,7 +21,6 @@ import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 public class RavengardDataHandler extends DataHandler {
-    public static final Map<UUID, RavengardDataHandler> ravengardCache = new HashMap<>();
 
     protected RavengardDataHandler() {
         super();
@@ -31,18 +31,11 @@ public class RavengardDataHandler extends DataHandler {
     }
 
     public static RavengardDataHandler getUser(UUID uuid) {
-        if (!ravengardCache.containsKey(uuid)) {
-            throw new RuntimeException("User " + uuid + " does not exist!");
-        }
-        return ravengardCache.get(uuid);
+        return PlayerDataService.get(RavengardDomain.KEY, uuid);
     }
 
     public static @Nullable RavengardDataHandler getUser(HypixelPlayer player) {
-        try {
-            return getUser(player.getUuid());
-        } catch (Exception e) {
-            return null;
-        }
+        return PlayerDataService.find(RavengardDomain.KEY, player.getUuid()).orElse(null);
     }
 
     public static RavengardDataHandler createFromDocument(UUID playerUuid, Document document) {
@@ -158,13 +151,12 @@ public class RavengardDataHandler extends DataHandler {
     }
 
     public static RavengardDataHandler getOfOfflinePlayer(UUID uuid) {
-        if (ravengardCache.containsKey(uuid)) {
-            return ravengardCache.get(uuid);
-        }
+        RavengardDataHandler cached = PlayerDataService.find(RavengardDomain.KEY, uuid).orElse(null);
+        if (cached != null) return cached;
 
-        UserDatabase userDatabase = new UserDatabase(uuid.toString());
-        Document document = userDatabase.getHypixelData();
-        return createFromDocument(uuid, document);
+        RavengardDataHandler handler = initUserWithDefaultData(uuid);
+        handler.loadBackedData();
+        return handler;
     }
 
     public enum Data {

@@ -45,7 +45,6 @@ var MinigameServers = []string{
 }
 
 var AllServices = []string{
-	"ServiceDataMutex",
 	"ServiceParty",
 	"ServiceAPI",
 	"ServiceAuctionHouse",
@@ -61,13 +60,20 @@ var AllServices = []string{
 	"ServiceReplay",
 }
 
-var RequiredServices = []string{"ServiceDataMutex", "ServiceParty"}
+var RequiredServices = []string{"ServiceParty"}
 
 var DefaultServices = []string{
-	"ServiceDataMutex",
 	"ServiceParty",
 	"ServiceAPI",
 	"ServiceAuctionHouse",
 	"ServiceBazaar",
 	"ServiceItemTracker",
+}
+
+func AllServers() []string {
+	servers := make([]string, 0, len(RequiredServers)+len(SkyBlockServers)+len(MinigameServers))
+	servers = append(servers, RequiredServers...)
+	servers = append(servers, SkyBlockServers...)
+	servers = append(servers, MinigameServers...)
+	return servers
 }

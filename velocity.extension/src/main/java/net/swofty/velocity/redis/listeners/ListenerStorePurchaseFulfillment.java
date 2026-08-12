@@ -5,14 +5,17 @@ import com.mongodb.client.model.FindOneAndUpdateOptions;
 import com.mongodb.client.model.ReturnDocument;
 import com.mongodb.client.model.UpdateOptions;
 import net.kyori.adventure.inventory.Book;
+import net.swofty.PlayerField;
+import net.swofty.codec.Codecs;
 import net.swofty.commons.StringUtility;
+import net.swofty.commons.data.SwoftyData;
 import net.swofty.commons.protocol.RedisProtocol;
 import net.swofty.commons.protocol.objects.proxy.to.StorePurchaseFulfillmentProtocol;
 import net.swofty.commons.redis.RedisMessageContext;
 import net.swofty.commons.redis.RedisMessageHandler;
 import net.swofty.commons.text.Text;
 import net.swofty.velocity.SkyBlockVelocity;
-import net.swofty.velocity.data.UserDatabase;
+import net.swofty.velocity.data.StoreEntitlementsDatabase;
 import net.swofty.velocity.text.ProxyText;
 import org.bson.Document;
 import org.tinylog.Logger;
@@ -31,9 +34,10 @@ public class ListenerStorePurchaseFulfillment implements RedisMessageHandler<
     StorePurchaseFulfillmentProtocol.Request,
     StorePurchaseFulfillmentProtocol.Response> {
 
-    private static final String ENTITLEMENTS_COLLECTION = "store-player-entitlements";
     private static final String SUPPORT_URL = "https://support.hypixel.net/";
     private static final UpdateOptions UPSERT = new UpdateOptions().upsert(true);
+
+    private static final PlayerField<String> RANK = PlayerField.create("hypixel", "rank", Codecs.STRING, null);
     private static final FindOneAndUpdateOptions RETURN_UPDATED =
             new FindOneAndUpdateOptions().returnDocument(ReturnDocument.AFTER);
     private static final Map<String, Integer> STORE_RANK_STRENGTH = Map.of(
@@ -331,21 +335,23 @@ public class ListenerStorePurchaseFulfillment implements RedisMessageHandler<
     }
 
     private static String currentProfileRank(UUID playerUuid) {
-        Document profile = UserDatabase.collection.find(new Document("_id", playerUuid.toString())).first();
-        return profile != null ? deserializeRank(profile.getString("rank")) : "DEFAULT";
+        try {
+            return deserializeRank(SwoftyData.account().get(playerUuid, RANK));
+        } finally {
+            SwoftyData.account().unload(playerUuid);
+        }
     }
 
     private static void setProfileRank(UUID playerUuid, String rank) {
-        UserDatabase.collection.updateOne(
-                playerFilter(playerUuid),
-            new Document("$set", new Document("rank", serializeRank(rank)))
-                .append("$setOnInsert", new Document("_id", playerUuid.toString())),
-                UPSERT
-        );
+        try {
+            SwoftyData.account().set(playerUuid, RANK, serializeRank(rank));
+        } finally {
+            SwoftyData.account().unload(playerUuid);
+        }
     }
 
     private static MongoCollection<Document> entitlementCollection() {
-        return UserDatabase.database.getCollection(ENTITLEMENTS_COLLECTION);
+        return StoreEntitlementsDatabase.collection();
     }
 
     private static Document playerFilter(UUID playerUuid) {

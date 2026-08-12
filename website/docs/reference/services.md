@@ -135,32 +135,6 @@ java -jar ServiceItemTracker.jar
 
 ---
 
-### ServiceDataMutex
-
-**JAR**: `ServiceDataMutex.jar`
-**Type**: `DATA_MUTEX`
-
-Provides distributed locking for data synchronization.
-
-```bash
-java -jar ServiceDataMutex.jar
-```
-
-**Features**:
-- Prevents data corruption during server transfers
-- Distributed lock management
-- Atomic data operations
-
-**Endpoints**:
-- `SynchronizeDataEndpoint` - Acquire locks
-- `UnlockDataEndpoint` - Release locks
-- `UpdateSynchronizedDataEndpoint` - Update locked data
-
-:::alert warning
-This service is essential for data integrity. Always run it in production.
-:::
-
----
 
 ### ServiceDarkAuction
 
@@ -276,7 +250,6 @@ ServiceInitializer.register(
 | Bazaar        | 256 MB      | 512 MB          |
 | Party         | 128 MB      | 256 MB          |
 | Item Tracker  | 128 MB      | 256 MB          |
-| Data Mutex    | 128 MB      | 256 MB          |
 | Dark Auction  | 128 MB      | 256 MB          |
 | Orchestrator  | 128 MB      | 256 MB          |
 | Store         | 128 MB      | 256 MB          |

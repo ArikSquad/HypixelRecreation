@@ -8,17 +8,23 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.adventure.audience.Audiences;
+import net.minestom.server.entity.Player;
 import net.minestom.server.event.server.ServerTickMonitorEvent;
 import net.minestom.server.instance.InstanceManager;
 import net.minestom.server.instance.block.Block;
 import net.minestom.server.monitoring.TickMonitor;
 import net.minestom.server.timer.TaskSchedule;
 import net.minestom.server.utils.time.TimeUnit;
+import net.swofty.DataAPI;
+import net.swofty.api.DataAPIImpl;
 import net.swofty.commons.CustomWorlds;
 import net.swofty.commons.ServerType;
 import net.swofty.commons.config.ConfigProvider;
+import net.swofty.commons.data.SwoftyData;
+import net.swofty.redisapi.api.RedisAPI;
 import net.swofty.commons.text.Text;
 import net.swofty.commons.text.TextArgRenderers;
+import net.swofty.proxyapi.PlayerTransferDataCache;
 import net.swofty.proxyapi.ProxyPlayer;
 import net.swofty.type.generic.achievement.AchievementRegistry;
 import net.swofty.type.generic.achievement.AchievementStatisticsService;
@@ -26,7 +32,12 @@ import net.swofty.type.generic.block.BannerBlockHandler;
 import net.swofty.type.generic.block.PlayerHeadBlockHandler;
 import net.swofty.type.generic.block.SignBlockHandler;
 import net.swofty.type.generic.command.HypixelCommand;
+import net.swofty.type.generic.data.DataWriteQueue;
+import net.swofty.type.generic.data.GameDataHandler;
 import net.swofty.type.generic.data.GameDataHandlerRegistry;
+import net.swofty.type.generic.data.domain.AccountDomain;
+import net.swofty.type.generic.data.domain.GameDomain;
+import net.swofty.type.generic.data.domain.PlayerDataService;
 import net.swofty.type.generic.data.HypixelDataHandler;
 import net.swofty.type.generic.data.handlers.*;
 import net.swofty.type.generic.data.mongodb.AttributeDatabase;
@@ -43,7 +54,6 @@ import net.swofty.type.generic.quest.QuestRegistry;
 import net.swofty.type.generic.redis.RedisOriginServer;
 import net.swofty.type.generic.user.HypixelPlayer;
 import net.swofty.type.generic.user.categories.Rank;
-import net.swofty.type.generic.user.flow.GenericPlayerDataFlow;
 import net.swofty.type.generic.world.HypixelWorldLoader;
 import org.jetbrains.annotations.Nullable;
 import org.reflections.Reflections;
@@ -57,6 +67,9 @@ import java.util.stream.Stream;
 
 public record HypixelGenericLoader(HypixelTypeLoader loader) {
     public static final AtomicReference<TickMonitor> LAST_TICK = new AtomicReference<>();
+
+    private static final int AUTOSAVE_INTERVAL_MINUTES = 5;
+    private static final long AUTOSAVE_SPREAD_MILLIS = 30_000L;
 
     @Getter
     private static MinecraftServer server;
@@ -191,11 +204,14 @@ public record HypixelGenericLoader(HypixelTypeLoader loader) {
             HypixelPlayer player = MinecraftServer.getConnectionManager().getOnlinePlayerByUuid(playerUuid) instanceof HypixelPlayer hypixelPlayer
                     ? hypixelPlayer : null;
             if (player == null) return null;
+
+            PlayerDataService.flushForTransfer(loader.getType(), player);
             return new org.json.JSONObject()
-                    .put("account_document", net.swofty.proxyapi.PlayerTransferDataCache.encodeDocument(
-                            GenericPlayerDataFlow.saveForTransfer(player)))
+                    .put("account_document", PlayerTransferDataCache.encodeDocument(AccountDomain.transferDocument(player)))
                     .toString();
         }));
+
+        ProxyPlayer.setTransferFailure(PlayerDataService::clearHandoff);
 
         // Initialize leaderboard service (uses Redis for O(log N) leaderboard operations)
         LeaderboardService.connect(ConfigProvider.settings().getRedisUri());
@@ -214,6 +230,15 @@ public record HypixelGenericLoader(HypixelTypeLoader loader) {
         GameDataHandlerRegistry.register(new SkywarsDataHandler());
         GameDataHandlerRegistry.register(new ReplayDataHandler());
         GameDataHandlerRegistry.register(new ArcadeDataHandler());
+
+        PlayerDataService.register(new AccountDomain());
+        for (Class<? extends GameDataHandler> gameHandlerClass : loader.getAdditionalDataHandlers()) {
+            GameDataHandler gameHandler = GameDataHandlerRegistry.get(gameHandlerClass);
+            if (gameHandler != null) PlayerDataService.register(new GameDomain(gameHandler));
+        }
+
+        startPlayerDataAutosave();
+        registerPlayerDataShutdownFlush();
 
         // Register Block Handlers
         MinecraftServer.getBlockManager().registerHandler(PlayerHeadBlockHandler.KEY, PlayerHeadBlockHandler::new);
@@ -242,9 +267,11 @@ public record HypixelGenericLoader(HypixelTypeLoader loader) {
                 UUID uuid = playerConnection.getPlayer().getUuid();
                 String username = playerConnection.getPlayer().getUsername();
 
-                if (RedisOriginServer.origin.containsKey(uuid)) {
-                    player.setOriginServer(RedisOriginServer.origin.get(uuid));
-                    RedisOriginServer.origin.remove(uuid);
+                ServerType originServer = RedisOriginServer.consume(uuid);
+
+                if (originServer != null) {
+
+                    player.setOriginServer(originServer);
                 }
 
                 Logger.info("Received new player: " + username + " (" + uuid + ")");
@@ -252,6 +279,70 @@ public record HypixelGenericLoader(HypixelTypeLoader loader) {
             });
         }
 
+    }
+
+    private void startPlayerDataAutosave() {
+        ServerType type = loader.getType();
+        MinecraftServer.getSchedulerManager().buildTask(() -> {
+            List<HypixelPlayer> players = getLoadedPlayers();
+            if (players.isEmpty()) return;
+
+            long spacingMillis = Math.max(1L, AUTOSAVE_SPREAD_MILLIS / players.size());
+            Thread.startVirtualThread(() -> {
+                for (HypixelPlayer player : players) {
+                    if (!player.isOnline()) continue;
+                    try {
+                        PlayerDataService.saveAll(type, player);
+                    } catch (Exception e) {
+                        Logger.error(e, "Autosave failed for player {}", player.getUuid());
+                    }
+                    try {
+                        Thread.sleep(spacingMillis);
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                        return;
+                    }
+                }
+            });
+        }).delay(AUTOSAVE_INTERVAL_MINUTES, TimeUnit.MINUTE)
+                .repeat(AUTOSAVE_INTERVAL_MINUTES, TimeUnit.MINUTE)
+                .schedule();
+    }
+
+    private void registerPlayerDataShutdownFlush() {
+        ServerType type = loader.getType();
+        MinecraftServer.getSchedulerManager().buildShutdownTask(() -> {
+            Logger.info("Flushing player data before shutdown...");
+            for (Player online : MinecraftServer.getConnectionManager().getOnlinePlayers()) {
+                if (!(online instanceof HypixelPlayer player)) continue;
+                try {
+                    PlayerDataService.saveAndUnloadAll(type, player);
+                } catch (Exception e) {
+                    Logger.error(e, "Failed to flush data for player {} during shutdown", player.getUuid());
+                }
+            }
+
+            DataWriteQueue.drainAll();
+
+            flushDataApi(SwoftyData.account(), "account");
+            flushDataApi(SwoftyData.profile(), "profile");
+
+            try {
+                RedisAPI redis = RedisAPI.getInstance();
+                if (redis != null) redis.shutdown();
+            } catch (Exception e) {
+                Logger.error(e, "Failed to shut down the Redis API");
+            }
+            Logger.info("Player data flush complete");
+        });
+    }
+
+    private static void flushDataApi(DataAPI api, String name) {
+        try {
+            if (api instanceof DataAPIImpl impl) impl.shutdown();
+        } catch (Exception e) {
+            Logger.error(e, "Failed to flush the {} data API during shutdown", name);
+        }
     }
 
     public static List<HypixelPlayer> getLoadedPlayers() {

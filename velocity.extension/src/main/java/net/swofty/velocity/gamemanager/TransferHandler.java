@@ -47,7 +47,7 @@ public record TransferHandler(Player player) {
 	public CompletableFuture<Boolean> sendToLimbo() {
 		CompletableFuture<Boolean> future = new CompletableFuture<>();
 
-		new Thread(() -> {
+		Thread.startVirtualThread(() -> {
 			if (isInLimbo() && player.getCurrentServer()
 				.map(server -> server.getServer().equals(SkyBlockVelocity.getLimboServer()))
 				.orElse(false)) {
@@ -63,7 +63,7 @@ public record TransferHandler(Player player) {
 			RegisteredServer limboServer = SkyBlockVelocity.getLimboServer();
 			player.createConnectionRequest(limboServer).connectWithIndication();
 			future.complete(true);
-		}).start();
+		});
 
 		return future;
 	}
@@ -71,7 +71,7 @@ public record TransferHandler(Player player) {
 	public CompletableFuture<Boolean> sendToLimboFromAfk(ServerType originType) {
 		CompletableFuture<Boolean> future = new CompletableFuture<>();
 
-		new Thread(() -> {
+		Thread.startVirtualThread(() -> {
 			if (isInAfkLimbo() && player.getCurrentServer()
 				.map(server -> server.getServer().equals(SkyBlockVelocity.getLimboServer()))
 				.orElse(false)) {
@@ -90,13 +90,13 @@ public record TransferHandler(Player player) {
 			RegisteredServer limboServer = SkyBlockVelocity.getLimboServer();
 			player.createConnectionRequest(limboServer).connectWithIndication();
 			future.complete(true);
-		}).start();
+		});
 
 		return future;
 	}
 
 	public void returnFromAfkLimbo() {
-		new Thread(() -> {
+		Thread.startVirtualThread(() -> {
 			UUID uuid = player.getUniqueId();
 			if (!afkReturnInProgress.add(uuid)) {
 				return;
@@ -138,11 +138,11 @@ public record TransferHandler(Player player) {
 			} finally {
 				afkReturnInProgress.remove(uuid);
 			}
-		}).start();
+		});
 	}
 
 	public void previousServerIsFinished(RegisteredServer manualPick) {
-		new Thread(() -> {
+		Thread.startVirtualThread(() -> {
 			if (disregard.contains(player)) return;
 
 			RegisteredServer originServer = playersOriginServer.get(player);
@@ -166,11 +166,11 @@ public record TransferHandler(Player player) {
 			RedisClient.requestServer(originServerUUID,
 					new PlayerSwitchedProtocol(),
 					new PlayerSwitchedProtocol.Request(player.getUniqueId().toString()));
-		}).start();
+		});
 	}
 
 	public void previousServerIsFinished() {
-		new Thread(() -> {
+		Thread.startVirtualThread(() -> {
 			if (disregard.contains(player) || !isInLimbo()) return;
 
 			ServerType type = playersGoalServerType.get(player);
@@ -211,7 +211,7 @@ public record TransferHandler(Player player) {
 			RedisClient.requestServer(originServerUUID,
 					new PlayerSwitchedProtocol(),
 					new PlayerSwitchedProtocol.Request(player.getUniqueId().toString()));
-		}).start();
+		});
 	}
 
 	public void transferTo(ServerType type) {
@@ -237,7 +237,7 @@ public record TransferHandler(Player player) {
 
 	public CompletableFuture<Void> transferTo(RegisteredServer toTransferTo) {
 		CompletableFuture<Void> future = new CompletableFuture<>();
-		new Thread(() -> {
+		Thread.startVirtualThread(() -> {
 			try {
 				RegisteredServer originServer = playersOriginServer.get(player);
 				if (originServer == null) {
@@ -263,7 +263,7 @@ public record TransferHandler(Player player) {
 			} catch (Exception e) {
 				future.completeExceptionally(e);
 			}
-		}).start();
+		});
 		return future;
 	}
 

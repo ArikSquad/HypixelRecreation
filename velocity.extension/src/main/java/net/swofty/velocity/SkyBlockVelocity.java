@@ -19,6 +19,7 @@ import com.velocitypowered.api.event.player.ServerConnectedEvent;
 import com.velocitypowered.api.event.player.ServerPostConnectEvent;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.event.proxy.ProxyPingEvent;
+import com.velocitypowered.api.event.proxy.ProxyShutdownEvent;
 import com.velocitypowered.api.network.ProtocolVersion;
 import com.velocitypowered.api.permission.PermissionFunction;
 import com.velocitypowered.api.plugin.Plugin;
@@ -41,10 +42,12 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelPipeline;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
+import net.swofty.commons.LobbyDestination;
 import net.swofty.commons.ServerType;
 import net.swofty.commons.ServiceType;
 import net.swofty.commons.config.ConfigProvider;
 import net.swofty.commons.config.Settings;
+import net.swofty.commons.data.SwoftyData;
 import net.swofty.commons.protocol.RedisProtocol;
 import net.swofty.commons.protocol.objects.proxy.from.*;
 import net.swofty.commons.protocol.objects.punishment.GetActivePunishmentProtocol;
@@ -64,6 +67,7 @@ import net.swofty.velocity.command.*;
 import net.swofty.velocity.data.AuthenticationDatabase;
 import net.swofty.velocity.data.CoopDatabase;
 import net.swofty.velocity.data.ProfilesDatabase;
+import net.swofty.velocity.data.StoreEntitlementsDatabase;
 import net.swofty.velocity.data.UserDatabase;
 import net.swofty.velocity.gamemanager.BalanceConfiguration;
 import net.swofty.velocity.gamemanager.BalanceConfigurations;
@@ -86,6 +90,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.InetSocketAddress;
 import java.nio.file.Path;
 import java.time.Duration;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -251,6 +256,7 @@ public class SkyBlockVelocity {
         new ProfilesDatabase("_placeHolder").connect(ConfigProvider.settings().getMongodb());
         new AuthenticationDatabase(new UUID(0, 0)).connect(ConfigProvider.settings().getMongodb());
         UserDatabase.connect(ConfigProvider.settings().getMongodb());
+        StoreEntitlementsDatabase.connect(ConfigProvider.settings().getMongodb());
         CoopDatabase.connect(ConfigProvider.settings().getMongodb());
         ListenerStorePurchaseFulfillment.startRankExpirationReconciler();
 
@@ -266,7 +272,7 @@ public class SkyBlockVelocity {
             .forEach(RedisHandlerRegistry::register);
         RedisProtocol<?, ?>[] fromProxyProtocols = {
             new TeleportProtocol(), new PlayerSwitchedProtocol(),
-            new DoesServerHaveIslandProtocol(), new RefreshCoopDataProtocol(),
+            new DoesServerHaveIslandProtocol(),
             new RunEventProtocol(), new PingServerProtocol(),
             new GivePlayersOriginTypeProtocol(), new BroadcastStaffChatProtocol()
         };
@@ -280,6 +286,21 @@ public class SkyBlockVelocity {
 
         // Setup GameManager
         GameManager.loopServers(server);
+    }
+
+    @Subscribe
+    public void onProxyShutdown(ProxyShutdownEvent event) {
+        try {
+            SwoftyData.shutdown();
+        } catch (Exception e) {
+            logger.error("Failed to shut down player data storage", e);
+        }
+
+        try {
+            RedisAPI.getInstance().shutdown();
+        } catch (Exception e) {
+            logger.error("Failed to shut down Redis", e);
+        }
     }
 
     private boolean checkPunished(Player player) {
@@ -433,18 +454,26 @@ public class SkyBlockVelocity {
                 // if it was, send the player to another server of that type;
                 // otherwise disconnect them with the original reason.
                 try {
-                    ServerType serverTypeToTry = serverType;
-                    if (!GameManager.hasType(serverTypeToTry) || !GameManager.isAnyEmpty(serverTypeToTry)) {
-                        serverTypeToTry = ServerType.PROTOTYPE_LOBBY;
+                    LinkedHashSet<ServerType> candidates = new LinkedHashSet<>();
+                    if (serverType != null && !LobbyDestination.isSessionType(serverType)) {
+                        candidates.add(serverType);
                     }
+                    candidates.add(LobbyDestination.resolveDefaultDestination(serverType));
+                    candidates.add(ServerType.PROTOTYPE_LOBBY);
 
-                    GameManager.GameServer server = BalanceConfigurations.getServerFor(event.getPlayer(), serverTypeToTry);
-                    if (server != null && server.registeredServer().equals(originalServer)) {
-                        serverTypeToTry = ServerType.PROTOTYPE_LOBBY;
-                        server = BalanceConfigurations.getServerFor(event.getPlayer(), serverTypeToTry);
-                        if (server != null && server.registeredServer().equals(originalServer)) {
-                            server = null;
+                    ServerType serverTypeToTry = null;
+                    GameManager.GameServer server = null;
+                    for (ServerType candidate : candidates) {
+                        if (!GameManager.hasType(candidate) || !GameManager.isAnyEmpty(candidate)) {
+                            continue;
                         }
+                        GameManager.GameServer candidateServer = BalanceConfigurations.getServerFor(event.getPlayer(), candidate);
+                        if (candidateServer == null || candidateServer.registeredServer().equals(originalServer)) {
+                            continue;
+                        }
+                        serverTypeToTry = candidate;
+                        server = candidateServer;
+                        break;
                     }
                     if (server == null) {
                         transferHandler.forceRemoveFromLimbo();
@@ -453,10 +482,10 @@ public class SkyBlockVelocity {
                     }
                     transferHandler.transferTo(server.registeredServer());
 
-                    if (!serverTypeToTry.isSkyBlock()) {
-                        event.getPlayer().sendMessage(Text.of("<c>An exception occurred in your connection, so you were put into the Prototype Lobby."));
+                    if (serverTypeToTry == serverType) {
+                        event.getPlayer().sendMessage(Text.of("<c>An exception occurred in your connection, so you were put into another server of the same type."));
                     } else {
-                        event.getPlayer().sendMessage(Text.of("<c>An exception occurred in your connection, so you were put into another SkyBlock server."));
+                        event.getPlayer().sendMessage(Text.of("<c>An exception occurred in your connection, so you were put into a lobby."));
                     }
                     event.getPlayer().sendMessage(Text.of("<7>Sending to server {}...", server.displayName()));
                 } catch (Exception e) {
