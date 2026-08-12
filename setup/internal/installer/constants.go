@@ -71,3 +71,11 @@ var DefaultServices = []string{
 	"ServiceBazaar",
 	"ServiceItemTracker",
 }
+
+func AllServers() []string {
+	servers := make([]string, 0, len(RequiredServers)+len(SkyBlockServers)+len(MinigameServers))
+	servers = append(servers, RequiredServers...)
+	servers = append(servers, SkyBlockServers...)
+	servers = append(servers, MinigameServers...)
+	return servers
+}
