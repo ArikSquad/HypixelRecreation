@@ -42,6 +42,9 @@ services:
   redis:
     image: redis:latest
     container_name: hypixel_redis
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis-data:/data
 %s    networks:
       - hypixel_network
     healthcheck:
@@ -175,6 +178,9 @@ services:
   mongodb-data:
     driver: local
     name: mongo-data
+  redis-data:
+    driver: local
+    name: redis-data
 
 networks:
   hypixel_network:
