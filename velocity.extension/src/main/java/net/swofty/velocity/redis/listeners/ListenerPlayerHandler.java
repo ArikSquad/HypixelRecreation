@@ -99,7 +99,8 @@ public class ListenerPlayerHandler implements RedisMessageHandler<
                     player.sendMessage(Text.of(
                         "<c>We encountered an issue while attempting to locate the server on the network. Please try again later."
                     ));
-                    return EMPTY;
+                    return new PlayerHandlerProtocol.Response(Map.of(), false,
+                            "The destination server could not be located on the network");
                 }
 
                 player.sendMessage(Text.of("<7>Sending to server {}...", serverInfo.displayName()));

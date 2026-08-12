@@ -31,6 +31,7 @@ import net.swofty.type.generic.HypixelGenericLoader;
 import net.swofty.type.generic.HypixelTypeLoader;
 import net.swofty.type.generic.command.HypixelCommand;
 import net.swofty.type.generic.data.mongodb.AttributeDatabase;
+import net.swofty.type.generic.data.mongodb.ProfilesDatabase;
 import net.swofty.type.generic.entity.hologram.PlayerHolograms;
 import net.swofty.type.generic.entity.hologram.ServerHolograms;
 import net.swofty.type.generic.event.HypixelEventClass;
@@ -277,6 +278,7 @@ public record SkyBlockGenericLoader(HypixelTypeLoader typeLoader) {
         SkyBlockDataHandler.startRepeatSetValueLoop();
         CoopSync.subscribe();
         PlayerDataService.register(new SkyBlockDomain());
+        ProfilesDatabase.setHostedProfileCheck(SkyBlockDomain::isProfileHosted);
 
         ProxyPlayer.setTransferPreparation((playerUuid, targetServer) -> CompletableFuture.supplyAsync(() -> {
             SkyBlockPlayer player = MinecraftServer.getConnectionManager().getOnlinePlayerByUuid(playerUuid) instanceof SkyBlockPlayer skyBlockPlayer

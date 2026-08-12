@@ -18,11 +18,13 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiFunction;
+import java.util.function.Consumer;
 
 public record ProxyPlayer(UUID uuid) {
     private static final PlayerHandlerProtocol PLAYER_HANDLER = new PlayerHandlerProtocol();
     private static volatile BiFunction<UUID, UUID, CompletableFuture<String>> transferPreparation =
             (player, server) -> CompletableFuture.completedFuture(null);
+    private static volatile Consumer<UUID> transferFailure = player -> {};
 
     public static Map<UUID, CompletableFuture<Void>> waitingForTransferComplete = new ConcurrentHashMap<>();
 
@@ -99,17 +101,24 @@ public record ProxyPlayer(UUID uuid) {
                                         : Map.of("server_uuid", serverToTransferTo.toString(), "document", document)))
                 .thenAccept(response -> {
                     if (!response.success()) {
-                        waitingForTransferComplete.remove(uuid);
-                        future.completeExceptionally(new IllegalStateException(response.error()));
-                        sendMessage(Text.of("<c>Unable to transfer you: {}", response.error()));
+                        failTransfer(future, new IllegalStateException(response.error()));
                     }
+                })
+                .exceptionally(error -> {
+                    failTransfer(future, error);
+                    return null;
                 })).exceptionally(error -> {
-            waitingForTransferComplete.remove(uuid);
-            future.completeExceptionally(error);
-            sendMessage(Text.of("<c>Unable to transfer you: {}", rootMessage(error)));
+            failTransfer(future, error);
             return null;
         });
         return future;
+    }
+
+    private void failTransfer(CompletableFuture<Void> future, Throwable error) {
+        waitingForTransferComplete.remove(uuid);
+        notifyTransferFailed();
+        future.completeExceptionally(error);
+        sendMessage(Text.of("<c>Unable to transfer you: {}", rootMessage(error)));
     }
 
     public void transferTo(ServerType serverType) {
@@ -154,6 +163,17 @@ public record ProxyPlayer(UUID uuid) {
 
     public static void setTransferPreparation(BiFunction<UUID, UUID, CompletableFuture<String>> preparation) {
         transferPreparation = preparation;
+    }
+
+    public static void setTransferFailure(Consumer<UUID> failure) {
+        transferFailure = failure == null ? player -> {} : failure;
+    }
+
+    private void notifyTransferFailed() {
+        try {
+            transferFailure.accept(uuid);
+        } catch (Exception ignored) {
+        }
     }
 
     private static String rootMessage(Throwable error) {

@@ -6,20 +6,27 @@ import net.swofty.codec.Codecs;
 import net.swofty.commons.data.NameIndex;
 import net.swofty.commons.data.SwoftyData;
 import org.bson.Document;
+import org.tinylog.Logger;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.function.Predicate;
 
 public record ProfilesDatabase(String id) implements MongoDB {
     public static final PlayerField<String> DOCUMENT =
             PlayerField.create("skyblock", "_doc", Codecs.STRING, null);
 
+    private static volatile Predicate<UUID> hostedProfiles = profileId -> false;
+
     public static void connect(MongoClient client) {
     }
 
+    public static void setHostedProfileCheck(Predicate<UUID> check) {
+        hostedProfiles = check == null ? profileId -> false : check;
+    }
+
     private Document read() {
-        String json = SwoftyData.profile().get(UUID.fromString(id), DOCUMENT);
-        return json == null ? null : Document.parse(json);
+        return fetchDocument(id);
     }
 
     @Override
@@ -45,16 +52,16 @@ public record ProfilesDatabase(String id) implements MongoDB {
     }
 
     public void saveDocument(Document document) {
-        SwoftyData.profile().set(UUID.fromString(id), DOCUMENT, document.toJson());
+        writeDocument(UUID.fromString(id), document.toJson());
     }
 
     public boolean exists() {
-        return SwoftyData.profile().get(UUID.fromString(id), DOCUMENT) != null;
+        return readDocument(UUID.fromString(id)) != null;
     }
 
     @Override
     public boolean remove(String uniqueId) {
-        SwoftyData.profile().set(UUID.fromString(uniqueId), DOCUMENT, null);
+        writeDocument(UUID.fromString(uniqueId), null);
         return true;
     }
 
@@ -63,7 +70,7 @@ public record ProfilesDatabase(String id) implements MongoDB {
     }
 
     public static void replaceDocument(String uniqueId, Document document) {
-        SwoftyData.profile().set(UUID.fromString(uniqueId), DOCUMENT, document.toJson());
+        writeDocument(UUID.fromString(uniqueId), document.toJson());
     }
 
     public static UUID fetchUUID(String username) {
@@ -71,7 +78,7 @@ public record ProfilesDatabase(String id) implements MongoDB {
     }
 
     public static Document fetchDocument(String uniqueId) {
-        String json = SwoftyData.profile().get(UUID.fromString(uniqueId), DOCUMENT);
+        String json = readDocument(UUID.fromString(uniqueId));
         return json == null ? null : Document.parse(json);
     }
 
@@ -80,6 +87,31 @@ public record ProfilesDatabase(String id) implements MongoDB {
     }
 
     public static void deleteDocument(String uniqueId) {
-        SwoftyData.profile().set(UUID.fromString(uniqueId), DOCUMENT, null);
+        writeDocument(UUID.fromString(uniqueId), null);
+    }
+
+    private static String readDocument(UUID profileId) {
+        try {
+            return SwoftyData.profile().get(profileId, DOCUMENT);
+        } finally {
+            release(profileId);
+        }
+    }
+
+    private static void writeDocument(UUID profileId, String json) {
+        try {
+            SwoftyData.profile().set(profileId, DOCUMENT, json);
+        } finally {
+            release(profileId);
+        }
+    }
+
+    private static void release(UUID profileId) {
+        if (hostedProfiles.test(profileId)) return;
+        try {
+            SwoftyData.profile().unload(profileId);
+        } catch (Exception e) {
+            Logger.error(e, "Failed to release offline profile container {}", profileId);
+        }
     }
 }

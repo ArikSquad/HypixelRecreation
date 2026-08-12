@@ -28,12 +28,18 @@ import net.swofty.type.skyblockgeneric.user.island.SkyBlockIsland;
 import net.swofty.type.skyblockgeneric.warps.TravelScrollIslands;
 import org.bson.Document;
 
+import org.tinylog.Logger;
+
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 public final class SkyBlockDomain implements PlayerDataDomain<SkyBlockDataHandler> {
     public static final DomainKey<SkyBlockDataHandler> KEY = new DomainKey<>("skyblock-profile", SkyBlockDataHandler.class);
+
+    private static final Map<UUID, UUID> linkedCoops = new ConcurrentHashMap<>();
 
     @Override
     public DomainKey<SkyBlockDataHandler> key() {
@@ -56,7 +62,9 @@ public final class SkyBlockDomain implements PlayerDataDomain<SkyBlockDataHandle
 
         UUID profileId = loadProfiles(uuid).getCurrentlySelected();
         SkyBlockDataHandler handler = SkyBlockDataHandler.initUserWithDefaultData(uuid, profileId);
-        SwoftyData.profile().link(profileId, CoopLinks.COOP, resolveCoopId(profileId));
+        UUID coopId = resolveCoopId(profileId);
+        SwoftyData.profile().link(profileId, CoopLinks.COOP, coopId);
+        linkedCoops.put(uuid, coopId);
 
         String transferred = PlayerTransferDataCache.takeProfileDocument(uuid);
         if (transferred != null) {
@@ -104,6 +112,24 @@ public final class SkyBlockDomain implements PlayerDataDomain<SkyBlockDataHandle
         SkyBlockDataHandler handler = PlayerDataService.find(KEY, uuid).orElse(null);
         if (handler != null) SwoftyData.profile().unload(handler.getCurrentProfileId());
         PlayerDataService.evict(KEY, uuid);
+        releaseCoopLink(uuid);
+    }
+
+    public static boolean isProfileHosted(UUID profileId) {
+        for (SkyBlockDataHandler handler : PlayerDataService.loaded(KEY)) {
+            if (profileId.equals(handler.getCurrentProfileId())) return true;
+        }
+        return false;
+    }
+
+    private static void releaseCoopLink(UUID uuid) {
+        UUID coopId = linkedCoops.remove(uuid);
+        if (coopId == null || linkedCoops.containsValue(coopId)) return;
+        try {
+            SwoftyData.profile().unloadLink(CoopLinks.COOP, coopId);
+        } catch (Exception e) {
+            Logger.error(e, "Failed to release coop link container {}", coopId);
+        }
     }
 
     public static String transferDocument(SkyBlockPlayer player) {

@@ -92,7 +92,7 @@ public class SkyBlockDataHandler extends DataHandler {
         for (Data data : Data.values()) {
             String key = data.getKey();
             if (!document.containsKey(key)) {
-                datapoints.put(key, data.getDefaultDatapoint().setUser(this).setData(data));
+                datapoints.put(key, data.getDefaultDatapoint().deepClone().setUser(this).setData(data));
                 continue;
             }
             String jsonValue = document.getString(key);
@@ -102,7 +102,7 @@ public class SkyBlockDataHandler extends DataHandler {
                 dp.deserializeValue(jsonValue);
                 datapoints.put(key, dp.setUser(this).setData(data));
             } catch (Exception e) {
-                datapoints.put(key, data.getDefaultDatapoint().setUser(this).setData(data));
+                datapoints.put(key, data.getDefaultDatapoint().deepClone().setUser(this).setData(data));
                 Logger.error(e, "Issue with SkyBlock datapoint {} for user {} - defaulting to default value", key, this.uuid);
             }
         }
@@ -231,7 +231,25 @@ public class SkyBlockDataHandler extends DataHandler {
     public void loadFromTransferDocument(Document document) {
         loadSkyBlock(document);
         SwoftyData.profile().load(currentProfileId);
-        saveToApi();
+        readCoopBackedData();
+        saveBackedData(datapoint -> !isCoopBacked(datapoint));
+        SwoftyData.profile().set(currentProfileId, ProfilesDatabase.DOCUMENT, toProfileDocument().toJson());
+    }
+
+    private void readCoopBackedData() {
+        for (Datapoint<?> datapoint : datapoints.values()) {
+            if (!isCoopBacked(datapoint)) continue;
+            try {
+                String stored = ((Data) datapoint.getData()).readData(this);
+                if (stored != null) datapoint.deserializeValue(stored);
+            } catch (Exception e) {
+                Logger.error(e, "Failed to read coop datapoint {} for user {}", datapoint.getKey(), this.uuid);
+            }
+        }
+    }
+
+    private static boolean isCoopBacked(Datapoint<?> datapoint) {
+        return datapoint.getData() instanceof Data data && data.coopField() != null;
     }
 
     public void saveToApi() {
