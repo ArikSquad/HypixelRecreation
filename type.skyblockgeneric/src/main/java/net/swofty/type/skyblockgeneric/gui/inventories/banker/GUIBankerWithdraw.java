@@ -16,7 +16,6 @@ import net.swofty.type.generic.user.HypixelPlayer;
 import net.swofty.type.skyblockgeneric.data.DataMutexService;
 import net.swofty.type.skyblockgeneric.data.SkyBlockDataHandler;
 import net.swofty.type.skyblockgeneric.data.datapoints.DatapointBankData;
-import net.swofty.type.skyblockgeneric.data.monogdb.CoopDatabase;
 import net.swofty.type.skyblockgeneric.user.SkyBlockPlayer;
 
 import java.util.List;
@@ -159,7 +158,9 @@ public class GUIBankerWithdraw extends HypixelInventoryGUI {
         player.sendMessage(Text.key("gui_banker.withdraw.withdrawing"));
 
         if (!player.isCoop()) {
-            DatapointBankData.BankData bankData = player.getSkyblockDataHandler().get(SkyBlockDataHandler.Data.BANK_DATA, DatapointBankData.class).getValue();
+            DatapointBankData datapoint = player.getSkyblockDataHandler()
+                    .get(SkyBlockDataHandler.Data.BANK_DATA, DatapointBankData.class);
+            DatapointBankData.BankData bankData = datapoint.getValue();
             if (amount > bankData.getAmount()) {
                 player.sendMessage(Text.key("gui_banker.withdraw.not_enough_coins"));
                 return;
@@ -168,41 +169,37 @@ public class GUIBankerWithdraw extends HypixelInventoryGUI {
             bankData.removeAmount(amount);
             bankData.addTransaction(new DatapointBankData.Transaction(
                     System.currentTimeMillis(), -amount, player.getUsername()));
+            datapoint.setValue(bankData);
 
             player.addCoins(amount);
             player.sendMessage(Text.key("gui_banker.withdraw.success", StringUtility.decimalify(amount, 1), StringUtility.decimalify(bankData.getAmount(), 1)));
             return;
         }
 
-        CoopDatabase.Coop coop = player.getCoop();
-        String lockKey = "bank_data:" + player.getSkyBlockIsland().getIslandID().toString();
-
-        DataMutexService mutexService = new DataMutexService();
-
-        mutexService.withSynchronizedData(
-                lockKey,
-                coop.members(),
+        double[] newBalance = new double[1];
+        DataMutexService.Outcome outcome = DataMutexService.withSynchronizedData(
+                player.getSkyblockDataHandler().getCurrentProfileId(),
                 SkyBlockDataHandler.Data.BANK_DATA,
-
                 (DatapointBankData.BankData latestBankData) -> {
-                    if (amount > latestBankData.getAmount()) {
-                        player.sendMessage(Text.key("gui_banker.withdraw.not_enough_coins"));
-                        return null;
-                    }
+                    if (amount > latestBankData.getAmount()) return null;
 
                     latestBankData.removeAmount(amount);
                     latestBankData.addTransaction(new DatapointBankData.Transaction(
                             System.currentTimeMillis(), -amount, player.getUsername()));
-
-                    player.addCoins(amount);
-                    player.sendMessage(Text.key("gui_banker.withdraw.success", StringUtility.decimalify(amount, 1), StringUtility.decimalify(latestBankData.getAmount(), 1)));
+                    newBalance[0] = latestBankData.getAmount();
 
                     return latestBankData;
-                },
-                () -> {
-                    player.sendMessage(Text.key("gui_banker.withdraw.coop_busy"));
-                }
-        );
+                });
+
+        switch (outcome) {
+            case APPLIED -> {
+                player.addCoins(amount);
+                player.sendMessage(Text.key("gui_banker.withdraw.success",
+                        StringUtility.decimalify(amount, 1), StringUtility.decimalify(newBalance[0], 1)));
+            }
+            case UNCHANGED -> player.sendMessage(Text.key("gui_banker.withdraw.not_enough_coins"));
+            default -> player.sendMessage(Text.key("gui_banker.withdraw.coop_busy"));
+        }
     }
 
     @Override

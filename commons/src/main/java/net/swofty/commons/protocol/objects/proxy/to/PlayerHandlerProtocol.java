@@ -29,7 +29,6 @@ public class PlayerHandlerProtocol extends RedisProtocol<
         TRANSFER,
         RESOLVE_TRANSFER,
         TELEPORT,
-        BANK_HASH,
         VERSION,
         IS_ONLINE,
         EVENT,

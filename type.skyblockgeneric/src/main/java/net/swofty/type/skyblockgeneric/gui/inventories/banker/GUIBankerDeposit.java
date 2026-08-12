@@ -16,7 +16,6 @@ import net.swofty.type.generic.user.HypixelPlayer;
 import net.swofty.type.skyblockgeneric.data.DataMutexService;
 import net.swofty.type.skyblockgeneric.data.SkyBlockDataHandler;
 import net.swofty.type.skyblockgeneric.data.datapoints.DatapointBankData;
-import net.swofty.type.skyblockgeneric.data.monogdb.CoopDatabase;
 import net.swofty.type.skyblockgeneric.mission.missions.MissionDepositCoinsInBank;
 import net.swofty.type.skyblockgeneric.user.SkyBlockPlayer;
 
@@ -140,14 +139,16 @@ public class GUIBankerDeposit extends HypixelInventoryGUI {
         if (player.getMissionData().isCurrentlyActive(MissionDepositCoinsInBank.class)) {
             player.getMissionData().endMission(MissionDepositCoinsInBank.class);
         }
-        DatapointBankData.BankData bankData = player.getSkyblockDataHandler().get(net.swofty.type.skyblockgeneric.data.SkyBlockDataHandler.Data.BANK_DATA, DatapointBankData.class).getValue();
+        DatapointBankData datapoint = player.getSkyblockDataHandler()
+                .get(SkyBlockDataHandler.Data.BANK_DATA, DatapointBankData.class);
+        DatapointBankData.BankData bankData = datapoint.getValue();
         if (bankData.getAmount() + amount > bankData.getBalanceLimit()) {
             player.sendMessage(Text.key("gui_banker.deposit.exceed_limit", StringUtility.commaify(bankData.getBalanceLimit())));
             return;
         }
 
         player.sendMessage(Text.key("gui_banker.deposit.depositing"));
-        player.removeCoins(amount);
+
         if (!player.isCoop()) {
             bankData.addAmount(amount);
             bankData.addTransaction(new DatapointBankData.Transaction(
@@ -155,39 +156,44 @@ public class GUIBankerDeposit extends HypixelInventoryGUI {
                     amount,
                     player.getUsername()
             ));
+            datapoint.setValue(bankData);
+            player.removeCoins(amount);
 
             player.sendMessage(Text.key("gui_banker.deposit.success", StringUtility.decimalify(amount, 1), StringUtility.decimalify(bankData.getAmount(), 1)));
             return;
         }
-        CoopDatabase.Coop coop = player.getCoop();
+
         player.setBankDelayed(true);
 
-        String lockKey = "bank_data:" + player.getSkyBlockIsland().getIslandID().toString();
-        DataMutexService mutexService = new DataMutexService();
-
-        mutexService.withSynchronizedData(
-                lockKey,
-                coop.members(),
+        double[] newBalance = new double[1];
+        double[] hitLimit = new double[1];
+        DataMutexService.Outcome outcome = DataMutexService.withSynchronizedData(
+                player.getSkyblockDataHandler().getCurrentProfileId(),
                 SkyBlockDataHandler.Data.BANK_DATA,
                 (DatapointBankData.BankData latestBankData) -> {
                     if (latestBankData.getAmount() + amount > latestBankData.getBalanceLimit()) {
-                        player.sendMessage(Text.key("gui_banker.deposit.exceed_limit", StringUtility.commaify(latestBankData.getBalanceLimit())));
+                        hitLimit[0] = latestBankData.getBalanceLimit();
                         return null;
                     }
 
-                    player.removeCoins(amount);
                     latestBankData.addAmount(amount);
                     latestBankData.addTransaction(new DatapointBankData.Transaction(
                             System.currentTimeMillis(), amount, player.getUsername()));
-
-                    player.sendMessage(Text.key("gui_banker.deposit.success", StringUtility.decimalify(amount, 1), StringUtility.decimalify(latestBankData.getAmount(), 1)));
+                    newBalance[0] = latestBankData.getAmount();
 
                     return latestBankData;
-                },
-                () -> {
-                    player.sendMessage(Text.key("gui_banker.deposit.coop_busy"));
-                }
-        );
+                });
+
+        switch (outcome) {
+            case APPLIED -> {
+                player.removeCoins(amount);
+                player.sendMessage(Text.key("gui_banker.deposit.success",
+                        StringUtility.decimalify(amount, 1), StringUtility.decimalify(newBalance[0], 1)));
+            }
+            case UNCHANGED -> player.sendMessage(Text.key("gui_banker.deposit.exceed_limit",
+                    StringUtility.commaify(hitLimit[0])));
+            default -> player.sendMessage(Text.key("gui_banker.deposit.coop_busy"));
+        }
     }
 
     @Override

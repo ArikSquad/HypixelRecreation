@@ -162,15 +162,4 @@ public record ProxyPlayer(UUID uuid) {
         return cause.getMessage() != null ? cause.getMessage() : cause.getClass().getSimpleName();
     }
 
-    public CompletableFuture<UUID> getBankHash() {
-        CompletableFuture<UUID> future = new CompletableFuture<>();
-        RedisClient.requestProxy(PLAYER_HANDLER,
-                        new PlayerHandlerProtocol.Request(uuid.toString(), PlayerHandlerProtocol.Action.BANK_HASH, Map.of()))
-                .thenAccept(response -> {
-                    Object bankHash = response.data().get("bankHash");
-                    future.complete(UUID.fromString((String) bankHash));
-                });
-        return future;
-    }
-
 }
