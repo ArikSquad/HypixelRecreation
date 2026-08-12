@@ -31,6 +31,7 @@ import net.swofty.type.generic.HypixelGenericLoader;
 import net.swofty.type.generic.HypixelTypeLoader;
 import net.swofty.type.generic.command.HypixelCommand;
 import net.swofty.type.generic.data.mongodb.AttributeDatabase;
+import net.swofty.type.generic.data.mongodb.ProfilesDatabase;
 import net.swofty.type.generic.entity.hologram.PlayerHolograms;
 import net.swofty.type.generic.entity.hologram.ServerHolograms;
 import net.swofty.type.generic.event.HypixelEventClass;
@@ -40,7 +41,6 @@ import net.swofty.type.generic.packet.HypixelPacketServerListener;
 import net.swofty.type.generic.redis.RedisOriginServer;
 import net.swofty.type.generic.resourcepack.ResourcePackManager;
 import net.swofty.type.generic.user.categories.CustomGroups;
-import net.swofty.type.generic.user.flow.GenericPlayerDataFlow;
 import net.swofty.type.generic.utility.ScheduleUtility;
 import net.swofty.type.skyblockgeneric.abiphone.AbiphoneNPC;
 import net.swofty.type.skyblockgeneric.text.SkyBlockTextScopes;
@@ -51,7 +51,11 @@ import net.swofty.type.skyblockgeneric.calendar.SkyBlockCalendar;
 import net.swofty.type.skyblockgeneric.collection.CollectionCategories;
 import net.swofty.type.skyblockgeneric.collection.CollectionCategory;
 import net.swofty.type.skyblockgeneric.collection.CustomCollectionAward;
+import net.swofty.type.generic.data.domain.AccountDomain;
+import net.swofty.type.generic.data.domain.PlayerDataService;
+import net.swofty.type.skyblockgeneric.data.CoopSync;
 import net.swofty.type.skyblockgeneric.data.SkyBlockDataHandler;
+import net.swofty.type.skyblockgeneric.data.SkyBlockDomain;
 import net.swofty.type.skyblockgeneric.data.crystals.CrystalCatalog;
 import net.swofty.type.skyblockgeneric.data.monogdb.*;
 import net.swofty.type.skyblockgeneric.elections.ElectionManager;
@@ -91,7 +95,6 @@ import net.swofty.type.skyblockgeneric.user.SkyBlockPlayer;
 import net.swofty.type.skyblockgeneric.user.SkyBlockScoreboard;
 import net.swofty.type.skyblockgeneric.user.StashReminder;
 import net.swofty.type.skyblockgeneric.user.fairysouls.FairySoul;
-import net.swofty.type.skyblockgeneric.user.flow.SkyBlockPlayerDataFlow;
 import net.swofty.type.skyblockgeneric.user.island.SkyBlockIsland;
 import net.swofty.type.skyblockgeneric.user.statistics.PlayerStatistics;
 import net.swofty.type.skyblockgeneric.user.statistics.TemporaryStatistic;
@@ -273,17 +276,19 @@ public record SkyBlockGenericLoader(HypixelTypeLoader typeLoader) {
          * Start data loop
          */
         SkyBlockDataHandler.startRepeatSetValueLoop();
+        CoopSync.subscribe();
+        PlayerDataService.register(new SkyBlockDomain());
+        ProfilesDatabase.setHostedProfileCheck(SkyBlockDomain::isProfileHosted);
 
         ProxyPlayer.setTransferPreparation((playerUuid, targetServer) -> CompletableFuture.supplyAsync(() -> {
             SkyBlockPlayer player = MinecraftServer.getConnectionManager().getOnlinePlayerByUuid(playerUuid) instanceof SkyBlockPlayer skyBlockPlayer
                     ? skyBlockPlayer : null;
             if (player == null) return null;
 
-            String profileDocument = SkyBlockPlayerDataFlow.saveForTransfer(player);
-            String accountDocument = GenericPlayerDataFlow.saveForTransfer(player);
+            PlayerDataService.flushForTransfer(typeLoader.getType(), player);
             return new org.json.JSONObject()
-                    .put("account_document", PlayerTransferDataCache.encodeDocument(accountDocument))
-                    .put("profile_document", PlayerTransferDataCache.encodeDocument(profileDocument))
+                    .put("account_document", PlayerTransferDataCache.encodeDocument(AccountDomain.transferDocument(player)))
+                    .put("profile_document", PlayerTransferDataCache.encodeDocument(SkyBlockDomain.transferDocument(player)))
                     .toString();
         }));
 
@@ -550,9 +555,11 @@ public record SkyBlockGenericLoader(HypixelTypeLoader typeLoader) {
             UUID uuid = gameProfile.getPlayer().getUuid();
             String username = gameProfile.getPlayer().getUsername();
 
-            if (RedisOriginServer.origin.containsKey(uuid)) {
-                player.setOriginServer(RedisOriginServer.origin.get(uuid));
-                RedisOriginServer.origin.remove(uuid);
+            ServerType originServer = RedisOriginServer.consume(uuid);
+
+            if (originServer != null) {
+
+                player.setOriginServer(originServer);
             }
 
             Logger.info("Received new player: " + username + " (" + uuid + ")");

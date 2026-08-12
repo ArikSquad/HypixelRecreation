@@ -151,9 +151,11 @@ public class TypeMurderMysteryGameLoader implements HypixelTypeLoader {
             UUID uuid = gameProfile.uuid();
             String username = gameProfile.name();
 
-            if (RedisOriginServer.origin.containsKey(uuid)) {
-                player.setOriginServer(RedisOriginServer.origin.get(uuid));
-                RedisOriginServer.origin.remove(uuid);
+            ServerType originServer = RedisOriginServer.consume(uuid);
+
+            if (originServer != null) {
+
+                player.setOriginServer(originServer);
             }
 
             Logger.info("Received new player: " + username + " (" + uuid + ")");

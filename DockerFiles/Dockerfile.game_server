@@ -17,7 +17,6 @@ RUN set -eu; \
         ServiceAuctionHouse.jar \
         ServiceBazaar.jar \
         ServiceItemTracker.jar \
-        ServiceDataMutex.jar \
         ServiceParty.jar \
         ServiceDarkAuction.jar \
         ServiceOrchestrator.jar \

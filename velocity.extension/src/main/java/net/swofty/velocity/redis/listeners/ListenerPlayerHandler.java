@@ -7,7 +7,6 @@ import net.swofty.commons.ServerType;
 import net.swofty.commons.StringUtility;
 import net.swofty.commons.UnderstandableProxyServer;
 import net.swofty.commons.protocol.RedisProtocol;
-import net.swofty.commons.protocol.objects.proxy.from.RefreshCoopDataProtocol;
 import net.swofty.commons.protocol.objects.proxy.from.RunEventProtocol;
 import net.swofty.commons.protocol.objects.proxy.from.TeleportProtocol;
 import net.swofty.commons.protocol.objects.proxy.to.PlayerHandlerProtocol;
@@ -100,7 +99,8 @@ public class ListenerPlayerHandler implements RedisMessageHandler<
                     player.sendMessage(Text.of(
                         "<c>We encountered an issue while attempting to locate the server on the network. Please try again later."
                     ));
-                    return EMPTY;
+                    return new PlayerHandlerProtocol.Response(Map.of(), false,
+                            "The destination server could not be located on the network");
                 }
 
                 player.sendMessage(Text.of("<7>Sending to server {}...", serverInfo.displayName()));
@@ -183,16 +183,6 @@ public class ListenerPlayerHandler implements RedisMessageHandler<
                     new RunEventProtocol.Request(uuid.toString(),
                         (String) data.get("event"),
                         (String) data.get("data"))).join();
-            }
-            case REFRESH_COOP_DATA -> {
-                if (potentialServer.isEmpty()) {
-                    return EMPTY;
-                }
-                UUID server = UUID.fromString(potentialServer.get().getServer().getServerInfo().getName());
-                RedisClient.requestServer(server,
-                    new RefreshCoopDataProtocol(),
-                    new RefreshCoopDataProtocol.Request(uuid.toString(),
-                        (String) data.get("datapoint"))).join();
             }
             case MESSAGE -> {
                 String messageToSend = (String) data.get("message");

@@ -45,7 +45,6 @@ var MinigameServers = []string{
 }
 
 var AllServices = []string{
-	"ServiceDataMutex",
 	"ServiceParty",
 	"ServiceAPI",
 	"ServiceAuctionHouse",
@@ -61,10 +60,9 @@ var AllServices = []string{
 	"ServiceReplay",
 }
 
-var RequiredServices = []string{"ServiceDataMutex", "ServiceParty"}
+var RequiredServices = []string{"ServiceParty"}
 
 var DefaultServices = []string{
-	"ServiceDataMutex",
 	"ServiceParty",
 	"ServiceAPI",
 	"ServiceAuctionHouse",

@@ -31,6 +31,7 @@ dependencies {
     // Must match AtlasRedisAPI's Jedis version to avoid conflicts
     implementation(libs.jedis)
     implementation(libs.atlas.redis)
+    api(libs.swofty.datahandler)
 
     implementation(libs.configlib.yaml)
 

@@ -108,7 +108,7 @@ public class TypeDwarvenMinesLoader implements SkyBlockTypeLoader {
 
     @Override
     public List<ServiceType> getRequiredServices() {
-        return new ArrayList<>(List.of(ServiceType.DATA_MUTEX));
+        return new ArrayList<>();
     }
 
     @Override

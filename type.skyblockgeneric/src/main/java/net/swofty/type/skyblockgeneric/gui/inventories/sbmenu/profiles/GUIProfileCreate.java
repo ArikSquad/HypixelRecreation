@@ -70,7 +70,7 @@ public class GUIProfileCreate extends StatelessView {
                     Document document = handler.toProfileDocument();
 
                     profiles.addProfile(profileId);
-                    ProfilesDatabase.collection.insertOne(document);
+                    new ProfilesDatabase(profileId.toString()).saveDocument(document);
 
                     // Persist the selection before transfer preparation takes its account snapshot.
                     profiles.setCurrentlySelected(profileId);

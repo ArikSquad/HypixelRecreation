@@ -6,7 +6,9 @@ import lombok.NoArgsConstructor;
 import net.swofty.commons.protocol.RedisProtocol;
 import net.swofty.redisapi.api.ChannelRegistry;
 import net.swofty.redisapi.api.RedisAPI;
+import net.swofty.redisapi.events.EventRegistry;
 import org.tinylog.Logger;
+import redis.clients.jedis.JedisPubSub;
 
 import java.util.List;
 import java.util.Map;
@@ -125,7 +127,10 @@ public final class RedisMessageBus {
                 target,
                 ChannelRegistry.getFromName(channel),
                 new RedisEnvelope(requestId.toString(), origin.id(), payload).serialize()
-        );
+        ).exceptionally(throwable -> {
+            Logger.error(throwable, "Failed to publish Redis message on channel {}", channel);
+            return null;
+        });
     }
 
     private static void ensureChannelRegistered(String channel) {
@@ -152,6 +157,19 @@ public final class RedisMessageBus {
 
             channelHandlers.forEach(handler -> Thread.startVirtualThread(() -> handler.handle(envelope, event.channel)));
         });
+
+        subscribeIfListening(channel);
+    }
+
+    private static void subscribeIfListening(String channel) {
+        JedisPubSub pubSub = EventRegistry.pubSub;
+        if (pubSub == null || !pubSub.isSubscribed()) return;
+
+        try {
+            pubSub.subscribe(channel);
+        } catch (Exception exception) {
+            Logger.error(exception, "Failed to subscribe to Redis channel {}", channel);
+        }
     }
 
     private static RedisEnvelope unwrap(String message) {
