@@ -42,6 +42,7 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelPipeline;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
+import net.swofty.commons.LobbyDestination;
 import net.swofty.commons.ServerType;
 import net.swofty.commons.ServiceType;
 import net.swofty.commons.config.ConfigProvider;
@@ -89,6 +90,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.InetSocketAddress;
 import java.nio.file.Path;
 import java.time.Duration;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -452,18 +454,26 @@ public class SkyBlockVelocity {
                 // if it was, send the player to another server of that type;
                 // otherwise disconnect them with the original reason.
                 try {
-                    ServerType serverTypeToTry = serverType;
-                    if (!GameManager.hasType(serverTypeToTry) || !GameManager.isAnyEmpty(serverTypeToTry)) {
-                        serverTypeToTry = ServerType.PROTOTYPE_LOBBY;
+                    LinkedHashSet<ServerType> candidates = new LinkedHashSet<>();
+                    if (serverType != null && !LobbyDestination.isSessionType(serverType)) {
+                        candidates.add(serverType);
                     }
+                    candidates.add(LobbyDestination.resolveDefaultDestination(serverType));
+                    candidates.add(ServerType.PROTOTYPE_LOBBY);
 
-                    GameManager.GameServer server = BalanceConfigurations.getServerFor(event.getPlayer(), serverTypeToTry);
-                    if (server != null && server.registeredServer().equals(originalServer)) {
-                        serverTypeToTry = ServerType.PROTOTYPE_LOBBY;
-                        server = BalanceConfigurations.getServerFor(event.getPlayer(), serverTypeToTry);
-                        if (server != null && server.registeredServer().equals(originalServer)) {
-                            server = null;
+                    ServerType serverTypeToTry = null;
+                    GameManager.GameServer server = null;
+                    for (ServerType candidate : candidates) {
+                        if (!GameManager.hasType(candidate) || !GameManager.isAnyEmpty(candidate)) {
+                            continue;
                         }
+                        GameManager.GameServer candidateServer = BalanceConfigurations.getServerFor(event.getPlayer(), candidate);
+                        if (candidateServer == null || candidateServer.registeredServer().equals(originalServer)) {
+                            continue;
+                        }
+                        serverTypeToTry = candidate;
+                        server = candidateServer;
+                        break;
                     }
                     if (server == null) {
                         transferHandler.forceRemoveFromLimbo();
@@ -472,10 +482,10 @@ public class SkyBlockVelocity {
                     }
                     transferHandler.transferTo(server.registeredServer());
 
-                    if (!serverTypeToTry.isSkyBlock()) {
-                        event.getPlayer().sendMessage(Text.of("<c>An exception occurred in your connection, so you were put into the Prototype Lobby."));
+                    if (serverTypeToTry == serverType) {
+                        event.getPlayer().sendMessage(Text.of("<c>An exception occurred in your connection, so you were put into another server of the same type."));
                     } else {
-                        event.getPlayer().sendMessage(Text.of("<c>An exception occurred in your connection, so you were put into another SkyBlock server."));
+                        event.getPlayer().sendMessage(Text.of("<c>An exception occurred in your connection, so you were put into a lobby."));
                     }
                     event.getPlayer().sendMessage(Text.of("<7>Sending to server {}...", server.displayName()));
                 } catch (Exception e) {
