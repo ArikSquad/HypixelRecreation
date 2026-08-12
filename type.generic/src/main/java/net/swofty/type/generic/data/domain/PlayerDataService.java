@@ -2,6 +2,7 @@ package net.swofty.type.generic.data.domain;
 
 import net.swofty.commons.ServerType;
 import net.swofty.type.generic.data.DataHandler;
+import net.swofty.type.generic.data.DataWriteQueue;
 import net.swofty.type.generic.user.HypixelPlayer;
 import org.tinylog.Logger;
 
@@ -70,6 +71,12 @@ public final class PlayerDataService {
         return cache(key).containsKey(uuid);
     }
 
+    public static <H extends DataHandler> List<H> loaded(DomainKey<H> key) {
+        List<H> handlers = new ArrayList<>();
+        for (DataHandler handler : cache(key).values()) handlers.add(key.type().cast(handler));
+        return handlers;
+    }
+
     public static <H extends DataHandler> H await(DomainKey<H> key, UUID uuid, long timeoutMillis) {
         Map<UUID, DataHandler> cache = cache(key);
         DataHandler handler = cache.get(uuid);
@@ -117,22 +124,30 @@ public final class PlayerDataService {
     }
 
     public static void saveAndUnloadAll(ServerType type, HypixelPlayer player) {
-        ReentrantLock lock = lifecycleLock(player.getUuid());
+        UUID uuid = player.getUuid();
+        ReentrantLock lock = lifecycleLock(uuid);
         lock.lock();
         try {
-            boolean handedOff = consumeHandoff(player.getUuid());
-            for (PlayerDataDomain<?> domain : active(type)) {
-                if (!handedOff) {
+            boolean handedOff = consumeHandoff(uuid);
+            List<PlayerDataDomain<?>> domains = active(type);
+
+            DataWriteQueue.drain(uuid);
+            if (!handedOff) {
+                for (PlayerDataDomain<?> domain : domains) {
                     try {
                         domain.save(player);
                     } catch (Exception e) {
-                        Logger.error(e, "Failed to save domain {} for user {}", domain.key().id(), player.getUuid());
+                        Logger.error(e, "Failed to save domain {} for user {}", domain.key().id(), uuid);
                     }
                 }
+            }
+
+            for (PlayerDataDomain<?> domain : domains) {
                 domain.cleanup(player);
-                domain.unload(player.getUuid());
+                domain.unload(uuid);
             }
         } finally {
+            DataWriteQueue.remove(uuid);
             lock.unlock();
         }
     }
@@ -159,14 +174,20 @@ public final class PlayerDataService {
     }
 
     public static void flushForTransfer(ServerType type, HypixelPlayer player) {
-        ReentrantLock lock = lifecycleLock(player.getUuid());
+        UUID uuid = player.getUuid();
+        ReentrantLock lock = lifecycleLock(uuid);
         lock.lock();
         try {
+            DataWriteQueue.drain(uuid);
             for (PlayerDataDomain<?> domain : active(type)) domain.save(player);
-            handoffs.put(player.getUuid(), System.currentTimeMillis());
+            handoffs.put(uuid, System.currentTimeMillis());
         } finally {
             lock.unlock();
         }
+    }
+
+    public static void clearHandoff(UUID uuid) {
+        handoffs.remove(uuid);
     }
 
     private static boolean consumeHandoff(UUID uuid) {

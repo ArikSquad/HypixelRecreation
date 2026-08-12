@@ -32,6 +32,7 @@ import net.swofty.type.generic.block.BannerBlockHandler;
 import net.swofty.type.generic.block.PlayerHeadBlockHandler;
 import net.swofty.type.generic.block.SignBlockHandler;
 import net.swofty.type.generic.command.HypixelCommand;
+import net.swofty.type.generic.data.DataWriteQueue;
 import net.swofty.type.generic.data.GameDataHandler;
 import net.swofty.type.generic.data.GameDataHandlerRegistry;
 import net.swofty.type.generic.data.domain.AccountDomain;
@@ -210,6 +211,8 @@ public record HypixelGenericLoader(HypixelTypeLoader loader) {
                     .toString();
         }));
 
+        ProxyPlayer.setTransferFailure(PlayerDataService::clearHandoff);
+
         // Initialize leaderboard service (uses Redis for O(log N) leaderboard operations)
         LeaderboardService.connect(ConfigProvider.settings().getRedisUri());
 
@@ -318,6 +321,8 @@ public record HypixelGenericLoader(HypixelTypeLoader loader) {
                     Logger.error(e, "Failed to flush data for player {} during shutdown", player.getUuid());
                 }
             }
+
+            DataWriteQueue.drainAll();
 
             flushDataApi(SwoftyData.account(), "account");
             flushDataApi(SwoftyData.profile(), "profile");

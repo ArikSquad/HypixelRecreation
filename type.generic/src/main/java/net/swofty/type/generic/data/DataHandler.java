@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Predicate;
 
 @Getter
 public abstract class DataHandler {
@@ -43,18 +44,28 @@ public abstract class DataHandler {
     }
 
     public void saveBackedData() {
+        saveBackedData(datapoint -> true);
+    }
+
+    public void saveBackedData(Predicate<Datapoint<?>> filter) {
+        DataWriteQueue.drain(getUuid());
         for (Datapoint<?> datapoint : datapoints.values()) {
+            if (!filter.test(datapoint)) continue;
             try {
                 String serialized = datapoint.getSerializedValue();
-                if (datapoint.getData() instanceof BackedField field) {
-                    field.writeData(this, serialized);
-                } else {
-                    SwoftyData.account().set(getUuid(), gameField(datapoint.getKey()), serialized);
-                }
+                writeBackedValue(datapoint.getData(), datapoint.getKey(), serialized);
                 datapoint.markPersisted(serialized);
             } catch (Exception e) {
                 Logger.error(e, "Failed to save datapoint {} for user {}", datapoint.getKey(), getUuid());
             }
+        }
+    }
+
+    public void writeBackedValue(Enum<?> data, String key, String serialized) {
+        if (data instanceof BackedField field) {
+            field.writeData(this, serialized);
+        } else {
+            SwoftyData.account().set(getUuid(), gameField(key), serialized);
         }
     }
 

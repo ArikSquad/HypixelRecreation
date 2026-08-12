@@ -88,9 +88,13 @@ public abstract class Datapoint<T> {
 
     private void writeThroughSerialized(String serialized) {
         this.lastWrittenSerialized = serialized;
-        if (dataHandler != null && data instanceof BackedField field) {
-            field.writeData(dataHandler, serialized);
-        }
+        if (dataHandler == null || data == null) return;
+
+        DataHandler handler = dataHandler;
+        Enum<?> backing = data;
+        String datapointKey = key;
+        DataWriteQueue.submit(handler.getUuid(), datapointKey,
+                () -> handler.writeBackedValue(backing, datapointKey, serialized));
     }
 
     /**

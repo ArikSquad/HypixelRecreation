@@ -117,6 +117,7 @@ public class HypixelDataHandler extends DataHandler {
                 data.onLoad.accept(player, get(data));
             }
         }
+        Thread.startVirtualThread(this::indexName);
     }
 
     @Override

@@ -33,10 +33,13 @@ public final class GameDomain implements PlayerDataDomain<DataHandler> {
 
     @Override
     public void load(UUID uuid) {
-        if (handler.getHandler(uuid) != null) return;
-        DataHandler gameHandler = handler.initWithDefaults(uuid);
-        gameHandler.loadBackedData();
-        handler.cacheHandler(uuid, gameHandler);
+        DataHandler gameHandler = handler.getHandler(uuid);
+        if (gameHandler == null) {
+            gameHandler = handler.initWithDefaults(uuid);
+            gameHandler.loadBackedData();
+            handler.cacheHandler(uuid, gameHandler);
+        }
+        PlayerDataService.store(key, uuid, gameHandler);
     }
 
     @Override
@@ -56,5 +59,6 @@ public final class GameDomain implements PlayerDataDomain<DataHandler> {
     @Override
     public void unload(UUID uuid) {
         handler.removeFromCache(uuid);
+        PlayerDataService.evict(key, uuid);
     }
 }
