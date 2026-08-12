@@ -28,6 +28,11 @@ public final class SwoftyData {
                 new RedisPubSubHandler(pool, "hsb-prof"), true, lock);
     }
 
+    public static synchronized void shutdown() {
+        if (account instanceof DataAPIImpl accountImpl) accountImpl.shutdown();
+        if (profile instanceof DataAPIImpl profileImpl) profileImpl.shutdown();
+    }
+
     private static void ensureBootstrapped() {
         if (account == null) bootstrap(ConfigProvider.settings().getRedisUri());
     }

@@ -335,11 +335,19 @@ public class ListenerStorePurchaseFulfillment implements RedisMessageHandler<
     }
 
     private static String currentProfileRank(UUID playerUuid) {
-        return deserializeRank(SwoftyData.account().get(playerUuid, RANK));
+        try {
+            return deserializeRank(SwoftyData.account().get(playerUuid, RANK));
+        } finally {
+            SwoftyData.account().unload(playerUuid);
+        }
     }
 
     private static void setProfileRank(UUID playerUuid, String rank) {
-        SwoftyData.account().set(playerUuid, RANK, serializeRank(rank));
+        try {
+            SwoftyData.account().set(playerUuid, RANK, serializeRank(rank));
+        } finally {
+            SwoftyData.account().unload(playerUuid);
+        }
     }
 
     private static MongoCollection<Document> entitlementCollection() {

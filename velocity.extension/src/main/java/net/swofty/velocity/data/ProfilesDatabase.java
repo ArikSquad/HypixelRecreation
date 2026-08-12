@@ -34,13 +34,13 @@ public record ProfilesDatabase(String id) implements MongoDB {
     }
 
     public Document getDocument() {
-        String json = SwoftyData.profile().get(UUID.fromString(id), DOCUMENT);
+        String json = read(UUID.fromString(id));
         return json == null ? null : Document.parse(json);
     }
 
     @Override
     public boolean remove(String uniqueId) {
-        SwoftyData.profile().set(UUID.fromString(uniqueId), DOCUMENT, null);
+        write(UUID.fromString(uniqueId), null);
         return true;
     }
 
@@ -48,11 +48,11 @@ public record ProfilesDatabase(String id) implements MongoDB {
         Document doc = getDocument();
         if (doc == null) doc = new Document("_id", id);
         doc.put(key, value);
-        SwoftyData.profile().set(UUID.fromString(id), DOCUMENT, doc.toJson());
+        write(UUID.fromString(id), doc.toJson());
     }
 
     public boolean exists() {
-        return SwoftyData.profile().get(UUID.fromString(id), DOCUMENT) != null;
+        return read(UUID.fromString(id)) != null;
     }
 
     public static UUID fetchUUID(String username) {
@@ -60,8 +60,24 @@ public record ProfilesDatabase(String id) implements MongoDB {
     }
 
     public static Document fetchDocument(String uniqueId) {
-        String json = SwoftyData.profile().get(UUID.fromString(uniqueId), DOCUMENT);
+        String json = read(UUID.fromString(uniqueId));
         return json == null ? null : Document.parse(json);
+    }
+
+    private static String read(UUID profileId) {
+        try {
+            return SwoftyData.profile().get(profileId, DOCUMENT);
+        } finally {
+            SwoftyData.profile().unload(profileId);
+        }
+    }
+
+    private static void write(UUID profileId, String json) {
+        try {
+            SwoftyData.profile().set(profileId, DOCUMENT, json);
+        } finally {
+            SwoftyData.profile().unload(profileId);
+        }
     }
 }
 

@@ -19,6 +19,7 @@ import com.velocitypowered.api.event.player.ServerConnectedEvent;
 import com.velocitypowered.api.event.player.ServerPostConnectEvent;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.event.proxy.ProxyPingEvent;
+import com.velocitypowered.api.event.proxy.ProxyShutdownEvent;
 import com.velocitypowered.api.network.ProtocolVersion;
 import com.velocitypowered.api.permission.PermissionFunction;
 import com.velocitypowered.api.plugin.Plugin;
@@ -45,6 +46,7 @@ import net.swofty.commons.ServerType;
 import net.swofty.commons.ServiceType;
 import net.swofty.commons.config.ConfigProvider;
 import net.swofty.commons.config.Settings;
+import net.swofty.commons.data.SwoftyData;
 import net.swofty.commons.protocol.RedisProtocol;
 import net.swofty.commons.protocol.objects.proxy.from.*;
 import net.swofty.commons.protocol.objects.punishment.GetActivePunishmentProtocol;
@@ -282,6 +284,21 @@ public class SkyBlockVelocity {
 
         // Setup GameManager
         GameManager.loopServers(server);
+    }
+
+    @Subscribe
+    public void onProxyShutdown(ProxyShutdownEvent event) {
+        try {
+            SwoftyData.shutdown();
+        } catch (Exception e) {
+            logger.error("Failed to shut down player data storage", e);
+        }
+
+        try {
+            RedisAPI.getInstance().shutdown();
+        } catch (Exception e) {
+            logger.error("Failed to shut down Redis", e);
+        }
     }
 
     private boolean checkPunished(Player player) {

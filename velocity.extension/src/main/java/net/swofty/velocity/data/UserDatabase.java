@@ -25,10 +25,18 @@ public class UserDatabase {
     }
 
     public Document getDocument() {
-        String stored = SwoftyData.account().get(id, PROFILES_INDEX);
+        String stored = read(id);
         if (stored == null || stored.isEmpty()) return null;
         String[] parts = stored.split(";", 2);
         if (parts[0].isEmpty()) return null;
         return new Document("_id", id.toString()).append("selected", parts[0]);
+    }
+
+    private static String read(UUID uuid) {
+        try {
+            return SwoftyData.account().get(uuid, PROFILES_INDEX);
+        } finally {
+            SwoftyData.account().unload(uuid);
+        }
     }
 }
