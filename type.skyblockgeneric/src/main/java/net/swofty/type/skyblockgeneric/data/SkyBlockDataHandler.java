@@ -134,7 +134,7 @@ public class SkyBlockDataHandler extends DataHandler {
                     datapoints.put(data.getKey(), datapoint);
                 }
                 document.put(data.getKey(), datapoint.getSerializedValue());
-            } catch (JacksonException e) {
+            } catch (Exception e) {
                 Logger.error(e, "Failed to serialize SkyBlock datapoint {} for user {}", data.getKey(), this.uuid);
             }
         }
@@ -162,8 +162,22 @@ public class SkyBlockDataHandler extends DataHandler {
         if (profileUUID == null)
             throw new RuntimeException("No profile selected for user " + uuid.toString());
 
-        Document profile = ProfilesDatabase.fetchDocument(profileUUID);
+        Document profile;
+        try {
+            profile = ProfilesDatabase.fetchDocument(profileUUID);
+        } finally {
+            releaseOfflineProfile(uuid, profileUUID);
+        }
         return createFromProfileOnly(profile);
+    }
+
+    private static void releaseOfflineProfile(UUID uuid, UUID profileUUID) {
+        if (PlayerDataService.isLoaded(SkyBlockDomain.KEY, uuid)) return;
+        try {
+            SwoftyData.profile().unload(profileUUID);
+        } catch (Exception e) {
+            Logger.error(e, "Failed to release offline profile container {} for user {}", profileUUID, uuid);
+        }
     }
 
     /**
@@ -629,13 +643,18 @@ public class SkyBlockDataHandler extends DataHandler {
     public static void startRepeatSetValueLoop() {
         MinecraftServer.getSchedulerManager().submitTask(() -> {
             SkyBlockGenericLoader.getLoadedPlayers().forEach(player -> {
-                SkyBlockDataHandler h = player.getSkyblockDataHandler();
+                SkyBlockDataHandler h = PlayerDataService.find(SkyBlockDomain.KEY, player.getUuid()).orElse(null);
+                if (h == null) return;
                 for (Data data : Data.values()) {
-                    if (data.repeatSetValue) {
+                    if (!data.repeatSetValue) continue;
+                    try {
                         Datapoint<?> dp = h.get(data);
                         @SuppressWarnings("unchecked")
                         Datapoint<Object> any = (Datapoint<Object>) dp;
                         any.setValue(any.getValue());
+                    } catch (Exception e) {
+                        Logger.error(e, "Failed to repeat set SkyBlock datapoint {} for user {}",
+                                data.getKey(), player.getUuid());
                     }
                 }
             });

@@ -10,6 +10,7 @@ import net.swofty.type.generic.data.domain.PlayerDataService;
 import net.swofty.type.generic.user.HypixelPlayer;
 import org.bson.Document;
 import org.jetbrains.annotations.Nullable;
+import org.tinylog.Logger;
 
 import java.util.Map;
 import java.util.Optional;
@@ -50,7 +51,9 @@ public abstract class DataHandler {
                 } else {
                     SwoftyData.account().set(getUuid(), gameField(datapoint.getKey()), serialized);
                 }
-            } catch (Exception ignored) {
+                datapoint.markPersisted(serialized);
+            } catch (Exception e) {
+                Logger.error(e, "Failed to save datapoint {} for user {}", datapoint.getKey(), getUuid());
             }
         }
     }

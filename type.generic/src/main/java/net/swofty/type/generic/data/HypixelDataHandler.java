@@ -25,7 +25,6 @@ import org.bson.Document;
 import org.jetbrains.annotations.Blocking;
 import org.jetbrains.annotations.Nullable;
 import org.tinylog.Logger;
-import tools.jackson.core.JacksonException;
 
 import java.util.UUID;
 import java.util.function.BiConsumer;
@@ -91,8 +90,9 @@ public class HypixelDataHandler extends DataHandler {
         for (Data data : Data.values()) {
             try {
                 document.put(data.getKey(), getDatapoint(data.getKey()).getSerializedValue());
-            } catch (JacksonException e) {
+            } catch (Exception e) {
                 Logger.error(e, "Failed to serialize datapoint {} for user {}", data.getKey(), this.uuid);
+                Sentry.captureException(e);
             }
         }
         return document;
@@ -175,8 +175,21 @@ public class HypixelDataHandler extends DataHandler {
         if (cached != null) return cached;
 
         HypixelDataHandler handler = initUserWithDefaultData(uuid);
-        handler.loadFromApi();
+        try {
+            handler.loadFromApi();
+        } finally {
+            releaseOfflineAccount(uuid);
+        }
         return handler;
+    }
+
+    private static void releaseOfflineAccount(UUID uuid) {
+        if (PlayerDataService.isLoaded(AccountDomain.KEY, uuid)) return;
+        try {
+            SwoftyData.account().unload(uuid);
+        } catch (Exception e) {
+            Logger.error(e, "Failed to release offline account container for user {}", uuid);
+        }
     }
 
     @Blocking
@@ -184,7 +197,12 @@ public class HypixelDataHandler extends DataHandler {
         HypixelDataHandler cached = PlayerDataService.find(AccountDomain.KEY, uuid).orElse(null);
         if (cached != null) return cached.get(Data.IGN, DatapointString.class).getValue();
 
-        String stored = SwoftyData.account().get(uuid, Data.IGN.field);
+        String stored;
+        try {
+            stored = SwoftyData.account().get(uuid, Data.IGN.field);
+        } finally {
+            releaseOfflineAccount(uuid);
+        }
         if (stored == null) return "null";
         DatapointString dp = new DatapointString("ign");
         dp.deserializeValue(stored);
