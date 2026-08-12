@@ -2,6 +2,7 @@ package net.swofty.type.skyblockgeneric.data;
 
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.entity.Player;
+import net.swofty.LinkedField;
 import net.swofty.commons.data.SwoftyData;
 import net.swofty.type.generic.data.Datapoint;
 import net.swofty.type.skyblockgeneric.SkyBlockGenericLoader;
@@ -19,6 +20,10 @@ public final class CoopSync {
             SwoftyData.profile().subscribe(data.coopField(),
                     (coopId, oldValue, newValue, affected) -> apply(data, coopId, newValue));
         }
+    }
+
+    public static <T> void track(LinkedField<UUID, T> field) {
+        SwoftyData.profile().subscribe(field, (coopId, oldValue, newValue, affected) -> {});
     }
 
     private static void apply(SkyBlockDataHandler.Data data, UUID coopId, String newValue) {

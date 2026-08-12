@@ -10,6 +10,7 @@ import net.swofty.type.generic.command.CommandParameters;
 import net.swofty.type.generic.command.HypixelCommand;
 import net.swofty.type.generic.user.categories.Rank;
 import net.swofty.type.skyblockgeneric.data.CoopLinks;
+import net.swofty.type.skyblockgeneric.data.CoopSync;
 import net.swofty.type.skyblockgeneric.data.DataMutexService;
 import net.swofty.type.skyblockgeneric.data.SkyBlockDataHandler;
 import net.swofty.type.skyblockgeneric.data.datapoints.DatapointBankData;
@@ -30,6 +31,8 @@ public class TestMutexCommand extends HypixelCommand {
 
     @Override
     public void registerUsage(MinestomCommand command) {
+        CoopSync.track(TEST_COUNTER);
+
         ArgumentString operation = ArgumentType.String("operation");
         ArgumentInteger count = ArgumentType.Integer("count");
 

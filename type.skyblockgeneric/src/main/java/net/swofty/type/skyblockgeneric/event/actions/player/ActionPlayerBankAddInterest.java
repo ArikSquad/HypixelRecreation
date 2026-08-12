@@ -20,22 +20,21 @@ public class ActionPlayerBankAddInterest implements HypixelEventClass {
         if (event.isFirstSpawn()) return;
         SkyBlockPlayer player = (SkyBlockPlayer) event.getPlayer();
 
+        Thread.startVirtualThread(() -> applyInterest(player));
+    }
+
+    private void applyInterest(SkyBlockPlayer player) {
+        SkyBlockDataHandler handler = SkyBlockDataHandler.getUser(player);
+        if (handler == null || !player.isOnline()) return;
+
         if (!player.isCoop()) {
-            DatapointBankData datapoint = player.getSkyblockDataHandler()
-                    .get(SkyBlockDataHandler.Data.BANK_DATA, DatapointBankData.class);
-            DatapointBankData.BankData bankData = datapoint.getValue();
-
-            Double awarded = applyInterestIfDue(bankData);
-            if (awarded == null) return;
-
-            datapoint.setValue(bankData);
-            announce(player, awarded);
+            applySolo(player, handler);
             return;
         }
 
         double[] awarded = new double[1];
         DataMutexService.Outcome outcome = DataMutexService.withSynchronizedData(
-                player.getSkyblockDataHandler().getCurrentProfileId(),
+                handler.getCurrentProfileId(),
                 SkyBlockDataHandler.Data.BANK_DATA,
                 (DatapointBankData.BankData latestBankData) -> {
                     Double given = applyInterestIfDue(latestBankData);
@@ -46,6 +45,22 @@ public class ActionPlayerBankAddInterest implements HypixelEventClass {
                 });
 
         if (outcome == DataMutexService.Outcome.APPLIED) announce(player, awarded[0]);
+    }
+
+    private void applySolo(SkyBlockPlayer player, SkyBlockDataHandler handler) {
+        DatapointBankData datapoint = handler.get(SkyBlockDataHandler.Data.BANK_DATA, DatapointBankData.class);
+
+        Double awarded;
+        synchronized (datapoint) {
+            DatapointBankData.BankData bankData = datapoint.getValue();
+
+            awarded = applyInterestIfDue(bankData);
+            if (awarded == null) return;
+
+            datapoint.setValue(bankData);
+        }
+
+        announce(player, awarded);
     }
 
     private Double applyInterestIfDue(DatapointBankData.BankData bankData) {
@@ -79,6 +94,7 @@ public class ActionPlayerBankAddInterest implements HypixelEventClass {
 
     private void announce(SkyBlockPlayer player, double totalToGive) {
         if (totalToGive == 0) return;
+        if (!player.isOnline()) return;
 
         player.sendMessage("<b>------------------------------------------------");
         player.sendMessage("<a>You have just received <6>{:,} coins<a> as bank interest!", totalToGive);
