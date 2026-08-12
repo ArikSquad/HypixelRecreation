@@ -66,6 +66,8 @@ public enum EnchantmentType {
     FIRE_PROTECTION(EnchantmentFireProtection.class),
     TITAN_KILLER(EnchantmentTitanKiller.class),
     CHANCE(EnchantmentChance.class),
+    PESTERMINATOR(EnchantmentPesterminator.class),
+    SCUBA(EnchantmentScuba.class),
     BLAST_PROTECTION(EnchantmentBlastProtection.class),
     PROJECTILE_PROTECTION(EnchantmentProjectileProtection.class),
     RESPITE(EnchantmentRespite.class),

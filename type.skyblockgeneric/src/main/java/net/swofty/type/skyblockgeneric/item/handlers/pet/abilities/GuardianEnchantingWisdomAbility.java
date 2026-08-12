@@ -25,7 +25,7 @@ public final class GuardianEnchantingWisdomAbility implements PetAbility {
     public List<String> getDescription(SkyBlockItem instance) {
         Rarity rarity = instance.getAttributeHandler().getRarity();
         int level = instance.getAttributeHandler().getPetData().getAsLevel(rarity);
-        return List.of("<7>Grants <a>+" + decimalify(WISDOM_PER_LEVEL.getForRarity(rarity) * level, 2)
+        return List.of("<7>Grants <3>+" + decimalify(WISDOM_PER_LEVEL.getForRarity(rarity) * level, 2)
                 + "<stat:enchanting_wisdom><7>.");
     }
 

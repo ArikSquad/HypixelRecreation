@@ -96,7 +96,7 @@ public final class GUIExperimentOver extends StatelessView {
                 return ExperimentationGuiSupport.item(reward.displayName(), Material.EXPERIENCE_BOTTLE, 1,
                         "<7>Amount: <3>" + pendingReward.amount() + " Enchanting XP");
             }
-            var item = reward.createItem();
+            var item = reward.createItem(pendingReward.rarityValue());
             item.setAmount(pendingReward.amount());
             return PlayerItemUpdater.playerUpdate(player, item.getItemStack());
         } catch (RuntimeException exception) {

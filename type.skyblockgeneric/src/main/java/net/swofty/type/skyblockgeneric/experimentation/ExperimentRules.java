@@ -53,24 +53,24 @@ public final class ExperimentRules {
 
         Map<ExperimentTier, Rule> superpairs = new EnumMap<>(ExperimentTier.class);
         superpairs.put(ExperimentTier.BEGINNER, superpairs(ExperimentTier.BEGINNER, 10, 25, 10, 7, 2,
-                50, 0, 1, List.of(SuperPairItem.EXPERIENCE, SuperPairItem.EXPERIENCE_BOTTLE,
+                50, 75_000, 1, List.of(SuperPairItem.EXPERIENCE, SuperPairItem.EXPERIENCE_BOTTLE,
                         SuperPairItem.GUARDIAN_PET), List.of(SuperPairItem.EXTRA_CLICKS, SuperPairItem.EXTRA_CLICKS)));
         superpairs.put(ExperimentTier.HIGH, superpairs(ExperimentTier.HIGH, 20, 50, 12, 5, 4,
-                100, 0, 1, List.of(SuperPairItem.EXPERIENCE, SuperPairItem.EXPERIENCE_BOTTLE,
+                100, 200_000, 1, List.of(SuperPairItem.EXPERIENCE, SuperPairItem.EXPERIENCE_BOTTLE,
                         SuperPairItem.GRAND_EXPERIENCE_BOTTLE,
                         SuperPairItem.TITANIC_EXPERIENCE_BOTTLE, SuperPairItem.GUARDIAN_PET),
                 List.of(SuperPairItem.EXTRA_CLICK, SuperPairItem.EXTRA_CLICKS)));
         superpairs.put(ExperimentTier.GRAND, superpairs(ExperimentTier.GRAND, 25, 75, 12, 5, 4,
-                150, 0, 1, grandRewards(),
+                150, 300_000, 1, grandRewards(),
                 List.of(SuperPairItem.EXTRA_CLICKS, SuperPairItem.EXPERIENCE_POWERUP)));
         superpairs.put(ExperimentTier.SUPREME, superpairs(ExperimentTier.SUPREME, 30, 100, 14, 7, 4,
-                200, 200_000, 1, endgameRewards(false),
+                200, 400_000, 1, endgameRewards(false),
                 List.of(SuperPairItem.INSTANT_FIND, SuperPairItem.NEXT_CLICK_FREE)));
         superpairs.put(ExperimentTier.TRANSCENDENT, superpairs(ExperimentTier.TRANSCENDENT, 40, 200, 16, 7, 4,
-                250, 300_000, 1, endgameRewards(false),
+                250, 500_000, 1, endgameRewards(false),
                 List.of(SuperPairItem.INSTANT_FIND, SuperPairItem.NEXT_CLICK_FREE)));
         superpairs.put(ExperimentTier.METAPHYSICAL, superpairs(ExperimentTier.METAPHYSICAL, 50, 350, 12, 7, 4,
-                300, 400_000, 2, endgameRewards(true),
+                300, 600_000, 2, endgameRewards(true),
                 List.of(SuperPairItem.INSTANT_FIND, SuperPairItem.NEXT_CLICK_FREE)));
         rules.put(ExperimentType.SUPERPAIRS, Map.copyOf(superpairs));
 
@@ -242,17 +242,28 @@ public final class ExperimentRules {
         }
 
         public int bonusClicksForScore(int score) {
+            return bonusClicksForScore(score, 0);
+        }
+
+        public int bonusClicksForScore(int score, int metaphysicalSerums) {
+            if (metaphysicalSerums < 0 || metaphysicalSerums > 3) {
+                throw new IllegalArgumentException("Serum count must be between 0 and 3");
+            }
             if (type == ExperimentType.CHRONOMATRON) {
-                if (score >= 12 && tier == ExperimentTier.METAPHYSICAL) return 3;
-                if (score >= 9) return 2;
-                return score >= 5 ? 1 : 0;
+                if (score >= threshold(12, metaphysicalSerums) && tier == ExperimentTier.METAPHYSICAL) return 3;
+                if (score >= threshold(9, metaphysicalSerums)) return 2;
+                return score >= threshold(5, metaphysicalSerums) ? 1 : 0;
             }
             if (type == ExperimentType.ULTRASEQUENCER) {
-                if (score >= 9 && tier == ExperimentTier.METAPHYSICAL) return 3;
-                if (score >= 7) return 2;
-                return score >= 5 ? 1 : 0;
+                if (score >= threshold(9, metaphysicalSerums) && tier == ExperimentTier.METAPHYSICAL) return 3;
+                if (score >= threshold(7, metaphysicalSerums)) return 2;
+                return score >= threshold(5, metaphysicalSerums) ? 1 : 0;
             }
             return 0;
+        }
+
+        private static int threshold(int base, int metaphysicalSerums) {
+            return Math.max(1, base - metaphysicalSerums);
         }
     }
 }

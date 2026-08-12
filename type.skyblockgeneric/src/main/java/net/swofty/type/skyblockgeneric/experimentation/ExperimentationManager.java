@@ -3,8 +3,12 @@ package net.swofty.type.skyblockgeneric.experimentation;
 import net.swofty.commons.StringUtility;
 import net.swofty.type.skyblockgeneric.data.SkyBlockDataHandler;
 import net.swofty.type.skyblockgeneric.data.datapoints.DatapointExperimentation;
+import net.swofty.commons.skyblock.item.Rarity;
 import net.swofty.type.skyblockgeneric.rngmeter.RNGMeterService;
+import net.swofty.type.skyblockgeneric.levels.SkyBlockLevelCause;
 import net.swofty.type.skyblockgeneric.skill.SkillCategories;
+import net.swofty.type.skyblockgeneric.item.SkyBlockItem;
+import net.swofty.type.skyblockgeneric.item.handlers.pet.abstr.PetAbility;
 import net.swofty.type.skyblockgeneric.user.SkyBlockPlayer;
 
 import java.util.ArrayList;
@@ -201,6 +205,40 @@ public final class ExperimentationManager {
         }
     }
 
+    public static boolean consumeMetaphysicalSerum(SkyBlockPlayer player) {
+        synchronized (player) {
+            DatapointExperimentation.PlayerExperimentation current = state(player);
+            if (current.metaphysicalSerums() >= 3) {
+                player.sendMessage("<b><l>YUCKY!</l></b><7> This serum seems to have lost it's flavor!");
+                player.sendMessage("<8>(You've drank the max amount!)");
+                return false;
+            }
+
+            int dose = current.metaphysicalSerums() + 1;
+            player.getSkyBlockExperience().addExperience(SkyBlockLevelCause.getMetaphysicalSerumCause(dose));
+            DatapointExperimentation.PlayerExperimentation updated = current.withMetaphysicalSerums(dose);
+            switch (dose) {
+                case 1 -> player.sendMessage(
+                        "<b><l>DELICIOUS!</l></b><7> The wonderfully complex taste of the "
+                                + "<5>Metaphysical Serum<7> has taken over all of your taste buds!");
+                case 2 -> player.sendMessage(
+                        "<b><l>AMAZING? </l></b><7>The <5>Metaphysical Serum<7> seems to have taken over "
+                                + "<o>half your brain</o><7>, you should probably stop drinking more, seriously...");
+                case 3 -> {
+                    updated = updated.withBonusClicks(updated.superpairsBonusClicks() + 2);
+                    player.sendMessage(
+                            "<b><l>CONCERNING!</l></b><7> The <5>Metaphysical Serum<7> has caused "
+                                    + "<c><o>irreversible damage</o></c><7> to your whole body- but hey, at least "
+                                    + "you got some <b>SkyBlock XP</b><7> in return!");
+                    player.sendMessage("<e>Bonus!</e><7> You now get an extra 2 clicks on Superpairs!");
+                }
+                default -> throw new IllegalStateException("Unexpected serum dose " + dose);
+            }
+            setState(player, updated);
+            return true;
+        }
+    }
+
     public static boolean claimPending(SkyBlockPlayer player) {
         synchronized (player) {
             DatapointExperimentation.PlayerExperimentation current = state(player);
@@ -214,19 +252,23 @@ public final class ExperimentationManager {
             ExperimentType type = claim.type();
 
             if (type == ExperimentType.SUPERPAIRS) {
-                List<ExperimentReward> rewards = claim.rewards();
-                for (int index = 0; index < rewards.size(); index++) {
-                    rewards.get(index).give(player, pending.rewards().get(index).amount());
+                List<DatapointExperimentation.PendingReward> rewards = claim.rewards();
+                for (DatapointExperimentation.PendingReward pendingReward : rewards) {
+                    ExperimentReward.fromName(pendingReward.rewardId()).give(player, pendingReward.amount(),
+                            pendingReward.rarityValue());
                 }
                 awardSkillXp(player, pending.xpAward());
                 int rewardSkillXp = 0;
-                for (int index = 0; index < rewards.size(); index++) {
-                    if (rewards.get(index).grantsSkillExperience()) rewardSkillXp += pending.rewards().get(index).amount();
+                for (DatapointExperimentation.PendingReward pendingReward : rewards) {
+                    if (ExperimentReward.fromName(pendingReward.rewardId()).grantsSkillExperience()) {
+                        rewardSkillXp += pendingReward.amount();
+                    }
                 }
                 RNGMeterService.addProgress(player, ExperimentationRNGMeter.INSTANCE,
                         meterXpFromAwardedEnchantingXp(pending.xpAward() + rewardSkillXp));
-                for (ExperimentReward reward : rewards) {
-                    RNGMeterService.selectedDropObtained(player, ExperimentationRNGMeter.INSTANCE, reward);
+                for (DatapointExperimentation.PendingReward pendingReward : rewards) {
+                    RNGMeterService.selectedDropObtained(player, ExperimentationRNGMeter.INSTANCE,
+                            ExperimentReward.fromName(pendingReward.rewardId()));
                 }
                 setState(player, current.withBonusClicks(current.superpairsBonusClicks() + pending.bonusClicks())
                         .withPendingResult(null));
@@ -339,9 +381,11 @@ public final class ExperimentationManager {
             ExperimentRules.Rule rule = rule(ExperimentType.CHRONOMATRON, session.tier());
             int score = session.bestScore();
             int xp = Math.min(score, rule.xpCap()) * rule.xpPerStep();
-            int bonus = rule.bonusClicksForScore(score);
+            int serums = state(player).metaphysicalSerums();
+            int bonus = rule.bonusClicksForScore(score, serums);
             storePending(player, new DatapointExperimentation.PendingResult(
-                    ExperimentType.CHRONOMATRON.name(), session.tier().name(), score >= rule.maximumScore(), score, xp, bonus, List.of()));
+                    ExperimentType.CHRONOMATRON.name(), session.tier().name(), score >= rule.maximumScore(), score,
+                    xp, bonus, serums, List.of()));
             SESSIONS.remove(player.getUuid(), session);
             return new ChronomatronFinishResult(true, null, score, xp, bonus);
         }
@@ -421,9 +465,11 @@ public final class ExperimentationManager {
             ExperimentRules.Rule rule = rule(ExperimentType.ULTRASEQUENCER, session.tier());
             int score = session.bestScore();
             int xp = Math.min(score, rule.xpCap()) * rule.xpPerStep();
-            int bonus = rule.bonusClicksForScore(score);
+            int serums = state(player).metaphysicalSerums();
+            int bonus = rule.bonusClicksForScore(score, serums);
             storePending(player, new DatapointExperimentation.PendingResult(
-                    ExperimentType.ULTRASEQUENCER.name(), session.tier().name(), score >= rule.maximumScore(), score, xp, bonus, List.of()));
+                    ExperimentType.ULTRASEQUENCER.name(), session.tier().name(), score >= rule.maximumScore(), score,
+                    xp, bonus, serums, List.of()));
             SESSIONS.remove(player.getUuid(), session);
             return new UltraSequencerFinishResult(true, null, score, xp, bonus);
         }
@@ -497,10 +543,12 @@ public final class ExperimentationManager {
             for (int tile : state.matchedTiles()) {
                 SuperPairTile pair = state.board().get(tile);
                 if (pair.isPowerUp() || !state.matchedPairs().contains(pair.pairId()) || !rewardsAdded.add(pair.pairId())) continue;
-                rewards.add(new DatapointExperimentation.PendingReward(pair.reward().name(), pair.amount()));
+                rewards.add(new DatapointExperimentation.PendingReward(pair.reward().name(), pair.amount(),
+                        pair.rewardRarity() == null ? null : pair.rewardRarity().name()));
             }
+            int serums = state(player).metaphysicalSerums();
             storePending(player, new DatapointExperimentation.PendingResult(
-                    ExperimentType.SUPERPAIRS.name(), session.tier().name(), completed, pairs, xp, 0, rewards));
+                    ExperimentType.SUPERPAIRS.name(), session.tier().name(), completed, pairs, xp, 0, serums, rewards));
             SESSIONS.remove(player.getUuid(), session);
             return new SuperPairsFinishResult(true, null, pairs, xp, 0);
         }
@@ -519,22 +567,51 @@ public final class ExperimentationManager {
 
     private static List<SuperPairTile> createBoard(SkyBlockPlayer player, ExperimentRules.Rule rule) {
         List<SuperPairTile> board = new ArrayList<>(rule.boardSize());
+        List<SuperPairItem> availableRewards = new ArrayList<>(rule.rewardPool());
         ExperimentReward selectedReward = guaranteedSelectedReward(player, rule);
         for (int pair = 0; pair < rule.pairCount(); pair++) {
+            SuperPairItem selectedItem = selectedReward == null ? null : itemForReward(selectedReward);
+            if (selectedItem != null) availableRewards.remove(selectedItem);
+            if (availableRewards.isEmpty()) availableRewards.addAll(rule.rewardPool());
             SuperPairItem item = pair == 0 && selectedReward != null
-                    ? itemForReward(selectedReward) : rule.rewardPool().get(ThreadLocalRandom.current().nextInt(rule.rewardPool().size()));
+                    ? selectedItem : selectReward(player, availableRewards);
+            availableRewards.remove(item);
             int amount = selectedReward != null && pair == 0
                     ? rewardAmount(selectedReward, rule.tier()) : rewardAmount(item, rule.tier());
             ExperimentReward reward = selectedReward != null && pair == 0 ? selectedReward : item.reward();
             SuperPairItem displayItem = selectedReward != null && pair == 0 ? itemForReward(selectedReward) : item;
-            board.add(new SuperPairTile("pair-" + pair, reward, displayItem, amount));
-            board.add(new SuperPairTile("pair-" + pair, reward, displayItem, amount));
+            Rarity rewardRarity = reward == ExperimentReward.GUARDIAN_PET && selectedReward != null && pair == 0
+                    ? Rarity.LEGENDARY : null;
+            board.add(new SuperPairTile("pair-" + pair, reward, displayItem, amount, rewardRarity));
+            board.add(new SuperPairTile("pair-" + pair, reward, displayItem, amount, rewardRarity));
         }
         for (int index = 0; index < rule.powerUps().size(); index++) {
             board.add(new SuperPairTile("powerup-" + index, null, rule.powerUps().get(index), 1));
         }
         Collections.shuffle(board);
         return List.copyOf(board);
+    }
+
+    private static SuperPairItem selectReward(SkyBlockPlayer player, List<SuperPairItem> rewards) {
+        double multiplier = superpairsUltraRareBookMultiplier(player);
+        double totalWeight = rewards.stream().mapToDouble(item ->
+                item.reward().isUltraRareBook() ? multiplier : 1).sum();
+        double selected = ThreadLocalRandom.current().nextDouble(totalWeight);
+        for (SuperPairItem item : rewards) {
+            selected -= item.reward().isUltraRareBook() ? multiplier : 1;
+            if (selected < 0) return item;
+        }
+        return rewards.getLast();
+    }
+
+    private static double superpairsUltraRareBookMultiplier(SkyBlockPlayer player) {
+        SkyBlockItem pet = player.getPetData().getEnabledPet();
+        if (pet == null) return 1;
+        double multiplier = 1;
+        for (PetAbility ability : player.getPetData().getCachedAbilities(pet)) {
+            multiplier *= Math.max(1, ability.getSuperpairsUltraRareBookMultiplier(player, pet));
+        }
+        return multiplier;
     }
 
     private static ExperimentReward guaranteedSelectedReward(SkyBlockPlayer player, ExperimentRules.Rule rule) {
@@ -663,7 +740,7 @@ public final class ExperimentationManager {
             ExperimentTier tier = ExperimentTier.fromName(pending.tier());
             ExperimentRules.Rule rule = rule(type, tier);
             if (pending.bonusClicks() != (type == ExperimentType.SUPERPAIRS
-                    ? 0 : rule.bonusClicksForScore(pending.score()))) return null;
+                    ? 0 : rule.bonusClicksForScore(pending.score(), pending.metaphysicalSerums()))) return null;
 
             if (type == ExperimentType.SUPERPAIRS) {
                 int completionXp = pending.completed() ? rule.completionXp() : 0;
@@ -675,11 +752,15 @@ public final class ExperimentationManager {
                         || pending.completed() != (pending.score() == rule.pairCount())
                         || pending.rewards().size() != pending.score()
                         || (pending.xpAward() != baseXp && pending.xpAward() != baseXp + powerUpXp)) return null;
-                List<ExperimentReward> rewards = new ArrayList<>(pending.rewards().size());
+                List<DatapointExperimentation.PendingReward> rewards = new ArrayList<>(pending.rewards().size());
                 for (DatapointExperimentation.PendingReward pendingReward : pending.rewards()) {
                     ExperimentReward reward = ExperimentReward.fromName(pendingReward.rewardId());
                     if (!rule.canContain(reward) || !validRewardAmount(reward, pendingReward.amount(), tier)) return null;
-                    rewards.add(reward);
+                    if (pendingReward.rarityValue() != null && reward != ExperimentReward.GUARDIAN_PET) return null;
+                    if (pendingReward.rarityValue() != null
+                            && (pendingReward.rarityValue().ordinal() < Rarity.COMMON.ordinal()
+                            || pendingReward.rarityValue().ordinal() > Rarity.LEGENDARY.ordinal())) return null;
+                    rewards.add(pendingReward);
                 }
                 return new PendingClaim(type, tier, rewards);
             }
@@ -704,7 +785,7 @@ public final class ExperimentationManager {
         DatapointExperimentation.PlayerExperimentation renewed = new DatapointExperimentation.PlayerExperimentation(
                 current.superpairsBonusClicks(), charges,
                 current.nextChargeRenewalAt() + periods * DatapointExperimentation.CHARGE_RENEWAL_PERIOD_MILLIS,
-                0, false, false, 0, 0, current.pendingResult());
+                0, false, false, 0, 0, current.metaphysicalSerums(), current.pendingResult());
         datapoint.setValue(renewed);
         return renewed;
     }
@@ -809,6 +890,7 @@ public final class ExperimentationManager {
                                          int bonusClicksEarned) {
     }
 
-    private record PendingClaim(ExperimentType type, ExperimentTier tier, List<ExperimentReward> rewards) {
+    private record PendingClaim(ExperimentType type, ExperimentTier tier,
+                                List<DatapointExperimentation.PendingReward> rewards) {
     }
 }

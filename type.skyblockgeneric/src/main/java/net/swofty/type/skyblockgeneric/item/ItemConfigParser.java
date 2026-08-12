@@ -66,6 +66,7 @@ import net.swofty.type.skyblockgeneric.item.components.MinionShippingComponent;
 import net.swofty.type.skyblockgeneric.item.components.MinionSkinComponent;
 import net.swofty.type.skyblockgeneric.item.components.MinionUpgradeComponent;
 import net.swofty.type.skyblockgeneric.item.components.MuseumComponent;
+import net.swofty.type.skyblockgeneric.item.components.MetaphysicalSerumComponent;
 import net.swofty.type.skyblockgeneric.item.components.NewYearCakeComponent;
 import net.swofty.type.skyblockgeneric.item.components.NotFinishedYetComponent;
 import net.swofty.type.skyblockgeneric.item.components.PetComponent;
@@ -169,8 +170,11 @@ public class ItemConfigParser {
 		try {
 			return switch (id.toUpperCase()) {
 				case "EXPERIENCE_BOTTLE" -> new ExperienceBottleComponent(safeConfig.getInt("base_experience", 8));
+				case "METAPHYSICAL_SERUM" -> new MetaphysicalSerumComponent();
 				case "ARMOR_DYE" -> new ArmorDyeComponent(itemId, safeConfig.getString("from_color"),
-						safeConfig.getString("to_color", null), safeConfig.getInt("animation_period_ms", 4000));
+						safeConfig.getString("to_color", null), safeConfig.getInt("animation_period_ms", 4000),
+						safeConfig.getString("display_color", "<7>"),
+						safeConfig.getBoolean("special_particle_effect", false));
 				case "ATTRIBUTE_SHARD" -> new AttributeShardComponent(safeConfig.getString("shard_id", null));
 				case "ABILITY" -> {
 					List<String> abilities = safeConfig.getList("abilities", String.class);

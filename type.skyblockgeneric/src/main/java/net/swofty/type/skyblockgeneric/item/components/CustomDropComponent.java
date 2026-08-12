@@ -67,7 +67,7 @@ public class CustomDropComponent extends SkyBlockItemComponent {
                             + "/" + index), drop, drop.chance()));
                 }
                 List<Drop> selected = new LootTable<Void, Drop>(Key.key("skyblock", "blocks/"
-                        + brokenItem.getMaterial().name().toLowerCase()), List.of(
+                        + brokenItem.getMaterial().key().value()), List.of(
                         new LootPool<>(Key.key("skyblock", "drops"), LootPool.Mode.INDEPENDENT, entries)
                 )).roll(null).stream().map(LootRoll::value).toList();
                 for (Drop drop : selected) {

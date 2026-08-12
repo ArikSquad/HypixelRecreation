@@ -1,84 +1,63 @@
 items:
   - id: EXP_SHARE_CORE
     material: ENDER_EYE
-    name: "Exp Share Core"
+    name: Exp Share Core
     rarity: EPIC
     lore:
       - Used to craft the Exp Share pet item.
+      - <e>Right-click to view recipes!
     components:
       - id: CUSTOM_DISPLAY_NAME
         display_name: Exp Share Core
-
   - id: LAPIS_CRYSTAL
-    material: PRISMARINE_CRYSTALS
-    name: "Lapis Crystal"
+    material: PLAYER_HEAD
+    name: Lapis Crystal
     rarity: RARE
     lore:
       - Can be used to reforge pickaxes.
     components:
       - id: CUSTOM_DISPLAY_NAME
         display_name: Lapis Crystal
-
+      - id: SKULL_HEAD
+        texture: db9ffd85bf0283a588706e3d27afb9d4917e06f2ba717c1aea68dc79393b91f4
+      - id: SELLABLE
+        value: 50.0
   - id: GOLDEN_POWDER
     material: GLOWSTONE_DUST
-    name: "Golden Powder"
+    name: Golden Powder
     rarity: EPIC
+    lore:
+      - <e>Right-click to view recipes!
     components:
       - id: CUSTOM_DISPLAY_NAME
         display_name: Golden Powder
-
+      - id: ITEM_MODEL
+        item_model: hypixel_skyblock:item/uncategorized/golden_powder
   - id: DIGESTED_MUSHROOMS
-    material: BROWN_MUSHROOM
-    name: "Digested Mushrooms"
+    material: PAPER
+    name: Digested Mushrooms
     rarity: UNCOMMON
     lore:
-      - Sometimes digested multiple times.
+      - <7><o>Sometimes digested multiple times.
+      - <e>Right-click to view recipes!
     components:
       - id: CUSTOM_DISPLAY_NAME
         display_name: Digested Mushrooms
-
+      - id: ITEM_MODEL
+        item_model: hypixel_skyblock:item/uncategorized/digested_mushrooms
+      - id: SELLABLE
+        value: 50.0
   - id: MITE_GEL
-    material: MAGENTA_DYE
-    name: "Mite Gel"
+    material: INK_SAC
+    name: Mite Gel
     rarity: EPIC
     lore:
-      - Sticky goo scraped off an Endermite.
+      - <8><o>Sticky goo scraped off an Endermite.
+      - <e>Right-click to view recipes!
     components:
       - id: CUSTOM_DISPLAY_NAME
         display_name: Mite Gel
-
-  - id: BONE_DYE
-    material: WHITE_DYE
-    name: "Bone Dye"
-    rarity: LEGENDARY
-    lore:
-      - Changes the color of a vanilla armor piece to #E3DAC9!
-    components:
-      - id: CUSTOM_DISPLAY_NAME
-        display_name: Bone Dye
-      - id: ARMOR_DYE
-        from_color: '#E3DAC9'
-
-  - id: CYCLAMEN_DYE
-    material: PINK_DYE
-    name: "Cyclamen Dye"
-    rarity: LEGENDARY
-    lore:
-      - Changes the color of a vanilla armor piece to #F56FA1!
-    components:
-      - id: CUSTOM_DISPLAY_NAME
-        display_name: Cyclamen Dye
-      - id: ARMOR_DYE
-        from_color: '#F56FA1'
-
-  - id: PEARLESCENT_DYE
-    material: CYAN_DYE
-    name: "Pearlescent Dye"
-    rarity: LEGENDARY
-    lore:
-      - Changes the color of a vanilla armor piece to #115555!
-    components:
-      - id: CUSTOM_DISPLAY_NAME
-        display_name: Pearlescent Dye
-      - id: ARMOR_DYE
-        from_color: '#115555'
+      - id: ITEM_MODEL
+        item_model: hypixel_skyblock:item/island_relevant/combat_3/mite_gel
+      - id: SELLABLE
+        value: 2000.0

@@ -49,11 +49,17 @@ final class ExperimentRulesTest {
         assertEquals(2, highChrono.bonusClicksForScore(12));
         assertEquals(3, metaphysicalChrono.bonusClicksForScore(12));
 
+        assertEquals(75_000, ExperimentRules.forExperiment(
+                ExperimentType.SUPERPAIRS, ExperimentTier.BEGINNER).completionXp());
         assertEquals(200_000, ExperimentRules.forExperiment(
-                ExperimentType.SUPERPAIRS, ExperimentTier.SUPREME).completionXp());
+                ExperimentType.SUPERPAIRS, ExperimentTier.HIGH).completionXp());
         assertEquals(300_000, ExperimentRules.forExperiment(
-                ExperimentType.SUPERPAIRS, ExperimentTier.TRANSCENDENT).completionXp());
+                ExperimentType.SUPERPAIRS, ExperimentTier.GRAND).completionXp());
         assertEquals(400_000, ExperimentRules.forExperiment(
+                ExperimentType.SUPERPAIRS, ExperimentTier.SUPREME).completionXp());
+        assertEquals(500_000, ExperimentRules.forExperiment(
+                ExperimentType.SUPERPAIRS, ExperimentTier.TRANSCENDENT).completionXp());
+        assertEquals(600_000, ExperimentRules.forExperiment(
                 ExperimentType.SUPERPAIRS, ExperimentTier.METAPHYSICAL).completionXp());
         assertEquals(2, ExperimentRules.forExperiment(
                 ExperimentType.SUPERPAIRS, ExperimentTier.METAPHYSICAL).superpairsBonusClicks(1));

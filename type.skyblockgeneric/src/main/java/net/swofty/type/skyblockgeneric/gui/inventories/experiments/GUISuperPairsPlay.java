@@ -130,7 +130,7 @@ public final class GUISuperPairsPlay extends StatelessView {
             return ExperimentationGuiSupport.item(tileData.reward().displayName(), Material.EXPERIENCE_BOTTLE, 1,
                     "<7>Grants <3>" + tileData.amount() + " Enchanting XP<7>.");
         }
-        var item = tileData.reward().createItem();
+        var item = tileData.createItem();
         item.setAmount(tileData.amount());
         return PlayerItemUpdater.playerUpdate(player, item.getItemStack());
     }

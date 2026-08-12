@@ -4,6 +4,7 @@ import net.kyori.adventure.key.Key;
 import net.minestom.server.item.ItemStack;
 import net.minestom.server.item.Material;
 import net.swofty.commons.skyblock.item.ItemType;
+import net.swofty.commons.skyblock.item.Rarity;
 import net.swofty.commons.text.Text;
 import net.swofty.type.skyblockgeneric.enchantment.EnchantmentType;
 import net.swofty.type.skyblockgeneric.enchantment.SkyBlockEnchantment;
@@ -93,22 +94,29 @@ public enum ExperimentReward implements RNGMeterReward {
     private final Material material;
     private final Supplier<SkyBlockItem> itemSupplier;
     private final int meterRequirement;
+    private final boolean ultraRareBook;
     private static final Map<ExperimentReward, RNGMeterLoot> LOOT = createLootRegistry();
 
     ExperimentReward(String displayName, ItemType itemType, int meterRequirement) {
-        this(displayName, itemType.material, () -> new SkyBlockItem(itemType), meterRequirement);
+        this(displayName, itemType.material, () -> new SkyBlockItem(itemType), meterRequirement, false);
     }
 
     ExperimentReward(String displayName, EnchantmentType enchantmentType, int enchantmentLevel, int meterRequirement) {
         this(displayName, ItemType.ENCHANTED_BOOK.material,
-                () -> enchantedBook(enchantmentType, enchantmentLevel), meterRequirement);
+                () -> enchantedBook(enchantmentType, enchantmentLevel), meterRequirement, meterRequirement >= 500_000);
     }
 
     ExperimentReward(String displayName, Material material, Supplier<SkyBlockItem> itemSupplier, int meterRequirement) {
+        this(displayName, material, itemSupplier, meterRequirement, false);
+    }
+
+    ExperimentReward(String displayName, Material material, Supplier<SkyBlockItem> itemSupplier,
+                     int meterRequirement, boolean ultraRareBook) {
         this.displayName = displayName;
         this.material = material;
         this.itemSupplier = itemSupplier;
         this.meterRequirement = meterRequirement;
+        this.ultraRareBook = ultraRareBook;
     }
 
     public String displayName() {
@@ -131,8 +139,18 @@ public enum ExperimentReward implements RNGMeterReward {
         return meterRequirement;
     }
 
+    public boolean isUltraRareBook() {
+        return ultraRareBook;
+    }
+
     public SkyBlockItem createItem() {
-        return itemSupplier.get();
+        return createItem(null);
+    }
+
+    public SkyBlockItem createItem(Rarity rarity) {
+        SkyBlockItem item = itemSupplier.get();
+        if (rarity != null) item.getAttributeHandler().setRarity(rarity);
+        return item;
     }
 
     public ItemStack.Builder displayItem(SkyBlockPlayer player) {
@@ -144,6 +162,10 @@ public enum ExperimentReward implements RNGMeterReward {
     }
 
     public void give(SkyBlockPlayer player, int amount) {
+        give(player, amount, null);
+    }
+
+    public void give(SkyBlockPlayer player, int amount, Rarity rarity) {
         if (amount < 1) throw new IllegalArgumentException("Reward amount must be positive");
         if (this == EXPERIENCE) {
             player.getSkills().increase(player, net.swofty.type.skyblockgeneric.skill.SkillCategories.ENCHANTING,
@@ -151,7 +173,7 @@ public enum ExperimentReward implements RNGMeterReward {
             player.sendMessage("<a>Experiment reward: <3>" + amount + " Enchanting XP<a>!");
             return;
         }
-        SkyBlockItem item = createItem();
+        SkyBlockItem item = createItem(rarity);
         item.setAmount(amount);
         player.addAndUpdateItem(item);
         player.sendMessage("<a>Experiment reward: " + displayName + "<a>!");
