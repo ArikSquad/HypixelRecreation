@@ -1,0 +1,11 @@
+items:
+  - id: FLINT_ARROW
+    material: ARROW
+    name: "Flint Arrow"
+    rarity: COMMON
+    default_statistics:
+      damage: 1
+    components:
+      - id: ARROW
+      - id: ITEM_MODEL
+        item_model: hypixel_skyblock:item/uncategorized/flint_arrow

@@ -5,7 +5,6 @@ import net.minestom.server.coordinate.Pos;
 import net.minestom.server.entity.EntityType;
 import net.minestom.server.entity.VillagerProfession;
 import net.minestom.server.instance.Instance;
-import net.minestom.server.instance.InstanceContainer;
 import net.minestom.server.instance.block.Block;
 import net.minestom.server.item.Material;
 import net.swofty.commons.bedwars.map.BedWarsMapsConfig;
@@ -23,6 +22,7 @@ import net.swofty.type.generic.entity.npc.configuration.HumanConfiguration;
 import net.swofty.type.generic.entity.npc.configuration.VillagerConfiguration;
 import net.swofty.type.generic.event.custom.NPCInteractEvent;
 import net.swofty.type.generic.user.HypixelPlayer;
+import org.jetbrains.annotations.NotNull;
 import org.tinylog.Logger;
 
 import java.util.ArrayList;
@@ -39,7 +39,7 @@ public class BedWarsWorldManager {
     private boolean shopNPCsRecorded = false;
 
     public void clearExistingBeds() {
-        InstanceContainer instance = game.getInstance();
+        Instance instance = game.getInstance();
         Map<TeamKey, MapTeam> teams = game.getMapEntry().getConfiguration().getTeams();
 
         for (MapTeam team : teams.values()) {
@@ -50,7 +50,7 @@ public class BedWarsWorldManager {
         }
     }
 
-    private void clearBedBlocks(InstanceContainer instance, BedWarsMapsConfig.TwoBlockPosition bedPos) {
+    private void clearBedBlocks(final @NotNull Instance instance, BedWarsMapsConfig.TwoBlockPosition bedPos) {
         if (bedPos.feet() != null) {
             instance.setBlock(
                 bedPos.feet().x(),
@@ -83,7 +83,7 @@ public class BedWarsWorldManager {
             return;
         }
 
-        InstanceContainer instance = game.getInstance();
+        final Instance instance = game.getInstance();
         Vec3i feetPos = bedPos.feet();
         Vec3i headPos = bedPos.head();
 
@@ -132,7 +132,7 @@ public class BedWarsWorldManager {
             if (itemShopPos != null) {
                 Pos npcPos = new Pos(itemShopPos.x(), itemShopPos.y(), itemShopPos.z(),
                     itemShopPos.yaw(), itemShopPos.pitch());
-                String[] holograms = new String[]{"§bITEM SHOP", "§e§lRIGHT CLICK"};
+                String[] holograms = new String[]{"<b>ITEM SHOP", "<e><l>RIGHT CLICK"};
 
                 BedWarsShopkeeperAppearanceService.ShopkeeperAppearance appearance =
                     resolveShopkeeperAppearance(sources.itemShopPlayer());
@@ -158,7 +158,7 @@ public class BedWarsWorldManager {
             if (teamShopPos != null) {
                 Pos npcPos = new Pos(teamShopPos.x(), teamShopPos.y(), teamShopPos.z(),
                     teamShopPos.yaw(), teamShopPos.pitch());
-                String[] holograms = new String[]{"§bTEAM", "§bUPGRADES", "§e§lRIGHT CLICK"};
+                String[] holograms = new String[]{"<b>TEAM", "<b>UPGRADES", "<e><l>RIGHT CLICK"};
 
                 BedWarsShopkeeperAppearanceService.ShopkeeperAppearance appearance =
                     resolveShopkeeperAppearance(sources.teamShopPlayer());
@@ -318,7 +318,7 @@ public class BedWarsWorldManager {
             BedWarsShopkeeperAppearanceService.defaultAppearance();
         HypixelNPC shopNpc = createShopNpc(
             position,
-            new String[]{"§bITEM SHOP", "§e§lRIGHT CLICK", "§7Disappears in 30 seconds"},
+            new String[]{"<b>ITEM SHOP", "<e><l>RIGHT CLICK", "<7>Disappears in 30 seconds"},
             appearance,
             event -> {
                 BedWarsPlayer player = (BedWarsPlayer) event.player();

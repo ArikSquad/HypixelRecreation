@@ -19,6 +19,8 @@ public interface PlayerDataDomain<H extends DataHandler> {
 
     void save(HypixelPlayer player);
 
+    default void cleanup(HypixelPlayer player) {}
+
     void unload(UUID uuid);
 
     default int order() {

@@ -3,14 +3,13 @@ package net.swofty.type.dwarvenmines.npcs;
 import net.minestom.server.coordinate.Pos;
 import net.swofty.type.generic.entity.npc.HypixelNPC;
 import net.swofty.type.generic.entity.npc.configuration.HumanConfiguration;
+import net.swofty.type.generic.event.custom.NPCInteractEvent;
 import net.swofty.type.generic.user.HypixelPlayer;
 import net.swofty.type.skyblockgeneric.user.SkyBlockPlayer;
+import org.jspecify.annotations.NonNull;
 
 import java.util.function.Function;
 import java.util.stream.Stream;
-
-import net.swofty.type.generic.event.custom.NPCInteractEvent;
-import org.jspecify.annotations.NonNull;
 
 public class AbstractRoyalGuard extends HypixelNPC {
 
@@ -18,7 +17,7 @@ public class AbstractRoyalGuard extends HypixelNPC {
 		super(new HumanConfiguration() {
 			@Override
 			public String[] holograms(HypixelPlayer player) {
-				return new String[]{"§6Royal Guard", "§e§lCLICK"};
+				return new String[]{"<6>Royal Guard", "<e><l>CLICK"};
 			}
 
 			@Override
@@ -37,8 +36,8 @@ public class AbstractRoyalGuard extends HypixelNPC {
 			}
 
 			@Override
-			public @NonNull String chatName() {
-				return "§6Royal Guard";
+			public @NonNull String chatName(HypixelPlayer player) {
+				return "<6>Royal Guard";
 			}
 
 			@Override
@@ -60,33 +59,33 @@ public class AbstractRoyalGuard extends HypixelNPC {
 		return Stream.of(
 				DialogueSet.builder()
 						.key("1")
-						.lines(new String[]{
-								"§fThere are no miners like the dwarves."
-						})
+						.lines(
+								"<f>There are no miners like the dwarves."
+						)
 						.build(),
 				DialogueSet.builder()
 						.key("2")
-						.lines(new String[]{
-								"§fSTAND BACK!",
-						})
+						.lines(
+								"<f>STAND BACK!"
+						)
 						.build(),
 				DialogueSet.builder()
 						.key("3")
-						.lines(new String[]{
-								"§fGreat treasures lie ahead, but at what cost?"
-						})
+						.lines(
+								"<f>Great treasures lie ahead, but at what cost?"
+						)
 						.build(),
 				DialogueSet.builder()
 						.key("4")
-						.lines(new String[]{
-								"§fBehold a fellow holder of Heart of the Mountain!"
-						})
+						.lines(
+								"<f>Behold a fellow holder of Heart of the Mountain!"
+						)
 						.build(),
 				DialogueSet.builder()
 						.key("5")
-						.lines(new String[]{
-								"§fWatch yourself, traveller. There are creatures about."
-						})
+						.lines(
+								"<f>Watch yourself, traveller. There are creatures about."
+						)
 						.build()
 		).toArray(DialogueSet[]::new);
 	}

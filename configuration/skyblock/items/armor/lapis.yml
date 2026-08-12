@@ -1,7 +1,8 @@
 items:
   - id: LAPIS_ARMOR_HELMET
     material: sea_lantern
-    rarity: COMMON
+    name: "Lapis Armor Helmet"
+    rarity: UNCOMMON
     default_statistics:
       defense: 25
       mining_speed: 20
@@ -24,7 +25,8 @@ items:
         donation_xp: 3
   - id: LAPIS_ARMOR_CHESTPLATE
     material: leather_chestplate
-    rarity: COMMON
+    name: "Lapis Armor Chestplate"
+    rarity: UNCOMMON
     default_statistics:
       defense: 40
       mining_speed: 20
@@ -47,7 +49,8 @@ items:
         donation_xp: 3
   - id: LAPIS_ARMOR_LEGGINGS
     material: leather_leggings
-    rarity: COMMON
+    name: "Lapis Armor Leggings"
+    rarity: UNCOMMON
     default_statistics:
       defense: 35
       mining_speed: 20
@@ -70,7 +73,8 @@ items:
         donation_xp: 3
   - id: LAPIS_ARMOR_BOOTS
     material: leather_boots
-    rarity: COMMON
+    name: "Lapis Armor Boots"
+    rarity: UNCOMMON
     default_statistics:
       defense: 20
       mining_speed: 20

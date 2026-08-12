@@ -24,17 +24,12 @@ import net.swofty.commons.protocol.RedisProtocol;
 import net.swofty.commons.protocol.objects.proxy.to.*;
 import net.swofty.commons.redis.ProxyHeartbeat;
 import net.swofty.commons.redis.RedisClient;
+import net.swofty.commons.redis.RedisMessageHandler;
 import net.swofty.proxyapi.ProxyAPI;
 import net.swofty.proxyapi.ProxyService;
-import net.swofty.commons.redis.RedisMessageHandler;
 import net.swofty.spark.Spark;
-import net.swofty.type.generic.HypixelConst;
-import net.swofty.type.generic.HypixelGenericLoader;
-import net.swofty.type.generic.HypixelTypeLoader;
-import net.swofty.type.generic.RavengardTypeLoader;
-import net.swofty.type.generic.SkyBlockTypeLoader;
+import net.swofty.type.generic.*;
 import net.swofty.type.generic.i18n.HypixelTranslator;
-import net.swofty.type.generic.i18n.I18n;
 import net.swofty.type.ravengardgeneric.RavengardGenericLoader;
 import net.swofty.type.skyblockgeneric.SkyBlockGenericLoader;
 import org.reflections.Reflections;
@@ -42,13 +37,7 @@ import org.tinylog.Logger;
 
 import java.net.InetAddress;
 import java.nio.file.Files;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -118,6 +107,11 @@ public class Hypixel {
 
         SwoftyData.bootstrap(ConfigProvider.settings().getRedisUri());
 
+        // Loaders can schedule Redis-backed work immediately (calendar events,
+        // elections, etc.), so identify and connect this server before running
+        // any loader initialization.
+        ProxyAPI proxyAPI = new ProxyAPI(ConfigProvider.settings().getRedisUri(), serverUUID);
+
         // Initialize GenericLoader
         Reflections reflections = new Reflections("net.swofty.type");
         Set<Class<? extends HypixelTypeLoader>> subTypes = reflections.getSubTypesOf(HypixelTypeLoader.class);
@@ -160,7 +154,6 @@ public class Hypixel {
         typeLoader.onInitialize(minecraftServer);
 
         // Initialize proxy support
-        ProxyAPI proxyAPI = new ProxyAPI(ConfigProvider.settings().getRedisUri(), serverUUID);
         SkyBlockGenericLoader.loopThroughPackage("net.swofty.type.generic.redis", RedisMessageHandler.class)
                 .forEach(proxyAPI::registerProxyHandler);
         SkyBlockGenericLoader.loopThroughPackage("net.swofty.type.generic.redis.service", RedisMessageHandler.class)
@@ -215,7 +208,6 @@ public class Hypixel {
         }
 
         HypixelTranslator translator = new HypixelTranslator();
-        I18n.init(translator);
         GlobalTranslator.translator().addSource(translator);
         Logger.info("Loaded " + translator.keyCount() + " translation keys for default locale");
 
@@ -308,7 +300,7 @@ public class Hypixel {
         if ("0".equals(index)) {
             Logger.info("Registering test flow with proxy: " + testFlowName);
 
-            List<Map<String, Object>> configList = new java.util.ArrayList<>();
+            List<Map<String, Object>> configList = new ArrayList<>();
             String[] configs = serverConfigs.split(",");
             for (String config : configs) {
                 String[] parts = config.trim().split(":");
@@ -379,7 +371,7 @@ public class Hypixel {
                 Logger.error("Proxy heartbeat absent for ~{}s. Shutting down...",
                         PROXY_HEARTBEAT_MAX_MISSES * PROXY_HEARTBEAT_CHECK_SECONDS);
                 MinecraftServer.getConnectionManager().getOnlinePlayers()
-                        .forEach(player -> player.kick("§cServer has lost connection to the proxy, please rejoin"));
+                        .forEach(player -> player.kick("<c>Server has lost connection to the proxy, please rejoin"));
                 CompletableFuture.delayedExecutor(500, TimeUnit.MILLISECONDS)
                         .execute(() -> System.exit(0));
             }

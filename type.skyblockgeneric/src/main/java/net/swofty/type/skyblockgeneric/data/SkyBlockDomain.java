@@ -1,19 +1,18 @@
 package net.swofty.type.skyblockgeneric.data;
 
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.title.Title;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.network.packet.server.play.UpdateHealthPacket;
 import net.swofty.commons.ServerType;
 import net.swofty.commons.data.SwoftyData;
 import net.swofty.commons.skyblock.SkyBlockPlayerProfiles;
-import net.swofty.packer.packs.TestingTexture;
+import net.swofty.proxyapi.PlayerTransferDataCache;
 import net.swofty.type.generic.HypixelConst;
 import net.swofty.type.generic.data.datapoints.DatapointString;
 import net.swofty.type.generic.data.datapoints.DatapointStringList;
 import net.swofty.type.generic.data.domain.DomainKey;
 import net.swofty.type.generic.data.domain.PlayerDataDomain;
 import net.swofty.type.generic.data.domain.PlayerDataService;
+import net.swofty.type.generic.data.mongodb.ProfilesDatabase;
 import net.swofty.type.generic.data.mongodb.UserDatabase;
 import net.swofty.type.generic.event.HypixelEventHandler;
 import net.swofty.type.generic.user.HypixelPlayer;
@@ -27,8 +26,8 @@ import net.swofty.type.skyblockgeneric.region.SkyBlockRegion;
 import net.swofty.type.skyblockgeneric.user.SkyBlockPlayer;
 import net.swofty.type.skyblockgeneric.user.island.SkyBlockIsland;
 import net.swofty.type.skyblockgeneric.warps.TravelScrollIslands;
+import org.bson.Document;
 
-import java.time.Duration;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -58,7 +57,13 @@ public final class SkyBlockDomain implements PlayerDataDomain<SkyBlockDataHandle
         UUID profileId = loadProfiles(uuid).getCurrentlySelected();
         SkyBlockDataHandler handler = SkyBlockDataHandler.initUserWithDefaultData(uuid, profileId);
         SwoftyData.profile().link(profileId, CoopLinks.COOP, resolveCoopId(profileId));
-        handler.loadFromApi();
+
+        String transferred = PlayerTransferDataCache.takeProfileDocument(uuid);
+        if (transferred != null) {
+            handler.loadFromTransferDocument(Document.parse(transferred));
+        } else {
+            handler.loadFromApi();
+        }
 
         DatapointUUID islandDatapoint = handler.get(SkyBlockDataHandler.Data.ISLAND_UUID, DatapointUUID.class);
         if (islandDatapoint.getValue() == null) islandDatapoint.setValue(profileId);
@@ -101,6 +106,24 @@ public final class SkyBlockDomain implements PlayerDataDomain<SkyBlockDataHandle
         PlayerDataService.evict(KEY, uuid);
     }
 
+    public static String transferDocument(SkyBlockPlayer player) {
+        SkyBlockDataHandler handler = PlayerDataService.find(KEY, player.getUuid()).orElse(null);
+        if (handler == null) throw new IllegalStateException("SkyBlock profile data is not loaded");
+
+        SwoftyData.profile().flush(handler.getCurrentProfileId());
+
+        UUID selectedProfileId = player.getProfiles().getCurrentlySelected();
+        if (!handler.getCurrentProfileId().equals(selectedProfileId)) {
+            Document selectedDocument = new ProfilesDatabase(selectedProfileId.toString()).getDocument();
+            if (selectedDocument == null) {
+                throw new IllegalStateException("Selected SkyBlock profile does not exist: " + selectedProfileId);
+            }
+            return selectedDocument.toJson();
+        }
+
+        return handler.toProfileDocument().toJson();
+    }
+
     private static UUID resolveCoopId(UUID profileId) {
         CoopDatabase.Coop coop = CoopDatabase.getFromMemberProfile(profileId);
         return coop != null ? coop.coopUUID() : profileId;
@@ -132,25 +155,20 @@ public final class SkyBlockDomain implements PlayerDataDomain<SkyBlockDataHandle
     private static void sendProfileIntro(SkyBlockPlayer player) {
         Thread.startVirtualThread(() -> {
             player.sendMessage("");
-            player.showTitle(Title.title(
-                    Component.text(TestingTexture.FULL_SCREEN_BLACK.toString()),
-                    Component.empty(),
-                    Title.Times.times(Duration.ZERO, Duration.ofMillis(300), Duration.ofSeconds(1))
-            ));
 
             Rank rank = player.getRank();
             if (rank.isStaff()) {
                 CustomGroups.staffMembers.add(player);
             }
 
-            player.sendMessage("§7 ");
-            player.sendMessage("§aYou are playing on profile: §e" + player.getSkyblockDataHandler().get(
+            player.sendMessage("<7> ");
+            player.sendMessage("<a>You are playing on profile: <e>{}", player.getSkyblockDataHandler().get(
                     SkyBlockDataHandler.Data.PROFILE_NAME, DatapointString.class).getValue());
-            player.sendMessage("§8Profile ID: " + player.getProfiles().getCurrentlySelected());
+            player.sendMessage("<8>Profile ID: {}", player.getProfiles().getCurrentlySelected());
 
             UUID islandUuid = player.getSkyblockDataHandler().get(SkyBlockDataHandler.Data.ISLAND_UUID, DatapointUUID.class).getValue();
             if (!islandUuid.equals(player.getProfiles().getCurrentlySelected())) {
-                player.sendMessage("§8Island ID: " + islandUuid);
+                player.sendMessage("<8>Island ID: {}", islandUuid);
             }
             player.sendMessage(" ");
 

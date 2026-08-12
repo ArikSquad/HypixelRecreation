@@ -3,9 +3,13 @@ package net.swofty.type.skyblockgeneric.item.handlers.ability;
 import net.minestom.server.coordinate.BlockVec;
 import net.minestom.server.coordinate.Point;
 import net.minestom.server.coordinate.Pos;
+import net.minestom.server.entity.Entity;
+import net.minestom.server.entity.damage.Damage;
+import net.minestom.server.entity.damage.DamageType;
 import net.swofty.commons.skyblock.statistics.ItemStatistic;
 import net.swofty.commons.skyblock.statistics.ItemStatistics;
 import net.swofty.type.generic.event.EventNodes;
+import net.swofty.type.skyblockgeneric.entity.mob.SkyBlockMob;
 import net.swofty.type.skyblockgeneric.event.custom.CustomBlockBreakEvent;
 import net.swofty.type.skyblockgeneric.item.handlers.ability.abilities.BuildersWandAbility;
 import net.swofty.type.skyblockgeneric.user.SkyBlockPlayer;
@@ -20,17 +24,47 @@ public class AbilityRegistry {
 
     static {
         register(new RegisteredAbility(
+                "DRAGON_RAGE",
+                "Dragon Rage",
+                (_, _) -> "<7>All Monsters in front of you take <a>12,000 <7>damage. Hit monsters take large knockback.",
+                RegisteredAbility.AbilityActivation.RIGHT_CLICK,
+                0,
+                new RegisteredAbility.AbilityManaCost(100),
+                (player, _, _, _) -> {
+                    for (Entity entity : player.getInstance().getNearbyEntities(player.getPosition(), 6)) {
+                        if (!(entity instanceof SkyBlockMob mob)) continue;
+                        mob.damage(new Damage(DamageType.MAGIC, player, player, player.getPosition(), 12000));
+                        mob.setVelocity(mob.getPosition().sub(player.getPosition()).asVec().normalize().mul(14).withY(7));
+                    }
+                    return true;
+                }
+        ));
+
+        register(new RegisteredAbility(
+                "PARLEY",
+                "Parley",
+                (_, _) -> "<7>Channel your inner Jerry.",
+                RegisteredAbility.AbilityActivation.RIGHT_CLICK,
+                20,
+                new RegisteredAbility.AbilityManaCost(10),
+                (player, _, _, _) -> {
+                    player.sendMessage("<a>Jerry!");
+                    return true;
+                }
+        ));
+
+        register(new RegisteredAbility(
             "WITHER_IMPACT",
             "Wither Impact",
-            (player, item) -> "§7Teleports §a10 Blocks §7ahead of you. Then implode dealing §c10000 §7damage to nearby enemies. Also applies the wither shield scroll ability reducing mobdamage taken and granting an absorption shield for §e5 §7seconds.",
+            (player, item) -> "<7>Teleports <a>10 Blocks <7>ahead of you. Then implode dealing <c>10000 <7>damage to nearby enemies. Also applies the wither shield scroll ability reducing mobdamage taken and granting an absorption shield for <e>5 <7>seconds.",
             RegisteredAbility.AbilityActivation.RIGHT_CLICK,
             50,
             new RegisteredAbility.AbilityManaCost(25),
             (player, _, _, _) -> {
                 BlockVec tpPos = player.getPosition().add(player.getPosition().direction().mul(10)).asBlockVec();
-                if (!player.getInstance().getBlock(tpPos.add(0, 1, 0)).isAir() || !player.getInstance().getBlock(tpPos.add(0, 2, 0)).isAir())
+                if (!player.getInstance().getBlock(tpPos.add(0, 1, 0)).air() || !player.getInstance().getBlock(tpPos.add(0, 2, 0)).air())
                     return false;
-                player.teleport(new Pos(tpPos.add(0, 1, 0), player.getPosition().yaw(), player.getPosition().pitch()));
+                player.teleport(tpPos.add(0, 1, 0).asPos(player.getPosition().yaw(), player.getPosition().pitch()));
                 return true;
                 // TODO: damage nearby mobs
             }
@@ -39,14 +73,14 @@ public class AbilityRegistry {
         register(new RegisteredAbility(
             "INSTANT_TRANSMISSION",
             "Instant Transmission",
-            (player, item) -> "§7Teleports §a8 Blocks §7ahead of you and gain §a+50 §fSpeed for §a3 seconds§7.",
+            (player, item) -> "<7>Teleports <a>8 Blocks <7>ahead of you and gain <a>+50 <f>Speed for <a>3 seconds<7>.",
             RegisteredAbility.AbilityActivation.RIGHT_CLICK,
             5,
             new RegisteredAbility.AbilityManaCost(50),
             (player, _, _, _) -> {
                 BlockVec tpPos = player.getPosition().add(player.getPosition().direction().mul(8)).asBlockVec();
                 // TODO: Make it so you can't go through walls
-                if (!player.getInstance().getBlock(tpPos.add(0, 1, 0)).isAir() || !player.getInstance().getBlock(tpPos.add(0, 2, 0)).isAir())
+                if (!player.getInstance().getBlock(tpPos.add(0, 1, 0)).air() || !player.getInstance().getBlock(tpPos.add(0, 2, 0)).air())
                     return false;
                 player.teleport(new Pos(tpPos.add(0, 1, 0), player.getPosition().yaw(), player.getPosition().pitch()));
                 ItemStatistics speedStats = ItemStatistics.builder().withBase(ItemStatistic.SPEED, 50.0).build();
@@ -59,7 +93,7 @@ public class AbilityRegistry {
         register(new RegisteredAbility(
             "ETHER_TRANSMISSION",
             "Ether Transmission",
-            (_, _) -> "§7Teleport to your targeted block up to §a57 §7blocks away.",
+            (_, _) -> "<7>Teleport to your targeted block up to <a>57 <7>blocks away.",
             RegisteredAbility.AbilityActivation.SNEAK_RIGHT_CLICK,
             5,
             new RegisteredAbility.AbilityManaSoulflowCost(180, 1),
@@ -68,7 +102,7 @@ public class AbilityRegistry {
                 Point targetedBlock = player.getTargetBlockPosition(57);
                 if (targetedBlock == null) return false;
                 BlockVec tpPos = targetedBlock.asBlockVec();
-                if (!player.getInstance().getBlock(tpPos.add(0, 1, 0)).isAir() || !player.getInstance().getBlock(tpPos.add(0, 2, 0)).isAir())
+                if (!player.getInstance().getBlock(tpPos.add(0, 1, 0)).air() || !player.getInstance().getBlock(tpPos.add(0, 2, 0)).air())
                     return false;
                 player.teleport(tpPos.add(0, 1, 0).asPos(player.getPosition().yaw(), player.getPosition().pitch()));
                 return true;
@@ -78,7 +112,7 @@ public class AbilityRegistry {
         register(new RegisteredAbility(
             "TRUE_DWARTH",
             "True Dwarth",
-            (_, _) -> "§7Shows the way towards the nearest §6Emissary §7while in the §2Dwarven Mines§7.",
+            (_, _) -> "<7>Shows the way towards the nearest <6>Emissary <7>while in the <2>Dwarven Mines<7>.",
             RegisteredAbility.AbilityActivation.RIGHT_CLICK,
             20 * 3,
             new RegisteredAbility.NoAbilityCost(),
@@ -91,7 +125,7 @@ public class AbilityRegistry {
         register(new RegisteredAbility(
             "SPEED_BOOST",
             "Speed Boost",
-            (_, _) -> "§7Grants §7+100 Speed",
+            (_, _) -> "<7>Grants <7>+100 Speed",
             RegisteredAbility.AbilityActivation.RIGHT_CLICK,
             20 * 5,
             new RegisteredAbility.AbilityManaCost(50),
@@ -107,12 +141,15 @@ public class AbilityRegistry {
             "STORED_POTENTIAL",
             "Stored Potential",
             (_, item) -> {
-                StringBuilder description = new StringBuilder();
-                description.append("§7Grants §6+10⸕ Mining Speed §7for every\n100 blocks mined.\n§8(Max +250⸕ Mining Speed)\n\n");
-                description.append("§7Blocks Mined: §a").append(item.getAttributeHandler().getStoredPotential()).append("\n");
-                int miningSpeed = Math.min((item.getAttributeHandler().getStoredPotential() / 100) * 10, 250);
-                description.append("§7Current Bonus: §a").append(miningSpeed);
-                return description.toString();
+                int blocksMined = item.getAttributeHandler().getStoredPotential();
+                int miningSpeed = Math.min((blocksMined / 100) * 10, 250);
+                return """
+                    <7>Grants <6>+10⸕ Mining Speed <7>for every
+                    100 blocks mined.
+                    <8>(Max +250⸕ Mining Speed)
+
+                    <7>Blocks Mined: <a>%d
+                    <7>Current Bonus: <a>%d""".formatted(blocksMined, miningSpeed);
             },
             List.of(new RegisteredPassiveAbility.Action<>(
                 CustomBlockBreakEvent.class,
@@ -135,7 +172,7 @@ public class AbilityRegistry {
 //		register(new RegisteredPassiveAbility(
 //				"BEJEWELED_BLADE",
 //				"Bejeweled Blade",
-//				"§7Deals §a+150% §7damage to mobs on §bMining Islands.",
+//				"<7>Deals <a>+150% <7>damage to mobs on <b>Mining Islands.",
 //				List.of(new RegisteredPassiveAbility.Action<>(
 //
 //				))

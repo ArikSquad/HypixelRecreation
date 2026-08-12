@@ -14,15 +14,7 @@ import net.swofty.type.skyblockgeneric.abiphone.AbiphoneNPC;
 import net.swofty.type.skyblockgeneric.abiphone.AbiphoneRegistry;
 import net.swofty.type.skyblockgeneric.enchantment.EnchantmentType;
 import net.swofty.type.skyblockgeneric.enchantment.SkyBlockEnchantment;
-import net.swofty.type.skyblockgeneric.item.components.BackpackComponent;
-import net.swofty.type.skyblockgeneric.item.components.DefaultSoulboundComponent;
-import net.swofty.type.skyblockgeneric.item.components.EnchantedComponent;
-import net.swofty.type.skyblockgeneric.item.components.GemstoneComponent;
-import net.swofty.type.skyblockgeneric.item.components.LeatherColorComponent;
-import net.swofty.type.skyblockgeneric.item.components.MinionComponent;
-import net.swofty.type.skyblockgeneric.item.components.PetComponent;
-import net.swofty.type.skyblockgeneric.item.components.PetItemComponent;
-import net.swofty.type.skyblockgeneric.item.components.RuneableComponent;
+import net.swofty.type.skyblockgeneric.item.components.*;
 import net.swofty.type.skyblockgeneric.minion.MinionRegistry;
 import net.swofty.type.skyblockgeneric.user.SkyBlockPlayer;
 import org.jetbrains.annotations.Nullable;
@@ -45,16 +37,17 @@ public class ItemAttributeHandler {
         return ((ItemAttributeType) item.getAttribute("item_type")).getValue();
     }
 
+    public @Nullable String getAttributeShardId() {
+        String value = ((ItemAttributeShardId) item.getAttribute("attribute_shard_id")).getValue();
+        return value == null || value.equalsIgnoreCase("none") ? null : value;
+    }
+
+    public void setAttributeShardId(@Nullable String shardId) {
+        item.getAttribute("attribute_shard_id").setValue(shardId == null ? "none" : shardId);
+    }
+
     public boolean shouldBeEnchanted() {
         return item.hasComponent(EnchantedComponent.class);
-    }
-
-    public @Nullable ItemAttributeSandboxItem.SandboxData getSandboxData() {
-        return ((ItemAttributeSandboxItem) item.getAttribute("sandboxdata")).getValue();
-    }
-
-    public void setSandboxData(ItemAttributeSandboxItem.SandboxData data) {
-        item.getAttribute("sandboxdata").setValue(data);
     }
 
     public int getRuneLevel() {
@@ -195,7 +188,7 @@ public class ItemAttributeHandler {
     }
 
     public void setPetData(ItemAttributePetData.PetData data) {
-        if (item.hasComponent(PetItemComponent.class)) {
+        if (item.hasComponent(PetComponent.class)) {
             ((ItemAttributePetData) item.getAttribute("pet_data")).setValue(data);
         } else {
             throw new RuntimeException("Item is not a pet");
@@ -278,6 +271,10 @@ public class ItemAttributeHandler {
         if (reforgeName == null || reforgeName.isEmpty()) {
             return null;
         }
+        if (item.hasComponent(ReforgableComponent.class)) {
+            return ReforgeLoader.getReforge(reforgeName,
+                    item.getComponent(ReforgableComponent.class).getReforgeType());
+        }
         return ReforgeLoader.getReforge(reforgeName);
     }
 
@@ -302,15 +299,15 @@ public class ItemAttributeHandler {
     }
 
     public void setReforge(Reforge reforge) throws IllegalArgumentException {
-        if (!item.getAttributeHandler().getRarity().isReforgable())
+        if (!item.getAttributeHandler().getRarity().isCanReforge())
             throw new IllegalArgumentException("The rarity " + item.getAttributeHandler().getRarity().name() + " is not reforgable.");
 
-        String reforgeName = (reforge != null) ? reforge.getName() : null;
+        String reforgeName = (reforge != null) ? reforge.getId() : null;
         item.getAttribute("reforge").setValue(reforgeName);
     }
 
     public void setReforge(String reforgeName) throws IllegalArgumentException {
-        if (!item.getAttributeHandler().getRarity().isReforgable())
+        if (!item.getAttributeHandler().getRarity().isCanReforge())
             throw new IllegalArgumentException("The rarity " + item.getAttributeHandler().getRarity().name() + " is not reforgable.");
 
         // Validate the reforge exists

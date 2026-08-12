@@ -1,6 +1,7 @@
 items:
   - id: SCAVENGER_TALISMAN
     material: PLAYER_HEAD
+    name: "Scavenger Talisman"
     components:
       - id: CUSTOM_DISPLAY_NAME
         display_name: Scavenger Talisman
@@ -10,9 +11,9 @@ items:
       - id: SELLABLE
         value: 200
       - id: NOT_FINISHED_YET
-
   - id: SCAVENGER_RING
     material: PLAYER_HEAD
+    name: "Scavenger Ring"
     rarity: UNCOMMON
     components:
       - id: CUSTOM_DISPLAY_NAME
@@ -21,9 +22,11 @@ items:
       - id: SKULL_HEAD
         texture: 4c52a30ee53cf2b33a474625ffb5ccde4ec38871a42999db4e72b63089acf072
       - id: NOT_FINISHED_YET
-
+      - id: SELLABLE
+        value: 0.0
   - id: SCAVENGER_ARTIFACT
     material: PLAYER_HEAD
+    name: "Scavenger Artifact"
     rarity: RARE
     components:
       - id: CUSTOM_DISPLAY_NAME
@@ -32,3 +35,5 @@ items:
       - id: SKULL_HEAD
         texture: 2e011f648de37e49171e267252472b2130007e632db7358220ca546712f79a81
       - id: NOT_FINISHED_YET
+      - id: SELLABLE
+        value: 0.0

@@ -4,7 +4,7 @@ items:
     rarity: COMMON
     components:
       - id: SELLABLE
-        value: 2.0
+        value: 1.0
       - id: MINION_FUEL
         fuel_percentage: 5.0
         last_time_ms: 1800000
@@ -26,7 +26,7 @@ items:
               - item: COAL_ORE
                 chance: 1.0
                 amount: 1
-          - conditions:
+          - conditions: null
             drops:
               - item: COAL
                 chance: 1.0
@@ -36,14 +36,15 @@ items:
         category: MINING
         mining_value: 5.0
       - id: SELLABLE
-        value: 4.0
+        value: 2.0
   - id: COAL_BLOCK
     material: coal_block
+    name: "Coal Block"
     rarity: COMMON
     components:
       - id: PLACEABLE
       - id: SELLABLE
-        value: 18.0
+        value: 9.0
       - id: DEFAULT_CRAFTABLE
         recipes:
           - type: SHAPED
@@ -70,7 +71,7 @@ items:
         value: 8.0
   - id: DIAMOND_ORE
     material: diamond_ore
-    rarity: COMMON
+    rarity: UNCOMMON
     components:
       - id: CUSTOM_DROP
         rules:
@@ -80,7 +81,7 @@ items:
               - item: DIAMOND_ORE
                 chance: 1.0
                 amount: 1
-          - conditions:
+          - conditions: null
             drops:
               - item: DIAMOND
                 chance: 1.0
@@ -90,9 +91,10 @@ items:
         category: MINING
         mining_value: 10.0
       - id: SELLABLE
-        value: 1.0
+        value: 10.0
   - id: DIAMOND_BLOCK
     material: diamond_block
+    name: "Diamond Block"
     rarity: COMMON
     components:
       - id: PLACEABLE
@@ -118,10 +120,10 @@ items:
     rarity: COMMON
     components:
       - id: SELLABLE
-        value: 6.0
+        value: 4.0
   - id: EMERALD_ORE
     material: emerald_ore
-    rarity: COMMON
+    rarity: UNCOMMON
     components:
       - id: CUSTOM_DROP
         rules:
@@ -131,7 +133,7 @@ items:
               - item: EMERALD_ORE
                 chance: 1.0
                 amount: 1
-          - conditions:
+          - conditions: null
             drops:
               - item: EMERALD
                 chance: 1.0
@@ -141,14 +143,15 @@ items:
         category: MINING
         mining_value: 9.0
       - id: SELLABLE
-        value: 1.0
+        value: 8.0
   - id: EMERALD_BLOCK
     material: emerald_block
+    name: "Emerald Block"
     rarity: COMMON
     components:
       - id: PLACEABLE
       - id: SELLABLE
-        value: 54.0
+        value: 36.0
       - id: DEFAULT_CRAFTABLE
         recipes:
           - type: SHAPED
@@ -198,7 +201,7 @@ items:
               - item: GLOWSTONE
                 chance: 1.0
                 amount: 1
-          - conditions:
+          - conditions: null
             drops:
               - item: GLOWSTONE_DUST
                 chance: 1.0
@@ -237,11 +240,12 @@ items:
         alchemy_xp: 5
   - id: GOLD_BLOCK
     material: gold_block
+    name: "Gold Block"
     rarity: COMMON
     components:
       - id: PLACEABLE
       - id: SELLABLE
-        value: 36.0
+        value: 27.0
       - id: DEFAULT_CRAFTABLE
         recipes:
           - type: SHAPED
@@ -265,7 +269,7 @@ items:
         category: MINING
         mining_value: 5.0
       - id: SELLABLE
-        value: 4.0
+        value: 3.0
       - id: BREWING_INGREDIENT
         brewing_time_seconds: 20
         effect: GOLD_BREW
@@ -287,7 +291,7 @@ items:
               type: GOLD_NUGGET
               amount: 9
       - id: SELLABLE
-        value: 0.4
+        value: 0.3
   - id: GOLD_ORE
     material: gold_ore
     rarity: COMMON
@@ -300,7 +304,7 @@ items:
               - item: GOLD_INGOT
                 chance: 1.0
                 amount: 1
-          - conditions:
+          - conditions: null
             drops:
               - item: GOLD_ORE
                 chance: 1.0
@@ -310,7 +314,7 @@ items:
         category: MINING
         mining_value: 6.0
       - id: SELLABLE
-        value: 4.0
+        value: 3.0
   - id: GRAVEL
     material: gravel
     rarity: COMMON
@@ -327,14 +331,15 @@ items:
     components:
       - id: PLACEABLE
       - id: SELLABLE
-        value: 1.0
+        value: 0.5
   - id: IRON_BLOCK
     material: iron_block
+    name: "Iron Block"
     rarity: COMMON
     components:
       - id: PLACEABLE
       - id: SELLABLE
-        value: 27.0
+        value: 18.0
       - id: DEFAULT_CRAFTABLE
         recipes:
           - type: SHAPED
@@ -355,7 +360,7 @@ items:
     rarity: COMMON
     components:
       - id: SELLABLE
-        value: 3.0
+        value: 2.0
   - id: IRON_NUGGET
     material: iron_nugget
     rarity: COMMON
@@ -384,7 +389,7 @@ items:
               - item: IRON_INGOT
                 chance: 1.0
                 amount: 1
-          - conditions:
+          - conditions: null
             drops:
               - item: IRON_ORE
                 chance: 1.0
@@ -419,7 +424,7 @@ items:
               - item: LAPIS_LAZULI_ORE
                 chance: 1.0
                 amount: 1
-          - conditions:
+          - conditions: null
             drops:
               - item: LAPIS_LAZULI
                 chance: 1.0
@@ -432,6 +437,7 @@ items:
         value: 1.0
   - id: LAPIS_LAZULI_BLOCK
     material: lapis_block
+    name: "Lapis Lazuli Block"
     rarity: COMMON
     components:
       - id: PLACEABLE
@@ -518,6 +524,7 @@ items:
               amount: 1
   - id: QUARTZ
     material: quartz
+    name: "Quartz"
     rarity: COMMON
     components:
       - id: SELLABLE
@@ -534,7 +541,7 @@ items:
               - item: NETHER_QUARTZ_ORE
                 chance: 1.0
                 amount: 1
-          - conditions:
+          - conditions: null
             drops:
               - item: QUARTZ
                 chance: 1.0
@@ -557,6 +564,7 @@ items:
         mining_value: 3.0
   - id: REDSTONE
     material: redstone
+    name: "Redstone"
     rarity: COMMON
     components:
       - id: SELLABLE
@@ -570,7 +578,7 @@ items:
         alchemy_xp: 5
   - id: REDSTONE_ORE
     material: redstone_ore
-    rarity: COMMON
+    rarity: UNCOMMON
     components:
       - id: CUSTOM_DROP
         rules:
@@ -580,7 +588,7 @@ items:
               - item: REDSTONE_ORE
                 chance: 1.0
                 amount: 1
-          - conditions:
+          - conditions: null
             drops:
               - item: REDSTONE
                 chance: 1.0
@@ -590,9 +598,10 @@ items:
         category: MINING
         mining_value: 7.0
       - id: SELLABLE
-        value: 1.0
+        value: 6.0
   - id: REDSTONE_BLOCK
     material: redstone_block
+    name: "Redstone Block"
     rarity: COMMON
     components:
       - id: PLACEABLE

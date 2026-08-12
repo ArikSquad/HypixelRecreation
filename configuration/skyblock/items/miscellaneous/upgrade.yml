@@ -1,10 +1,11 @@
 items:
   - id: AUTO_SMELTER
     material: furnace
+    name: "Auto Smelter"
     rarity: COMMON
     components:
       - id: MINION_UPGRADE
-        speed_increase: 0.1
+        speed_increase: 0.0
       - id: NOT_FINISHED_YET
       - id: TRACKED_UNIQUE
       - id: DEFAULT_CRAFTABLE
@@ -26,11 +27,15 @@ items:
             result:
               type: AUTO_SMELTER
               amount: 1
-
+      - id: SELLABLE
+        value: 32.0
   - id: COMPACTOR
     material: dispenser
-    rarity: COMMON
+    name: "Compactor"
+    rarity: UNCOMMON
     components:
+      - id: MINION_UPGRADE
+        speed_increase: 0.0
       - id: ENCHANTED
       - id: NOT_FINISHED_YET
       - id: TRACKED_UNIQUE
@@ -56,11 +61,15 @@ items:
             result:
               type: COMPACTOR
               amount: 1
-
+      - id: SELLABLE
+        value: 640.0
   - id: HYPER_FURNACE
     material: furnace
+    name: "Hyper Furnace"
     rarity: UNCOMMON
     components:
+      - id: MINION_UPGRADE
+        speed_increase: 0.0
       - id: ENCHANTED
       - id: NOT_FINISHED_YET
       - id: TRACKED_UNIQUE
@@ -83,13 +92,13 @@ items:
             result:
               type: HYPER_FURNACE
               amount: 1
-
   - id: DIAMOND_SPREADING
     material: diamond
-    rarity: COMMON
+    name: "Diamond Spreading"
+    rarity: RARE
     components:
       - id: MINION_UPGRADE
-        speed_increase: 0.1
+        speed_increase: 0.0
       - id: ENCHANTED
       - id: SELLABLE
         value: 640.0
@@ -113,29 +122,33 @@ items:
             result:
               type: DIAMOND_SPREADING
               amount: 1
-
   - id: FLY_CATCHER
     material: cobweb
+    name: "Fly Catcher"
     rarity: COMMON
     components:
       - id: MINION_UPGRADE
-        speed_increase: 0.1
+        speed_increase: 20.0
       - id: ENCHANTED
       - id: TRACKED_UNIQUE
-
   - id: MINION_EXPANDER
     material: command_block
-    rarity: COMMON
+    name: "Minion Expander"
+    rarity: RARE
     components:
       - id: MINION_UPGRADE
-        speed_increase: 0.1
+        speed_increase: 5.0
       - id: ENCHANTED
       - id: TRACKED_UNIQUE
-
+      - id: SELLABLE
+        value: 4000.0
   - id: SUPER_COMPACTOR_3000
     material: dispenser
-    rarity: COMMON
+    name: "Super Compactor 3000"
+    rarity: RARE
     components:
+      - id: MINION_UPGRADE
+        speed_increase: 0.0
       - id: ENCHANTED
       - id: NOT_FINISHED_YET
       - id: TRACKED_UNIQUE
@@ -161,10 +174,12 @@ items:
             result:
               type: SUPER_COMPACTOR_3000
               amount: 1
-
+      - id: SELLABLE
+        value: 50000.0
   - id: MITHRIL_INFUSION
     material: player_head
-    rarity: COMMON
+    name: "Mithril Infusion"
+    rarity: UNCOMMON
     components:
       - id: DEFAULT_CRAFTABLE
         recipes:
@@ -187,3 +202,5 @@ items:
       - id: SKULL_HEAD
         texture: 7e051df4dd2151481f5145b93fb7a9aa62888fbcb90add9890ad07caf1faca73
       - id: TRACKED_UNIQUE
+      - id: SELLABLE
+        value: 4346.0

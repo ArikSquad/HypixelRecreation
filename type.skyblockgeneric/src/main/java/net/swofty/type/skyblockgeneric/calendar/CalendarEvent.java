@@ -6,6 +6,8 @@ import net.minestom.server.item.Material;
 import net.swofty.commons.ServiceType;
 import net.swofty.commons.StringUtility;
 import net.swofty.commons.protocol.objects.darkauction.TriggerDarkAuctionProtocol;
+import net.swofty.commons.redis.RedisClient;
+import net.swofty.commons.text.Text;
 import net.swofty.proxyapi.ProxyService;
 import net.swofty.type.skyblockgeneric.elections.ElectionManager;
 import org.tinylog.Logger;
@@ -15,14 +17,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 public record CalendarEvent(
     String id,
     ItemStack representation,
-    Function<Integer, String> displayName,
-    List<String> description,
+    Function<Integer, Text> displayName,
+    List<Text> description,
     List<Long> times,
     Duration duration,
     boolean tracksYear,
@@ -37,10 +41,10 @@ public record CalendarEvent(
     public static CalendarEvent NEW_YEAR = new CalendarEvent(
         "new_year",
         ItemStack.of(Material.CAKE).with(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true),
-        year -> "§d" + StringUtility.ntify(year) + " New Year Celebration",
+        year -> Text.of("<d>{} New Year Celebration", StringUtility.ntify(year)),
         List.of(
-            "§7To celebrate the SkyBlock New Year,",
-            "§7the Baker is giving out free Cake!"
+            Text.of("<7>To celebrate the SkyBlock New Year,"),
+            Text.of("<7>the Baker is giving out free Cake!")
         ),
         List.of(10L),
         Duration.ofHours(1),
@@ -54,20 +58,27 @@ public record CalendarEvent(
     public static CalendarEvent DARK_AUCTION = new CalendarEvent(
         "dark_auction",
         ItemStack.of(Material.NETHER_STAR).with(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true),
-        year -> "§5Dark Auction",
+        year -> Text.of("<5>Dark Auction"),
         List.of(
-            "§7The Dark Auction is a secret",
-            "§7underground auction where",
-            "§7special items are sold."
+            Text.of("<7>The Dark Auction is a secret"),
+            Text.of("<7>underground auction where"),
+            Text.of("<7>special items are sold.")
         ),
         calculateDarkAuctionTimes(),
         Duration.ofMinutes(5),
         false,
-        (time, year) -> {
-            ProxyService darkAuctionService = new ProxyService(ServiceType.DARK_AUCTION);
-            darkAuctionService.handleRequest(
+            (time, year) -> triggerDarkAuctionUntil(time, System.nanoTime() + Duration.ofMinutes(5).toNanos())
+    );
+
+    private static void triggerDarkAuctionUntil(long eventTime, long deadlineNanos) {
+        RedisClient.isServiceOnline(ServiceType.DARK_AUCTION).thenAccept(online -> {
+            if (!online) {
+                retryDarkAuction(eventTime, deadlineNanos);
+                return;
+            }
+            new ProxyService(ServiceType.DARK_AUCTION).handleRequest(
                     new TriggerDarkAuctionProtocol(),
-                    new TriggerDarkAuctionProtocol.TriggerMessage(time))
+                            new TriggerDarkAuctionProtocol.TriggerMessage(eventTime))
                 .thenAccept(response -> {
                     if (response.success()) {
                         Logger.info("Dark Auction started successfully");
@@ -76,11 +87,18 @@ public record CalendarEvent(
                     }
                 })
                 .exceptionally(throwable -> {
-                    Logger.error(throwable, "Failed to trigger Dark Auction");
+                    Logger.debug("Dark Auction service became unavailable while triggering: {}", throwable.getMessage());
+                    retryDarkAuction(eventTime, deadlineNanos);
                     return null;
                 });
-        }
-    );
+        });
+    }
+
+    private static void retryDarkAuction(long eventTime, long deadlineNanos) {
+        if (System.nanoTime() >= deadlineNanos) return;
+        CompletableFuture.delayedExecutor(5, TimeUnit.SECONDS)
+                .execute(() -> triggerDarkAuctionUntil(eventTime, deadlineNanos));
+    }
 
     private static List<Long> calculateDarkAuctionTimes() {
         List<Long> times = new ArrayList<>();
@@ -94,11 +112,11 @@ public record CalendarEvent(
     public static CalendarEvent ELECTION_OPEN = new CalendarEvent(
         "election_open",
         ItemStack.of(Material.JUKEBOX),
-        year -> "§b" + StringUtility.ntify(year) + " Election Booth Opens",
+        year -> Text.of("<b>{} Election Booth Opens", StringUtility.ntify(year)),
         List.of(
-            "§7The Mayor Election voting booth",
-            "§7is now open! Cast your vote for",
-            "§7your favorite candidate."
+            Text.of("<7>The Mayor Election voting booth"),
+            Text.of("<7>is now open! Cast your vote for"),
+            Text.of("<7>your favorite candidate.")
         ),
         List.of(5 * MONTH),
         Duration.ofHours(0),
@@ -111,10 +129,10 @@ public record CalendarEvent(
     public static CalendarEvent ELECTION_CLOSE = new CalendarEvent(
         "election_close",
         ItemStack.of(Material.JUKEBOX),
-        year -> "§b" + StringUtility.ntify(year) + " Election Over!",
+        year -> Text.of("<b>{} Election Over!", StringUtility.ntify(year)),
         List.of(
-            "§7The Mayor Election has concluded!",
-            "§7A new Mayor has been elected."
+            Text.of("<7>The Mayor Election has concluded!"),
+            Text.of("<7>A new Mayor has been elected.")
         ),
         List.of(8 * MONTH),
         Duration.ofHours(0),
@@ -131,7 +149,7 @@ public record CalendarEvent(
         registerEvent(ELECTION_CLOSE);
     }
 
-    public String getDisplayName(int year) {
+    public Text getDisplayName(int year) {
         return displayName.apply(year);
     }
 

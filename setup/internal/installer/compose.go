@@ -28,9 +28,7 @@ services:
       MONGO_INITDB_DATABASE: Minestom
       MONGO_URL: hypixel_mongo
     volumes:
-      - ./configuration/mongo-init.sh:/docker-entrypoint-initdb.d/mongo-init.sh:ro
       - mongodb-data:/data/db
-      - ./configuration/:/csv
 %s    networks:
       - hypixel_network
     healthcheck:
@@ -97,6 +95,23 @@ services:
     depends_on:
       proxy:
         condition: service_healthy
+      game_server_builder:
+        condition: service_started
+    volumes:
+      - ./configuration:/app/configuration_files
+    networks:
+      - hypixel_network
+
+  pack_server:
+    image: game_server_prepared
+    container_name: hypixel_pack_server
+    restart: "unless-stopped"
+    environment:
+      <<: *forwarding_env
+      SERVICE_CMD: java -jar net.swofty.packer.HypixelPackServer.jar
+    ports:
+      - "7270:7270"
+    depends_on:
       game_server_builder:
         condition: service_started
     volumes:

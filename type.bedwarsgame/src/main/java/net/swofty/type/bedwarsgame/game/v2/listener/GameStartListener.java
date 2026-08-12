@@ -1,19 +1,17 @@
 package net.swofty.type.bedwarsgame.game.v2.listener;
 
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.minimessage.translation.Argument;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.timer.TaskSchedule;
 import net.swofty.commons.bedwars.map.BedWarsMapsConfig;
-import net.swofty.type.bedwarsgame.TypeBedWarsGameLoader;
+import net.swofty.commons.text.Text;
 import net.swofty.type.bedwarsgame.game.v2.BedWarsGame;
 import net.swofty.type.bedwarsgame.user.BedWarsPlayer;
 import net.swofty.type.game.game.GameState;
 import net.swofty.type.game.game.event.GameStartEvent;
 import net.swofty.type.generic.event.EventNodes;
-import net.swofty.type.generic.event.phase.PhasedEvent;
 import net.swofty.type.generic.event.HypixelEventClass;
-import net.swofty.type.generic.i18n.I18n;
+import net.swofty.type.generic.event.phase.PhasedEvent;
 import org.tinylog.Logger;
 
 import java.util.Comparator;
@@ -23,8 +21,8 @@ public class GameStartListener implements HypixelEventClass {
 
     @PhasedEvent(node = EventNodes.CUSTOM, requireDataLoaded = false)
     public void onGameStart(GameStartEvent event) {
-        BedWarsGame game = TypeBedWarsGameLoader.getGameById(event.getGameId());
-        Logger.info("Starting BedWars game {}", event.gameId());
+        BedWarsGame game = (BedWarsGame) event.game();
+        Logger.info("Starting BedWars game {}", game.getGameId());
 
         // Prepare world
         game.getWorldManager().clearExistingBeds();
@@ -106,10 +104,10 @@ public class GameStartListener implements HypixelEventClass {
                     }
 
                     player.sendActionBar(
-                        I18n.t(
+                        Text.key(
                             "bedwars.tracking_player",
-                            Argument.component("name", playerColouredName),
-                            Argument.string("distance", String.valueOf(distance))
+                            playerColouredName,
+                            distance
                         )
                     );
                 }, () -> game.getTrackers().remove(uuid));
@@ -117,7 +115,7 @@ public class GameStartListener implements HypixelEventClass {
             return TaskSchedule.seconds(2);
         }, TaskSchedule.seconds(15));
 
-        Logger.info("BedWars game {} started with {} active teams", event.gameId(), activeTeamConfigs.size());
+        Logger.info("BedWars game {} started with {} active teams", event.game().getGameId(), activeTeamConfigs.size());
     }
 
 }

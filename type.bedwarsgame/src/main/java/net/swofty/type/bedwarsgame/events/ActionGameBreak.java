@@ -88,7 +88,7 @@ public class ActionGameBreak implements HypixelEventClass {
                 if (teamKey.equals(playerTeamKey)) {
                     if (player.allowsPersistentProgress())
                         player.getAchievementHandler().completeAchievement("bedwars.you_cant_do_that");
-                    player.sendMessage("§cYou can't destroy your own bed!");
+                    player.sendMessage("<c>You can't destroy your own bed!");
                     event.setCancelled(true);
                     return;
                 }
@@ -111,11 +111,11 @@ public class ActionGameBreak implements HypixelEventClass {
         // If it's not a team bed part, then check if it's any other player-placed block
         if (!isTeamBedPart) {
             if (Boolean.TRUE.equals(blockBeingBroken.getTag(TypeBedWarsGameLoader.PLAYER_PLACED_TAG))) {
-                new ItemEntity(ItemStack.of(Objects.requireNonNull(blockBeingBroken.registry().material()))).setInstance(player.getInstance(), event.getBlockPosition());
+                new ItemEntity(ItemStack.of(Objects.requireNonNull(blockBeingBroken.material()))).setInstance(player.getInstance(), event.getBlockPosition());
                 event.setCancelled(false);
             } else {
                 // Not a team bed and not a player-placed block
-                player.sendMessage("§cYou can only break blocks placed by players!");
+                player.sendMessage("<c>You can only break blocks placed by players!");
                 event.setCancelled(true);
             }
         }

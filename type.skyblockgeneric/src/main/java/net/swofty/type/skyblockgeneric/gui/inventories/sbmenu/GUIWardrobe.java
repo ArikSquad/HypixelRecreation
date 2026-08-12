@@ -4,25 +4,34 @@ import net.minestom.server.inventory.InventoryType;
 import net.minestom.server.inventory.click.Click;
 import net.minestom.server.item.ItemStack;
 import net.minestom.server.item.Material;
-import net.swofty.type.generic.gui.inventory.ItemStackCreator;
-import net.swofty.type.generic.gui.v2.Components;
-import net.swofty.type.generic.gui.v2.StatefulView;
-import net.swofty.type.generic.gui.v2.ViewConfiguration;
-import net.swofty.type.generic.gui.v2.ViewLayout;
-import net.swofty.type.generic.gui.v2.ViewSession;
+import net.swofty.commons.text.Text;
+import net.swofty.type.generic.gui.inventory.ItemStacks;
+import net.swofty.type.generic.gui.v2.*;
 import net.swofty.type.generic.gui.v2.context.ClickContext;
 import net.swofty.type.generic.gui.v2.context.ViewContext;
 import net.swofty.type.skyblockgeneric.data.SkyBlockDataHandler;
+import net.swofty.type.skyblockgeneric.data.datapoints.DatapointLoadouts;
 import net.swofty.type.skyblockgeneric.data.datapoints.DatapointWardrobe;
 import net.swofty.type.skyblockgeneric.item.SkyBlockItem;
 import net.swofty.type.skyblockgeneric.item.updater.PlayerItemUpdater;
+import net.swofty.type.skyblockgeneric.loadout.LoadoutManager;
 import net.swofty.type.skyblockgeneric.user.SkyBlockPlayer;
 import net.swofty.type.skyblockgeneric.wardrobe.WardrobeService;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 public class GUIWardrobe implements StatefulView<GUIWardrobe.WardrobeState> {
+    private final Integer selectingLoadout;
+
+    public GUIWardrobe() {
+        this.selectingLoadout = null;
+    }
+
+    public GUIWardrobe(int selectingLoadout) {
+        this.selectingLoadout = selectingLoadout;
+    }
     private static final Material[] EMPTY = {
         Material.RED_STAINED_GLASS_PANE, Material.ORANGE_STAINED_GLASS_PANE,
         Material.YELLOW_STAINED_GLASS_PANE, Material.LIME_STAINED_GLASS_PANE,
@@ -38,7 +47,7 @@ public class GUIWardrobe implements StatefulView<GUIWardrobe.WardrobeState> {
 
     @Override
     public ViewConfiguration<WardrobeState> configuration() {
-        return ViewConfiguration.withString((state, _) -> "Wardrobe (" + (state.page + 1) + "/3)", InventoryType.CHEST_6_ROW);
+        return ViewConfiguration.withText((state, _) -> Text.of("Wardrobe ({}/3)", state.page + 1), InventoryType.CHEST_6_ROW);
     }
 
     @Override
@@ -47,6 +56,8 @@ public class GUIWardrobe implements StatefulView<GUIWardrobe.WardrobeState> {
 
         SkyBlockPlayer player = (SkyBlockPlayer) ctx.player();
         DatapointWardrobe.WardrobeData data = data(player);
+        int selectedForLoadout = selectingLoadout == null ? -1
+                : LoadoutManager.data(player).getLoadouts()[selectingLoadout].getArmorSet();
         int start = state.page * 9;
 
         for (int column = 0; column < 9; column++) {
@@ -56,13 +67,14 @@ public class GUIWardrobe implements StatefulView<GUIWardrobe.WardrobeState> {
             for (int piece = 0; piece < 4; piece++) {
                 int guiSlot = piece * 9 + column;
                 if (!unlocked) {
-                    layout.slot(guiSlot, ItemStackCreator.getStack("§7Slot " + (setIndex + 1) + ": §cLocked",
-                        Material.BLACK_STAINED_GLASS_PANE, 1, "",
-                        "§7Unlock more slots from:",
-                        "§8▶ §aAccount Upgrades §8- §69 Slots",
-                        "",
-                        "§cUnlock more slots from §dElizabeth §cat",
-                        "§cthe §bCommunity Center"));
+                    layout.slot(guiSlot, ItemStacks.item(Material.BLACK_STAINED_GLASS_PANE, 1, """
+                            <7>Slot {}: <c>Locked
+
+                            <7>Unlock more slots from:
+                            <8>▶ <a>Account Upgrades <8>- <6>9 Slots
+
+                            <c>Unlock more slots from <d>Elizabeth <c>at
+                            <c>the <b>Community Center""", setIndex + 1));
                     continue;
                 }
                 SkyBlockItem item = set.getPieces()[piece];
@@ -74,16 +86,18 @@ public class GUIWardrobe implements StatefulView<GUIWardrobe.WardrobeState> {
                                 ? ItemStack.AIR.builder()
                                 : PlayerItemUpdater.playerUpdate((SkyBlockPlayer) c.player(), worn.getItemStack());
                         },
-                        (_, c) -> c.player().sendMessage("§cYou cannot modify your equipped armor set!"));
+                        (_, c) -> c.player().sendMessage("<c>You cannot modify your equipped armor set!"));
+                } else if (selectingLoadout != null && selectedForLoadout == setIndex) {
+                    if (item == null || item.isNA()) {
+                        layout.slot(guiSlot, emptyPiece(setIndex, column, piece));
+                    } else {
+                        layout.slot(guiSlot,
+                                (s, c) -> PlayerItemUpdater.playerUpdate((SkyBlockPlayer) c.player(), item.getItemStack()),
+                                (_, c) -> c.player().sendMessage("<c>You cannot modify the armor set selected for this loadout!"));
+                    }
                 } else if (item == null || item.isNA()) {
                     int pieceIndex = piece;
-                    layout.slot(guiSlot, ItemStackCreator.getStack(
-                            "§aSlot " + (setIndex + 1) + " " + pieceName(piece),
-                            EMPTY[column],
-                            1,
-                            // TODO: use the StringUtility 40 character limit per line system after this so it looks exactly like Hypixel does
-                            (piece < 2 ? "§7Place a " : "§7Place a pair of ") + pieceName(piece).toLowerCase() + (piece < 2 ? " here to add it to the" : " here to add"),
-                            (piece < 2 ? "§7armor set" : "§7them to the armor set")),
+                    layout.slot(guiSlot, emptyPiece(setIndex, column, piece),
                         (_, c) -> placeStoredPiece((SkyBlockPlayer) c.player(), setIndex, pieceIndex, c));
                 } else {
                     int pieceIndex = piece;
@@ -96,18 +110,27 @@ public class GUIWardrobe implements StatefulView<GUIWardrobe.WardrobeState> {
 
             int controlSlot = 36 + column;
             if (!unlocked) {
-                layout.slot(controlSlot, ItemStackCreator.getStack("§7Slot " + (setIndex + 1) + ": §cLocked",
-                    Material.RED_DYE, 1,
-                    "§7This wardrobe slot is locked and",
-                    "§7cannot be used.",
-                    "",
-                    "§7Unlock more slots from:",
-                    "§8▶ §aAccount Upgrades §8- §69 Slots",
-                    "",
-                    "§cUnlock more slots from §dElizabeth §cat",
-                    "§cthe §bCommunity Center"));
+                layout.slot(controlSlot, ItemStacks.item(Material.RED_DYE, 1, """
+                        <7>Slot {}: <c>Locked
+                        <7>This wardrobe slot is locked and
+                        <7>cannot be used.
+
+                        <7>Unlock more slots from:
+                        <8>▶ <a>Account Upgrades <8>- <6>9 Slots
+
+                        <c>Unlock more slots from <d>Elizabeth <c>at
+                        <c>the <b>Community Center""", setIndex + 1));
             } else {
-                layout.slot(controlSlot, (s, c) -> control(setIndex, set, data), (_, c) -> {
+                layout.slot(controlSlot, (s, c) -> selectingLoadout != null && selectedForLoadout == setIndex
+                        ? selectedControl(setIndex) : control(setIndex, set, data), (_, c) -> {
+                    if (selectingLoadout != null) {
+                        if (selectedForLoadout == setIndex) {
+                            c.player().sendMessage("<c>This armor set is already selected for the loadout!");
+                            return;
+                        }
+                        selectForLoadout((SkyBlockPlayer) c.player(), setIndex);
+                        return;
+                    }
                     savePage((SkyBlockPlayer) c.player(), c, state.page);
                     toggle((SkyBlockPlayer) c.player(), setIndex);
                     c.session(WardrobeState.class).refresh();
@@ -116,16 +139,29 @@ public class GUIWardrobe implements StatefulView<GUIWardrobe.WardrobeState> {
         }
 
         if (state.page > 0) {
-            layout.slot(45, ItemStackCreator.getStack("§aPrevious Page", Material.ARROW, 1, "§ePage " + state.page),
+            layout.slot(45, ItemStacks.item(Material.ARROW, 1, """
+                    <a>Previous Page
+                    <e>Page {}""", state.page),
                 (_, c) -> {
                     savePage((SkyBlockPlayer) c.player(), c, state.page);
                     c.session(WardrobeState.class).update(s -> new WardrobeState(s.page - 1));
                 });
         }
         Components.back(layout, 48, ctx);
+        if (selectingLoadout != null) {
+            layout.slot(50, ItemStacks.item(Material.LAVA_BUCKET, 1, """
+                            <c>Clear Selection
+                            <7>Clears your current selection for
+                            <7>this component of your loadout.
+
+                            <e>Click to clear!"""),
+                    (_, c) -> clearLoadoutArmor((SkyBlockPlayer) c.player()));
+        }
         Components.close(layout, 49);
         if (state.page < 2) {
-            layout.slot(53, ItemStackCreator.getStack("§aNext Page", Material.ARROW, 1, "§ePage " + (state.page + 2)),
+            layout.slot(53, ItemStacks.item(Material.ARROW, 1, """
+                    <a>Next Page
+                    <e>Page {}""", state.page + 2),
                 (_, c) -> {
                     savePage((SkyBlockPlayer) c.player(), c, state.page);
                     c.session(WardrobeState.class).update(s -> new WardrobeState(s.page + 1));
@@ -150,7 +186,7 @@ public class GUIWardrobe implements StatefulView<GUIWardrobe.WardrobeState> {
 
         int piece = armorPiece(clickedItem);
         if (piece == -1) {
-            player.sendMessage("§cOnly armor can be placed in the Wardrobe!");
+            player.sendMessage("<c>Only armor can be placed in the Wardrobe!");
             return false;
         }
 
@@ -158,7 +194,7 @@ public class GUIWardrobe implements StatefulView<GUIWardrobe.WardrobeState> {
         int targetSet = findClosestAvailableSet(player, data, click.state().page, piece);
 
         if (targetSet == -1) {
-            player.sendMessage("§cThere are no available Wardrobe slots for that item!");
+            player.sendMessage("<c>There are no available Wardrobe slots for that item!");
             return false;
         }
 
@@ -192,7 +228,7 @@ public class GUIWardrobe implements StatefulView<GUIWardrobe.WardrobeState> {
         for (int distance = 0; distance < data.getSets().length; distance++) {
             int setIndex = (pageStart + distance) % data.getSets().length;
             if (!WardrobeService.isUnlocked(setIndex, player.getRank(), data)
-                || data.getEquippedSlot() == setIndex) {
+                    || data.getEquippedSlot() == setIndex || isSelectedForLoadout(player, setIndex)) {
                 continue;
             }
 
@@ -239,7 +275,7 @@ public class GUIWardrobe implements StatefulView<GUIWardrobe.WardrobeState> {
         DatapointWardrobe.WardrobeData data = data(player);
         DatapointWardrobe.ArmorSet target = data.getSets()[slot];
         if (data.getEquippedSlot() != slot && target.isEmpty()) {
-            player.sendMessage("§cYou cannot equip an empty wardrobe slot!");
+            player.sendMessage("<c>You cannot equip an empty wardrobe slot!");
             return;
         }
         SkyBlockItem[] worn = player.getArmor();
@@ -260,6 +296,33 @@ public class GUIWardrobe implements StatefulView<GUIWardrobe.WardrobeState> {
             }
         }
         player.getSkyblockDataHandler().get(SkyBlockDataHandler.Data.WARDROBE, DatapointWardrobe.class).setValue(data);
+    }
+
+    private void selectForLoadout(SkyBlockPlayer player, int slot) {
+        DatapointWardrobe.WardrobeData wardrobe = data(player);
+        DatapointWardrobe.ArmorSet source = wardrobe.getSets()[slot];
+        if (source.isEmpty() && wardrobe.getEquippedSlot() != slot) {
+            player.sendMessage("<c>You cannot select an empty wardrobe slot!");
+            return;
+        }
+        SkyBlockItem[] armor = new SkyBlockItem[4];
+        for (int i = 0; i < armor.length; i++) {
+            SkyBlockItem piece = wardrobe.getEquippedSlot() == slot ? player.getArmor()[i] : source.getPieces()[i];
+            armor[i] = piece == null || piece.isNA() ? null : new SkyBlockItem(piece.toUnderstandable());
+        }
+        DatapointLoadouts.Loadout loadout = LoadoutManager.data(player).getLoadouts()[selectingLoadout];
+        loadout.setArmor(armor);
+        loadout.setArmorSet(slot);
+        LoadoutManager.save(player);
+        player.openView(new GUILoadoutEdit(selectingLoadout));
+    }
+
+    private void clearLoadoutArmor(SkyBlockPlayer player) {
+        DatapointLoadouts.Loadout loadout = LoadoutManager.data(player).getLoadouts()[selectingLoadout];
+        loadout.setArmor(new SkyBlockItem[4]);
+        loadout.setArmorSet(-1);
+        LoadoutManager.save(player);
+        player.openView(new GUILoadoutEdit(selectingLoadout));
     }
 
     private void setArmor(SkyBlockPlayer player, SkyBlockItem[] pieces) {
@@ -300,7 +363,7 @@ public class GUIWardrobe implements StatefulView<GUIWardrobe.WardrobeState> {
 
         SkyBlockItem cursorItem = new SkyBlockItem(cursor);
         if (!WardrobeService.accepts(piece, cursorItem)) {
-            player.sendMessage("§cThat item does not fit in this Wardrobe slot!");
+            player.sendMessage("<c>That item does not fit in this Wardrobe slot!");
             return;
         }
 
@@ -322,7 +385,7 @@ public class GUIWardrobe implements StatefulView<GUIWardrobe.WardrobeState> {
         if (item.isNA()) return;
 
         if (!WardrobeService.accepts(piece, item)) {
-            player.sendMessage("§cThat item does not fit in this Wardrobe slot!");
+            player.sendMessage("<c>That item does not fit in this Wardrobe slot!");
             return;
         }
 
@@ -377,20 +440,61 @@ public class GUIWardrobe implements StatefulView<GUIWardrobe.WardrobeState> {
 
     private ItemStack.Builder control(int index, DatapointWardrobe.ArmorSet set, DatapointWardrobe.WardrobeData data) {
         if (data.getEquippedSlot() == index) {
-            return ItemStackCreator.getStack("§7Slot " + (index + 1) + ": §aEquipped", Material.LIME_DYE, 1,
-                "§7This wardrobe slot contains your", "§7current armor set.", "", "§eClick to unequip this armor set");
+            return ItemStacks.item(Material.LIME_DYE, 1, """
+                    <7>Slot {}: <a>Equipped
+                    <7>This wardrobe slot contains your
+                    <7>current armor set.
+
+                    <e>Click to unequip this armor set""", index + 1);
         }
         if (set.isEmpty()) {
-            return ItemStackCreator.getStack("§7Slot " + (index + 1) + ": §cEmpty", Material.GRAY_DYE, 1,
-                "§7This wardrobe slot contains no", "§7armor");
+            return ItemStacks.item(Material.GRAY_DYE, 1, """
+                    <7>Slot {}: <c>Empty
+                    <7>This wardrobe slot contains no
+                    <7>armor""", index + 1);
         }
         if (set.getFirstWorn() > 0) {
-            return ItemStackCreator.getStack("§7Slot " + (index + 1) + ": §aReady", Material.PINK_DYE, 1,
-                "§7This wardrobe slot is ready to be", "§7equipped.", "", "§bFull Set First Worn",
-                "§7" + new SimpleDateFormat("MMM d, yyyy").format(new Date(set.getFirstWorn())), "", "§eClick to equip this armor set");
+            return ItemStacks.item(Material.PINK_DYE, 1, """
+                    <7>Slot {}: <a>Ready
+                    <7>This wardrobe slot is ready to be
+                    <7>equipped.
+
+                    <b>Full Set First Worn
+                    <7>{}
+
+                    <e>Click to equip this armor set""",
+                    index + 1, new SimpleDateFormat("MMM d, yyyy").format(new Date(set.getFirstWorn())));
         }
-        return ItemStackCreator.getStack("§7Slot " + (index + 1) + ": §aReady", Material.PINK_DYE, 1,
-            "§7This wardrobe slot is ready to be", "§7equipped.", "", "§eClick to equip this armor set");
+        return ItemStacks.item(Material.PINK_DYE, 1, """
+                <7>Slot {}: <a>Ready
+                <7>This wardrobe slot is ready to be
+                <7>equipped.
+
+                <e>Click to equip this armor set""", index + 1);
+    }
+
+    private ItemStack.Builder selectedControl(int index) {
+        return ItemStacks.item(Material.LIME_DYE, 1, """
+                <7>Slot {}: <a>Selected
+                <7>This armor set is selected for the
+                <7>loadout you are editing.
+
+                <c>Change the loadout selection before
+                <c>modifying this armor set.""", index + 1);
+    }
+
+    private ItemStack.Builder emptyPiece(int setIndex, int column, int piece) {
+        return ItemStacks.item(EMPTY[column], 1,
+                Text.of("<a>Slot {} {}", setIndex + 1, pieceName(piece)),
+                List.of(
+                        Text.of(piece < 2 ? "<7>Place a {} here to add it to the" : "<7>Place a pair of {} here to add",
+                                pieceName(piece).toLowerCase()),
+                        Text.of(piece < 2 ? "<7>armor set" : "<7>them to the armor set")));
+    }
+
+    private boolean isSelectedForLoadout(SkyBlockPlayer player, int setIndex) {
+        return selectingLoadout != null
+                && LoadoutManager.data(player).getLoadouts()[selectingLoadout].getArmorSet() == setIndex;
     }
 
     private DatapointWardrobe.WardrobeData data(SkyBlockPlayer player) {

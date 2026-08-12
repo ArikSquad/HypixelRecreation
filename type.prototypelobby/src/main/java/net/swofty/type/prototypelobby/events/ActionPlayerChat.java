@@ -1,7 +1,6 @@
 package net.swofty.type.prototypelobby.events;
 
 import net.minestom.server.event.player.PlayerChatEvent;
-import net.swofty.commons.StringUtility;
 import net.swofty.type.generic.HypixelGenericLoader;
 import net.swofty.type.generic.chat.StaffChat;
 import net.swofty.type.generic.data.HypixelDataHandler;
@@ -20,6 +19,7 @@ public class ActionPlayerChat implements HypixelEventClass {
 
     @PhasedEvent(node = EventNodes.PLAYER, requireDataLoaded = false, phase = EventPhase.GAMEPLAY)
     public void run(PlayerChatEvent event) {
+        if (event.isCancelled()) return;
         final HypixelPlayer player = (HypixelPlayer) event.getPlayer();
         event.setCancelled(true);
 
@@ -29,7 +29,6 @@ public class ActionPlayerChat implements HypixelEventClass {
         String message = event.getRawMessage();
         Rank rank = player.getRank();
 
-        // Sanitize message to remove any special Unicode characters
         if (!rank.isStaff())
             message = message.replaceAll("[^\\x00-\\x7F]", "");
 
@@ -38,7 +37,7 @@ public class ActionPlayerChat implements HypixelEventClass {
         DatapointChatType.Chats chatType = player.getChatType().currentChatType;
         if (chatType == DatapointChatType.Chats.STAFF) {
             if (!rank.isStaff()) {
-                player.sendMessage("§cUnknown chat type.");
+                player.sendMessage("<c>Unknown chat type.");
                 player.getChatType().switchTo(DatapointChatType.Chats.ALL);
                 return;
             }
@@ -48,7 +47,7 @@ public class ActionPlayerChat implements HypixelEventClass {
 
         if (chatType == DatapointChatType.Chats.PARTY) {
             if (!PartyManager.isInParty(player)) {
-                player.sendMessage("§cYou are not in a party and were moved to the ALL channel.");
+                player.sendMessage("<c>You are not in a party and were moved to the ALL channel.");
                 player.getChatType().switchTo(DatapointChatType.Chats.ALL);
                 return;
             }
@@ -61,10 +60,9 @@ public class ActionPlayerChat implements HypixelEventClass {
 
         receivers.forEach(onlinePlayer -> {
             if (rank.equals(Rank.DEFAULT))
-                onlinePlayer.sendMessage(player.getLegacyRankPrefix() + StringUtility.getTextFromComponent(player.getName()) + "§7: " + finalMessage);
+                onlinePlayer.sendMessage("{}<7>: {}", player.getFullDisplayName(), finalMessage);
             else
-                onlinePlayer.sendMessage(player.getLegacyRankPrefix() + StringUtility.getTextFromComponent(player.getName()) + "§f: " + finalMessage);
+                onlinePlayer.sendMessage("{}<f>: {}", player.getFullDisplayName(), finalMessage);
         });
     }
 }
-

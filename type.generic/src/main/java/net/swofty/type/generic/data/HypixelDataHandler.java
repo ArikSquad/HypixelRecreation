@@ -11,6 +11,7 @@ import net.swofty.PlayerField;
 import net.swofty.codec.Codecs;
 import net.swofty.commons.ServerType;
 import net.swofty.commons.StringUtility;
+import net.swofty.commons.TeamColorUtil;
 import net.swofty.commons.data.NameIndex;
 import net.swofty.commons.data.SwoftyData;
 import net.swofty.type.generic.data.domain.AccountDomain;
@@ -55,7 +56,8 @@ public class HypixelDataHandler extends DataHandler {
     public HypixelDataHandler fromDocument(Document document) {
         if (document == null) return initUserWithDefaultData(this.uuid);
 
-        this.uuid = UUID.fromString(document.getString("_id"));
+        String owner = document.getString("_id") != null ? document.getString("_id") : document.getString("_owner");
+        if (owner != null) this.uuid = UUID.fromString(owner);
         for (Data data : Data.values()) {
             String key = data.getKey();
             if (!document.containsKey(key)) {
@@ -149,12 +151,23 @@ public class HypixelDataHandler extends DataHandler {
     public void loadFromApi() {
         SwoftyData.account().load(uuid);
         loadBackedData();
-        String ign = get(Data.IGN, DatapointString.class).getValue();
-        if (ign != null && !ign.equals("null")) NameIndex.index(ign, uuid);
+        indexName();
+    }
+
+    public void loadFromTransferDocument(Document document) {
+        SwoftyData.account().load(uuid);
+        fromDocument(document);
+        saveBackedData();
+        indexName();
     }
 
     public void saveToApi() {
         saveBackedData();
+    }
+
+    private void indexName() {
+        String ign = get(Data.IGN, DatapointString.class).getValue();
+        if (ign != null && !ign.equals("null")) NameIndex.index(ign, uuid);
     }
 
     public static HypixelDataHandler getOfOfflinePlayer(UUID uuid) throws RuntimeException {
@@ -199,7 +212,7 @@ public class HypixelDataHandler extends DataHandler {
                 String teamName = StringUtility.limitStringLength(rank.getPriorityCharacter() + player.getUsername(), 15);
                 Team team = new TeamBuilder("H" + teamName, MinecraftServer.getTeamManager())
                     .prefix(((HypixelPlayer) player).getRankPrefix())
-                        .teamColor(rank.getTextColor())
+                        .teamColor(TeamColorUtil.fromNamedColor(rank.getTextColor()))
                         .build();
                 player.setTeam(team);
                 player.getTeam().sendUpdatePacket();
@@ -213,7 +226,7 @@ public class HypixelDataHandler extends DataHandler {
             String teamName = StringUtility.limitStringLength(rank.getPriorityCharacter() + player.getUsername(), 15);
             player.setTeam(new TeamBuilder("H" + teamName, MinecraftServer.getTeamManager())
                 .prefix(((HypixelPlayer) player).getRankPrefix())
-                    .teamColor(rank.getTextColor())
+                    .teamColor(TeamColorUtil.fromNamedColor(rank.getTextColor()))
                     .build());
             player.getTeam().sendUpdatePacket();
         }),

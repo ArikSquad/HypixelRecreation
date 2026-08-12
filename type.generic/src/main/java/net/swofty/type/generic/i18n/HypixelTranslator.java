@@ -3,12 +3,17 @@ package net.swofty.type.generic.i18n;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import net.kyori.adventure.key.Key;
-import net.kyori.adventure.text.minimessage.MiniMessage;
-import net.kyori.adventure.text.minimessage.translation.MiniMessageTranslator;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TranslatableComponent;
+import net.kyori.adventure.text.TranslationArgument;
+import net.kyori.adventure.text.format.Style;
 import net.kyori.adventure.translation.Translator;
 import net.swofty.commons.StringUtility;
+import net.swofty.commons.text.Text;
+import net.swofty.commons.text.TextParser;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.tinylog.Logger;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -16,21 +21,21 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.text.MessageFormat;
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
-public class HypixelTranslator extends MiniMessageTranslator {
+public class HypixelTranslator implements Translator {
 
     public static final Locale defaultLocale = Locale.US;
     private static final Path I18N_ROOT = Path.of("./configuration/i18n");
+
+    // A key that resolves in no locale, not even the en_US fallback, is a content bug rather than a
+    // render failure. Warn about it exactly once so the log names the key without flooding, and only
+    // for real translation attempts: canTranslate/hasKey probing must stay silent, and the hsb.ctx.*
+    // placeholders are resolved by the render boundary rather than by any bundle.
+    private static final Set<String> WARNED_MISSING_KEYS = ConcurrentHashMap.newKeySet();
 
     // Subsystem -> all files that contribute to it. Multiple files can map to the
     // same subsystem (e.g. en_US/general.properties and en_US/official/general.properties);
@@ -41,8 +46,6 @@ public class HypixelTranslator extends MiniMessageTranslator {
     private final Cache<LocaleKey, Optional<String>> keyCache;
 
     public HypixelTranslator() {
-        super(MiniMessage.miniMessage());
-
         this.fileIndexByLocale = buildFileIndex(I18N_ROOT);
         this.defaultLocaleKeys = loadAllKeysForLocale(defaultLocale);
 
@@ -55,6 +58,8 @@ public class HypixelTranslator extends MiniMessageTranslator {
                 .maximumSize(250_000L)
                 .expireAfterAccess(Duration.ofMinutes(10))
                 .build();
+
+        Text.translationKeyLookup(this::hasKey);
     }
 
     public boolean hasKey(String key) {
@@ -79,7 +84,42 @@ public class HypixelTranslator extends MiniMessageTranslator {
     }
 
     @Override
-    public @Nullable String getMiniMessageString(@NotNull String key, @NotNull Locale locale) {
+    public @Nullable MessageFormat translate(@NotNull String key, @NotNull Locale locale) {
+        return null;
+    }
+
+    @Override
+    public boolean canTranslate(@NotNull String key, @NotNull Locale locale) {
+        return getMarkupString(key, locale) != null;
+    }
+
+    @Override
+    public @Nullable Component translate(@NotNull TranslatableComponent component, @NotNull Locale locale) {
+        String key = component.key();
+        String markup = getMarkupString(key, locale);
+        if (markup == null) {
+            if (!key.startsWith(Text.CONTEXT_KEY_PREFIX) && WARNED_MISSING_KEYS.add(key)) {
+                Logger.warn("Missing translation key in en_US: " + key);
+            }
+            return null;
+        }
+
+        List<TranslationArgument> arguments = component.arguments();
+        Object[] values = new Object[arguments.size()];
+        for (int index = 0; index < values.length; index++) {
+            values[index] = arguments.get(index).value();
+        }
+
+        Component translated = TextParser.parseLenient(markup, values);
+
+        Style style = component.style();
+        if (!style.isEmpty()) {
+            translated = translated.applyFallbackStyle(style);
+        }
+        return translated.append(component.children());
+    }
+
+    public @Nullable String getMarkupString(@NotNull String key, @NotNull Locale locale) {
         LocaleKey lk = new LocaleKey(locale, key);
         Optional<String> cached = keyCache.getIfPresent(lk);
         //noinspection OptionalAssignedToNull - we are doing this correctly.

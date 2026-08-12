@@ -15,8 +15,11 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.locks.LockSupport;
 
 public final class PlayerDataService {
+    private static final long HANDOFF_SAVE_SUPPRESSION_MILLIS = 60_000;
+
     private static final List<PlayerDataDomain<?>> registered = new CopyOnWriteArrayList<>();
     private static final Map<String, Map<UUID, DataHandler>> caches = new ConcurrentHashMap<>();
+    private static final Map<UUID, Long> handoffs = new ConcurrentHashMap<>();
 
     private PlayerDataService() {}
 
@@ -93,14 +96,22 @@ public final class PlayerDataService {
     }
 
     public static void saveAndUnloadAll(ServerType type, HypixelPlayer player) {
+        boolean handedOff = consumeHandoff(player.getUuid());
         for (PlayerDataDomain<?> domain : active(type)) {
-            domain.save(player);
+            if (!handedOff) domain.save(player);
+            domain.cleanup(player);
             domain.unload(player.getUuid());
         }
     }
 
-    public static void prepare(ServerType type, UUID uuid, ServerType originType) {
-        ArrivalContext.put(uuid, originType);
-        for (PlayerDataDomain<?> domain : active(type)) domain.load(uuid);
+    public static void flushForTransfer(ServerType type, HypixelPlayer player) {
+        for (PlayerDataDomain<?> domain : active(type)) domain.save(player);
+        handoffs.put(player.getUuid(), System.currentTimeMillis());
+    }
+
+    private static boolean consumeHandoff(UUID uuid) {
+        Long handedOffAt = handoffs.remove(uuid);
+        return handedOffAt != null
+                && System.currentTimeMillis() - handedOffAt <= HANDOFF_SAVE_SUPPRESSION_MILLIS;
     }
 }

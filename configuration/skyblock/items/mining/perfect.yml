@@ -1,6 +1,7 @@
 items:
   - id: PERFECT_AMBER_GEM
     material: player_head
+    name: "Perfect Amber Gem"
     rarity: LEGENDARY
     components:
       - id: GEMSTONE_IMPL
@@ -10,9 +11,11 @@ items:
       - id: TRACKED_UNIQUE
       - id: CUSTOM_DISPLAY_NAME
         display_name: Perfect Amber Gemstone
-
+      - id: ITEM_MODEL
+        item_model: hypixel_skyblock:item/collections/gemstone/amber/perfect_amber_gem
   - id: PERFECT_AMETHYST_GEM
     material: player_head
+    name: "Perfect Amethyst Gem"
     rarity: LEGENDARY
     components:
       - id: GEMSTONE_IMPL
@@ -22,9 +25,11 @@ items:
       - id: TRACKED_UNIQUE
       - id: CUSTOM_DISPLAY_NAME
         display_name: Perfect Amethyst Gemstone
-
+      - id: ITEM_MODEL
+        item_model: hypixel_skyblock:item/collections/gemstone/amethyst/perfect_amethyst_gem
   - id: PERFECT_JADE_GEM
     material: player_head
+    name: "Perfect Jade Gem"
     rarity: LEGENDARY
     components:
       - id: GEMSTONE_IMPL
@@ -34,9 +39,11 @@ items:
       - id: TRACKED_UNIQUE
       - id: CUSTOM_DISPLAY_NAME
         display_name: Perfect Jade Gemstone
-
+      - id: ITEM_MODEL
+        item_model: hypixel_skyblock:item/collections/gemstone/jade/perfect_jade_gem
   - id: PERFECT_JASPER_GEM
     material: player_head
+    name: "Perfect Jasper Gem"
     rarity: LEGENDARY
     components:
       - id: GEMSTONE_IMPL
@@ -46,9 +53,11 @@ items:
       - id: TRACKED_UNIQUE
       - id: CUSTOM_DISPLAY_NAME
         display_name: Perfect Jasper Gemstone
-
+      - id: ITEM_MODEL
+        item_model: hypixel_skyblock:item/collections/gemstone/jasper/perfect_jasper_gem
   - id: PERFECT_RUBY_GEM
     material: player_head
+    name: "Perfect Ruby Gem"
     rarity: LEGENDARY
     components:
       - id: GEMSTONE_IMPL
@@ -58,9 +67,11 @@ items:
       - id: TRACKED_UNIQUE
       - id: CUSTOM_DISPLAY_NAME
         display_name: Perfect Ruby Gemstone
-
+      - id: ITEM_MODEL
+        item_model: hypixel_skyblock:item/collections/gemstone/ruby/perfect_ruby_gem
   - id: PERFECT_SAPPHIRE_GEM
     material: player_head
+    name: "Perfect Sapphire Gem"
     rarity: LEGENDARY
     components:
       - id: GEMSTONE_IMPL
@@ -70,9 +81,11 @@ items:
       - id: TRACKED_UNIQUE
       - id: CUSTOM_DISPLAY_NAME
         display_name: Perfect Sapphire Gemstone
-
+      - id: ITEM_MODEL
+        item_model: hypixel_skyblock:item/collections/gemstone/sapphire/perfect_sapphire_gem
   - id: PERFECT_TOPAZ_GEM
     material: player_head
+    name: "Perfect Topaz Gem"
     rarity: LEGENDARY
     components:
       - id: GEMSTONE_IMPL
@@ -82,9 +95,11 @@ items:
       - id: TRACKED_UNIQUE
       - id: CUSTOM_DISPLAY_NAME
         display_name: Perfect Topaz Gemstone
-
+      - id: ITEM_MODEL
+        item_model: hypixel_skyblock:item/collections/gemstone/topaz/perfect_topaz_gem
   - id: PERFECT_OPAL_GEM
     material: player_head
+    name: "Perfect Opal Gem"
     rarity: LEGENDARY
     components:
       - id: CUSTOM_DISPLAY_NAME
@@ -94,9 +109,11 @@ items:
         rarity: PERFECT
         gemstone: OPAL
         skull_texture: 7e509f06b8dc384358ff2472ab62ce6fdc2f646e338efdc3c9fb05ddc431f64
-
+      - id: ITEM_MODEL
+        item_model: hypixel_skyblock:item/slayer/blaze/gemstones/perfect_opal_gem
   - id: PERFECT_AQUAMARINE_GEM
     material: player_head
+    name: "Perfect Aquamarine Gem"
     rarity: LEGENDARY
     components:
       - id: CUSTOM_DISPLAY_NAME
@@ -106,9 +123,11 @@ items:
         rarity: PERFECT
         gemstone: AQUAMARINE
         skull_texture: 255c8aac8990e456abf35030115e36c7c566782e13d81b1a770995fa5f37c822
-
+      - id: ITEM_MODEL
+        item_model: hypixel_skyblock:item/collections/gemstone/aquamarine/perfect_aquamarine_gem
   - id: PERFECT_CITRINE_GEM
     material: player_head
+    name: "Perfect Citrine Gem"
     rarity: LEGENDARY
     components:
       - id: CUSTOM_DISPLAY_NAME
@@ -118,9 +137,11 @@ items:
         rarity: PERFECT
         gemstone: CITRINE
         skull_texture: 1c3ca0db0b9af8e98acde1c7d696dcf79eb3079702e5b554141dba663b43dd65
-
+      - id: ITEM_MODEL
+        item_model: hypixel_skyblock:item/collections/gemstone/citrine/perfect_citrine_gem
   - id: PERFECT_ONYX_GEM
     material: player_head
+    name: "Perfect Onyx Gem"
     rarity: LEGENDARY
     components:
       - id: CUSTOM_DISPLAY_NAME
@@ -130,9 +151,11 @@ items:
         rarity: PERFECT
         gemstone: ONYX
         skull_texture: 6315486612c655a82f5ffda7a7d08ddd1bb8b31b622220a46e7781e3aa85c427
-
+      - id: ITEM_MODEL
+        item_model: hypixel_skyblock:item/collections/gemstone/onyx/perfect_onyx_gem
   - id: PERFECT_PERIDOT_GEM
     material: player_head
+    name: "Perfect Peridot Gem"
     rarity: LEGENDARY
     components:
       - id: CUSTOM_DISPLAY_NAME
@@ -142,3 +165,5 @@ items:
         rarity: PERFECT
         gemstone: PERIDOT
         skull_texture: 5a2588831cd4b282aaa16356b787d56e4eb13f0d62f414dafd1318ea09f8019c
+      - id: ITEM_MODEL
+        item_model: hypixel_skyblock:item/collections/gemstone/peridot/perfect_peridot_gem

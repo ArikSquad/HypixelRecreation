@@ -31,7 +31,7 @@ jobs:
         run: ./gradlew --parallel --build-cache shadowJar
 
       - name: Set up Go
-        uses: actions/setup-go@v6
+        uses: actions/setup-go@v7
         with:
           go-version-file: setup/go.mod
           check-latest: false
@@ -74,9 +74,13 @@ jobs:
             service.bazaar/build/libs/*.jar
             service.itemtracker/build/libs/*.jar
             service.api/build/libs/*.jar
-            service.datamutex/build/libs/*.jar
             service.party/build/libs/*.jar
             service.orchestrator/build/libs/*.jar
             service.friend/build/libs/*.jar
             service.darkauction/build/libs/*.jar
+            service.store/build/libs/*.jar
+            service.elections/build/libs/*.jar
+            service.guild/build/libs/*.jar
+            service.punishment/build/libs/*.jar
+            service.replay/build/libs/*.jar
             setup/dist/*.tar.gz

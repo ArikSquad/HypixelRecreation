@@ -41,6 +41,7 @@ include(":type.skywarsgame")
 include(":type.skywarsconfigurator")
 include(":type.ravengardgeneric")
 include(":type.ravengardlobby")
+include(":type.ravengarddungeon")
 include(":type.mainlobby")
 
 include(":type.replayviewer")
@@ -56,4 +57,23 @@ include(":service.replay")
 include(":service.punishment")
 include(":service.elections")
 include(":service.guild")
+include(":service.store")
 include(":anticheat")
+
+val clientModRequested = gradle.startParameter.taskNames.any { taskName ->
+    taskName == "clientmod" ||
+        taskName == ":clientmod" ||
+        taskName.startsWith("clientmod:") ||
+        taskName.startsWith(":clientmod:")
+}
+
+if (clientModRequested || gradle.startParameter.projectProperties.containsKey("includeClientmod")) {
+    include(":clientmod")
+}
+
+pluginManagement {
+    repositories {
+        maven("https://maven.fabricmc.net/")
+        gradlePluginPortal()
+    }
+}

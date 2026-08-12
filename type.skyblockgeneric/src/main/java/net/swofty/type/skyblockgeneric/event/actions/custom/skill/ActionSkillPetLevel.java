@@ -1,6 +1,7 @@
 package net.swofty.type.skyblockgeneric.event.actions.custom.skill;
 
 import net.swofty.commons.skyblock.item.attribute.attributes.ItemAttributePetData;
+import net.swofty.commons.text.Text;
 import net.swofty.type.generic.event.EventNodes;
 import net.swofty.type.generic.event.HypixelEventClass;
 import net.swofty.type.generic.event.phase.EventPhase;
@@ -29,7 +30,13 @@ public class ActionSkillPetLevel implements HypixelEventClass {
         boolean hasLeveled = petData.addExperience(xp, enabledPet.getAttributeHandler().getRarity());
 
         if (hasLeveled) {
-            player.sendMessage("§aYour " + enabledPet.getAttributeHandler().getRarity().getColor() + pet.getPetName() + " Pet §alevelled up to level §9" + petData.getAsLevel(enabledPet.getAttributeHandler().getRarity()) + "§a!");
+            player.sendMessage(
+                    "<a>Your {}levelled up to level <9>{}<a>!",
+                    Text.of("<color:{}>{} Pet ",
+                            enabledPet.getAttributeHandler().getRarity().getColor(),
+                            pet.getPetName()),
+                    petData.getAsLevel(enabledPet.getAttributeHandler().getRarity())
+            );
         }
     }
 }

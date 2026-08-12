@@ -16,7 +16,7 @@ class ReplayTablistModule extends TablistModule {
             session -> {
                 // TODO: display all player names with only their color
             },
-            () -> entries.add(new TablistEntry("§7Loading...", TablistSkinRegistry.ORANGE))
+                () -> entries.add(new TablistEntry("<7>Loading...", TablistSkinRegistry.ORANGE))
         );
 
         return entries;

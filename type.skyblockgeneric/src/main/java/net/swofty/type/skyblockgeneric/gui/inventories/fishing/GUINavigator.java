@@ -3,14 +3,10 @@ package net.swofty.type.skyblockgeneric.gui.inventories.fishing;
 import net.minestom.server.inventory.InventoryType;
 import net.minestom.server.item.Material;
 import net.swofty.commons.ServerType;
+import net.swofty.commons.text.Text;
 import net.swofty.type.generic.HypixelConst;
-import net.swofty.type.generic.gui.inventory.ItemStackCreator;
-import net.swofty.type.generic.gui.v2.Components;
-import net.swofty.type.generic.gui.v2.DefaultState;
-import net.swofty.type.generic.gui.v2.Layouts;
-import net.swofty.type.generic.gui.v2.StatelessView;
-import net.swofty.type.generic.gui.v2.ViewConfiguration;
-import net.swofty.type.generic.gui.v2.ViewLayout;
+import net.swofty.type.generic.gui.inventory.ItemStacks;
+import net.swofty.type.generic.gui.v2.*;
 import net.swofty.type.generic.gui.v2.context.ViewContext;
 import net.swofty.type.skyblockgeneric.user.SkyBlockPlayer;
 
@@ -28,62 +24,56 @@ public class GUINavigator extends StatelessView {
         boolean inBayou = currentServer == ServerType.SKYBLOCK_BACKWATER_BAYOU;
         boolean unlocked = inBayou || player.getShipState().hasDestination("BACKWATER_BAYOU");
 
-        layout.slots(Layouts.row(0), (_, _) -> Components.FILLER);
-        layout.slots(Layouts.row(5), (_, _) -> Components.FILLER);
-        layout.slots(Layouts.rectangle(9, 45), (_, _) -> Components.FILLER.material(Material.BLUE_STAINED_GLASS_PANE));
+        layout.slots(Layouts.row(0));
+        layout.slots(Layouts.row(5));
+        layout.slots(Layouts.rectangle(9, 45), (_, _) -> ItemStacks.filler(Material.BLUE_STAINED_GLASS_PANE));
         Components.close(layout, 49);
 
         if (inBayou) {
-            layout.slot(10, ItemStackCreator.getStackHead(
-                "§bFishing Outpost",
-                "d7cc6687423d0570d556ac53e0676cb563bbdd9717cd8269bdebed6f6d4e7bf8",
-                1,
-                "§7Your base of operations.",
-                "",
-                "§eClick to travel!"
-            ), (_, viewCtx) -> ((SkyBlockPlayer) viewCtx.player()).sendTo(ServerType.SKYBLOCK_HUB));
-            layout.slot(40, ItemStackCreator.getStackHead(
-                "§2Backwater Bayou",
-                "1c0cd33590f64d346d98cdd01606938742e715dda6737353306a44f81c8ba426",
-                1,
-                "§7A small, marshy outlet in the middle",
-                "§7of nowhere. Due to its isolated",
-                "§7nature, people frequently come here",
-                "§7to dump their trash.",
-                "",
-                "§a§lYOU ARE HERE!"
-            ));
+            layout.slot(10, ItemStacks.head(
+                "d7cc6687423d0570d556ac53e0676cb563bbdd9717cd8269bdebed6f6d4e7bf8", """
+                    <b>Fishing Outpost
+                    <7>Your base of operations.
+
+                    <e>Click to travel!"""),
+                (_, viewCtx) -> ((SkyBlockPlayer) viewCtx.player()).sendTo(ServerType.SKYBLOCK_HUB));
+            layout.slot(40, ItemStacks.head(
+                "1c0cd33590f64d346d98cdd01606938742e715dda6737353306a44f81c8ba426", """
+                    <2>Backwater Bayou
+                    <7>A small, marshy outlet in the middle
+                    <7>of nowhere. Due to its isolated
+                    <7>nature, people frequently come here
+                    <7>to dump their trash.
+
+                    <a><l>YOU ARE HERE!"""));
             return;
         }
 
-        layout.slot(10, ItemStackCreator.getStackHead(
-            "§2Backwater Bayou",
-            "1c0cd33590f64d346d98cdd01606938742e715dda6737353306a44f81c8ba426",
-            1,
-            "§7A small, marshy outlet in the middle",
-            "§7of nowhere. Due to its isolated",
-            "§7nature, people frequently come here",
-            "§7to dump their trash.",
-            "",
-            "§7Activities:",
-            "§8 ■ §7Fish up §2Junk §7and trade it with §2Junker",
-            "    §2Joel §7for useful items!",
-            "§8 ■ §7Apply §9Rod Parts §7with §2Roddy§7.",
-            "§8 ■ §7Fish §2Bayou Sea Creatures§7.",
-            "§8 ■ §7Learn about §dFishing Hotspots §7from",
-            "    §dHattie§7.",
-            "",
-            unlocked ? "§eClick to travel!" : "§cDestination Locked"
-        ), unlocked
+        layout.slot(10, ItemStacks.head(
+            "1c0cd33590f64d346d98cdd01606938742e715dda6737353306a44f81c8ba426", """
+                <2>Backwater Bayou
+                <7>A small, marshy outlet in the middle
+                <7>of nowhere. Due to its isolated
+                <7>nature, people frequently come here
+                <7>to dump their trash.
+
+                <7>Activities:
+                <8> ■ <7>Fish up <2>Junk <7>and trade it with <2>Junker
+                    <2>Joel <7>for useful items!
+                <8> ■ <7>Apply <9>Rod Parts <7>with <2>Roddy<7>.
+                <8> ■ <7>Fish <2>Bayou Sea Creatures<7>.
+                <8> ■ <7>Learn about <d>Fishing Hotspots <7>from
+                    <d>Hattie<7>.
+
+                {}""",
+            unlocked ? Text.of("<e>Click to travel!") : Text.of("<c>Destination Locked")), unlocked
             ? (_, viewCtx) -> ((SkyBlockPlayer) viewCtx.player()).sendTo(ServerType.SKYBLOCK_BACKWATER_BAYOU)
-            : (_, viewCtx) -> viewCtx.player().sendMessage("§cYou have not unlocked this destination yet."));
-        layout.slot(40, ItemStackCreator.getStackHead(
-            "§bFishing Outpost",
-            "d7cc6687423d0570d556ac53e0676cb563bbdd9717cd8269bdebed6f6d4e7bf8",
-            1,
-            "§7Your base of operations.",
-            "",
-            "§a§lYOU ARE HERE!"
-        ));
+            : (_, viewCtx) -> viewCtx.player().sendMessage("<c>You have not unlocked this destination yet."));
+        layout.slot(40, ItemStacks.head(
+            "d7cc6687423d0570d556ac53e0676cb563bbdd9717cd8269bdebed6f6d4e7bf8", """
+                <b>Fishing Outpost
+                <7>Your base of operations.
+
+                <a><l>YOU ARE HERE!"""));
     }
 }

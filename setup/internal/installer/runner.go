@@ -3,7 +3,6 @@ package installer
 import (
 	"bufio"
 	"context"
-	"errors"
 	"fmt"
 	"io"
 	"os"
@@ -64,7 +63,7 @@ func (r *Runner) install(ctx context.Context, cfg Config, sourceConfigDir string
 		return err
 	}
 
-	repoDir, err := r.cloneAssets(ctx, cfg.InstallDir)
+	repoDir, err := r.cloneAssets(ctx, cfg)
 	if err != nil {
 		return err
 	}
@@ -103,10 +102,21 @@ func (r *Runner) install(ctx context.Context, cfg Config, sourceConfigDir string
 		return err
 	}
 
+	if cfg.NoStart {
+		r.emit("Skipping container start")
+		return nil
+	}
+
 	return r.Start(ctx, cfg.InstallDir)
 }
 
-func (r *Runner) cloneAssets(ctx context.Context, installDir string) (string, error) {
+func (r *Runner) cloneAssets(ctx context.Context, cfg Config) (string, error) {
+	if cfg.SourceRepo != "" {
+		r.emit("Using repository assets from %s", cfg.SourceRepo)
+		return cfg.SourceRepo, nil
+	}
+
+	installDir := cfg.InstallDir
 	repoDir := filepath.Join(installDir, "_repo")
 	if _, err := os.Stat(filepath.Join(repoDir, ".git")); err == nil {
 		r.emit("Updating sparse checkout")
@@ -154,7 +164,7 @@ func (r *Runner) Start(ctx context.Context, dir string) error {
 }
 
 func (r *Runner) Reconfigure(ctx context.Context, cfg Config) error {
-	repoDir, err := r.cloneAssets(ctx, cfg.InstallDir)
+	repoDir, err := r.cloneAssets(ctx, cfg)
 	if err != nil {
 		return err
 	}
@@ -213,16 +223,13 @@ func runStream(ctx context.Context, dir string, events chan<- Event, name string
 }
 
 func CheckDependencies(ctx context.Context) error {
-	for _, name := range []string{"curl", "git", "docker"} {
-		if _, err := exec.LookPath(name); err != nil {
-			return fmt.Errorf("%s is required but was not found in PATH", name)
-		}
+	report := CheckDependenciesReport(ctx)
+	if report.OK() {
+		return nil
 	}
-	if err := exec.CommandContext(ctx, "docker", "compose", "version").Run(); err != nil {
-		return errors.New("docker compose v2 is required: docker compose version failed")
+	names := make([]string, 0, len(report.Missing))
+	for _, dep := range report.Missing {
+		names = append(names, dep.Name)
 	}
-	if err := exec.CommandContext(ctx, "docker", "info").Run(); err != nil {
-		return errors.New("cannot connect to the Docker daemon; check that Docker is running and your user can access it")
-	}
-	return nil
+	return fmt.Errorf("missing dependencies: %s", strings.Join(names, ", "))
 }

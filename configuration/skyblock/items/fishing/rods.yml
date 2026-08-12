@@ -1,6 +1,7 @@
 items:
   - id: CHALLENGE_ROD
     material: FISHING_ROD
+    name: "Challenge Rod"
     rarity: UNCOMMON
     default_statistics:
       DAMAGE: 75
@@ -11,9 +12,13 @@ items:
       - id: FISHING_ROD_METADATA
         medium: WATER
         required_fishing_level: 10
-
+      - id: SELLABLE
+        value: 5000.0
+      - id: ITEM_MODEL
+        item_model: hypixel_skyblock:item/fishing/rod/challenging_rod
   - id: CHAMP_ROD
     material: FISHING_ROD
+    name: "Champ Rod"
     rarity: RARE
     default_statistics:
       DAMAGE: 90
@@ -24,9 +29,13 @@ items:
       - id: FISHING_ROD_METADATA
         medium: WATER
         required_fishing_level: 15
-
+      - id: SELLABLE
+        value: 17800.0
+      - id: ITEM_MODEL
+        item_model: hypixel_skyblock:item/fishing/rod/rod_of_champions
   - id: LEGEND_ROD
     material: FISHING_ROD
+    name: "Legend Rod"
     rarity: EPIC
     default_statistics:
       DAMAGE: 130
@@ -37,9 +46,13 @@ items:
       - id: FISHING_ROD_METADATA
         medium: WATER
         required_fishing_level: 20
-
+      - id: SELLABLE
+        value: 111000.0
+      - id: ITEM_MODEL
+        item_model: hypixel_skyblock:item/fishing/rod/rod_of_legends
   - id: ROD_OF_THE_SEA
     material: FISHING_ROD
+    name: "Rod Of The Sea"
     rarity: LEGENDARY
     default_statistics:
       DAMAGE: 150
@@ -50,9 +63,13 @@ items:
       - id: FISHING_ROD_METADATA
         medium: WATER
         required_fishing_level: 24
-
+      - id: SELLABLE
+        value: 111000.0
+      - id: ITEM_MODEL
+        item_model: hypixel_skyblock:item/fishing/rod/rod_of_the_sea
   - id: GIANT_FISHING_ROD
     material: FISHING_ROD
+    name: "Giant Fishing Rod"
     rarity: LEGENDARY
     default_statistics:
       DAMAGE: 20
@@ -62,9 +79,11 @@ items:
     components:
       - id: FISHING_ROD_METADATA
         medium: WATER
-
+      - id: ITEM_MODEL
+        item_model: hypixel_skyblock:item/fishing/rod/giant_fishing_rod
   - id: DIRT_ROD
     material: FISHING_ROD
+    name: "Dirt Rod"
     rarity: UNCOMMON
     default_statistics:
       FISHING_SPEED: 20
@@ -72,9 +91,11 @@ items:
       - id: FISHING_ROD_METADATA
         medium: WATER
         rod_parts_enabled: false
-
+      - id: ITEM_MODEL
+        item_model: hypixel_skyblock:item/fishing/rod/dirt_rod
   - id: STARTER_LAVA_ROD
     material: FISHING_ROD
+    name: "Starter Lava Rod"
     rarity: UNCOMMON
     default_statistics:
       DAMAGE: 50
@@ -86,9 +107,11 @@ items:
         subtitle: Lava Rod
         medium: LAVA
         required_fishing_level: 10
-
+      - id: ITEM_MODEL
+        item_model: hypixel_skyblock:item/fishing/rod/starter_lava_rod
   - id: POLISHED_TOPAZ_ROD
     material: FISHING_ROD
+    name: "Polished Topaz Rod"
     rarity: RARE
     default_statistics:
       DAMAGE: 100
@@ -101,10 +124,12 @@ items:
         medium: LAVA
         required_fishing_level: 19
         extra_requirements:
-          - "❣ Requires Heart of the Mountain Tier 5."
-
+          - "\u2763 Requires Heart of the Mountain Tier 5."
+      - id: ITEM_MODEL
+        item_model: hypixel_skyblock:item/fishing/rod/topaz_rod
   - id: MAGMA_ROD
     material: FISHING_ROD
+    name: "Magma Rod"
     rarity: RARE
     default_statistics:
       DAMAGE: 150
@@ -117,9 +142,13 @@ items:
         subtitle: Lava Rod
         medium: LAVA
         required_fishing_level: 27
-
+      - id: SELLABLE
+        value: 8000.0
+      - id: ITEM_MODEL
+        item_model: hypixel_skyblock:item/fishing/rod/magma_rod
   - id: INFERNO_ROD
     material: FISHING_ROD
+    name: "Inferno Rod"
     rarity: EPIC
     default_statistics:
       DAMAGE: 210
@@ -132,9 +161,13 @@ items:
         subtitle: Lava Rod
         medium: LAVA
         required_fishing_level: 30
-
+      - id: SELLABLE
+        value: 1028000.0
+      - id: ITEM_MODEL
+        item_model: hypixel_skyblock:item/fishing/rod/inferno_rod
   - id: HELLFIRE_ROD
     material: FISHING_ROD
+    name: "Hellfire Rod"
     rarity: LEGENDARY
     default_statistics:
       DAMAGE: 225
@@ -147,9 +180,13 @@ items:
         subtitle: Lava Rod
         medium: LAVA
         required_fishing_level: 35
-
+      - id: SELLABLE
+        value: 5634000.0
+      - id: ITEM_MODEL
+        item_model: hypixel_skyblock:item/fishing/rod/hellfire_rod
   - id: CHUM_ROD
     material: FISHING_ROD
+    name: "Chum Rod"
     rarity: RARE
     default_statistics:
       DAMAGE: 55
@@ -161,9 +198,13 @@ items:
         medium: WATER
         required_fishing_level: 5
         legacy_conversion_target: CHALLENGE_ROD
-
+      - id: SELLABLE
+        value: 750.0
+      - id: ITEM_MODEL
+        item_model: hypixel_skyblock:item/fishing/rod/broken_rod
   - id: PRISMARINE_ROD
     material: FISHING_ROD
+    name: "Prismarine Rod"
     rarity: COMMON
     default_statistics:
       DAMAGE: 15
@@ -174,9 +215,13 @@ items:
         medium: WATER
         required_fishing_level: 3
         legacy_conversion_target: CHALLENGE_ROD
-
+      - id: SELLABLE
+        value: 10.0
+      - id: ITEM_MODEL
+        item_model: hypixel_skyblock:item/fishing/rod/broken_rod
   - id: SPONGE_ROD
     material: FISHING_ROD
+    name: "Sponge Rod"
     rarity: COMMON
     default_statistics:
       DAMAGE: 20
@@ -187,9 +232,13 @@ items:
         medium: WATER
         required_fishing_level: 5
         legacy_conversion_target: CHALLENGE_ROD
-
+      - id: SELLABLE
+        value: 36.0
+      - id: ITEM_MODEL
+        item_model: hypixel_skyblock:item/fishing/rod/broken_rod
   - id: SPEEDSTER_ROD
     material: FISHING_ROD
+    name: "Speedster Rod"
     rarity: UNCOMMON
     default_statistics:
       DAMAGE: 30
@@ -200,9 +249,13 @@ items:
         medium: WATER
         required_fishing_level: 6
         legacy_conversion_target: CHALLENGE_ROD
-
+      - id: SELLABLE
+        value: 1000.0
+      - id: ITEM_MODEL
+        item_model: hypixel_skyblock:item/fishing/rod/broken_rod
   - id: FARMER_ROD
     material: FISHING_ROD
+    name: "Farmer Rod"
     rarity: UNCOMMON
     default_statistics:
       DAMAGE: 50
@@ -213,9 +266,13 @@ items:
         medium: WATER
         required_fishing_level: 8
         legacy_conversion_target: CHALLENGE_ROD
-
+      - id: SELLABLE
+        value: 1050.0
+      - id: ITEM_MODEL
+        item_model: hypixel_skyblock:item/fishing/rod/broken_rod
   - id: ICE_ROD
     material: FISHING_ROD
+    name: "Ice Rod"
     rarity: RARE
     default_statistics:
       DAMAGE: 30
@@ -225,9 +282,13 @@ items:
         medium: WATER
         required_fishing_level: 3
         legacy_conversion_target: CHALLENGE_ROD
-
+      - id: SELLABLE
+        value: 20000.0
+      - id: ITEM_MODEL
+        item_model: hypixel_skyblock:item/fishing/rod/broken_rod
   - id: WINTER_ROD
     material: FISHING_ROD
+    name: "Winter Rod"
     rarity: RARE
     default_statistics:
       DAMAGE: 50
@@ -238,9 +299,13 @@ items:
         medium: WATER
         required_fishing_level: 10
         legacy_conversion_target: CHALLENGE_ROD
-
+      - id: SELLABLE
+        value: 20000.0
+      - id: ITEM_MODEL
+        item_model: hypixel_skyblock:item/fishing/rod/broken_rod
   - id: YETI_ROD
     material: FISHING_ROD
+    name: "Yeti Rod"
     rarity: EPIC
     default_statistics:
       DAMAGE: 150
@@ -251,9 +316,13 @@ items:
         medium: WATER
         required_fishing_level: 25
         legacy_conversion_target: CHALLENGE_ROD
-
+      - id: SELLABLE
+        value: 150000.0
+      - id: ITEM_MODEL
+        item_model: hypixel_skyblock:item/fishing/rod/broken_rod
   - id: THE_SHREDDER
     material: FISHING_ROD
+    name: "The Shredder"
     rarity: LEGENDARY
     default_statistics:
       DAMAGE: 120
@@ -264,9 +333,13 @@ items:
         medium: WATER
         required_fishing_level: 20
         legacy_conversion_target: CHALLENGE_ROD
-
+      - id: SELLABLE
+        value: 1000.0
+      - id: ITEM_MODEL
+        item_model: hypixel_skyblock:item/fishing/rod/broken_rod
   - id: PHANTOM_ROD
     material: FISHING_ROD
+    name: "Phantom Rod"
     rarity: LEGENDARY
     default_statistics:
       DAMAGE: 200
@@ -277,9 +350,13 @@ items:
         medium: WATER
         required_fishing_level: 21
         legacy_conversion_target: CHALLENGE_ROD
-
+      - id: SELLABLE
+        value: 1000.0
+      - id: ITEM_MODEL
+        item_model: hypixel_skyblock:item/fishing/rod/broken_rod
   - id: AUGER_ROD
     material: FISHING_ROD
+    name: "Auger Rod"
     rarity: LEGENDARY
     default_statistics:
       DAMAGE: 135
@@ -290,3 +367,5 @@ items:
         medium: WATER
         required_fishing_level: 25
         legacy_conversion_target: ROD_OF_THE_SEA
+      - id: ITEM_MODEL
+        item_model: hypixel_skyblock:item/fishing/rod/broken_rod

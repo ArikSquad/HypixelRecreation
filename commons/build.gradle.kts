@@ -1,5 +1,5 @@
 plugins {
-    java
+    `java-library`
     id("maven-publish")
 }
 
@@ -22,6 +22,7 @@ dependencies {
     implementation(libs.tinylog.api)
     implementation(libs.tinylog.impl)
     implementation(libs.zstd.jni)
+    api(libs.adventure.api)
 
     compileOnly(libs.minestom) {
         exclude(group = "org.jboss.shrinkwrap.resolver", module = "shrinkwrap-resolver-depchain")

@@ -9,7 +9,7 @@ import net.minestom.server.coordinate.Pos;
 import net.minestom.server.coordinate.Vec;
 import net.minestom.server.entity.EntityType;
 import net.minestom.server.entity.ItemEntity;
-import net.minestom.server.instance.InstanceContainer;
+import net.minestom.server.instance.Instance;
 import net.minestom.server.instance.block.Block;
 import net.minestom.server.item.ItemStack;
 import net.minestom.server.network.NetworkBuffer;
@@ -24,6 +24,7 @@ import net.swofty.commons.bedwars.map.BedWarsMapsConfig.TeamKey;
 import net.swofty.commons.protocol.objects.replay.ReplayMapUploadProtocolObject;
 import net.swofty.commons.protocol.objects.replay.ReplayStartProtocolObject;
 import net.swofty.commons.scoreboard.ScoreboardData;
+import net.swofty.commons.text.Text;
 import net.swofty.proxyapi.ProxyService;
 import net.swofty.type.bedwarsgame.death.BedWarsDeathType;
 import net.swofty.type.bedwarsgame.game.v2.BedWarsGame;
@@ -42,12 +43,7 @@ import net.swofty.type.generic.HypixelConst;
 import org.tinylog.Logger;
 
 import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -130,14 +126,14 @@ public class BedWarsReplayManager {
 
             teamInfo.put(teamId, new ReplayStartProtocolObject.TeamInfo(
                 team.getName(),
-                team.getColorCode(),
+                Text.colorTag(team.getColor()),
                 team.getTeamKey().rgb()
             ));
         }
 
         // Serialize and upload map, get the hash
         String mapName = game.getMapEntry().getName();
-        InstanceContainer instance = game.getInstance();
+        final Instance instance = game.getInstance();
         String mapHash = serializeAndUploadMap(instance, mapName, centerChunkX, centerChunkZ);
 
         // Start recording session
@@ -193,7 +189,9 @@ public class BedWarsReplayManager {
         }
 
         BedWarsTeam team = game.getTeam(player.getTeamKey().name()).orElse(null);
-        String prefix = team != null ? team.getColorCode() + "§l" + team.getTeamKey().name().charAt(0) + team.getColorCode() + " " : "";
+        String prefix = team != null
+                ? Text.of("<color:{}><l>{}</l> ", team.getColor(), team.getTeamKey().name().charAt(0)).serialize()
+                : "";
         int nameColor = team != null ? team.getTeamKey().rgb() : -1;
 
         recorder.record(new RecordablePlayerDisplayName(
@@ -548,7 +546,7 @@ public class BedWarsReplayManager {
     private static final int MAP_CHUNK_RADIUS = 8; // this is a max limit.
 
 
-    private String serializeAndUploadMap(InstanceContainer instance, String mapName, int centerChunkX, int centerChunkZ) {
+    private String serializeAndUploadMap(Instance instance, String mapName, int centerChunkX, int centerChunkZ) {
         try {
             MapSerializer.SerializedMap serializedMap = MapSerializer.serializeRegion(
                 instance, centerChunkX, centerChunkZ, MAP_CHUNK_RADIUS

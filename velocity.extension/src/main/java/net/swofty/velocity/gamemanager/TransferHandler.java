@@ -2,12 +2,12 @@ package net.swofty.velocity.gamemanager;
 
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
-import net.kyori.adventure.text.Component;
 import net.swofty.commons.ServerType;
-import net.swofty.commons.protocol.objects.proxy.from.PrepareTransferProtocol;
-import java.util.concurrent.TimeUnit;
+import net.swofty.commons.protocol.objects.proxy.from.GivePlayersOriginTypeProtocol;
 import net.swofty.commons.protocol.objects.proxy.from.PlayerSwitchedProtocol;
+import net.swofty.commons.text.Text;
 import net.swofty.velocity.SkyBlockVelocity;
+import net.swofty.velocity.text.ProxyText;
 import net.swofty.commons.redis.RedisClient;
 
 import java.util.Map;
@@ -128,12 +128,12 @@ public record TransferHandler(Player player) {
 				}
 
 				if (destination == null) {
-					player.sendMessage(Component.text("§cThere are no lobby servers available right now."));
+					player.sendMessage(Text.of("<c>There are no lobby servers available right now."));
 					return;
 				}
 
 				afkOriginLobbyType.remove(uuid);
-				player.sendMessage(Component.text("§7Sending to server " + destination.displayName() + "..."));
+				player.sendMessage(Text.of("<7>Sending to server {}...", destination.displayName()));
 				player.createConnectionRequest(destination.registeredServer()).connectWithIndication();
 			} finally {
 				afkReturnInProgress.remove(uuid);
@@ -151,20 +151,16 @@ public record TransferHandler(Player player) {
 			UUID serverUUID = UUID.fromString(manualPick.getServerInfo().getName());
 			UUID originServerUUID = UUID.fromString(originServer.getServerInfo().getName());
 
+			RedisClient.requestServer(serverUUID,
+					new GivePlayersOriginTypeProtocol(),
+					new GivePlayersOriginTypeProtocol.Request(
+							player.getUniqueId().toString(), originServerType.name()));
+
 			playersGoalServerType.remove(player);
 			playersOriginServer.remove(player);
 
-			try {
-				RedisClient.requestServer(serverUUID,
-						new PrepareTransferProtocol(),
-						new PrepareTransferProtocol.Request(player.getUniqueId().toString(),
-								originServerType != null ? originServerType.name() : null))
-						.orTimeout(3, TimeUnit.SECONDS).join();
-			} catch (Exception ignored) {
-			}
-
 			GameManager.GameServer manualPickAsGame = GameManager.getFromUUID(serverUUID);
-			player.sendMessage(Component.text("§7Sending to server " + manualPickAsGame.displayName() + "..."));
+			player.sendMessage(Text.of("<7>Sending to server {}...", manualPickAsGame.displayName()));
 			player.createConnectionRequest(manualPick).connectWithIndication();
 
 			RedisClient.requestServer(originServerUUID,
@@ -188,7 +184,7 @@ public record TransferHandler(Player player) {
 			if (server == null) {
 				playersGoalServerType.remove(player);
 				playersOriginServer.remove(player);
-				player.disconnect(Component.text("§cThere are no Hypixel (type=" + type.name() + ") servers available at the moment."));
+				ProxyText.disconnect(player, "<c>There are no Hypixel (type={}) servers available at the moment.", type.name());
 				return;
 			}
 
@@ -201,19 +197,15 @@ public record TransferHandler(Player player) {
 			UUID sendingToServerUUID = server.internalID();
 			ServerType originServerType = GameManager.getTypeFromRegisteredServer(originServer);
 
+			RedisClient.requestServer(sendingToServerUUID,
+					new GivePlayersOriginTypeProtocol(),
+					new GivePlayersOriginTypeProtocol.Request(
+							player.getUniqueId().toString(), originServerType.name()));
+
 			playersOriginServer.remove(player);
 			playersGoalServerType.remove(player);
 
-			try {
-				RedisClient.requestServer(sendingToServerUUID,
-						new PrepareTransferProtocol(),
-						new PrepareTransferProtocol.Request(player.getUniqueId().toString(),
-								originServerType != null ? originServerType.name() : null))
-						.orTimeout(3, TimeUnit.SECONDS).join();
-			} catch (Exception ignored) {
-			}
-
-			player.sendMessage(Component.text("§7Sending to server " + server.displayName() + "..."));
+			player.sendMessage(Text.of("<7>Sending to server {}...", server.displayName()));
 			player.createConnectionRequest(server.registeredServer()).connectWithIndication();
 
 			RedisClient.requestServer(originServerUUID,
@@ -229,11 +221,11 @@ public record TransferHandler(Player player) {
 
 		GameManager.GameServer server = BalanceConfigurations.getServerFor(player, type);
 		if (server == null) {
-			player.sendMessage(Component.text("§cThere are no Hypixel (type=" + type.name() + ") servers available at the moment."));
+			player.sendMessage(Text.of("<c>There are no Hypixel (type={}) servers available at the moment.", type.name()));
 			return;
 		}
 
-		player.sendMessage(Component.text("§7Sending to server " + server.displayName() + "..."));
+		player.sendMessage(Text.of("<7>Sending to server {}...", server.displayName()));
 		transferTo(server.registeredServer());
 	}
 
@@ -258,24 +250,15 @@ public record TransferHandler(Player player) {
 				playersOriginServer.remove(player);
 
 				UUID serverUUID = UUID.fromString(toTransferTo.getServerInfo().getName());
-				String originName = originServerType != null ? originServerType.name() : null;
 
-				try {
+				if (originServer != null && originServerType != null) {
 					RedisClient.requestServer(serverUUID,
-							new PrepareTransferProtocol(),
-							new PrepareTransferProtocol.Request(player.getUniqueId().toString(), originName))
-							.orTimeout(3, TimeUnit.SECONDS).join();
-				} catch (Exception ignored) {
+							new GivePlayersOriginTypeProtocol(),
+							new GivePlayersOriginTypeProtocol.Request(
+									player.getUniqueId().toString(), originServerType.name()));
 				}
 
 				player.createConnectionRequest(toTransferTo).connectWithIndication();
-
-				if (originServer != null && originServerType != null) {
-					RedisClient.requestServer(UUID.fromString(originServer.getServerInfo().getName()),
-							new PlayerSwitchedProtocol(),
-							new PlayerSwitchedProtocol.Request(player.getUniqueId().toString()));
-				}
-
 				future.complete(null);
 			} catch (Exception e) {
 				future.completeExceptionally(e);

@@ -5,6 +5,8 @@ import net.swofty.type.generic.data.domain.DomainKey;
 import net.swofty.type.generic.data.domain.PlayerDataDomain;
 import net.swofty.type.generic.data.domain.PlayerDataService;
 import net.swofty.type.generic.user.HypixelPlayer;
+import net.swofty.type.ravengardgeneric.profile.RavengardProfiles;
+import net.swofty.type.ravengardgeneric.user.RavengardPlayer;
 
 import java.util.UUID;
 
@@ -43,6 +45,9 @@ public final class RavengardDomain implements PlayerDataDomain<RavengardDataHand
     public void save(HypixelPlayer player) {
         RavengardDataHandler handler = PlayerDataService.find(KEY, player.getUuid()).orElse(null);
         if (handler == null) return;
+        if (player instanceof RavengardPlayer ravengardPlayer) {
+            RavengardProfiles.endSessionAndSave(ravengardPlayer);
+        }
         handler.runOnSave(player);
         handler.saveBackedData();
     }

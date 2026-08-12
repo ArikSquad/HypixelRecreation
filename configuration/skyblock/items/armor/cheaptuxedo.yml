@@ -1,7 +1,8 @@
 items:
   - id: CHEAP_TUXEDO_BOOTS
     material: leather_boots
-    rarity: COMMON
+    name: "Cheap Tuxedo Boots"
+    rarity: EPIC
     default_statistics:
       CRITICAL_DAMAGE: 25.0
       intelligence: 25.0
@@ -16,7 +17,8 @@ items:
         display_name: Cheap Tuxedo Oxfords
   - id: CHEAP_TUXEDO_CHESTPLATE
     material: leather_chestplate
-    rarity: COMMON
+    name: "Cheap Tuxedo Chestplate"
+    rarity: EPIC
     default_statistics:
       CRITICAL_DAMAGE: 50.0
       intelligence: 50.0
@@ -31,7 +33,8 @@ items:
         display_name: Cheap Tuxedo Jacket
   - id: CHEAP_TUXEDO_LEGGINGS
     material: leather_leggings
-    rarity: COMMON
+    name: "Cheap Tuxedo Leggings"
+    rarity: EPIC
     default_statistics:
       CRITICAL_DAMAGE: 25.0
       intelligence: 25.0

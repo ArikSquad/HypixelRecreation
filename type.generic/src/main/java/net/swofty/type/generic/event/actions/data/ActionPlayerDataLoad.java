@@ -9,6 +9,7 @@ import net.swofty.type.generic.event.EventNodes;
 import net.swofty.type.generic.event.HypixelEventClass;
 import net.swofty.type.generic.event.phase.EventPhase;
 import net.swofty.type.generic.event.phase.PhasedEvent;
+import net.swofty.type.generic.resourcepack.ResourcePackManager;
 import net.swofty.type.generic.user.HypixelPlayer;
 import net.swofty.type.generic.user.flow.PlayerFlow;
 
@@ -23,5 +24,10 @@ public class ActionPlayerDataLoad implements HypixelEventClass {
             PlayerDataService.loadAll(type, player.getUuid());
             PlayerDataService.attachAll(type, player);
         });
+
+        ResourcePackManager packManager = HypixelConst.getResourcePackManager();
+        if (packManager != null) {
+            PlayerFlow.run(player, "data/resource-pack", () -> packManager.sendPackBlocking(player, 25));
+        }
     }
 }

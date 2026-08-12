@@ -39,7 +39,7 @@ public class ActionGamePlace implements HypixelEventClass {
 		}
 
 		if (event.getBlockPosition().y() >= 105) {
-			player.sendMessage("§cYou cannot place blocks this high!");
+			player.sendMessage("<c>You cannot place blocks this high!");
 			event.setCancelled(true);
 			return;
 		}
@@ -55,14 +55,14 @@ public class ActionGamePlace implements HypixelEventClass {
 			if (spawnPos != null) {
 				Point spawnPoint = new Pos(spawnPos.x(), spawnPos.y(), spawnPos.z());
 				if (blockPosition.distance(spawnPoint) <= 6) {
-					player.sendMessage("§cYou cannot build here.");
+					player.sendMessage("<c>You cannot build here.");
 					event.setCancelled(true);
 					return;
 				}
 			}
 		}
 
-		if (event.getBlock().registry().material() == Material.TNT) {
+		if (event.getBlock().material() == Material.TNT) {
 			TntEntity entity = new TntEntity(event.getPlayer());
 			entity.setFuse(50);
 			entity.setInstance(event.getInstance(), blockPosition.add(0.5, 0, 0.5));

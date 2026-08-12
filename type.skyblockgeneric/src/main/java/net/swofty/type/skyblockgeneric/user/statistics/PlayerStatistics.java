@@ -4,8 +4,6 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 import net.kyori.adventure.bossbar.BossBar;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.event.ClickEvent;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.entity.LivingEntity;
 import net.minestom.server.entity.Player;
@@ -16,6 +14,7 @@ import net.minestom.server.timer.ExecutionType;
 import net.minestom.server.timer.Scheduler;
 import net.minestom.server.timer.TaskSchedule;
 import net.swofty.commons.StringUtility;
+import net.swofty.commons.text.Text;
 import net.swofty.commons.skyblock.item.ItemType;
 import net.swofty.commons.skyblock.item.PotatoType;
 import net.swofty.commons.skyblock.item.attribute.attributes.ItemAttributeHotPotatoBookData;
@@ -38,10 +37,12 @@ import net.swofty.type.skyblockgeneric.entity.mob.SkyBlockMob;
 import net.swofty.type.skyblockgeneric.event.value.SkyBlockValueEvent;
 import net.swofty.type.skyblockgeneric.event.value.events.RegenerationValueUpdateEvent;
 import net.swofty.type.skyblockgeneric.gems.Gemstone;
+import net.swofty.type.skyblockgeneric.hunting.AttributeEffectService;
 import net.swofty.type.skyblockgeneric.item.SkyBlockItem;
 import net.swofty.type.skyblockgeneric.item.components.ConstantStatisticsComponent;
 import net.swofty.type.skyblockgeneric.item.components.PetComponent;
 import net.swofty.type.skyblockgeneric.item.components.SkullHeadComponent;
+import net.swofty.type.skyblockgeneric.item.handlers.pet.abstr.PetAbility;
 import net.swofty.type.skyblockgeneric.item.components.StandardItemComponent;
 import net.swofty.type.skyblockgeneric.item.set.ArmorSetRegistry;
 import net.swofty.type.skyblockgeneric.item.set.impl.ArmorSet;
@@ -57,14 +58,7 @@ import net.swofty.type.skyblockgeneric.user.SkyBlockPlayer;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Constructor;
-import java.util.AbstractMap;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class PlayerStatistics {
     private static final Map<Player, BossBar> barCache = new HashMap<>();
@@ -199,12 +193,19 @@ public class PlayerStatistics {
     public ItemStatistics petStatistics() {
         SkyBlockItem pet = player.getPetData().getEnabledPet();
         if (pet == null) return ItemStatistics.empty();
-        ItemStatistics baseStatistics = pet.getComponent(PetComponent.class).getBaseStatistics();
-        ItemStatistics perLevelStatistics = pet.getComponent(PetComponent.class).getPerLevelStatistics(
+        PetComponent component = pet.getComponent(PetComponent.class);
+        ItemStatistics baseStatistics = component.getBaseStatistics();
+        ItemStatistics perLevelStatistics = component.getPerLevelStatistics(
                 pet.getAttributeHandler().getRarity()
         );
         int level = pet.getAttributeHandler().getPetData().getAsLevel(pet.getAttributeHandler().getRarity());
-        return ItemStatistics.add(baseStatistics, ItemStatistics.multiply(perLevelStatistics, level));
+        ItemStatistics stats = ItemStatistics.add(baseStatistics, ItemStatistics.multiply(perLevelStatistics, level));
+
+        for (PetAbility ability : player.getPetData().getCachedAbilities(pet)) {
+            stats = ItemStatistics.add(stats, ability.getStatistics(player, pet));
+        }
+
+        return stats;
     }
 
     public ItemStatistics spareStatistics() {
@@ -249,6 +250,7 @@ public class PlayerStatistics {
         total = ItemStatistics.add(total, getTemporaryStatistics());
         total = ItemStatistics.add(total, petStatistics());
         total = ItemStatistics.add(total, accessoryStatistics);
+        total = ItemStatistics.add(total, AttributeEffectService.statistics(player));
         total = ItemStatistics.add(total, ItemStatistic.getOfAllBaseValues());
 
         return total;
@@ -301,6 +303,8 @@ public class PlayerStatistics {
 
         addItemModifiers(modifiers, getMainHandItem(), StatisticSourceType.HELD_ITEM);
         addProgressionModifiers(modifiers);
+        addModifier(modifiers, "Attributes", AttributeEffectService.statistics(player),
+                StatisticSourceType.ATTRIBUTE, StatisticModifierType.ATTRIBUTE, null, Material.PRISMARINE_SHARD, null);
         addTemporaryModifiers(modifiers);
 
         SkyBlockItem pet = player.getPetData().getEnabledPet();
@@ -517,7 +521,9 @@ public class PlayerStatistics {
             ItemStatistics.Builder toAdd = ItemStatistics.builder();
             PotatoType potatoType = hotPotatoBookData.getPotatoType();
 
-            potatoType.stats.forEach(toAdd::withBase);
+            int appliedBooks = hotPotatoBookData.getTotalAmount();
+            potatoType.stats.forEach((statistic, amount) ->
+                    toAdd.withBase(statistic, amount * appliedBooks));
             statistics = ItemStatistics.add(statistics, toAdd.build());
         }
         return statistics;
@@ -689,17 +695,15 @@ public class PlayerStatistics {
                                 SkyBlockDataHandler.Data.EXPERIENCED_STATISTICS, DatapointStringList.class
                         ).setValue(experiencedStatistics);
 
-                        player.sendMessage("§a§l▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬");
-                        player.sendMessage("§6§lNEW STAT DISCOVERED! §r" + statistic.getFullDisplayName());
+                        player.sendMessage("<a><l>▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬");
+                        player.sendMessage("<6><l>NEW STAT DISCOVERED! <r>{}", statistic.getCompleteDisplayName());
                         player.sendMessage(" ");
-                        player.sendMessage(String.join(" ", description).replace("§7", ""));
+                        player.sendMessage(Text.parse(String.join(" ", description).replace("<7>", "")));
                         player.sendMessage(" ");
-                        player.sendMessage(Component.text("§e§lCLICK HERE §r§eto learn more on the Official SkyBlock Wiki!")
-                                .hoverEvent(Component.text("§eClick to view the " + statistic.getDisplayName() + " §eWiki page!"))
-                            .clickEvent(ClickEvent.openUrl("https://wiki.hypixel.net/" +
-                                StringUtility.toNormalCase(statistic.name()).replace(" ", "_")))
-                        );
-                        player.sendMessage("§a§l▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬");
+                        player.sendMessage("<hover:'<e>Click to view the {} Wiki page!'><click:url:'https://wiki.hypixel.net/{}'><e><l>CLICK HERE <r><e>to learn more on the Official SkyBlock Wiki!</click></hover>",
+                            statistic.getDisplayName(),
+                            StringUtility.toNormalCase(statistic.name()).replace(" ", "_"));
+                        player.sendMessage("<a><l>▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬");
                     }
                 });
             });
@@ -713,19 +717,19 @@ public class PlayerStatistics {
             SkyBlockGenericLoader.getLoadedPlayers().forEach(player -> {
                 SkyBlockActionBar actionBar = SkyBlockActionBar.getFor(player);
 
-                // Set default displays
                 float absorption = player.getAdditionalHearts();
-                String heartsColour = absorption > 0.0f ? "§6" : "§c";
-                actionBar.setDefaultDisplay(SkyBlockActionBar.BarSection.HEALTH,
-                        heartsColour + Math.round(player.getHealth() + absorption) + "/" + Math.round(player.getMaxHealth()) + "❤");
+                int hearts = Math.round(player.getHealth() + absorption);
+                int maxHearts = Math.round(player.getMaxHealth());
+                actionBar.setDefaultDisplay(SkyBlockActionBar.BarSection.HEALTH, absorption > 0.0f
+                        ? Text.of("<6>{}/{}❤", hearts, maxHearts)
+                        : Text.of("<c>{}/{}❤", hearts, maxHearts));
                 actionBar.setDefaultDisplay(SkyBlockActionBar.BarSection.DEFENSE,
-                        player.getDefense() == 0 ? "" : "§a" + Math.round(player.getDefense()) + "❈ Defense");
+                        player.getDefense() == 0 ? Text.empty()
+                                : Text.of("<a>{}❈ Defense", Math.round(player.getDefense())));
                 actionBar.setDefaultDisplay(SkyBlockActionBar.BarSection.MANA,
-                        "§b" + Math.round(player.getMana()) + "/" + Math.round(player.getMaxMana()) + "✎ Mana");
+                        Text.of("<b>{}/{}✎ Mana", Math.round(player.getMana()), Math.round(player.getMaxMana())));
 
-                // Build and send the action bar
-                String actionBarString = actionBar.buildActionBarString();
-                player.sendActionBar(Component.text(actionBarString));
+                player.sendActionBar(actionBar.render());
             });
             return TaskSchedule.tick(4);
         }, ExecutionType.TICK_END);
@@ -803,15 +807,15 @@ public class PlayerStatistics {
                     float progress = (float) activeMission.getMissionProgress() / maxProgress;
 
                     bar = BossBar.bossBar(
-                            Component.text(
-                                    "Objective: §e" + MissionData.getMissionClass(activeMission).getName()
-                                            + "  §7(§e" + activeMission.getMissionProgress() + "§7/§a" + maxProgress + "§7)"),
+                            Text.of("Objective: <e>{}  <7>(<e>{}<7>/<a>{}<7>)",
+                                    MissionData.getMissionClass(activeMission).getName(),
+                                    activeMission.getMissionProgress(), maxProgress),
                             progress,
                             BossBar.Color.YELLOW,
                             BossBar.Overlay.PROGRESS);
                 } else {
                     bar = BossBar.bossBar(
-                            Component.text("Objective: §e" + MissionData.getMissionClass(activeMission).getName()),
+                            Text.of("Objective: <e>{}", MissionData.getMissionClass(activeMission).getName()),
                             1f,
                             BossBar.Color.YELLOW,
                             BossBar.Overlay.NOTCHED_6);

@@ -1,7 +1,7 @@
 package net.swofty.type.bedwarslobby.events;
 
 import net.minestom.server.event.player.PlayerChatEvent;
-import net.swofty.commons.StringUtility;
+import net.swofty.commons.text.Text;
 import net.swofty.type.generic.HypixelGenericLoader;
 import net.swofty.type.generic.chat.StaffChat;
 import net.swofty.type.generic.collectibles.bedwars.prestige.BedWarsPrestigeRenderer;
@@ -9,8 +9,8 @@ import net.swofty.type.generic.data.HypixelDataHandler;
 import net.swofty.type.generic.data.datapoints.DatapointChatType;
 import net.swofty.type.generic.data.handlers.BedWarsDataHandler;
 import net.swofty.type.generic.event.EventNodes;
-import net.swofty.type.generic.event.phase.PhasedEvent;
 import net.swofty.type.generic.event.HypixelEventClass;
+import net.swofty.type.generic.event.phase.PhasedEvent;
 import net.swofty.type.generic.party.PartyManager;
 import net.swofty.type.generic.user.HypixelPlayer;
 import net.swofty.type.generic.user.categories.Rank;
@@ -21,6 +21,7 @@ public class ActionPlayerChat implements HypixelEventClass {
 
     @PhasedEvent(node = EventNodes.PLAYER , requireDataLoaded = false)
     public void run(PlayerChatEvent event) {
+        if (event.isCancelled()) return;
         final HypixelPlayer player = (HypixelPlayer) event.getPlayer();
         event.setCancelled(true);
 
@@ -29,7 +30,7 @@ public class ActionPlayerChat implements HypixelEventClass {
 
         BedWarsDataHandler bedWarsDataHandler = BedWarsDataHandler.getUser(player);
         if (bedWarsDataHandler == null) {
-            player.sendMessage("§cAn error occurred while processing your chat message. Please try again later.");
+            player.sendMessage("<c>An error occurred while processing your chat message. Please try again later.");
             return;
         }
 
@@ -45,7 +46,7 @@ public class ActionPlayerChat implements HypixelEventClass {
         DatapointChatType.Chats chatType = player.getChatType().currentChatType;
         if (chatType == DatapointChatType.Chats.STAFF) {
             if (!rank.isStaff()) {
-                player.sendMessage("§cUnknown chat type.");
+                player.sendMessage("<c>Unknown chat type.");
                 player.getChatType().switchTo(DatapointChatType.Chats.ALL);
                 return;
             }
@@ -55,7 +56,7 @@ public class ActionPlayerChat implements HypixelEventClass {
 
         if (chatType == DatapointChatType.Chats.PARTY) {
             if (!PartyManager.isInParty(player)) {
-                player.sendMessage("§cYou are not in a party and were moved to the ALL channel.");
+                player.sendMessage("<c>You are not in a party and were moved to the ALL channel.");
                 player.getChatType().switchTo(DatapointChatType.Chats.ALL);
                 return;
             }
@@ -66,13 +67,15 @@ public class ActionPlayerChat implements HypixelEventClass {
 
         List<HypixelPlayer> receivers = HypixelGenericLoader.getLoadedPlayers();
 
-        String levelPrefix = BedWarsPrestigeRenderer.renderBrackets(player) + " ";
+        Text levelPrefix = BedWarsPrestigeRenderer.renderBrackets(player).append(" ");
 
         receivers.forEach(onlinePlayer -> {
             if (rank.equals(Rank.DEFAULT))
-                onlinePlayer.sendMessage(levelPrefix + player.getLegacyRankPrefix() + StringUtility.getTextFromComponent(player.getName()) + "§7: " + finalMessage);
+                onlinePlayer.sendMessage("{}{}{}<7>: {}", levelPrefix, player.getRankPrefix(),
+                        player.getUsername(), finalMessage);
             else
-                onlinePlayer.sendMessage(levelPrefix + player.getLegacyRankPrefix() + StringUtility.getTextFromComponent(player.getName()) + "§f: " + finalMessage);
+                onlinePlayer.sendMessage("{}{}{}<f>: {}", levelPrefix, player.getRankPrefix(),
+                        player.getUsername(), finalMessage);
         });
     }
 }

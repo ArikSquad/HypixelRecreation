@@ -19,11 +19,12 @@ import java.util.Map;
 
 public class EnchantmentEnderSlayer implements Ench, EnchFromTable, EventBasedEnchant {
 
-    public static final double[] MULTIPLIERS = new double[]{15, 30, 45, 60, 80, 100, 130};
+    public static final double[] MULTIPLIERS = new double[]{5, 10, 15, 20, 30, 40, 50};
 
     @Override
     public String getDescription(int level) {
-        return "Increases damage dealt to " + MobType.ENDER.getFullDisplayName() + "§7 mobs by §a" + MULTIPLIERS[level - 1] + "%§7.";
+        return "Increases damage dealt to " + MobType.ENDER.getFullDisplayName()
+                + "<7> mobs by <a>" + MULTIPLIERS[level - 1] + "%<7>.";
     }
 
     @Override

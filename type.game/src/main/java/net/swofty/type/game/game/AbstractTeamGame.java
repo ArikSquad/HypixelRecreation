@@ -1,8 +1,8 @@
 package net.swofty.type.game.game;
 
 import net.kyori.adventure.audience.Audience;
-import net.kyori.adventure.text.Component;
 import net.minestom.server.instance.InstanceContainer;
+import net.swofty.commons.text.Text;
 import net.swofty.type.game.game.event.GameTeamWinConditionEvent;
 import net.swofty.type.game.game.event.PlayerAssignedTeamEvent;
 import net.swofty.type.game.game.event.TeamEliminatedEvent;
@@ -10,15 +10,7 @@ import net.swofty.type.game.game.team.GameTeam;
 import net.swofty.type.game.game.team.TeamManager;
 import org.tinylog.Logger;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -101,8 +93,12 @@ public abstract class AbstractTeamGame<P extends GameParticipant, T extends Game
         ));
     }
 
-    public void broadcastMessage(Component message) {
+    public void broadcastMessage(Text message) {
         Audience.audience(getPlayers().stream().map(GameParticipant::getServerPlayer).toList()).sendMessage(message);
+    }
+
+    public void broadcastMessage(String markup, Object... arguments) {
+        broadcastMessage(Text.of(markup, arguments));
     }
 
     /**
@@ -162,7 +158,7 @@ public abstract class AbstractTeamGame<P extends GameParticipant, T extends Game
                 playerTeams.put(player.getUuid(), targetTeam.getId());
 
                 eventDispatcher.accept(new PlayerAssignedTeamEvent<>(
-                    gameId,
+                        this,
                     player.getServerPlayer(),
                     targetTeam
                 ));
@@ -188,7 +184,7 @@ public abstract class AbstractTeamGame<P extends GameParticipant, T extends Game
 
             eventDispatcher.accept(
                 new GameTeamWinConditionEvent<>(
-                    gameId,
+                        this,
                     Optional.ofNullable(winner)
                 )
             );

@@ -1,6 +1,7 @@
 items:
   - id: PROMISING_PICKAXE
     material: iron_pickaxe
+    name: "Promising Pickaxe"
     rarity: UNCOMMON
     default_statistics:
       damage: 20.0
@@ -13,3 +14,5 @@ items:
       - id: PICKAXE
       - id: SELLABLE
         value: 10.0
+      - id: ITEM_MODEL
+        item_model: hypixel_skyblock:item/uncategorized/promising_pickaxe

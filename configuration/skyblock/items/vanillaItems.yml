@@ -1,6 +1,7 @@
 items:
   - id: CHAIN
     material: IRON_CHAIN
+    name: "Chain"
     rarity: COMMON
     components:
       - id: PLACEABLE
@@ -26,7 +27,7 @@ items:
               amount: 1
   - id: HAY_BALE
     material: hay_block
-    rarity: COMMON
+    rarity: RARE
     components:
       - id: PLACEABLE
       - id: SELLABLE
@@ -46,6 +47,8 @@ items:
             result:
               type: HAY_BALE
               amount: 1
+      - id: SKULL_HEAD
+        texture: b5bce379dd3149a3a0c7ccd31c90c08fc3a7cb5e50d442e9dc2c32d155b17dac
   - id: BAKED_POTATO
     material: baked_potato
     rarity: COMMON
@@ -54,6 +57,7 @@ items:
         value: 3.0
   - id: CACTUS_GREEN
     material: green_dye
+    name: "Cactus Green"
     rarity: COMMON
     components:
       - id: SELLABLE
@@ -84,6 +88,8 @@ items:
             result:
               type: ANVIL
               amount: 1
+      - id: SELLABLE
+        value: 45.0
   - id: CHEST
     material: CHEST
     rarity: COMMON
@@ -167,7 +173,7 @@ items:
     rarity: COMMON
     components:
       - id: SELLABLE
-        value: 0.2
+        value: 0.25
       - id: DEFAULT_CRAFTABLE
         recipes:
           - type: SHAPED
@@ -209,6 +215,8 @@ items:
             result:
               type: FISHING_ROD
               amount: 1
+      - id: SELLABLE
+        value: 2.0
     default_statistics:
       damage: 10.0
       strength: 5.0
@@ -227,7 +235,7 @@ items:
     components:
       - id: PLACEABLE
       - id: SELLABLE
-        value: 1.0
+        value: 8.0
       - id: DEFAULT_CRAFTABLE
         recipes:
           - type: SHAPED
@@ -272,6 +280,7 @@ items:
               amount: 1
   - id: REPEATER
     material: REPEATER
+    name: "Repeater"
     rarity: COMMON
     components:
       - id: SELLABLE
@@ -299,6 +308,7 @@ items:
               amount: 1
   - id: COMPARATOR
     material: COMPARATOR
+    name: "Comparator"
     rarity: COMMON
     components:
       - id: SELLABLE
@@ -437,7 +447,7 @@ items:
     rarity: COMMON
     components:
       - id: SELLABLE
-        value: 1.0
+        value: 2.0
       - id: PLACEABLE
       - id: DEFAULT_CRAFTABLE
         recipes:
@@ -515,7 +525,7 @@ items:
     rarity: COMMON
     components:
       - id: SELLABLE
-        value: 1.0
+        value: 8.0
       - id: PLACEABLE
       - id: DEFAULT_CRAFTABLE
         recipes:
@@ -543,7 +553,7 @@ items:
     rarity: COMMON
     components:
       - id: SELLABLE
-        value: 1.0
+        value: 4.0
       - id: PLACEABLE
       - id: DEFAULT_CRAFTABLE
         recipes:
@@ -571,7 +581,7 @@ items:
     rarity: COMMON
     components:
       - id: SELLABLE
-        value: 1.0
+        value: 15.0
       - id: PLACEABLE
       - id: DEFAULT_CRAFTABLE
         recipes:
@@ -599,7 +609,7 @@ items:
     rarity: COMMON
     components:
       - id: SELLABLE
-        value: 1.0
+        value: 3.0
       - id: PLACEABLE
       - id: DEFAULT_CRAFTABLE
         recipes:
@@ -652,7 +662,7 @@ items:
     rarity: COMMON
     components:
       - id: SELLABLE
-        value: 1.0
+        value: 2.0
       - id: PLACEABLE
       - id: DEFAULT_CRAFTABLE
         recipes:
@@ -680,7 +690,7 @@ items:
     rarity: COMMON
     components:
       - id: SELLABLE
-        value: 1.0
+        value: 2.0
       - id: PLACEABLE
       - id: DEFAULT_CRAFTABLE
         recipes:
@@ -711,7 +721,7 @@ items:
     rarity: COMMON
     components:
       - id: SELLABLE
-        value: 1.0
+        value: 3.0
       - id: PLACEABLE
       - id: DEFAULT_CRAFTABLE
         recipes:
@@ -742,7 +752,7 @@ items:
     rarity: COMMON
     components:
       - id: SELLABLE
-        value: 1.0
+        value: 8.0
       - id: DEFAULT_CRAFTABLE
         recipes:
           - type: SHAPED
@@ -762,6 +772,7 @@ items:
               amount: 1
   - id: CHEST_MINECART
     material: CHEST_MINECART
+    name: "Chest Minecart"
     rarity: COMMON
     components:
       - id: SELLABLE
@@ -785,10 +796,11 @@ items:
               amount: 1
   - id: HOPPER_MINECART
     material: HOPPER_MINECART
+    name: "Hopper Minecart"
     rarity: COMMON
     components:
       - id: SELLABLE
-        value: 1.0
+        value: 22.0
       - id: DEFAULT_CRAFTABLE
         recipes:
           - type: SHAPED
@@ -808,6 +820,7 @@ items:
               amount: 1
   - id: TNT_MINECART
     material: TNT_MINECART
+    name: "Tnt Minecart"
     rarity: COMMON
     components:
       - id: SELLABLE
@@ -831,6 +844,7 @@ items:
               amount: 1
   - id: FURNACE_MINECART
     material: FURNACE_MINECART
+    name: "Furnace Minecart"
     rarity: COMMON
     components:
       - id: SELLABLE
@@ -854,10 +868,11 @@ items:
               amount: 1
   - id: TNT
     material: TNT
+    name: "Tnt"
     rarity: COMMON
     components:
       - id: SELLABLE
-        value: 1.0
+        value: 15.0
       - id: PLACEABLE
       - id: DEFAULT_CRAFTABLE
         recipes:
@@ -882,7 +897,7 @@ items:
     rarity: COMMON
     components:
       - id: SELLABLE
-        value: 1.0
+        value: 9.0
       - id: PLACEABLE
       - id: DEFAULT_CRAFTABLE
         recipes:
@@ -910,7 +925,7 @@ items:
     rarity: COMMON
     components:
       - id: SELLABLE
-        value: 1.0
+        value: 12.0
       - id: PLACEABLE
       - id: DEFAULT_CRAFTABLE
         recipes:
@@ -930,4 +945,3 @@ items:
             result:
               type: JUKEBOX
               amount: 1
-

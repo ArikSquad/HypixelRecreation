@@ -1,5 +1,6 @@
 package net.swofty.type.skyblockgeneric.event.actions.custom.skill;
 
+import net.swofty.commons.text.Text;
 import net.swofty.type.generic.event.EventNodes;
 import net.swofty.type.generic.event.HypixelEventClass;
 import net.swofty.type.generic.event.phase.EventPhase;
@@ -19,16 +20,15 @@ public class ActionSkillDisplay implements HypixelEventClass {
         if (difference <= 0) return;
 
         int currentLevel = event.getPlayer().getSkills().getCurrentLevel(event.getSkillCategory());
+        if (currentLevel >= event.getSkillCategory().asCategory().getHighestLevel()) return;
         int currentRequirement = event.getSkillCategory().asCategory().getReward(currentLevel + 1).requirement();
 
         SkyBlockActionBar.getFor(event.getPlayer()).addReplacement(
                 SkyBlockActionBar.BarSection.DEFENSE,
-                new SkyBlockActionBar.DisplayReplacement(
-                        "§3+" + difference + " " + event.getSkillCategory() + " (" + event.getNewValueCumulative()
-                                + "/" + currentRequirement + ")",
-                        20,
-                        2
-                )
+                Text.of("<3>+{} {} ({}/{})", difference, event.getSkillCategory(),
+                        event.getNewValueCumulative(), currentRequirement),
+                20,
+                2
         );
     }
 }

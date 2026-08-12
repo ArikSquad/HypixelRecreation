@@ -14,11 +14,13 @@ import net.swofty.commons.skyblock.item.UnderstandableSkyBlockItem;
 import net.swofty.commons.skyblock.item.attribute.ItemAttribute;
 import net.swofty.commons.skyblock.item.attribute.attributes.ItemAttributeGemData;
 import net.swofty.commons.skyblock.item.attribute.attributes.ItemAttributePotionData;
-import net.swofty.type.generic.gui.inventory.ItemStackCreator;
+import net.swofty.commons.skyblock.item.attribute.attributes.ItemAttributeRarity;
+import net.swofty.type.generic.gui.inventory.ItemStacks;
 import net.swofty.type.skyblockgeneric.item.ItemLore;
 import net.swofty.type.skyblockgeneric.item.SkyBlockItem;
 import net.swofty.type.skyblockgeneric.item.components.EnchantedComponent;
 import net.swofty.type.skyblockgeneric.item.components.GemstoneComponent;
+import net.swofty.type.skyblockgeneric.item.components.ItemModelComponent;
 import net.swofty.type.skyblockgeneric.item.components.SkullHeadComponent;
 import net.swofty.type.skyblockgeneric.item.components.TrackedUniqueComponent;
 import net.swofty.type.skyblockgeneric.potion.PotionEffectType;
@@ -45,7 +47,7 @@ public class NonPlayerItemUpdater {
 
     public NonPlayerItemUpdater(ItemStack item) {
         this.item = new SkyBlockItem(item);
-        this.stack = ItemStackCreator.getFromStack(item);
+        this.stack = ItemStacks.copy(item);
     }
 
     public NonPlayerItemUpdater(ItemStack.Builder item) {
@@ -70,7 +72,7 @@ public class NonPlayerItemUpdater {
             builder = builder.set(Tag.String(attribute.getKey()),
                     item.getAttribute(attribute.getKey()).saveIntoString());
         }
-        builder = ItemStackCreator.clearAttributes(builder);
+        builder = ItemStacks.clearAttributes(builder);
 
         ItemStack.Builder stack = updateItemLore(builder);
 
@@ -86,7 +88,7 @@ public class NonPlayerItemUpdater {
             json.put("isPublic", true);
             json.put("signatureRequired", false);
             json.put("textures", new JSONObject().put("SKIN", new JSONObject()
-                    .put("url", "http://textures.minecraft.net/texture/" + component.getSkullTexture(item))
+                .put("url", "https://textures.minecraft.net/texture/" + component.getSkullTexture(item))
                     .put("metadata", new JSONObject().put("model", "slim"))));
 
             String texturesEncoded = Base64.getEncoder().encodeToString(json.toString().getBytes());
@@ -94,33 +96,26 @@ public class NonPlayerItemUpdater {
             stack.set(DataComponents.PROFILE, new ResolvableProfile(new PlayerSkin(texturesEncoded, null)));
         }
 
+        if (item.hasComponent(ItemModelComponent.class)) {
+            stack.set(DataComponents.ITEM_MODEL, item.getComponent(ItemModelComponent.class).getItemModel());
+        }
+
+        ItemAttributeRarity rarityAttribute = (ItemAttributeRarity) item.getAttribute("rarity");
+        stack.set(DataComponents.TOOLTIP_STYLE, rarityAttribute.value.getTooltipStyle());
+
         if (item.hasComponent(GemstoneComponent.class)) {
             GemstoneComponent gemstoneComponent = item.getComponent(GemstoneComponent.class);
 
-            int index = 0;
             ItemAttributeGemData.GemData gemData = item.getAttributeHandler().getGemData();
-            for (GemstoneComponent.GemstoneSlot slot : gemstoneComponent.getSlots()) {
-                if (slot.unlockPrice() == 0 && slot.itemRequirements().isEmpty()) {
-                    // Slot should be unlocked by default
-                    if (gemData.hasGem(index)) continue;
-                    gemData.putGem(
-                            new ItemAttributeGemData.GemData.GemSlots(
-                                    index,
-                                    null,
-                                    true
-                            )
-                    );
-                } else {
-                    if (gemData.hasGem(index)) continue;
-                    gemData.putGem(
-                            new ItemAttributeGemData.GemData.GemSlots(
-                                    index,
-                                    null,
-                                    false
-                            )
-                    );
-                }
-                index++;
+            for (int index = 0; index < gemstoneComponent.getSlots().size(); index++) {
+                if (gemData.hasGem(index)) continue;
+
+                GemstoneComponent.GemstoneSlot slot = gemstoneComponent.getSlots().get(index);
+                gemData.putGem(new ItemAttributeGemData.GemData.GemSlots(
+                        index,
+                        null,
+                        slot.unlockPrice() == 0 && slot.itemRequirements().isEmpty()
+                ));
             }
             item.getAttributeHandler().setGemData(gemData);
         }
@@ -128,7 +123,7 @@ public class NonPlayerItemUpdater {
         Color leatherColour = item.getAttributeHandler().getLeatherColour();
         if (leatherColour != null) {
             stack.set(DataComponents.DYED_COLOR, leatherColour);
-            stack = ItemStackCreator.clearAttributes(stack);
+            stack = ItemStacks.clearAttributes(stack);
         }
 
         // Apply potion contents for proper color display
@@ -141,7 +136,7 @@ public class NonPlayerItemUpdater {
                     item.getAttribute(attribute.getKey()).saveIntoString());
         }
 
-        ItemStackCreator.clearAttributes(stack);
+        ItemStacks.clearAttributes(stack);
         return stack;
     }
 

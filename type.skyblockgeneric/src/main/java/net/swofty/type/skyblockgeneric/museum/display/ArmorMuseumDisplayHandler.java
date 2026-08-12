@@ -6,8 +6,9 @@ import net.minestom.server.entity.EquipmentSlot;
 import net.minestom.server.entity.LivingEntity;
 import net.minestom.server.entity.metadata.other.ArmorStandMeta;
 import net.minestom.server.entity.metadata.other.InteractionMeta;
-import net.swofty.type.skyblockgeneric.data.datapoints.DatapointMuseum;
+import net.swofty.commons.text.Text;
 import net.swofty.type.generic.entity.hologram.PlayerHolograms;
+import net.swofty.type.skyblockgeneric.data.datapoints.DatapointMuseum;
 import net.swofty.type.skyblockgeneric.item.SkyBlockItem;
 import net.swofty.type.skyblockgeneric.item.set.ArmorSetRegistry;
 import net.swofty.type.skyblockgeneric.museum.MuseumDisplay;
@@ -32,7 +33,10 @@ public class ArmorMuseumDisplayHandler extends MuseumDisplay {
         if (empty) {
             hologram = PlayerHolograms.ExternalPlayerHologram.builder()
                     .player(player)
-                    .text(new String[]{"§7" + display + " Slot #" + (position + 1), "§e§lCLICK TO EDIT"})
+                    .text(new String[]{
+                            "<7>" + display + " Slot #" + (position + 1),
+                            "<e><l>CLICK TO EDIT"
+                    })
                     .pos(pos.add(0, 1, 0))
                     .build();
             PlayerHolograms.addExternalPlayerHologram(hologram);
@@ -54,7 +58,9 @@ public class ArmorMuseumDisplayHandler extends MuseumDisplay {
             @Nullable SkyBlockItem leggings = items.stream().filter(item -> item.getAttributeHandler().getPotentialType() == armorSetRegistry.getLeggings()).findFirst().orElse(null);
             @Nullable SkyBlockItem boots = items.stream().filter(item -> item.getAttributeHandler().getPotentialType() == armorSetRegistry.getBoots()).findFirst().orElse(null);
 
-            String armorSetName = helmet.getAttributeHandler().getRarity().getColor() + armorSetRegistry.getDisplayName() + " Set";
+            String armorSetName = Text.of("<color:{}>{} Set",
+                    helmet.getAttributeHandler().getRarity().getColor(),
+                    armorSetRegistry.getDisplayName()).serialize();
             hologram = PlayerHolograms.ExternalPlayerHologram.builder()
                     .player(player)
                     .text(new String[]{armorSetName})

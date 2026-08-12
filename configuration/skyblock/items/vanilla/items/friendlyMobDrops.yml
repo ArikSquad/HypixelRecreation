@@ -17,16 +17,15 @@ items:
         effect_duration: 180
         effect_amplifier: 0
         alchemy_xp: 10
-
   - id: LEATHER
     material: leather
     rarity: COMMON
     components:
       - id: SELLABLE
         value: 3.0
-
   - id: MUTTON
     material: mutton
+    name: "Mutton"
     rarity: COMMON
     components:
       - id: SELLABLE
@@ -37,35 +36,30 @@ items:
         effect_duration: 0
         effect_amplifier: 0
         alchemy_xp: 5
-
   - id: RABBIT_HIDE
     material: rabbit_hide
     rarity: COMMON
     components:
       - id: SELLABLE
         value: 5.0
-
   - id: RAW_BEEF
     material: beef
     rarity: COMMON
     components:
       - id: SELLABLE
         value: 4.0
-
   - id: RAW_CHICKEN
     material: chicken
     rarity: COMMON
     components:
       - id: SELLABLE
         value: 4.0
-
   - id: RAW_PORKCHOP
     material: porkchop
     rarity: COMMON
     components:
       - id: SELLABLE
         value: 5.0
-
   - id: RAW_RABBIT
     material: rabbit
     rarity: COMMON
@@ -78,24 +72,25 @@ items:
         effect_duration: 180
         effect_amplifier: 0
         alchemy_xp: 10
-
   - id: BEEF
     rarity: COMMON
     material: BEEF
-
+    name: "Beef"
   - id: CHICKEN
     rarity: COMMON
     material: CHICKEN
-
+    name: "Chicken"
   - id: HONEYCOMB
     rarity: COMMON
     material: HONEYCOMB
-
   - id: PORKCHOP
     rarity: COMMON
     material: PORKCHOP
-
+    name: "Porkchop"
   - id: RABBIT
     rarity: COMMON
     material: RABBIT
-
+    name: "Rabbit"
+    components:
+      - id: SELLABLE
+        value: 4.0

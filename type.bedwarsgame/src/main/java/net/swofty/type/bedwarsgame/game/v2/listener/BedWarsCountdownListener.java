@@ -2,28 +2,27 @@ package net.swofty.type.bedwarsgame.game.v2.listener;
 
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
-import net.kyori.adventure.text.Component;
-import net.swofty.type.bedwarsgame.TypeBedWarsGameLoader;
+import net.swofty.commons.text.Text;
 import net.swofty.type.bedwarsgame.game.v2.BedWarsGame;
 import net.swofty.type.bedwarsgame.user.BedWarsPlayer;
 import net.swofty.type.game.game.event.CountdownCancelledEvent;
 import net.swofty.type.game.game.event.CountdownTickEvent;
 import net.swofty.type.generic.event.EventNodes;
-import net.swofty.type.generic.event.phase.PhasedEvent;
 import net.swofty.type.generic.event.HypixelEventClass;
+import net.swofty.type.generic.event.phase.PhasedEvent;
 
 public class BedWarsCountdownListener implements HypixelEventClass {
 
     @PhasedEvent(node = EventNodes.CUSTOM, requireDataLoaded = false)
     public void onCountdownTick(CountdownTickEvent event) {
         // Find the game for this event
-        BedWarsGame game = TypeBedWarsGameLoader.getGameById(event.gameId());
+        BedWarsGame game = (BedWarsGame) event.game();
         if (game == null) return;
 
         // Only announce at specific intervals
         if (!event.shouldAnnounce()) return;
 
-        Component message = createCountdownMessage(event.remainingSeconds());
+        Text message = createCountdownMessage(event.remainingSeconds());
 
         if (message == null) return;
 
@@ -41,19 +40,19 @@ public class BedWarsCountdownListener implements HypixelEventClass {
 
     @PhasedEvent(node = EventNodes.CUSTOM, requireDataLoaded = false)
     public void onCountdownCancelled(CountdownCancelledEvent event) {
-        BedWarsGame game = TypeBedWarsGameLoader.getGameById(event.gameId());
+        BedWarsGame game = (BedWarsGame) event.game();
         if (game == null) return;
 
-        game.broadcastMessage(Component.text(event.reason()));
+        game.broadcastMessage(Text.of(event.reason()));
     }
 
-    private Component createCountdownMessage(int seconds) {
+    private Text createCountdownMessage(int seconds) {
         if (seconds > 10) {
-            return Component.text("§eThe game starts in " + seconds + " seconds!");
+            return Text.of("<e>The game starts in {} seconds!", seconds);
         } else if (seconds == 10) {
-            return Component.text("§eThe game starts in §610§e seconds!");
+            return Text.of("<e>The game starts in <6>10</6> seconds!");
         } else if (seconds > 0) {
-            return Component.text("§eThe game starts in §c" + seconds + " §eseconds!");
+            return Text.of("<e>The game starts in <c>{}</c> seconds!", seconds);
         }
         return null;
     }
