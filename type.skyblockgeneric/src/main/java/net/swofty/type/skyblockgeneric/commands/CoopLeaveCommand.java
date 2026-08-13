@@ -84,7 +84,7 @@ public class CoopLeaveCommand extends HypixelCommand {
 
         SwoftyData.profile().unlink(profileId, CoopLinks.COOP);
         if (remaining == null || (remaining.members().isEmpty() && remaining.memberProfiles().isEmpty())) {
-            SwoftyData.profile().unloadLink(CoopLinks.COOP, coopId);
+            SwoftyData.profile().deleteLink(CoopLinks.COOP, coopId);
         }
 
         ProfilesDatabase.deleteDocument(profileId.toString());
