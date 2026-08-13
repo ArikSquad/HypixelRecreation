@@ -49,7 +49,6 @@ public enum RegionType {
     CRYPTS("Crypts", NamedTextColor.RED),
     TAVERN("Tavern", NamedTextColor.AQUA),
     COAL_MINE("Coal Mine", NamedTextColor.DARK_GRAY, MineCoalConfiguration.class),
-    //    HIGH_LEVEL("High Level", NamedTextColor.DARK_RED), -> - was replaced with Unincorporated.
     ARCHERY_RANGE("Archery Range", NamedTextColor.DARK_GREEN),
     BLACKSMITH("Blacksmith"),
     FARM("Farm", NamedTextColor.YELLOW, MineWheatConfiguration.class),
@@ -118,7 +117,6 @@ public enum RegionType {
     GRANDMAS_HOUSE("Grandma's House", NamedTextColor.RED),
     GRAVEL_MINES("Gravel Mines", NamedTextColor.DARK_GRAY),
     SPIDER_MOUND("Spider Mound", NamedTextColor.RED),
-//    BLAZING_FORTRESS("Blazing Fortress", NamedTextColor.DARK_RED), -> - was replaced with Crimson Isle.
 
     // The End
     THE_END("The End", NamedTextColor.LIGHT_PURPLE),
