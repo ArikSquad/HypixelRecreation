@@ -20,7 +20,6 @@ public final class Groups {
 			RegionType.THE_END,
 			RegionType.THE_END_NEST,
 			RegionType.DRAGONS_NEST,
-			RegionType.BLAZING_FORTRESS,
 			RegionType.DWARVEN_MINES,
 			RegionType.DWARVEN_VILLAGE,
 			RegionType.GOBLIN_BURROWS,
