@@ -142,7 +142,8 @@ public final class RedisMessageBus {
 
             CompletableFuture<String> pendingResponse = pendingResponses.remove(requestId);
             if (pendingResponse != null) {
-                pendingResponse.complete(envelope.payload());
+                String payload = envelope.payload();
+                Thread.startVirtualThread(() -> pendingResponse.complete(payload));
                 return;
             }
 
