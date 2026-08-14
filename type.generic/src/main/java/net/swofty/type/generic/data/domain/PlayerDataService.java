@@ -98,6 +98,25 @@ public final class PlayerDataService {
         return null;
     }
 
+    @SuppressWarnings("unchecked")
+    public static <H extends DataHandler> PlayerDataDomain<H> domain(DomainKey<H> key) {
+        for (PlayerDataDomain<?> candidate : registered) {
+            if (candidate.key().id().equals(key.id())) return (PlayerDataDomain<H>) candidate;
+        }
+        throw new IllegalStateException("No player data domain is registered for " + key.id());
+    }
+
+    public static void runLifecycleTransition(UUID uuid, Runnable transition) {
+        ReentrantLock lock = lifecycleLock(uuid);
+        lock.lock();
+        try {
+            DataWriteQueue.drain(uuid);
+            transition.run();
+        } finally {
+            lock.unlock();
+        }
+    }
+
     static List<PlayerDataDomain<?>> active(ServerType type) {
         List<PlayerDataDomain<?>> out = new ArrayList<>();
         for (PlayerDataDomain<?> domain : registered) {
