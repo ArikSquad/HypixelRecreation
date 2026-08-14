@@ -74,6 +74,7 @@ public class SkyBlockIsland {
                 }
 
                 Logger.info("[{}] Starting island instance load", islandID);
+                loadedIslands.putIfAbsent(islandID, this);
 
                 InstanceContainer temporaryInstance = createInstanceContainer();
                 islandInstance = MinecraftServer.getInstanceManager().createSharedInstance(temporaryInstance);
@@ -107,24 +108,23 @@ public class SkyBlockIsland {
     }
 
     public synchronized void runVacantCheck() {
-        if (islandInstance == null) {
+        if (!created || islandInstance == null) {
             if (discarded) loadedIslands.remove(islandID, this);
             return;
         }
+        if (!islandInstance.getPlayers().isEmpty()) return;
 
-        if (islandInstance.getPlayers().isEmpty()) {
-            if (!discarded) {
-                IslandLifecycle.run(IslandLifecyclePhase.SAVE, lifecycleContext());
-                save();
-            }
-            this.created = false;
-            islandInstance.getChunks().forEach(chunk -> {
-                islandInstance.unloadChunk(chunk);
-            });
-            this.islandInstance = null;
-            this.world = null;
-            if (discarded) loadedIslands.remove(islandID, this);
+        if (!discarded) {
+            IslandLifecycle.run(IslandLifecyclePhase.SAVE, lifecycleContext());
+            save();
         }
+        this.created = false;
+        islandInstance.getChunks().forEach(chunk -> {
+            islandInstance.unloadChunk(chunk);
+        });
+        this.islandInstance = null;
+        this.world = null;
+        loadedIslands.remove(islandID, this);
     }
 
     private synchronized void flush() {
