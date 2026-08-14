@@ -636,6 +636,10 @@ public class SkyBlockDataHandler extends DataHandler {
             return coopField;
         }
 
+        public PlayerField<String> profileField() {
+            return profileField;
+        }
+
         Data(String key, Boolean isProfilePersistent, Boolean isCoopPersistent, Boolean repeatSetValue,
              Class<? extends Datapoint<?>> type, Datapoint<?> defaultDatapoint,
              BiConsumer<Player, Datapoint<?>> onChange, BiConsumer<SkyBlockPlayer, Datapoint<?>> onLoad) {
