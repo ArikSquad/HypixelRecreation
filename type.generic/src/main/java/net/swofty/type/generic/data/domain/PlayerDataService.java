@@ -24,6 +24,7 @@ public final class PlayerDataService {
     private static final List<PlayerDataDomain<?>> registered = new CopyOnWriteArrayList<>();
     private static final Map<String, Map<UUID, DataHandler>> caches = new ConcurrentHashMap<>();
     private static final Map<UUID, Long> handoffs = new ConcurrentHashMap<>();
+    private static final Map<UUID, Long> discards = new ConcurrentHashMap<>();
     private static final ReentrantLock[] lifecycleLocks = createLifecycleLocks();
 
     private PlayerDataService() {}
@@ -109,7 +110,26 @@ public final class PlayerDataService {
         ReentrantLock lock = lifecycleLock(uuid);
         lock.lock();
         try {
+            discards.remove(uuid);
             for (PlayerDataDomain<?> domain : active(type)) domain.load(uuid);
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public static void discardAll(ServerType type, UUID uuid) {
+        ReentrantLock lock = lifecycleLock(uuid);
+        lock.lock();
+        try {
+            discards.put(uuid, System.currentTimeMillis());
+            DataWriteQueue.remove(uuid);
+            for (PlayerDataDomain<?> domain : active(type)) {
+                try {
+                    domain.unload(uuid);
+                } catch (Exception e) {
+                    Logger.error(e, "Failed to discard domain {} for user {}", domain.key().id(), uuid);
+                }
+            }
         } finally {
             lock.unlock();
         }
@@ -128,11 +148,12 @@ public final class PlayerDataService {
         ReentrantLock lock = lifecycleLock(uuid);
         lock.lock();
         try {
+            boolean discarded = consumeDiscard(uuid);
             boolean handedOff = consumeHandoff(uuid);
             List<PlayerDataDomain<?>> domains = active(type);
 
             DataWriteQueue.drain(uuid);
-            if (!handedOff) {
+            if (!handedOff && !discarded) {
                 for (PlayerDataDomain<?> domain : domains) {
                     try {
                         domain.save(player);
@@ -154,12 +175,12 @@ public final class PlayerDataService {
 
     public static void saveAll(ServerType type, HypixelPlayer player) {
         UUID uuid = player.getUuid();
-        if (hasPendingHandoff(uuid)) return;
+        if (isSaveSuppressed(uuid)) return;
 
         ReentrantLock lock = lifecycleLock(uuid);
         lock.lock();
         try {
-            if (hasPendingHandoff(uuid)) return;
+            if (isSaveSuppressed(uuid)) return;
             for (PlayerDataDomain<?> domain : active(type)) {
                 if (!isLoaded(domain.key(), uuid)) continue;
                 try {
@@ -190,15 +211,20 @@ public final class PlayerDataService {
         handoffs.remove(uuid);
     }
 
-    private static boolean consumeHandoff(UUID uuid) {
-        Long handedOffAt = handoffs.remove(uuid);
-        return handedOffAt != null
-                && System.currentTimeMillis() - handedOffAt <= HANDOFF_SAVE_SUPPRESSION_MILLIS;
+    public static boolean isSaveSuppressed(UUID uuid) {
+        return isStamped(handoffs.get(uuid)) || isStamped(discards.get(uuid));
     }
 
-    private static boolean hasPendingHandoff(UUID uuid) {
-        Long handedOffAt = handoffs.get(uuid);
-        return handedOffAt != null
-                && System.currentTimeMillis() - handedOffAt <= HANDOFF_SAVE_SUPPRESSION_MILLIS;
+    private static boolean consumeHandoff(UUID uuid) {
+        return isStamped(handoffs.remove(uuid));
+    }
+
+    private static boolean consumeDiscard(UUID uuid) {
+        return isStamped(discards.remove(uuid));
+    }
+
+    private static boolean isStamped(Long stampedAt) {
+        return stampedAt != null
+                && System.currentTimeMillis() - stampedAt <= HANDOFF_SAVE_SUPPRESSION_MILLIS;
     }
 }
