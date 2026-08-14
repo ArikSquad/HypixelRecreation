@@ -11,6 +11,7 @@ import net.swofty.PlayerField;
 import net.swofty.codec.Codecs;
 import net.swofty.commons.data.NameIndex;
 import net.swofty.commons.data.SwoftyData;
+import net.swofty.commons.skyblock.CoopLinks;
 import net.swofty.commons.skyblock.PlayerShopData;
 import net.swofty.commons.skyblock.SkyBlockPlayerProfiles;
 import net.swofty.commons.skyblock.item.ItemType;
@@ -634,6 +635,10 @@ public class SkyBlockDataHandler extends DataHandler {
 
         public LinkedField<UUID, String> coopField() {
             return coopField;
+        }
+
+        public PlayerField<String> profileField() {
+            return profileField;
         }
 
         Data(String key, Boolean isProfilePersistent, Boolean isCoopPersistent, Boolean repeatSetValue,

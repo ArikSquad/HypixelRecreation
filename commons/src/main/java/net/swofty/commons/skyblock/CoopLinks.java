@@ -1,4 +1,4 @@
-package net.swofty.type.skyblockgeneric.data;
+package net.swofty.commons.skyblock;
 
 import net.swofty.LinkType;
 import net.swofty.PlayerField;

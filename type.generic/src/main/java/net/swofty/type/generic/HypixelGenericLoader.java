@@ -42,6 +42,7 @@ import net.swofty.type.generic.data.HypixelDataHandler;
 import net.swofty.type.generic.data.handlers.*;
 import net.swofty.type.generic.data.mongodb.AttributeDatabase;
 import net.swofty.type.generic.data.mongodb.BedWarsStatsDatabase;
+import net.swofty.type.generic.data.mongodb.MongoConnection;
 import net.swofty.type.generic.data.mongodb.ProfilesDatabase;
 import net.swofty.type.generic.data.mongodb.UserDatabase;
 import net.swofty.type.generic.entity.npc.HypixelNPC;
@@ -195,6 +196,7 @@ public record HypixelGenericLoader(HypixelTypeLoader loader) {
         MongoClientSettings settings = MongoClientSettings.builder().applyConnectionString(cs).build();
         MongoClient mongoClient = MongoClients.create(settings);
 
+        MongoConnection.connect(mongoClient);
         ProfilesDatabase.connect(mongoClient);
         AttributeDatabase.connect(mongoClient);
         UserDatabase.connect(mongoClient);

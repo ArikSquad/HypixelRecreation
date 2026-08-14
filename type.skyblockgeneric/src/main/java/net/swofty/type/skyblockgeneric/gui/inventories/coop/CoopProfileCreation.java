@@ -6,7 +6,7 @@ import net.swofty.type.generic.data.datapoints.DatapointBoolean;
 import net.swofty.type.generic.data.datapoints.DatapointString;
 import net.swofty.type.generic.data.mongodb.ProfilesDatabase;
 import net.swofty.type.skyblockgeneric.SkyBlockGenericLoader;
-import net.swofty.type.skyblockgeneric.data.CoopLinks;
+import net.swofty.commons.skyblock.CoopLinks;
 import net.swofty.type.skyblockgeneric.data.SkyBlockDataHandler;
 import net.swofty.type.skyblockgeneric.data.datapoints.DatapointUUID;
 import net.swofty.type.skyblockgeneric.data.monogdb.CoopDatabase;

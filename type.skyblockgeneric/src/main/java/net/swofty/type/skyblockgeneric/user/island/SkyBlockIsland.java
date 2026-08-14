@@ -42,6 +42,7 @@ public class SkyBlockIsland {
     private final CoopDatabase.Coop coop;
     private final UUID islandID;
     private Boolean created = false;
+    private volatile boolean discarded = false;
     private SharedInstance islandInstance;
     private PolarWorld world;
 
@@ -106,23 +107,28 @@ public class SkyBlockIsland {
     }
 
     public synchronized void runVacantCheck() {
-        if (islandInstance == null) return;
+        if (islandInstance == null) {
+            if (discarded) loadedIslands.remove(islandID, this);
+            return;
+        }
 
         if (islandInstance.getPlayers().isEmpty()) {
-            IslandLifecycle.run(IslandLifecyclePhase.SAVE, lifecycleContext());
-
-            save();
+            if (!discarded) {
+                IslandLifecycle.run(IslandLifecyclePhase.SAVE, lifecycleContext());
+                save();
+            }
             this.created = false;
             islandInstance.getChunks().forEach(chunk -> {
                 islandInstance.unloadChunk(chunk);
             });
             this.islandInstance = null;
             this.world = null;
+            if (discarded) loadedIslands.remove(islandID, this);
         }
     }
 
     private synchronized void flush() {
-        if (!created || islandInstance == null || world == null) return;
+        if (discarded || !created || islandInstance == null || world == null) return;
 
         IslandLifecycle.run(IslandLifecyclePhase.SAVE, lifecycleContext());
         save();
@@ -172,6 +178,13 @@ public class SkyBlockIsland {
     public static @Nullable SkyBlockIsland getIsland(UUID islandID) {
         if (!loadedIslands.containsKey(islandID)) return null;
         return loadedIslands.get(islandID);
+    }
+
+    public static boolean discard(UUID islandID) {
+        SkyBlockIsland island = loadedIslands.get(islandID);
+        if (island == null) return false;
+        island.discarded = true;
+        return true;
     }
 
     public static void runVacantLoop(Scheduler scheduler) {

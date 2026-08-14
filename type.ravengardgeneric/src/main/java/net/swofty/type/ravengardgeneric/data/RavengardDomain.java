@@ -1,12 +1,14 @@
 package net.swofty.type.ravengardgeneric.data;
 
 import net.swofty.commons.ServerType;
+import net.swofty.commons.data.SwoftyData;
 import net.swofty.type.generic.data.domain.DomainKey;
 import net.swofty.type.generic.data.domain.PlayerDataDomain;
 import net.swofty.type.generic.data.domain.PlayerDataService;
 import net.swofty.type.generic.user.HypixelPlayer;
 import net.swofty.type.ravengardgeneric.profile.RavengardProfiles;
 import net.swofty.type.ravengardgeneric.user.RavengardPlayer;
+import org.tinylog.Logger;
 
 import java.util.UUID;
 
@@ -32,7 +34,7 @@ public final class RavengardDomain implements PlayerDataDomain<RavengardDataHand
     public void load(UUID uuid) {
         if (PlayerDataService.isLoaded(KEY, uuid)) return;
         RavengardDataHandler handler = RavengardDataHandler.initUserWithDefaultData(uuid);
-        handler.loadBackedData();
+        handler.attachProfile(RavengardProfileIndex.read(uuid).selected());
         PlayerDataService.store(KEY, uuid, handler);
     }
 
@@ -54,6 +56,23 @@ public final class RavengardDomain implements PlayerDataDomain<RavengardDataHand
 
     @Override
     public void unload(UUID uuid) {
+        RavengardDataHandler handler = PlayerDataService.find(KEY, uuid).orElse(null);
         PlayerDataService.evict(KEY, uuid);
+        if (handler == null || handler.getCurrentProfileId() == null) return;
+
+        try {
+            SwoftyData.profile().unload(handler.getCurrentProfileId());
+        } catch (Exception exception) {
+            Logger.error(exception, "Failed to release the Ravengard profile container {}",
+                    handler.getCurrentProfileId());
+        }
+    }
+
+    public static boolean isProfileHosted(UUID profileId) {
+        if (profileId == null) return false;
+        for (RavengardDataHandler handler : PlayerDataService.loaded(KEY)) {
+            if (profileId.equals(handler.getCurrentProfileId())) return true;
+        }
+        return false;
     }
 }

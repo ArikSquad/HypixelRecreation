@@ -1,90 +1,45 @@
 package net.swofty.type.skyblockgeneric.data.monogdb;
 
 import com.mongodb.client.MongoClient;
-import net.swofty.api.DataAPIImpl;
-import net.swofty.commons.data.SwoftyData;
-import net.swofty.lock.DistributedLock;
+import net.swofty.commons.skyblock.CoopStorage;
 import net.swofty.proxyapi.ProxyPlayerSet;
 import net.swofty.type.skyblockgeneric.SkyBlockGenericLoader;
 import net.swofty.type.skyblockgeneric.user.SkyBlockPlayer;
 import org.bson.Document;
-import redis.clients.jedis.Jedis;
 
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
 
 public class CoopDatabase {
-    private static final String COOP_PREFIX = "hsb:coop:";
-    private static final String BY_MEMBER = "hsb:coop:bymember";
-    private static final String BY_PROFILE = "hsb:coop:byprofile";
-    private static final String ROSTER_LOCK = "coop-roster:";
-    private static final Duration ROSTER_LOCK_TIMEOUT = Duration.ofSeconds(5);
 
     public static void connect(MongoClient client) {
     }
 
     public void save(Coop coop) {
-        try (DistributedLock.Handle ignored = rosterLock(coop.coopUUID);
-             Jedis jedis = SwoftyData.jedisPool().getResource()) {
-            write(jedis, coop);
-        }
+        CoopStorage.write(coop.serialize());
     }
 
     public static Coop update(UUID coopId, Consumer<Coop> mutation) {
-        try (DistributedLock.Handle ignored = rosterLock(coopId);
-             Jedis jedis = SwoftyData.jedisPool().getResource()) {
-            String json = jedis.get(COOP_PREFIX + coopId);
-            if (json == null) return null;
-
-            Coop coop = Coop.deserialize(Document.parse(json));
+        Document mutated = CoopStorage.update(coopId, stored -> {
+            Coop coop = Coop.deserialize(stored);
             mutation.accept(coop);
-            write(jedis, coop);
-            return coop;
-        }
-    }
-
-    private static DistributedLock.Handle rosterLock(UUID coopId) {
-        return ((DataAPIImpl) SwoftyData.profile()).lock(ROSTER_LOCK + coopId, ROSTER_LOCK_TIMEOUT);
-    }
-
-    private static void write(Jedis jedis, Coop coop) {
-        String existing = jedis.get(COOP_PREFIX + coop.coopUUID);
-        if (existing != null) {
-            Coop old = Coop.deserialize(Document.parse(existing));
-            old.members.forEach(uuid -> jedis.hdel(BY_MEMBER, uuid.toString()));
-            old.memberInvites.forEach(uuid -> jedis.hdel(BY_MEMBER, uuid.toString()));
-            old.memberProfiles.forEach(uuid -> jedis.hdel(BY_PROFILE, uuid.toString()));
-        }
-
-        if (coop.members.isEmpty() && coop.memberInvites.isEmpty()) {
-            jedis.del(COOP_PREFIX + coop.coopUUID);
-            return;
-        }
-
-        jedis.set(COOP_PREFIX + coop.coopUUID, coop.serialize().toJson());
-        coop.members.forEach(uuid -> jedis.hset(BY_MEMBER, uuid.toString(), coop.coopUUID.toString()));
-        coop.memberInvites.forEach(uuid -> jedis.hset(BY_MEMBER, uuid.toString(), coop.coopUUID.toString()));
-        coop.memberProfiles.forEach(uuid -> jedis.hset(BY_PROFILE, uuid.toString(), coop.coopUUID.toString()));
+            return coop.serialize();
+        });
+        return mutated == null ? null : Coop.deserialize(mutated);
     }
 
     public static Coop getFromMember(UUID member) {
-        return lookup(BY_MEMBER, member);
+        return deserialize(CoopStorage.readByMember(member));
     }
 
     public static Coop getFromMemberProfile(UUID memberProfile) {
-        return lookup(BY_PROFILE, memberProfile);
+        return deserialize(CoopStorage.readByProfile(memberProfile));
     }
 
-    private static Coop lookup(String index, UUID key) {
-        try (Jedis jedis = SwoftyData.jedisPool().getResource()) {
-            String coopId = jedis.hget(index, key.toString());
-            if (coopId == null) return null;
-            String json = jedis.get(COOP_PREFIX + coopId);
-            return json == null ? null : Coop.deserialize(Document.parse(json));
-        }
+    private static Coop deserialize(Document roster) {
+        return roster == null ? null : Coop.deserialize(roster);
     }
 
     public static Coop getClean(UUID originator) {

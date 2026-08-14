@@ -31,24 +31,6 @@ public class RavengardProfile {
         this.created = System.currentTimeMillis();
     }
 
-    public Document toDocument() {
-        Document document = new Document("_id", id.toString());
-        document.put("_owner", owner.toString());
-        document.put("class", profileClass == null ? "" : profileClass.name());
-        document.put("level", level);
-        document.put("experience", experience);
-        document.put("crowns", crowns);
-        document.put("ability_points", abilityPoints);
-        document.put("tutorial", tutorial);
-        document.put("playtime_seconds", playtimeSeconds);
-        document.put("created", created);
-        document.put("intros", new java.util.ArrayList<>(intros));
-        Document inventoryDocument = new Document();
-        inventory.forEach((slot, snbt) -> inventoryDocument.put(String.valueOf(slot), snbt));
-        document.put("inventory", inventoryDocument);
-        return document;
-    }
-
     public static RavengardProfile fromDocument(Document document) {
         RavengardProfile profile = new RavengardProfile(
                 UUID.fromString(document.getString("_id")),

@@ -10,7 +10,7 @@ import net.swofty.type.generic.data.domain.PlayerDataService;
 import net.swofty.type.generic.data.mongodb.ProfilesDatabase;
 import net.swofty.type.generic.data.mongodb.UserDatabase;
 import net.swofty.type.generic.user.categories.Rank;
-import net.swofty.type.skyblockgeneric.data.CoopLinks;
+import net.swofty.commons.skyblock.CoopLinks;
 import net.swofty.type.skyblockgeneric.data.SkyBlockDomain;
 import net.swofty.type.skyblockgeneric.data.monogdb.CoopDatabase;
 import net.swofty.type.skyblockgeneric.user.SkyBlockPlayer;

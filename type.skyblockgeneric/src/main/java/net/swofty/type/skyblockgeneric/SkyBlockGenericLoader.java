@@ -51,6 +51,7 @@ import net.swofty.type.skyblockgeneric.calendar.SkyBlockCalendar;
 import net.swofty.type.skyblockgeneric.collection.CollectionCategories;
 import net.swofty.type.skyblockgeneric.collection.CollectionCategory;
 import net.swofty.type.skyblockgeneric.collection.CustomCollectionAward;
+import net.swofty.type.generic.data.PlayerWipeService;
 import net.swofty.type.generic.data.domain.AccountDomain;
 import net.swofty.type.generic.data.domain.PlayerDataService;
 import net.swofty.type.skyblockgeneric.data.CoopSync;
@@ -144,6 +145,8 @@ public record SkyBlockGenericLoader(HypixelTypeLoader typeLoader) {
 
         IslandDatabase.connect(mongoClient);
         CoopDatabase.connect(mongoClient);
+
+        PlayerWipeService.onIslandDropped(SkyBlockIsland::discard);
 
         /**
          * Register items

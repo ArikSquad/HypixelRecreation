@@ -383,6 +383,10 @@ public class HypixelDataHandler extends DataHandler {
         public void writeData(DataHandler handler, String serialized) {
             SwoftyData.account().set(handler.getUuid(), field, serialized);
         }
+
+        public PlayerField<String> accountField() {
+            return field;
+        }
         Data(String key, Class<? extends Datapoint<?>> type, Datapoint<?> defaultDatapoint,
              BiConsumer<Player, Datapoint<?>> onChange, BiConsumer<Player, Datapoint<?>> onLoad) {
             this(key, type, defaultDatapoint, onChange, onLoad, null);
