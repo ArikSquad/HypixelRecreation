@@ -11,6 +11,7 @@ import net.swofty.PlayerField;
 import net.swofty.codec.Codecs;
 import net.swofty.commons.data.NameIndex;
 import net.swofty.commons.data.SwoftyData;
+import net.swofty.commons.skyblock.CoopLinks;
 import net.swofty.commons.skyblock.PlayerShopData;
 import net.swofty.commons.skyblock.SkyBlockPlayerProfiles;
 import net.swofty.commons.skyblock.item.ItemType;

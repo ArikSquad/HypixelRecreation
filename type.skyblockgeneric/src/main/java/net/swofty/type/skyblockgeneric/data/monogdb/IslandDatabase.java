@@ -2,6 +2,7 @@ package net.swofty.type.skyblockgeneric.data.monogdb;
 
 import com.mongodb.client.MongoClient;
 import net.swofty.commons.data.SwoftyData;
+import net.swofty.commons.skyblock.IslandStorage;
 import net.swofty.type.generic.data.mongodb.MongoDB;
 import org.bson.Document;
 import org.bson.types.Binary;
@@ -16,7 +17,7 @@ public record IslandDatabase(String profileUuid) implements MongoDB {
     }
 
     private byte[] islandKey() {
-        return ("hsb:island:" + profileUuid).getBytes(StandardCharsets.UTF_8);
+        return IslandStorage.key(profileUuid);
     }
 
     @Override
@@ -54,16 +55,12 @@ public record IslandDatabase(String profileUuid) implements MongoDB {
     }
 
     public boolean exists() {
-        try (Jedis jedis = SwoftyData.jedisPool().getResource()) {
-            return jedis.exists(islandKey());
-        }
+        return IslandStorage.exists(profileUuid);
     }
 
     @Override
     public boolean remove(String id) {
-        try (Jedis jedis = SwoftyData.jedisPool().getResource()) {
-            return jedis.del(("hsb:island:" + id).getBytes(StandardCharsets.UTF_8)) > 0;
-        }
+        return IslandStorage.delete(id);
     }
 
     public List<Document> getAll() {

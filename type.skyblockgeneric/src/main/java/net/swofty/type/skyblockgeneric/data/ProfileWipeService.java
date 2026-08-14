@@ -1,6 +1,7 @@
 package net.swofty.type.skyblockgeneric.data;
 
 import net.swofty.commons.data.SwoftyData;
+import net.swofty.commons.skyblock.CoopLinks;
 import net.swofty.commons.skyblock.SkyBlockPlayerProfiles;
 import net.swofty.type.generic.data.mongodb.ProfilesDatabase;
 import net.swofty.type.generic.data.mongodb.UserDatabase;

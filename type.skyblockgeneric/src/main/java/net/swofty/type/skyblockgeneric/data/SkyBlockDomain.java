@@ -4,6 +4,7 @@ import net.minestom.server.MinecraftServer;
 import net.minestom.server.network.packet.server.play.UpdateHealthPacket;
 import net.swofty.commons.ServerType;
 import net.swofty.commons.data.SwoftyData;
+import net.swofty.commons.skyblock.CoopLinks;
 import net.swofty.commons.skyblock.SkyBlockPlayerProfiles;
 import net.swofty.proxyapi.PlayerTransferDataCache;
 import net.swofty.type.generic.HypixelConst;

@@ -2,9 +2,9 @@ package net.swofty.type.generic.data.mongodb;
 
 import com.mongodb.client.MongoClient;
 import net.swofty.PlayerField;
-import net.swofty.codec.Codecs;
 import net.swofty.commons.data.NameIndex;
 import net.swofty.commons.data.SwoftyData;
+import net.swofty.commons.skyblock.SkyBlockProfileFields;
 import org.bson.Document;
 import org.tinylog.Logger;
 
@@ -13,8 +13,7 @@ import java.util.UUID;
 import java.util.function.Predicate;
 
 public record ProfilesDatabase(String id) implements MongoDB {
-    public static final PlayerField<String> DOCUMENT =
-            PlayerField.create("skyblock", "_doc", Codecs.STRING, null);
+    public static final PlayerField<String> DOCUMENT = SkyBlockProfileFields.DOCUMENT;
 
     private static volatile Predicate<UUID> hostedProfiles = profileId -> false;
 
