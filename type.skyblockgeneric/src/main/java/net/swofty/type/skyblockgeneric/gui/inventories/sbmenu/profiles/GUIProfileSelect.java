@@ -1,9 +1,7 @@
 package net.swofty.type.skyblockgeneric.gui.inventories.sbmenu.profiles;
 
-import com.mongodb.client.model.Filters;
 import net.minestom.server.inventory.InventoryType;
 import net.minestom.server.item.Material;
-import net.swofty.commons.ServerType;
 import net.swofty.commons.skyblock.SkyBlockPlayerProfiles;
 import net.swofty.commons.text.Text;
 import net.swofty.type.generic.data.datapoints.DatapointString;
@@ -12,6 +10,7 @@ import net.swofty.type.generic.data.mongodb.UserDatabase;
 import net.swofty.type.generic.gui.inventory.ItemStacks;
 import net.swofty.type.generic.gui.v2.*;
 import net.swofty.type.generic.gui.v2.context.ViewContext;
+import net.swofty.type.skyblockgeneric.data.ProfileSwitcher;
 import net.swofty.type.skyblockgeneric.data.SkyBlockDataHandler;
 import net.swofty.type.skyblockgeneric.data.monogdb.CoopDatabase;
 import net.swofty.type.skyblockgeneric.user.SkyBlockPlayer;
@@ -49,16 +48,7 @@ public class GUIProfileSelect extends StatelessView {
 
             return ItemStacks.item(Material.GRASS_BLOCK, 1, Text.key("gui_sbmenu.profiles.select.switch"),
                     Text.keyLines("gui_sbmenu.profiles.select.switch.lore", currentProfile, switchingTo));
-        }, (click, c) -> {
-            SkyBlockPlayer player = (SkyBlockPlayer) c.player();
-            SkyBlockPlayerProfiles profiles = player.getProfiles();
-            // Persist the selection before transfer preparation takes its account snapshot.
-            profiles.setCurrentlySelected(profileUuid);
-            UserDatabase database = new UserDatabase(player.getUuid());
-            database.saveProfiles(profiles);
-
-            player.sendTo(ServerType.SKYBLOCK_ISLAND, true);
-        });
+        }, (click, c) -> ProfileSwitcher.switchTo((SkyBlockPlayer) c.player(), profileUuid));
 
         // Delete Profile
         layout.slot(15, (s, c) -> ItemStacks.item(Material.RED_STAINED_GLASS, 1, Text.key("gui_sbmenu.profiles.select.delete"),
@@ -73,6 +63,7 @@ public class GUIProfileSelect extends StatelessView {
 
                     SkyBlockPlayerProfiles profiles = player.getProfiles();
                     profiles.removeProfile(profileUuid);
+                    new UserDatabase(player.getUuid()).saveProfiles(profiles);
 
                     try {
                         SkyBlockDataHandler handler = SkyBlockDataHandler.createFromProfileOnly(new ProfilesDatabase(profileUuid.toString()).getDocument());
