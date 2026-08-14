@@ -2,6 +2,7 @@ package net.swofty.type.ravengardgeneric.data;
 
 import net.swofty.PlayerField;
 import net.swofty.codec.Codecs;
+import net.swofty.commons.data.ProfileIndexes;
 import net.swofty.commons.protocol.JacksonSerializer;
 import net.swofty.commons.protocol.Serializer;
 
@@ -17,7 +18,7 @@ public final class RavengardProfileFields {
     public static final Serializer<Long> LONG = new JacksonSerializer<>(Long.class);
     public static final Serializer<String[]> STRING_ARRAY = new JacksonSerializer<>(String[].class);
 
-    public static final PlayerField<String> PROFILES_INDEX = field("_profiles_index");
+    public static final PlayerField<String> PROFILES_INDEX = ProfileIndexes.RAVENGARD;
 
     public static final PlayerField<String> OWNER = field("_owner");
     public static final PlayerField<String> CREATED = field("created");

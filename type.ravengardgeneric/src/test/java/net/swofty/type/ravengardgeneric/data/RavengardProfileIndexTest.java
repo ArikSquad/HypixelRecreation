@@ -1,5 +1,6 @@
 package net.swofty.type.ravengardgeneric.data;
 
+import net.swofty.commons.data.ProfileIndexes;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class RavengardProfileIndexTest {
@@ -107,5 +109,15 @@ class RavengardProfileIndexTest {
 
         assertEquals(FIRST, index.selected());
         assertEquals(List.of(FIRST), index.profiles());
+    }
+
+    @Test
+    void livesUnderTheAccountKeyEveryServerTypeCanFindIt() {
+        assertSame(ProfileIndexes.RAVENGARD, RavengardProfileFields.PROFILES_INDEX);
+        assertTrue(ProfileIndexes.ALL.contains(RavengardProfileFields.PROFILES_INDEX));
+
+        RavengardProfileIndex index = new RavengardProfileIndex(SECOND, List.of(FIRST, SECOND));
+        assertEquals(index.profiles(), ProfileIndexes.decodeProfiles(index.encode()));
+        assertEquals(index.selected(), ProfileIndexes.decodeSelected(index.encode()));
     }
 }
