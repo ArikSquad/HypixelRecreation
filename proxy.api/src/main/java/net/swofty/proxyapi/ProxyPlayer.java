@@ -94,7 +94,28 @@ public record ProxyPlayer(UUID uuid) {
     public CompletableFuture<Void> transferToWithIndication(UUID serverToTransferTo) {
         CompletableFuture<Void> future = new CompletableFuture<>();
         waitingForTransferComplete.put(uuid, future);
-        transferPreparation.apply(uuid, serverToTransferTo).thenAccept(document -> RedisClient.requestProxy(PLAYER_HANDLER,
+        transferPreparation.apply(uuid, serverToTransferTo)
+                .thenAccept(document -> sendTransfer(serverToTransferTo, document, future))
+                .exceptionally(error -> {
+                    failTransfer(future, error);
+                    return null;
+                });
+        return future;
+    }
+
+    public CompletableFuture<Void> transferWithoutDataTo(UUID serverToTransferTo) {
+        CompletableFuture<Void> future = new CompletableFuture<>();
+        waitingForTransferComplete.put(uuid, future);
+        sendTransfer(serverToTransferTo, null, future);
+        return future;
+    }
+
+    public CompletableFuture<Void> transferWithoutDataTo(ServerType serverType) {
+        return resolveServer(serverType).thenCompose(this::transferWithoutDataTo);
+    }
+
+    private void sendTransfer(UUID serverToTransferTo, String document, CompletableFuture<Void> future) {
+        RedisClient.requestProxy(PLAYER_HANDLER,
                         new PlayerHandlerProtocol.Request(uuid.toString(), PlayerHandlerProtocol.Action.TRANSFER_WITH_UUID,
                                 document == null
                                         ? Map.of("server_uuid", serverToTransferTo.toString())
@@ -107,11 +128,7 @@ public record ProxyPlayer(UUID uuid) {
                 .exceptionally(error -> {
                     failTransfer(future, error);
                     return null;
-                })).exceptionally(error -> {
-            failTransfer(future, error);
-            return null;
-        });
-        return future;
+                });
     }
 
     private void failTransfer(CompletableFuture<Void> future, Throwable error) {
