@@ -11,7 +11,7 @@ import net.swofty.type.skyblockgeneric.slayer.SlayerTierDefinition;
 import net.swofty.type.skyblockgeneric.slayer.SlayerType;
 import net.swofty.type.skyblockgeneric.user.SkyBlockPlayer;
 
-@CommandParameters(description = "Starts and manages Slayer quests",
+@CommandParameters(labels = "slayer", description = "Starts and manages Slayer quests",
     usage = "/slayer <start|status|cancel>",
     permission = Rank.DEFAULT,
     allowsConsole = false)

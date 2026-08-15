@@ -41,9 +41,13 @@ public abstract class HypixelCommand {
             labels.addAll(Arrays.asList(params.labels().split(" ")));
         }
 
+        if (labels.isEmpty()) {
+            throw new RuntimeException("Command " + this.getClass().getSimpleName() + " does not have a name!");
+        }
+
         this.name = labels.getFirst();
 
-        if (this.name == null || this.name.isBlank()) {
+        if (this.name.isBlank()) {
             throw new RuntimeException("Command " + this.getClass().getSimpleName() + " does not have a name!");
         }
 

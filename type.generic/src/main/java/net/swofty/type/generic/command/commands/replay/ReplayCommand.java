@@ -12,7 +12,7 @@ import net.swofty.type.generic.user.categories.Rank;
 
 import java.util.UUID;
 
-@CommandParameters(
+@CommandParameters(labels = "replay", 
 	description = "Watch a specific replay by ID",
 	usage = "/replay <uuid> [hex]",
 	permission = Rank.DEFAULT,
