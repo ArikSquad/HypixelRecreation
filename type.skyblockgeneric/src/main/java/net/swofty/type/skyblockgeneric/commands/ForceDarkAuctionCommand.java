@@ -9,7 +9,7 @@ import net.swofty.type.generic.user.categories.Rank;
 import net.swofty.type.skyblockgeneric.calendar.SkyBlockCalendar;
 import net.swofty.type.skyblockgeneric.user.SkyBlockPlayer;
 
-@CommandParameters(description = "Force starts a Dark Auction",
+@CommandParameters(labels = "forcedarkauction", description = "Force starts a Dark Auction",
         usage = "/forcedarkauction",
         permission = Rank.STAFF,
         allowsConsole = false)

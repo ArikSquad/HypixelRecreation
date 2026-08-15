@@ -378,6 +378,8 @@ public record HypixelGenericLoader(HypixelTypeLoader loader) {
                         return clazz.cast(subClass.getDeclaredConstructor().newInstance());
                     } catch (InstantiationException | IllegalAccessException | NoSuchMethodException |
                              InvocationTargetException e) {
+                        Logger.error(e, "Failed to instantiate {} while scanning {}",
+                                subClass.getSimpleName(), packageName);
                         return null;
                     }
                 })
