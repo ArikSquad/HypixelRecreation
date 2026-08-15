@@ -6,7 +6,6 @@ import net.kyori.adventure.text.Component;
 import net.minestom.server.component.DataComponents;
 import net.minestom.server.inventory.InventoryType;
 import net.minestom.server.item.ItemStack;
-import net.swofty.commons.StringUtility;
 import net.swofty.commons.text.Text;
 import net.swofty.type.generic.gui.inventory.ItemStacks;
 import net.swofty.type.generic.gui.v2.Components;
@@ -51,7 +50,7 @@ public final class TradingOptionsView implements View<TradingOptionsView.State> 
 
         List<Component> existingLoreComponents = itemStack.build().get(DataComponents.LORE);
         List<Text> lore = new ArrayList<>((existingLoreComponents == null ? List.<Component>of() : existingLoreComponents)
-                .stream().map(StringUtility::getTextFromComponent).map(Text::legacy).toList());
+                .stream().map(Text::component).toList());
 
         lore.add(Text.empty());
         lore.add(Text.key("gui_shop.trading_options.cost_label"));
@@ -65,7 +64,7 @@ public final class TradingOptionsView implements View<TradingOptionsView.State> 
         Component baseName = itemStack.build().get(DataComponents.CUSTOM_NAME);
         Text baseNameText = baseName == null
                 ? Text.literal(sbItem.getDisplayName())
-                : Text.literal(StringUtility.getTextFromComponent(baseName));
+                : Text.component(baseName);
         Text displayName = baseNameText.append(" <8>x{}", amount);
 
         return ItemStacks.item(itemStack.build().material(), amount, displayName, lore);

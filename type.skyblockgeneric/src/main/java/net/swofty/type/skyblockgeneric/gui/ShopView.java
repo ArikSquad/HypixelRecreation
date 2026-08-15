@@ -6,12 +6,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
+import net.kyori.adventure.text.Component;
 import net.minestom.server.component.DataComponents;
 import net.minestom.server.inventory.InventoryType;
 import net.minestom.server.inventory.click.Click;
 import net.minestom.server.item.ItemStack;
 import net.minestom.server.item.Material;
-import net.swofty.commons.StringUtility;
 import net.swofty.commons.text.Text;
 import net.swofty.type.generic.data.datapoints.DatapointDouble;
 import net.swofty.type.generic.gui.inventory.ItemStacks;
@@ -164,7 +164,7 @@ public abstract class ShopView extends StatefulPaginatedView<ShopView.ShopItem, 
                     double buyBackPrice = last.getComponent(SellableComponent.class).getSellValue() * amountOfLast;
 
                     List<Text> lore = new ArrayList<>(itemStack.build().get(DataComponents.LORE)
-                            .stream().map(StringUtility::getTextFromComponent).map(Text::literal).toList());
+                            .stream().map(Text::component).toList());
                     lore.add(Text.empty());
                     lore.add(Text.of("<7>Cost"));
                     lore.add(Text.of("<6>{:,} Coin{}", buyBackPrice, buyBackPrice != 1 ? "s" : ""));
@@ -220,8 +220,7 @@ public abstract class ShopView extends StatefulPaginatedView<ShopView.ShopItem, 
             if (item.getLore() != null) {
                 ItemStacks.lore(itemStack, item.getLore());
             } else {
-                ItemStacks.lore(itemStack, itemStack.build().get(DataComponents.LORE)
-                        .stream().map(StringUtility::getTextFromComponent).map(Text::literal).toList());
+                ItemStacks.loreComponents(itemStack, itemStack.build().get(DataComponents.LORE));
             }
 
             List<Text> lore = new ArrayList<>();
@@ -319,8 +318,9 @@ public abstract class ShopView extends StatefulPaginatedView<ShopView.ShopItem, 
                 player.getSkyblockDataHandler().get(SkyBlockDataHandler.Data.COINS, DatapointDouble.class).getValue() + sellPrice
         );
 
+        Component soldName = stack.get(DataComponents.CUSTOM_NAME);
         player.sendMessage("<a>You sold <f>{} <a>for <6>{:,} Coin{}<a>!",
-                Text.literal(StringUtility.getTextFromComponent(stack.get(DataComponents.CUSTOM_NAME))),
+                soldName == null ? Text.literal(item.getDisplayName()) : Text.component(soldName),
                 sellPrice, sellPrice != 1 ? "s" : "");
 
         player.getInventory().setItemStack(click.slot(), ItemStack.AIR);
