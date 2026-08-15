@@ -215,7 +215,7 @@ public class AnimatedRavengardNPC extends RavengardNPC {
     }
 
     private static Text speakerLine(String speaker, String text) {
-        return Text.of("<d>").append(Text.legacy(speaker)).append("<f>: ").append(Text.legacy(text));
+        return Text.of("<d>{}<f>: ", speaker).append(Text.legacy(text));
     }
 
     public void play(RavengardAnimationPhase target) {
