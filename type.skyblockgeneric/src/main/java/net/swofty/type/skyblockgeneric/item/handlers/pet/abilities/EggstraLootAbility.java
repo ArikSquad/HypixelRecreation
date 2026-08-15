@@ -5,6 +5,7 @@ import net.minestom.server.item.ItemStack;
 import net.minestom.server.item.Material;
 import net.swofty.commons.skyblock.item.ItemType;
 import net.swofty.commons.skyblock.item.Rarity;
+import net.swofty.type.generic.entity.drop.ItemDrops;
 import net.swofty.type.skyblockgeneric.entity.DroppedItemEntityImpl;
 import net.swofty.type.skyblockgeneric.entity.mob.SkyBlockMob;
 import net.swofty.type.skyblockgeneric.item.SkyBlockItem;
@@ -86,8 +87,8 @@ public final class EggstraLootAbility implements PetAbility {
         } else if (player.getSkyBlockExperience().getLevel().asInt() >= 6) {
             player.addAndUpdateItem(item);
         } else {
-            DroppedItemEntityImpl droppedItem = new DroppedItemEntityImpl(item, player);
-            droppedItem.setInstance(mob.getInstance(), mob.getPosition().add(0, 0.5, 0));
+            ItemDrops.dropAt(new DroppedItemEntityImpl(item, player),
+                    mob.getInstance(), mob.getPosition().add(0, 0.5, 0));
         }
     }
 }
