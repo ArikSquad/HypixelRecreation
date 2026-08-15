@@ -281,7 +281,7 @@ public abstract class HypixelNPC {
 
     public Text getNameText(HypixelPlayer player) {
         Text name = parameters.chatNameText(player);
-        return name != null ? name : Text.literal(getName());
+        return name != null ? name : Text.of("<e>{}", getName());
     }
 
     public void sendNPCMessage(HypixelPlayer player, String message, Sound sound) {

@@ -32,9 +32,10 @@ public record CalendarEvent(
     boolean tracksYear,
     BiConsumer<Long, Integer> action
 ) {
-    private static final long THREE_DAYS = 3 * 20 * 60 * 24; // 3 SkyBlock days in ticks
-    private static final long YEAR = 20 * 60 * 24 * 31 * 12; // Full SkyBlock year in ticks
-    private static final long MONTH = 744000L;
+    private static final Duration DARK_AUCTION_DURATION = Duration.ofMinutes(5);
+    private static final long THREE_DAYS = 3L * SkyBlockCalendar.DAY;
+    private static final long YEAR = SkyBlockCalendar.YEAR;
+    private static final long MONTH = SkyBlockCalendar.MONTH;
     private static final Map<Long, List<CalendarEvent>> eventCache = new HashMap<>();
     private static final List<CalendarEvent> allEvents = new ArrayList<>();
 
@@ -65,9 +66,9 @@ public record CalendarEvent(
             Text.of("<7>special items are sold.")
         ),
         calculateDarkAuctionTimes(),
-        Duration.ofMinutes(5),
+        DARK_AUCTION_DURATION,
         false,
-            (time, year) -> triggerDarkAuctionUntil(time, System.nanoTime() + Duration.ofMinutes(5).toNanos())
+            (time, year) -> triggerDarkAuctionUntil(time, System.nanoTime() + DARK_AUCTION_DURATION.toNanos())
     );
 
     private static void triggerDarkAuctionUntil(long eventTime, long deadlineNanos) {
@@ -102,7 +103,6 @@ public record CalendarEvent(
 
     private static List<Long> calculateDarkAuctionTimes() {
         List<Long> times = new ArrayList<>();
-        // Every 3 days at midnight (0, 72000, 144000, ...)
         for (long time = 0; time < YEAR; time += THREE_DAYS) {
             times.add(time);
         }
@@ -119,7 +119,7 @@ public record CalendarEvent(
             Text.of("<7>your favorite candidate.")
         ),
         List.of(5 * MONTH),
-        Duration.ofHours(0),
+        Duration.ofMinutes(5),
         true,
         (_, _) -> {
             ElectionManager.onElectionStart();
@@ -135,7 +135,7 @@ public record CalendarEvent(
             Text.of("<7>A new Mayor has been elected.")
         ),
         List.of(8 * MONTH),
-        Duration.ofHours(0),
+        Duration.ofMinutes(5),
         true,
         (_, _) -> {
             ElectionManager.onElectionEnd();

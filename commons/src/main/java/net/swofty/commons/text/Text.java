@@ -125,6 +125,11 @@ public final class Text implements ComponentLike {
         return raw.isEmpty() ? EMPTY : new Text(Component.text(raw));
     }
 
+    public static Text component(Component component) {
+        Objects.requireNonNull(component, "component");
+        return new Text(component);
+    }
+
     public static Text empty() {
         return EMPTY;
     }

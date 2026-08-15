@@ -1,6 +1,5 @@
 package net.swofty.type.skyblockgeneric.gui.inventories.sbmenu;
 
-import net.minestom.server.component.DataComponents;
 import net.minestom.server.inventory.InventoryType;
 import net.minestom.server.inventory.click.Click;
 import net.minestom.server.item.ItemStack;
@@ -98,8 +97,7 @@ public class GUIPets extends PaginatedView<SkyBlockItem, GUIPets.PetsState> {
         boolean isPetEnabled = skyBlockPlayer.getPetData().getEnabledPet() == item;
 
         ItemStack.Builder itemStack = new NonPlayerItemUpdater(item).getUpdatedItem();
-        List<Text> lore = new ArrayList<>(itemStack.build().get(DataComponents.LORE).stream()
-                .map(line -> Text.literal(StringUtility.getTextFromComponent(line))).toList());
+        List<Text> lore = ItemStacks.loreText(itemStack);
         lore.add(Text.literal(" "));
         if (isPetEnabled) {
             ItemStacks.enchanted(itemStack);

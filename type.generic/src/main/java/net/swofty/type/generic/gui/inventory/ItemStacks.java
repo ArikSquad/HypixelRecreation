@@ -155,12 +155,29 @@ public final class ItemStacks {
         return lore(builder, block(textBlock, arguments));
     }
 
-    public static ItemStack.Builder loreComponents(ItemStack.Builder builder, List<Component> lore) {
-        List<Component> out = new ArrayList<>(lore.size());
-        for (Component component : lore) {
-            out.add(component.decoration(TextDecoration.ITALIC, false));
-        }
-        return clearAttributes(builder.set(DataComponents.LORE, out));
+    public static List<Text> loreText(ItemStack stack) {
+        return textLines(stack.get(DataComponents.LORE));
+    }
+
+    public static List<Text> loreText(ItemStack.Builder builder) {
+        return loreText(builder.build());
+    }
+
+    public static Text nameText(ItemStack stack) {
+        return nameText(stack, Text.empty());
+    }
+
+    public static Text nameText(ItemStack stack, Text fallback) {
+        Component name = stack.get(DataComponents.CUSTOM_NAME);
+        return name == null ? fallback : Text.component(name);
+    }
+
+    public static Text nameText(ItemStack.Builder builder) {
+        return nameText(builder.build(), Text.empty());
+    }
+
+    public static Text nameText(ItemStack.Builder builder, Text fallback) {
+        return nameText(builder.build(), fallback);
     }
 
     public static ItemStack.Builder appendLore(ItemStack.Builder builder, List<Text> lore) {
@@ -263,6 +280,17 @@ public final class ItemStacks {
         List<Component> out = new ArrayList<>(lore.size());
         for (Text text : lore) {
             out.add(line(text));
+        }
+        return out;
+    }
+
+    private static List<Text> textLines(List<Component> lore) {
+        List<Text> out = new ArrayList<>(lore == null ? 0 : lore.size());
+        if (lore == null) {
+            return out;
+        }
+        for (Component component : lore) {
+            out.add(Text.component(component));
         }
         return out;
     }
