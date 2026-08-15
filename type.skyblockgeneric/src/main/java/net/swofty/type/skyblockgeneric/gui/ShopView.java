@@ -6,8 +6,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
-import net.kyori.adventure.text.Component;
-import net.minestom.server.component.DataComponents;
 import net.minestom.server.inventory.InventoryType;
 import net.minestom.server.inventory.click.Click;
 import net.minestom.server.item.ItemStack;
@@ -163,8 +161,7 @@ public abstract class ShopView extends StatefulPaginatedView<ShopView.ShopItem, 
 
                     double buyBackPrice = last.getComponent(SellableComponent.class).getSellValue() * amountOfLast;
 
-                    List<Text> lore = new ArrayList<>(itemStack.build().get(DataComponents.LORE)
-                            .stream().map(Text::component).toList());
+                    List<Text> lore = ItemStacks.loreText(itemStack);
                     lore.add(Text.empty());
                     lore.add(Text.of("<7>Cost"));
                     lore.add(Text.of("<6>{:,} Coin{}", buyBackPrice, buyBackPrice != 1 ? "s" : ""));
@@ -220,7 +217,7 @@ public abstract class ShopView extends StatefulPaginatedView<ShopView.ShopItem, 
             if (item.getLore() != null) {
                 ItemStacks.lore(itemStack, item.getLore());
             } else {
-                ItemStacks.loreComponents(itemStack, itemStack.build().get(DataComponents.LORE));
+                ItemStacks.lore(itemStack, ItemStacks.loreText(itemStack));
             }
 
             List<Text> lore = new ArrayList<>();
@@ -318,9 +315,8 @@ public abstract class ShopView extends StatefulPaginatedView<ShopView.ShopItem, 
                 player.getSkyblockDataHandler().get(SkyBlockDataHandler.Data.COINS, DatapointDouble.class).getValue() + sellPrice
         );
 
-        Component soldName = stack.get(DataComponents.CUSTOM_NAME);
         player.sendMessage("<a>You sold <f>{} <a>for <6>{:,} Coin{}<a>!",
-                soldName == null ? Text.literal(item.getDisplayName()) : Text.component(soldName),
+                ItemStacks.nameText(stack, Text.literal(item.getDisplayName())),
                 sellPrice, sellPrice != 1 ? "s" : "");
 
         player.getInventory().setItemStack(click.slot(), ItemStack.AIR);

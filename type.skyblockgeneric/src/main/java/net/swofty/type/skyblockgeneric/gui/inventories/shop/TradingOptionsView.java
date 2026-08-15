@@ -2,8 +2,6 @@ package net.swofty.type.skyblockgeneric.gui.inventories.shop;
 
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
-import net.kyori.adventure.text.Component;
-import net.minestom.server.component.DataComponents;
 import net.minestom.server.inventory.InventoryType;
 import net.minestom.server.item.ItemStack;
 import net.swofty.commons.text.Text;
@@ -19,7 +17,6 @@ import net.swofty.type.skyblockgeneric.item.updater.NonPlayerItemUpdater;
 import net.swofty.type.skyblockgeneric.shop.ShopPrice;
 import net.swofty.type.skyblockgeneric.user.SkyBlockPlayer;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public final class TradingOptionsView implements View<TradingOptionsView.State> {
@@ -48,9 +45,7 @@ public final class TradingOptionsView implements View<TradingOptionsView.State> 
         SkyBlockItem sbItem = item.getItem();
         ItemStack.Builder itemStack = new NonPlayerItemUpdater(sbItem).getUpdatedItem();
 
-        List<Component> existingLoreComponents = itemStack.build().get(DataComponents.LORE);
-        List<Text> lore = new ArrayList<>((existingLoreComponents == null ? List.<Component>of() : existingLoreComponents)
-                .stream().map(Text::component).toList());
+        List<Text> lore = ItemStacks.loreText(itemStack);
 
         lore.add(Text.empty());
         lore.add(Text.key("gui_shop.trading_options.cost_label"));
@@ -61,11 +56,8 @@ public final class TradingOptionsView implements View<TradingOptionsView.State> 
         lore.add(Text.empty());
         lore.add(Text.key("gui_shop.trading_options.click_to_purchase"));
 
-        Component baseName = itemStack.build().get(DataComponents.CUSTOM_NAME);
-        Text baseNameText = baseName == null
-                ? Text.literal(sbItem.getDisplayName())
-                : Text.component(baseName);
-        Text displayName = baseNameText.append(" <8>x{}", amount);
+        Text displayName = ItemStacks.nameText(itemStack, Text.literal(sbItem.getDisplayName()))
+                .append(" <8>x{}", amount);
 
         return ItemStacks.item(itemStack.build().material(), amount, displayName, lore);
     }

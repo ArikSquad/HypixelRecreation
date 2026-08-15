@@ -3,7 +3,6 @@ package net.swofty.type.skyblockgeneric.item;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
-import net.kyori.adventure.text.Component;
 import net.minestom.server.component.DataComponents;
 import net.minestom.server.item.ItemStack;
 import net.minestom.server.item.Material;
@@ -371,35 +370,20 @@ public class SkyBlockItem {
 		return getDisplayName();
 	}
 
-	/**
-	 * Gets the lore of the item, formatted as a list of text
-	 *
-	 * @return the lore of the item, formatted as a list of text
-	 */
+	public Text getDisplayNameText() {
+		return ItemStacks.nameText(new NonPlayerItemUpdater(this).getUpdatedItem());
+	}
+
+	public Text getDisplayNameText(final @NotNull SkyBlockPlayer player) {
+		return ItemStacks.nameText(PlayerItemUpdater.playerUpdate(player, getItemStackBuilder().build(), false));
+	}
+
 	public List<Text> getLoreText() {
-		return asLoreText(new NonPlayerItemUpdater(this).getUpdatedItem().build().get(DataComponents.LORE));
+		return ItemStacks.loreText(new NonPlayerItemUpdater(this).getUpdatedItem());
 	}
 
-	/**
-	 * Gets the lore of the item, formatted as a list of text
-	 *
-	 * @param player the player to get the lore for
-	 * @return the lore of the item, formatted as a list of text
-	 */
 	public List<Text> getLoreText(final @NotNull SkyBlockPlayer player) {
-		return asLoreText(PlayerItemUpdater.playerUpdate(player, getItemStackBuilder().build(), false).build()
-				.get(DataComponents.LORE));
-	}
-
-	private static List<Text> asLoreText(List<Component> lore) {
-		List<Text> result = new ArrayList<>(lore == null ? 0 : lore.size());
-		if (lore == null) {
-			return result;
-		}
-		for (Component line : lore) {
-			result.add(Text.of("{}", line));
-		}
-		return result;
+		return ItemStacks.loreText(PlayerItemUpdater.playerUpdate(player, getItemStackBuilder().build(), false));
 	}
 
 	/**
