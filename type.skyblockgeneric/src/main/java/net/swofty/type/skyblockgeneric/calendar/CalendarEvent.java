@@ -119,7 +119,7 @@ public record CalendarEvent(
             Text.of("<7>your favorite candidate.")
         ),
         List.of(5 * MONTH),
-        Duration.ofHours(0),
+        Duration.ofMinutes(5),
         true,
         (_, _) -> {
             ElectionManager.onElectionStart();
@@ -135,7 +135,7 @@ public record CalendarEvent(
             Text.of("<7>A new Mayor has been elected.")
         ),
         List.of(8 * MONTH),
-        Duration.ofHours(0),
+        Duration.ofMinutes(5),
         true,
         (_, _) -> {
             ElectionManager.onElectionEnd();
