@@ -41,7 +41,7 @@ public enum LobbyDestination {
     RAVENGARD(
         ServerType.RAVENGARD_LOBBY,
         Set.of("ravengard", "rg"),
-        Set.of(ServerType.RAVENGARD_LOBBY, ServerType.RAVENGARD_DUNGEON)
+        Set.of()
     );
 
     private final ServerType destination;
