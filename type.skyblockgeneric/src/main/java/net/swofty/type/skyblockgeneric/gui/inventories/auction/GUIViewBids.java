@@ -1,6 +1,5 @@
 package net.swofty.type.skyblockgeneric.gui.inventories.auction;
 
-import net.minestom.server.component.DataComponents;
 import net.minestom.server.event.inventory.InventoryCloseEvent;
 import net.minestom.server.event.inventory.InventoryPreClickEvent;
 import net.minestom.server.inventory.Inventory;
@@ -8,7 +7,6 @@ import net.minestom.server.inventory.InventoryType;
 import net.minestom.server.item.ItemStack;
 import net.minestom.server.item.Material;
 import net.swofty.commons.ServiceType;
-import net.swofty.commons.StringUtility;
 import net.swofty.commons.protocol.objects.auctions.AuctionFetchItemProtocol;
 import net.swofty.commons.skyblock.auctions.AuctionItem;
 import net.swofty.commons.text.Text;
@@ -99,8 +97,7 @@ public class GUIViewBids extends HypixelInventoryGUI implements RefreshingGUI {
                     public ItemStack.Builder getItem(HypixelPlayer p) {
                         SkyBlockPlayer player = (SkyBlockPlayer) p;
                         return ItemStacks.item(item.getItem().material(), item.getItem().amount(),
-                                Text.literal(StringUtility.getTextFromComponent(new NonPlayerItemUpdater(item.getItem()).getUpdatedItem().build()
-                                        .get(DataComponents.CUSTOM_NAME))),
+                                ItemStacks.nameText(new NonPlayerItemUpdater(item.getItem()).getUpdatedItem()),
                                 new AuctionItemLoreHandler(item).getLoreTexts(player));
                     }
                 });
