@@ -60,7 +60,9 @@ java -jar ServiceAPI.jar --port=8081  # Custom port
 **MongoDB Collections**:
 - `api-key` - API keys
 - `api-admin` - Admin sessions
-- (plus the shared `users` / `profiles` collections)
+- `api-request-counts` - Per-key request counts used for rate limiting
+
+Accounts and profiles are not MongoDB collections; they live in Redis under the `hsb:acct` and `hsb:prof` prefixes.
 
 ---
 
