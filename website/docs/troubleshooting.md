@@ -34,7 +34,7 @@ Common issues and their solutions.
 **Solutions**:
 
 1. Verify MongoDB is running on port 27017
-2. Check `mongodb-uri` in `config.yml`
+2. Check `mongodb` in `config.yml`
 3. If using authentication, include credentials in URI:
    ```
    mongodb://username:password@localhost:27017
@@ -53,10 +53,11 @@ Common issues and their solutions.
 
 ### Data saving issues between changing servers
 
-**Cause**: Not using our Velocity fork
+**Cause**: Running a Velocity build other than the one the project targets
+
 **Solution**:
 
-1. Download our Velocity fork from [here](https://github.com/Swofty-Developments/Velocity/)
+1. Download the Velocity 3.5.0-SNAPSHOT-605 build linked in [Proxy Setup](/docs/setup/proxy) — the same stock PaperMC build the Docker image uses
 2. Replace your Velocity proxy with that version
 3. Restart the proxy (which will also restart all game servers)
 
@@ -169,8 +170,8 @@ Common causes:
 If you're still having issues:
 
 1. **Check logs** for specific error messages
-2. **Search existing issues** on [GitHub](https://github.com/Swofty-Developments/HypixelSkyBlock/issues)
-3. **Join Discord** at [discord.gg/ZaGW5wzUJ3](https://discord.gg/ZaGW5wzUJ3)
+2. **Search existing issues** on [GitHub](https://github.com/Swofty-Developments/HypixelRecreation/issues)
+3. **Join Discord** at [discord.swofty.net](https://discord.swofty.net)
 4. **Ask in #code-help** with:
     - Screenshots of all console outputs
     - Your `config.yml` (remove secrets)

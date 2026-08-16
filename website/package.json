@@ -2,7 +2,7 @@
   "name": "hypixel-skyblock-docs",
   "version": "1.0.0",
   "type": "module",
-  "description": "Documentation for HypixelSkyBlock Recreation",
+  "description": "Documentation for HypixelRecreation",
   "scripts": {
     "dev": "vitepress dev",
     "build": "vitepress build",

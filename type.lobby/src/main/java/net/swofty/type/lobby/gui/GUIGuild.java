@@ -107,7 +107,7 @@ public class GUIGuild implements View<GUIGuild.GuildState> {
                 <a>Search Guilds
                 <7>Click here to search guilds you can
                 <7>join on the Hypixel Network website!"""),
-            (_, context) -> context.player().sendMessage("<click:url:'https://github.com/Swofty-Developments/HypixelSkyBlock'><c>This Feature is not there yet. <a>Open a Pull request HERE to get it added quickly!"));
+            (_, context) -> context.player().sendMessage("<click:url:'https://github.com/Swofty-Developments/HypixelRecreation'><c>This Feature is not there yet. <a>Open a Pull request HERE to get it added quickly!"));
     }
 
     private void layoutWithGuild(ViewLayout<GuildState> layout, GuildData guild, ViewContext ctx) {
