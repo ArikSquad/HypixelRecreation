@@ -2,7 +2,7 @@ import { defineConfig } from "vitepress";
 import container_plugin from "markdown-it-container";
 
 export default defineConfig({
-  title: "Hypixel",
+  title: "HypixelRecreation",
   description: "A Minestom-based recreation of Hypixel",
   markdown: {
     config(md) {

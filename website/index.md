@@ -1,7 +1,7 @@
 ---
 layout: home
 hero:
-  name: Hypixel
+  name: HypixelRecreation
   text: Minestom Recreation
   tagline: A 26.2 recreation of Hypixel with a properly abstracted, scalable codebase
   actions:

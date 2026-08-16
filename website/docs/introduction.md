@@ -1,6 +1,6 @@
 # Introduction
 
-Hypixel is a Minestom-based recreation of Hypixel's network, including the SkyBlock gamemode and a growing set of minigames (BedWars, SkyWars, Murder Mystery and Ravengard). This project aims to provide a properly abstracted, scalable codebase for running your own server network.
+HypixelRecreation is a Minestom-based recreation of Hypixel's network, including the SkyBlock gamemode and a growing set of minigames (BedWars, SkyWars, Murder Mystery and Ravengard). This project aims to provide a properly abstracted, scalable codebase for running your own server network.
 
 :::alert note
 This implementation is under active development and is not yet production-ready. Some portions of the codebase are still being refined.
