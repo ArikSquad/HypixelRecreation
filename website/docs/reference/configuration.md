@@ -181,9 +181,9 @@ MongoDB collections created automatically:
 
 | Collection              | Purpose                  |
 |-------------------------|--------------------------|
-| `profiles`              | Player profiles and data |
-| `users`                 | User accounts            |
 | `authentication`        | Login sessions           |
+| `attribute`             | Server-wide SkyBlock attributes |
+| `bedwars_stat_events`   | BedWars stat events for leaderboards |
 | `active-auctions`       | Active auctions          |
 | `inactive-auctions`     | Completed auctions       |
 | `bazaarOrders`          | Bazaar buy/sell orders   |
@@ -203,5 +203,11 @@ MongoDB collections created automatically:
 | `store_purchases`       | Store checkout state     |
 | `stripe_events`         | Stripe webhook records   |
 | `store-player-entitlements` | Per-player store awards |
+| `ravengard_profiles`    | Ravengard player profiles |
+| `ravengard_regions`     | Ravengard region data    |
+| `ravengard_tracked_items` | Ravengard tracked items |
 | `api-key`               | API keys                 |
 | `api-admin`             | Admin sessions           |
+| `api-request-counts`    | API rate limit counters  |
+
+Player accounts and SkyBlock profiles are not stored in MongoDB. They live in Redis under the `hsb:acct` and `hsb:prof` prefixes.
