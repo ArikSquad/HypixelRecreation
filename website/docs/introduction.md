@@ -40,6 +40,8 @@ The project is organized into several module types:
 | `type.*`             | Server type implementations (Hub, Island, BedWars, etc.)      |
 | `loader`             | Main entry point (HypixelCore.jar)                            |
 | `velocity.extension` | Velocity proxy plugin (SkyBlockProxy.jar)                     |
+| `proxy.api`          | Client API for reaching the proxy and services from a server  |
+| `pvp`                | Combat mechanics library (MinestomPvP)                        |
 | `anticheat`          | Anti-cheat module                                             |
 | `spark`              | Spark (performance monitoring) integration                     |
 | `dungeons`           | SkyBlock Catacombs dungeon library                            |

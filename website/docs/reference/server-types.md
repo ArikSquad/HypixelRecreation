@@ -194,7 +194,7 @@ All `.polar` world files go in `configuration/world/` unless noted otherwise. Th
 | `hypixel_main_lobby.polar`               | `configuration/world/`        | MAIN_LOBBY                                |
 | `hypixel_prototype_lobby.polar`          | `configuration/world/`        | PROTOTYPE_LOBBY                           |
 | `hypixel_bedwars_lobby.polar`            | `configuration/world/`        | BEDWARS_LOBBY, BEDWARS_CONFIGURATOR       |
-| `hypixel_skywars_lobby.polar`            | `configuration/world/`        | SKYWARS_LOBBY, SKYWARS_CONFIGURATOR       |
+| `hypixel_skywars_lobby.polar`            | `configuration/world/`        | SKYWARS_LOBBY                             |
 | `hypixel_murder_mystery_lobby.polar`     | `configuration/world/`        | MURDER_MYSTERY_LOBBY, MURDER_MYSTERY_CONFIGURATOR |
 | `hypixel_ravengard_lobby.polar`          | `configuration/world/`        | RAVENGARD_LOBBY                           |
 | `hypixel_ravengard_tutorial.polar`       | `configuration/world/`        | RAVENGARD_LOBBY (tutorial instance)       |
