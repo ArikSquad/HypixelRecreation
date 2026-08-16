@@ -34,7 +34,9 @@ View all contributors on [GitHub](https://github.com/Swofty-Developments/Hypixel
 
 ## License
 
-This project is open source. See the repository for license details.
+This project is licensed under the [GNU Affero General Public License v3.0](https://github.com/Swofty-Developments/HypixelRecreation/blob/master/LICENSE).
+
+The `anticheat/` directory is the one exception: it is licensed under the permissive MIT license, as described in [`anticheat/LICENSE.md`](https://github.com/Swofty-Developments/HypixelRecreation/blob/master/anticheat/LICENSE.md).
 
 ## Links
 

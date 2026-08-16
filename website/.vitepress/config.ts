@@ -83,7 +83,7 @@ export default defineConfig({
       { icon: "discord", link: "https://discord.swofty.net" },
     ],
     footer: {
-      message: "Released under the MIT License.",
+      message: "Released under the AGPL-3.0 License.",
       copyright: "Copyright © 2026 Swofty Developments",
     },
   },
