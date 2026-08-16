@@ -18,7 +18,7 @@ RUN set -eu; \
         cp /app/prebuilt_jars/SkyBlockProxy.jar plugins/SkyBlockProxy.jar; \
     else \
         echo "Downloading SkyBlockProxy.jar"; \
-        curl -fSL -o plugins/SkyBlockProxy.jar "https://github.com/Swofty-Developments/HypixelSkyBlock/releases/download/latest/SkyBlockProxy.jar"; \
+        curl -fSL -o plugins/SkyBlockProxy.jar "https://github.com/Swofty-Developments/HypixelRecreation/releases/download/latest/SkyBlockProxy.jar"; \
     fi; \
     rm -rf /app/prebuilt_jars
 

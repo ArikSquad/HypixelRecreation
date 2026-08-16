@@ -169,8 +169,8 @@ Common causes:
 If you're still having issues:
 
 1. **Check logs** for specific error messages
-2. **Search existing issues** on [GitHub](https://github.com/Swofty-Developments/HypixelSkyBlock/issues)
-3. **Join Discord** at [discord.gg/ZaGW5wzUJ3](https://discord.gg/ZaGW5wzUJ3)
+2. **Search existing issues** on [GitHub](https://github.com/Swofty-Developments/HypixelRecreation/issues)
+3. **Join Discord** at [discord.swofty.net](https://discord.swofty.net)
 4. **Ask in #code-help** with:
     - Screenshots of all console outputs
     - Your `config.yml` (remove secrets)

@@ -8,7 +8,7 @@ The fastest way to get running. A single command downloads the native installer 
 curl -fsSL skyblock-installer.swofty.net | bash
 ```
 
-This fetches the prebuilt `skyblock-installer` binary for your platform from the [latest release](https://github.com/Swofty-Developments/HypixelSkyBlock/releases/latest), caches it under `~/.cache/skyblock-installer`, and runs it. The installer will:
+This fetches the prebuilt `skyblock-installer` binary for your platform from the [latest release](https://github.com/Swofty-Developments/HypixelRecreation/releases/latest), caches it under `~/.cache/skyblock-installer`, and runs it. The installer will:
 
 1. Check its dependencies (`docker`, `docker compose` v2, a reachable daemon, `git`, `curl`) and offer to install anything missing
 2. Run a system requirements check
@@ -79,8 +79,8 @@ If you prefer to set things up manually or aren't on Linux, you can use Docker C
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/Swofty-Developments/HypixelSkyBlock.git
-cd HypixelSkyBlock
+git clone https://github.com/Swofty-Developments/HypixelRecreation.git
+cd HypixelRecreation
 ```
 
 ### 2. Configure

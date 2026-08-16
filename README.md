@@ -20,8 +20,8 @@ Full documentation is available at **[opensource.swofty.net](https://opensource.
 
 ## Quick Links
 
-- [Releases](https://github.com/Swofty-Developments/HypixelSkyBlock/releases)
-- [Javadocs](https://swofty-developments.github.io/HypixelSkyBlock/)
+- [Releases](https://github.com/Swofty-Developments/HypixelRecreation/releases)
+- [Javadocs](https://swofty-developments.github.io/HypixelRecreation/)
 - [Discord](https://discord.swofty.net)
 - [Video Guide](https://www.youtube.com/watch?v=pxzJbjjQL-M)
 
@@ -39,7 +39,7 @@ See the [full requirements](https://opensource.swofty.net/docs/requirements) for
 
 ```bash
 # Clone the repository
-git clone https://github.com/Swofty-Developments/HypixelSkyBlock.git
+git clone https://github.com/Swofty-Developments/HypixelRecreation.git
 
 # Docker deployment
 docker-compose up --build
@@ -53,7 +53,7 @@ For manual setup, follow the [documentation](https://opensource.swofty.net/docs/
 
 ## Credits
 
-Thanks to the Minestom community and all [contributors](https://github.com/Swofty-Developments/HypixelSkyBlock/graphs/contributors).
+Thanks to the Minestom community and all [contributors](https://github.com/Swofty-Developments/HypixelRecreation/graphs/contributors).
 
 ## License
 

@@ -2,7 +2,7 @@ package installer
 
 const (
 	Version           = "2.1.0"
-	GitHubRepo        = "Swofty-Developments/HypixelSkyBlock"
+	GitHubRepo        = "Swofty-Developments/HypixelRecreation"
 	GitHubAPI         = "https://api.github.com/repos/" + GitHubRepo
 	LimboAssetsURL    = "https://files.catbox.moe/flri48.zip"
 	StateFileName     = ".state.json"
