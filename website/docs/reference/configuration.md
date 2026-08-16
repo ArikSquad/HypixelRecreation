@@ -83,7 +83,7 @@ motd = "<green>Hypixel</green>"
 
 Servers register dynamically via Redis, so you don't need to manually configure server entries.
 
-## PicoLimbo server.yml
+## PicoLimbo server.toml
 
 Configuration for the limbo server.
 
@@ -123,15 +123,26 @@ gameserver/
 ├── HypixelCore.jar
 └── configuration/
     ├── config.yml
-    ├── hypixel_prototype_lobby/
-    └── skyblock/
-        ├── islands/
-        │   ├── hypixel_skyblock_hub/
-        │   └── hypixel_skyblock_island_template/
-        ├── items/
-        ├── collection/
-        └── songs/
+    ├── skyblock/
+    │   ├── collections/
+    │   ├── items/
+    │   ├── levels/
+    │   ├── reforges/
+    │   ├── skills/
+    │   ├── Minestom.fairysouls.yml
+    │   ├── Minestom.regions.yml
+    │   ├── Minestom.crystals.yml
+    │   ├── pack_textures/    # Optional
+    │   └── songs/            # Optional
+    ├── bedwars/              # BedWars maps (.polar) + maps.json
+    ├── murdermystery/        # Murder Mystery maps (.polar) + maps.json
+    ├── skywars/              # SkyWars maps (.polar) + map configs (.json)
+    ├── ravengard/            # Ravengard dungeon worlds + data
+    ├── resourcepacks/        # Resource packs (e.g. ravengard-original.zip)
+    └── world/                # All lobby and SkyBlock worlds (.polar)
 ```
+
+See [Game Servers](/docs/setup/game-servers) for the same tree with each world file named.
 
 ### Service Directory
 
