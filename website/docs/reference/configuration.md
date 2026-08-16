@@ -147,13 +147,22 @@ services/
 
 ## Environment Variables
 
-Some settings can be overridden via environment variables:
+Every `config.yml` field can be overridden by an environment variable. configlib is configured with the prefix `HYPIXEL_`, then joins the prefix and the key path with `_` and upper-cases the result — so the variable name carries a double underscore after `HYPIXEL`, and any dashes in the key itself are kept:
 
-| Variable      | Description                 |
-|---------------|-----------------------------|
-| `MONGODB_URI` | Override MongoDB connection |
-| `REDIS_URI`   | Override Redis connection   |
-| `API_PORT`    | Override API service port   |
+| Variable                            | Overrides                  |
+|-------------------------------------|----------------------------|
+| `HYPIXEL__HOST-NAME`                | `host-name`                |
+| `HYPIXEL__MONGODB`                  | `mongodb`                  |
+| `HYPIXEL__REDIS-URI`                | `redis-uri`                |
+| `HYPIXEL__VELOCITY-SECRET`          | `velocity-secret`          |
+| `HYPIXEL__LIMBO_PORT`               | `limbo.port`               |
+| `HYPIXEL__INTEGRATIONS_VIA-VERSION` | `integrations.via-version` |
+
+The API service port is not a config field, so there is no environment variable for it. Pass it on the command line instead:
+
+```bash
+java -jar ServiceAPI.jar --port=8081
+```
 
 ## Database Collections
 
