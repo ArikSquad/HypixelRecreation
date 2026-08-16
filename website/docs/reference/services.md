@@ -438,17 +438,17 @@ The Docker deployment lists every service; enable the ones you need in the insta
 
 ```yaml
 service_api:
-  image: service_prepared
+  image: game_server_prepared
   environment:
     SERVICE_CMD: java -jar ServiceAPI.jar
 
-service_auction:
-  image: service_prepared
+service_auctionhouse:
+  image: game_server_prepared
   environment:
     SERVICE_CMD: java -jar ServiceAuctionHouse.jar
 
 service_bazaar:
-  image: service_prepared
+  image: game_server_prepared
   environment:
     SERVICE_CMD: java -jar ServiceBazaar.jar
 ```
