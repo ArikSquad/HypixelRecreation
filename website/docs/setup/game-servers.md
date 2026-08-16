@@ -64,7 +64,7 @@ require-auth: false
 integrations:
     spark: false
     anticheat: false
-    via-version: true
+    via-version: false
     sentry-dsn: ''
 limbo:
     host-name: 127.0.0.1

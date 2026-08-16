@@ -15,7 +15,7 @@ integrations:
     # Whether to enable anti-cheat measures
     anticheat: false
     # Whether to enable ViaVersion for supporting multiple Minecraft versions. This may cause issues of any kind
-    via-version: true
+    via-version: false
     # The DSN to use for Sentry error tracking. If empty, Sentry will be disabled
     sentry-dsn: ''
 # Settings related to configuration of Limbo server connections
