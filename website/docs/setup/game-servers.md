@@ -123,13 +123,23 @@ java -jar HypixelCore.jar SKYBLOCK_HUB
 
 ## Admin Setup
 
-To give yourself admin permissions:
+Ranks are not stored in MongoDB. They live in Redis on the account document at `hsb:acct:players:<uuid>`, under the `hypixel:rank` field, so editing anything in MongoDB Compass will not promote you.
 
-1. Log in and out of the server
-2. Open MongoDB Compass
-3. Navigate to `Minestom` → `profiles`
-4. Find your profile and set `rank: "ADMIN"`
-5. Log back in
+Join the server once first so your account document exists, then use one of these two routes.
+
+### Installer dashboard
+
+If you deployed with the [Docker installer](/docs/docker/setup), choose **Make player STAFF** on the management dashboard and enter your Minecraft username. It rewrites `hypixel:rank` on your Redis account document for you.
+
+### In-game command
+
+If you already have a staff account, promote others with the rank command (also available as `/setrank`):
+
+```
+/rank <player> <rank>
+```
+
+The command requires the `STAFF` rank and can also be run from the server console.
 
 ## Memory Allocation
 
