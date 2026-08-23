@@ -12,7 +12,8 @@ import net.swofty.type.skywarsgame.user.SkywarsPlayer;
         description = "Skips to the next game event (refill, dragon spawn)",
         usage = "/skipevent",
         permission = Rank.STAFF,
-        allowsConsole = false
+        allowsConsole = false,
+        labels = "skipevent"
 )
 public class SkipEventCommand extends HypixelCommand {
 

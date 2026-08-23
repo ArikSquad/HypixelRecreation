@@ -11,7 +11,8 @@ import net.swofty.type.replayviewer.TypeReplayViewerLoader;
         description = "Seeks to a specific time in the replay",
         usage = "/goto <time|tick>",
         permission = Rank.DEFAULT,
-        allowsConsole = false
+        allowsConsole = false,
+        labels = "goto"
 )
 public class GotoCommand extends HypixelCommand {
 
