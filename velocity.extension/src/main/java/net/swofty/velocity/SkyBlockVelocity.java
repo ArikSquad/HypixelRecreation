@@ -500,7 +500,7 @@ public class SkyBlockVelocity {
     public void onPing(ProxyPingEvent event) {
         event.setPing(new ServerPing(
             event.getPing().getVersion(),
-            null,
+            new ServerPing.Players(server.getPlayerCount(), 200000, List.of()),
             ProxyText.render("               <a>Hypixel Recreation <c>[26.x]"),
             event.getPing().getFavicon().orElse(null)
         ));
