@@ -22,16 +22,18 @@ public final class ProjectileUtil {
 	                                                      @NotNull Block.Getter blockGetter, boolean entityHasPhysics,
 	                                                      @Nullable PhysicsResult previousPhysicsResult,
 	                                                      boolean singleCollision) {
-		final PhysicsResult physicsResult = entityHasPhysics ?
-				CollisionUtils.handlePhysics(blockGetter, entityBoundingBox, entityPosition, entityVelocityPerTick, previousPhysicsResult, singleCollision) :
-				CollisionUtils.blocklessCollision(entityPosition, entityVelocityPerTick);
-		
+		if (entityHasPhysics) {
+			return CollisionUtils.handlePhysics(blockGetter, worldBorder, entityBoundingBox, entityPosition, entityVelocityPerTick, previousPhysicsResult, singleCollision);
+		}
+
+		final PhysicsResult physicsResult = CollisionUtils.blocklessCollision(entityPosition, entityVelocityPerTick);
+
 		Pos newPosition = physicsResult.newPosition();
 		Vec newVelocity = physicsResult.newVelocity();
-		
-		Pos positionWithinBorder = CollisionUtils.applyWorldBorder(worldBorder, entityPosition, newPosition);
+
+		Pos positionWithinBorder = worldBorder.inBounds(newPosition) ? newPosition : entityPosition;
 		// Originally there was a call to update velocity here, but since projectiles handle it themselves it is not needed
 		return new PhysicsResult(positionWithinBorder, newVelocity, physicsResult.isOnGround(), physicsResult.collisionX(), physicsResult.collisionY(), physicsResult.collisionZ(),
-				physicsResult.originalDelta(), physicsResult.collisionPoints(), physicsResult.collisionShapes(), physicsResult.collisionShapePositions(), physicsResult.hasCollision(), physicsResult.res());
+				physicsResult.originalDelta(), physicsResult.collisionPoints(), physicsResult.collisionShapes(), physicsResult.collisionShapePositions(), physicsResult.hasCollision(), physicsResult.collisionFraction());
 	}
 }
