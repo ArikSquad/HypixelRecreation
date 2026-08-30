@@ -38,7 +38,7 @@ public enum RavengardClass {
         return switch (this) {
             case KNIGHT -> List.of(
                     Text.of("<7>A tank class specializing in defense."),
-                    Text.of("<7>Knights can protect themselves and"),
+                    Text.of("<7>Knights can support themselves and"),
                     Text.of("<7>teammates against incoming damage."),
                     Text.empty(),
                     Text.of("<7>Primary weapon: <f>Sword and Shield"));
@@ -59,7 +59,13 @@ public enum RavengardClass {
                     Text.of("<7>sneaking."),
                     Text.empty(),
                     Text.of("<7>Primary weapon: <f>Daggers"));
-            case SORCERER -> List.of();
+            case SORCERER -> List.of(
+                    Text.of("<7>A spellcaster focused on ability"),
+                    Text.of("<7>damage."),
+                    Text.of("<7>Sorcerers unleash elemental magic"),
+                    Text.of("<7>to blast foes from a distance."),
+                    Text.empty(),
+                    Text.of("<7>Primary weapons: <f>Staves and Orbs"));
         };
     }
 

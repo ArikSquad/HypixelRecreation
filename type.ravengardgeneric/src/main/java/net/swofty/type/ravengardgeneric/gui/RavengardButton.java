@@ -23,8 +23,10 @@ public enum RavengardButton implements RavengardSprite {
     CHEST("chest", 0xF204, 44, 36, 2, 2),
     QUILL("quill", 0xF215, 48, 36, 1, 2),
     STATUE_ASSASSIN("statue_assassin", 0xF21B, 42, 37, 1, 3),
+    STATUE_DEFAULT("statue_default", 0xF21C, 42, 37, 1, 3),
     STATUE_HUNTER("statue_hunter", 0xF21D, 42, 37, 1, 3),
     STATUE_KNIGHT("statue_knight", 0xF21E, 42, 37, 1, 3),
+    STATUE_SORCERER("statue_sorcerer", 0xF23E, 42, 37, 1, 3),
     STATUE_WARRIOR("statue_warrior", 0xF21F, 42, 37, 1, 3),
     TEXT_CANCEL("text_cancel", 0xF220, 46, 31, 3, 1),
     TEXT_CONFIRM("text_confirm", 0xF221, 46, 31, 3, 1),
@@ -95,7 +97,7 @@ public enum RavengardButton implements RavengardSprite {
             case WARRIOR -> STATUE_WARRIOR;
             case HUNTER -> STATUE_HUNTER;
             case ASSASSIN -> STATUE_ASSASSIN;
-            case SORCERER -> null;
+            case SORCERER -> STATUE_SORCERER;
         };
     }
 }

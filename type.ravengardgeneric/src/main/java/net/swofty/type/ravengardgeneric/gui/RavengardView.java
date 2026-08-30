@@ -105,7 +105,7 @@ public abstract class RavengardView extends StatelessView {
      */
     protected void place(ViewLayout<DefaultState> layout, int originSlot, RavengardItems.Builder button) {
         button.origin(originSlot);
-        for (int slot : button.sprite().coveredSlots(originSlot)) {
+        for (int slot : button.coveredSlots(originSlot)) {
             layout.slot(slot, button.toBuilder());
         }
     }
@@ -115,7 +115,7 @@ public abstract class RavengardView extends StatelessView {
                                RavengardItems.Builder button,
                                BiConsumer<ClickContext<DefaultState>, ViewContext> onClick) {
         button.origin(originSlot);
-        for (int slot : button.sprite().coveredSlots(originSlot)) {
+        for (int slot : button.coveredSlots(originSlot)) {
             layout.slot(slot, button.toBuilder(), onClick);
         }
     }
