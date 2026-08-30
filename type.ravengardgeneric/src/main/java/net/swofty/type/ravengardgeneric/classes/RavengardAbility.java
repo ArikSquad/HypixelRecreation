@@ -28,7 +28,7 @@ public enum RavengardAbility implements RavengardSprite {
     WAR_CRY(RavengardClass.WARRIOR, "War Cry", '\uF11A', 40,
             "Increases damage by 20% on your next attack."),
     ARMOR_BREAK(RavengardClass.WARRIOR, "Armor Break", '\uF100', 50,
-            "Reduces the defense of the enemy by 20% for 10 seconds."),
+            "Reduces the defense of the enemy by 10% for 5 seconds."),
     BOLSTER(RavengardClass.WARRIOR, "Bolster", '\uF102', 60,
             "Incoming damage is reduced by 20% for 10 seconds."),
     COOL_OFF(RavengardClass.WARRIOR, "Cool Off", '\uF101', 80,

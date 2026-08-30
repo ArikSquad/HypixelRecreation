@@ -214,7 +214,7 @@ public final class RavengardItem {
         }
 
         if (!type.getDescription().isEmpty()) {
-            type.getDescription().forEach(line -> lore.add(Text.of("<7>{}", line)));
+            type.getDescription().forEach(line -> lore.add(Text.of("<7>" + highlightNumbers(line))));
             lore.add(BLANK);
         }
         if (type.getEffect() != null) {
@@ -272,6 +272,13 @@ public final class RavengardItem {
 
     public static Text crowns(int amount, String suffix) {
         return Text.of("<f>👑</f><#ffce47>{}{}</color>", amount, suffix);
+    }
+
+    private static String highlightNumbers(String line) {
+        return line
+                .replaceAll("([+-]?\\d+(?:\\.\\d+)? ?HP)", "<c>$1</c>")
+                .replaceAll("(\\d+(?:\\.\\d+)?%)", "<a>$1</a>")
+                .replaceAll("(\\d+ seconds?)", "<e>$1</e>");
     }
 
     private static Text highlightEffect(String effect) {

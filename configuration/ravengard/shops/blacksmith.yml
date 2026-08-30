@@ -35,10 +35,6 @@ pool:
     price: 34
   - item: RUSTY_MACE
     price: 17
-  - item: SHORT_AXE
-    price: 10
-  - item: SHORT_SWORD
-    price: 24
   - item: SPIKED_MACE
     price: 28
   - item: STEEL_DAGGER

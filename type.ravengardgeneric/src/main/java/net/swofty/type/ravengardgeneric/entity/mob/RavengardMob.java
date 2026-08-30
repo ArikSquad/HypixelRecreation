@@ -127,9 +127,21 @@ public class RavengardMob extends net.minestom.server.entity.EntityCreature {
         hit(target);
     }
 
+    private static final float SHIELD_BLOCK_KEPT = 0.3f;
+
     private void hit(Entity target) {
         if (target instanceof LivingEntity living) {
-            living.damage(net.minestom.server.entity.damage.DamageType.MOB_ATTACK, PLAYER_DAMAGE_PER_HIT);
+            float damage = PLAYER_DAMAGE_PER_HIT;
+            if (living instanceof net.swofty.type.ravengardgeneric.user.RavengardPlayer player
+                    && player.isBlockingWithShield()) {
+                damage *= SHIELD_BLOCK_KEPT;
+                player.playSound(net.kyori.adventure.sound.Sound.sound()
+                        .type(net.kyori.adventure.key.Key.key("item.shield.block"))
+                        .volume(1.0f)
+                        .pitch(1.0f)
+                        .build());
+            }
+            living.damage(net.minestom.server.entity.damage.DamageType.MOB_ATTACK, damage);
             Vec away = living.getPosition().sub(position).asVec().withY(0);
             if (away.lengthSquared() > 1e-6) {
                 away = away.normalize();
