@@ -29,7 +29,7 @@ public enum RavengardClass {
             case WARRIOR -> 0xE21E;
             case HUNTER -> 0xE221;
             case ASSASSIN -> 0xE200;
-            case SORCERER -> 0xE224;
+            case SORCERER -> 0xF23D;
         };
     }
 
