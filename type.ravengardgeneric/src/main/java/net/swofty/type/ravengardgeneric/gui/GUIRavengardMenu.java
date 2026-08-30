@@ -50,12 +50,31 @@ public class GUIRavengardMenu extends RavengardView {
         RavengardButton statue = playerClass == null ? null : RavengardButton.statueFor(playerClass);
         if (statue != null) {
             RavengardItems.Builder profile = RavengardItems.button(statue)
-                    .label(Text.of("Profiles - {}", playerClass.getDisplayName()))
+                    .label(Text.of("Profiles<7> - <f>{}", playerClass.getDisplayName()))
+                    .blankLine()
+                    .lore(playerClass.selectLore())
                     .blankLine();
 
-            List<Text> profileLore = playerClass.profileLore();
-            if (profileLore != null) {
-                profile.lore(profileLore).blankLine();
+            int[] stats = playerClass.baseStats();
+            if (stats != null) {
+                profile.lore(Text.of("<7>Stats:"),
+                                Text.of("<f> ◦ <7>Health: <c>{} ❤", stats[0]),
+                                Text.of("<f> ◦ <7>Protection: <b>{} ⛊", stats[1]),
+                                Text.of("<f> ◦ <7>Damage: <4>{} ⚔", stats[2]))
+                        .blankLine();
+            }
+
+            net.swofty.type.ravengardgeneric.profile.RavengardProfile active =
+                    ctx.player() instanceof RavengardPlayer player
+                            ? net.swofty.type.ravengardgeneric.data.RavengardProfileStorage
+                                    .byId(player.getSelectedProfile())
+                            : null;
+            if (active != null) {
+                profile.lore(Text.of("<7>Progression:"),
+                                Text.of("<f> ◦ <7>Level: <6>{}", active.getLevel()),
+                                Text.of("<f> ◦ <7>Experience: <e>{}<7>/<e>{}",
+                                        active.getExperience(), active.experienceForNextLevel()))
+                        .blankLine();
             }
 
             interactive(layout, SLOT_STATUE, profile.lore("<e>Click to change profile!"),
@@ -64,7 +83,7 @@ public class GUIRavengardMenu extends RavengardView {
         }
 
         place(layout, SLOT_LOCKBOX, RavengardItems.button(RavengardButton.CHEST)
-                .label("Lockbox")
+                .label("Lock Box")
                 .lore("<7>Safely store your items here!")
                 .blankLine()
                 .lore("<e>Click to open!"));
@@ -116,7 +135,8 @@ public class GUIRavengardMenu extends RavengardView {
             RavengardAbility ability = abilities.get(index);
             final int page = index + 1;
             RavengardItems.Builder button = RavengardItems.button(ability)
-                    .label(Text.of("Ability {} - {}", page, ability.getDisplayName()))
+                    .label(Text.of((page == 1 ? "First" : "Second") + " Ability<7> - <f>{}",
+                            ability.getDisplayName()))
                     .lore(ability.getWrappedDescription())
                     .blankLine()
                     .lore("<e>Click to change!")

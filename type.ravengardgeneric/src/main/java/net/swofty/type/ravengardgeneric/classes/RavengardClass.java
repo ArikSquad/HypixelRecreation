@@ -70,24 +70,16 @@ public enum RavengardClass {
     }
 
     /**
-     * Profile-statue tooltip, verbatim from the captured menu. Only the Assassin screen was
-     * captured, so the rest return null and their lore lines are left out rather than invented.
+     * Base stats as the captured profile tooltips list them: health, protection, damage. Only the
+     * Assassin and Sorcerer screens were captured, so the rest return null and their stats block
+     * is left out rather than invented.
      */
-    public List<Text> profileLore() {
-        if (this != ASSASSIN) {
-            return null;
-        }
-        return List.of(
-                Text.of("<7>A stealth-focused class adept at"),
-                Text.of("<7>sneaking."),
-                Text.empty(),
-                Text.of("<7>Primary weapon: <f>Daggers"),
-                Text.empty(),
-                Text.of("<7>Stats:"),
-                Text.of("<7>◦ Health <c>160.0 ❤"),
-                Text.of("<7>◦ Protection <b>0.0 ⛊"),
-                Text.of("<7>◦ Damage <4>20.0 ⚔")
-        );
+    public int[] baseStats() {
+        return switch (this) {
+            case ASSASSIN -> new int[]{160, 0, 20};
+            case SORCERER -> new int[]{170, 0, 20};
+            default -> null;
+        };
     }
 
     /**
@@ -102,7 +94,7 @@ public enum RavengardClass {
             case WARRIOR -> List.of(RavengardAbility.WAR_CRY, RavengardAbility.COOL_OFF);
             case ASSASSIN -> List.of(RavengardAbility.SHADOWS, RavengardAbility.HEAL_WOUNDS);
             case HUNTER -> List.of(RavengardAbility.EAGLE_EYE, RavengardAbility.MED_KIT);
-            case SORCERER -> List.of();
+            case SORCERER -> List.of(RavengardAbility.FIREBALL, RavengardAbility.SPRING_HEALING);
         };
     }
 
