@@ -7,6 +7,7 @@ import net.swofty.type.generic.event.EventNodes;
 import net.swofty.type.generic.event.HypixelEventClass;
 import net.swofty.type.generic.event.phase.PhasedEvent;
 import net.swofty.type.ravengardgeneric.event.custom.PlayerRegionChangeEvent;
+import net.swofty.type.ravengardgeneric.profile.RavengardProfiles;
 import net.swofty.type.ravengardgeneric.region.RavengardRegionType;
 
 import java.time.Duration;
@@ -20,6 +21,13 @@ public class ActionRegionDiscovered implements HypixelEventClass {
         if (to == null) {
             return;
         }
+
+        if (RavengardProfiles.hasDiscovered(event.getPlayer(), to)) {
+            event.getPlayer().sendActionBar(
+                    Text.of("<f>{} discovered", to.getDisplayName()).asComponent());
+            return;
+        }
+        RavengardProfiles.markDiscovered(event.getPlayer(), to);
 
         // one second in, one second out, no hold in between
         event.getPlayer().sendTitlePart(TitlePart.TIMES, Title.Times.times(FADE, Duration.ZERO, FADE));

@@ -24,6 +24,7 @@ public class RavengardProfile {
     private long created;
     private final Map<Integer, String> inventory = new HashMap<>();
     private final java.util.Set<String> intros = new java.util.HashSet<>();
+    private final java.util.Set<String> discoveredRegions = new java.util.HashSet<>();
 
     public RavengardProfile(UUID id, UUID owner) {
         this.id = id;
@@ -47,6 +48,9 @@ public class RavengardProfile {
                 ? number.longValue() : System.currentTimeMillis();
         if (document.get("intros") instanceof java.util.List<?> introList) {
             introList.forEach(name -> profile.intros.add(String.valueOf(name)));
+        }
+        if (document.get("discovered_regions") instanceof java.util.List<?> regionList) {
+            regionList.forEach(name -> profile.discoveredRegions.add(String.valueOf(name)));
         }
         if (document.get("inventory") instanceof Document inventoryDocument) {
             inventoryDocument.forEach((slot, snbt) ->

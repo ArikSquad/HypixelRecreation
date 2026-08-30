@@ -30,11 +30,12 @@ public final class RavengardProfileFields {
     public static final PlayerField<String> TUTORIAL = field("tutorial");
     public static final PlayerField<String> PLAYTIME_SECONDS = field("playtime_seconds");
     public static final PlayerField<String> INTROS = field("intros");
+    public static final PlayerField<String> DISCOVERED_REGIONS = field("discovered_regions");
     public static final PlayerField<String> INVENTORY = field("inventory");
 
     public static final List<PlayerField<String>> PROFILE_FIELDS = List.of(
             OWNER, CREATED, CLASS, LEVEL, EXPERIENCE, CROWNS,
-            ABILITY_POINTS, TUTORIAL, PLAYTIME_SECONDS, INTROS, INVENTORY);
+            ABILITY_POINTS, TUTORIAL, PLAYTIME_SECONDS, INTROS, DISCOVERED_REGIONS, INVENTORY);
 
     public static final PlayerField<String> LEGACY_SELECTED_PROFILE = legacyField("ravengard_selected_profile");
     public static final PlayerField<String> LEGACY_CLASS = legacyField("ravengard_class");

@@ -49,7 +49,9 @@ public final class RavengardProfileStorage {
             profile.setAbilityPoints(readInt(profileId, RavengardProfileFields.ABILITY_POINTS, 0));
             profile.setTutorial(readBoolean(profileId, RavengardProfileFields.TUTORIAL, true));
             profile.setPlaytimeSeconds(readLong(profileId, RavengardProfileFields.PLAYTIME_SECONDS, 0L));
-            profile.getIntros().addAll(decodeIntros(read(profileId, RavengardProfileFields.INTROS)));
+            profile.getIntros().addAll(decodeNames(read(profileId, RavengardProfileFields.INTROS)));
+            profile.getDiscoveredRegions().addAll(decodeNames(
+                    read(profileId, RavengardProfileFields.DISCOVERED_REGIONS)));
             profile.getInventory().putAll(decodeInventory(read(profileId, RavengardProfileFields.INVENTORY)));
             return profile;
         } finally {
@@ -119,22 +121,37 @@ public final class RavengardProfileStorage {
     }
 
     public static boolean hasIntro(UUID profileId, String npc) {
+        return containsName(profileId, RavengardProfileFields.INTROS, npc);
+    }
+
+    public static void addIntro(UUID profileId, String npc) {
+        addName(profileId, RavengardProfileFields.INTROS, npc);
+    }
+
+    public static boolean hasDiscoveredRegion(UUID profileId, String region) {
+        return containsName(profileId, RavengardProfileFields.DISCOVERED_REGIONS, region);
+    }
+
+    public static void addDiscoveredRegion(UUID profileId, String region) {
+        addName(profileId, RavengardProfileFields.DISCOVERED_REGIONS, region);
+    }
+
+    private static boolean containsName(UUID profileId, PlayerField<String> field, String name) {
         if (profileId == null) return false;
         try {
-            return decodeIntros(read(profileId, RavengardProfileFields.INTROS)).contains(npc);
+            return decodeNames(read(profileId, field)).contains(name);
         } finally {
             release(profileId);
         }
     }
 
-    public static void addIntro(UUID profileId, String npc) {
-        if (profileId == null || npc == null) return;
+    private static void addName(UUID profileId, PlayerField<String> field, String name) {
+        if (profileId == null || name == null) return;
         try {
             SwoftyData.profile().transaction(profileId, transaction -> {
-                Set<String> intros = new LinkedHashSet<>(
-                        decodeIntros(transaction.get(RavengardProfileFields.INTROS)));
-                if (!intros.add(npc)) return;
-                transaction.set(RavengardProfileFields.INTROS, encodeIntros(intros));
+                Set<String> names = new LinkedHashSet<>(decodeNames(transaction.get(field)));
+                if (!names.add(name)) return;
+                transaction.set(field, encodeNames(names));
             });
         } finally {
             release(profileId);
@@ -165,16 +182,16 @@ public final class RavengardProfileStorage {
         return inventory;
     }
 
-    static String encodeIntros(Set<String> intros) {
-        return RavengardProfileFields.STRING_ARRAY.serialize(intros.toArray(String[]::new));
+    static String encodeNames(Set<String> names) {
+        return RavengardProfileFields.STRING_ARRAY.serialize(names.toArray(String[]::new));
     }
 
-    static List<String> decodeIntros(String stored) {
+    static List<String> decodeNames(String stored) {
         if (stored == null || stored.isEmpty()) return List.of();
         try {
             return new ArrayList<>(List.of(RavengardProfileFields.STRING_ARRAY.deserialize(stored)));
         } catch (Exception exception) {
-            Logger.warn(exception, "Could not decode the stored Ravengard intros");
+            Logger.warn(exception, "Could not decode a stored Ravengard name list");
             return List.of();
         }
     }
@@ -239,7 +256,9 @@ public final class RavengardProfileStorage {
                 RavengardProfileFields.BOOLEAN.serialize(profile.isTutorial()));
         transaction.set(RavengardProfileFields.PLAYTIME_SECONDS,
                 RavengardProfileFields.LONG.serialize(profile.getPlaytimeSeconds()));
-        transaction.set(RavengardProfileFields.INTROS, encodeIntros(profile.getIntros()));
+        transaction.set(RavengardProfileFields.INTROS, encodeNames(profile.getIntros()));
+        transaction.set(RavengardProfileFields.DISCOVERED_REGIONS,
+                encodeNames(profile.getDiscoveredRegions()));
         transaction.set(RavengardProfileFields.INVENTORY, encodeInventory(profile.getInventory()));
     }
 
