@@ -82,7 +82,7 @@ public class GUIAbilityPage extends RavengardView {
 
         RavengardProfile active = RavengardProfileStorage.byId(player.getSelectedProfile());
         int points = active == null ? 0 : active.getAbilityPoints();
-        place(layout, SLOT_POINTS, RavengardItems.button(RavengardButton.LEVEL)
+        interactive(layout, SLOT_POINTS, RavengardItems.button(RavengardButton.LEVEL)
                 .label(Text.of("<b>Ability Points <7>(<e>{}<7>)", points))
                 .lore("<7>You can unlock new <a>abilities<7> by",
                         "<7>spending <b>Ability Points<7> in this menu.")
@@ -94,7 +94,14 @@ public class GUIAbilityPage extends RavengardView {
                 .lore(Text.of("<e>Experience<7> is earned through:"),
                         Text.of("<7> <f>◦<7> Defeating mobs and bosses."),
                         Text.of("<7> <f>◦<7> Killing other players."),
-                        Text.of("<7> <f>◦<7> Escaping through portals.")));
+                        Text.of("<7> <f>◦<7> Escaping through portals.")),
+                (click, viewContext) -> click.player().playSound(
+                        net.kyori.adventure.sound.Sound.sound()
+                                .type(net.kyori.adventure.key.Key.key(
+                                        "hypixel_ravengard", "ambience.town.raven"))
+                                .volume(1.0f)
+                                .pitch(1.0f)
+                                .build()));
 
         backButton(layout);
     }
