@@ -1321,7 +1321,7 @@ items:
     tracked_id: UNCOMMON_SOLDIERS_SABATONS
     rarity: UNCOMMON
     material: iron_boots
-    display_name: 'Soldier's Sabatons'
+    display_name: 'Soldier''s Sabatons'
     item_model: hypixel_ravengard:item/armor/soldier/boots/soldiers_sabatons
     value: 7
     default_statistics:
