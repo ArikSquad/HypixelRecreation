@@ -47,6 +47,10 @@ public final class RavengardSelection {
         player.getInventory().setItemStack(RavengardKit.SLOT_CHEST, RavengardItem.of(kit.chestId(), player));
         player.getInventory().setItemStack(RavengardKit.SLOT_LEGS, RavengardItem.of(kit.legsId(), player));
         player.getInventory().setItemStack(RavengardKit.SLOT_BOOTS, RavengardItem.of(kit.bootsId(), player));
+        int hotbarSlot = 0;
+        for (String itemId : kit.hotbarIds()) {
+            player.getInventory().setItemStack(hotbarSlot++, RavengardItem.of(itemId, player));
+        }
         giveAccessorySlots(player);
 
         List<RavengardAbility> abilities = value.defaultAbilities();

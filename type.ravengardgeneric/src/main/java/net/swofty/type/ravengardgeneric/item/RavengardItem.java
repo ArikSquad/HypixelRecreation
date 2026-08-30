@@ -11,6 +11,7 @@ import net.minestom.server.item.component.TooltipDisplay;
 import net.swofty.commons.text.Text;
 import net.swofty.type.generic.gui.inventory.ItemStacks;
 import net.swofty.type.ravengardgeneric.classes.RavengardClass;
+import net.swofty.type.ravengardgeneric.gui.RavengardFont;
 import net.swofty.type.ravengardgeneric.data.monogdb.RavengardTrackedItemsDatabase;
 import net.swofty.type.ravengardgeneric.item.attribute.attributes.ItemAttributeItemId;
 import net.swofty.type.ravengardgeneric.item.attribute.attributes.ItemAttributeStatBoost;
@@ -32,10 +33,14 @@ import java.util.regex.Pattern;
  */
 public final class RavengardItem {
 
-    /** Class tag order as the captured Old Boots tooltip lists them. */
+    /**
+     * Class tag order as the captured Old Boots tooltip lists them. Restricted items instead show
+     * their tags in the order the item declares its classes, which is how the captured Weathered
+     * Pants row reads.
+     */
     private static final RavengardClass[] CLASS_TAG_ORDER = {
             RavengardClass.KNIGHT, RavengardClass.HUNTER,
-            RavengardClass.ASSASSIN, RavengardClass.WARRIOR};
+            RavengardClass.ASSASSIN, RavengardClass.WARRIOR, RavengardClass.SORCERER};
 
     private static final Set<DataComponent<?>> HIDDEN = Set.of(
             DataComponents.PAINTING_VARIANT,
@@ -156,7 +161,9 @@ public final class RavengardItem {
     private static void applyTrackedAttributes(ItemStack.Builder builder, RavengardItemType type,
                                                RavengardPlayer owner, double boost) {
         UUID itemUuid = UUID.randomUUID();
-        String trackedId = type.getRarity().name() + "_" + type.getId();
+        String trackedId = type.getTrackedId() != null
+                ? type.getTrackedId()
+                : type.getRarity().name() + "_" + type.getId();
         RavengardTrackedItemsDatabase.record(itemUuid, trackedId,
                 owner == null ? null : owner.getUuid(),
                 owner == null ? null : owner.getSelectedProfile());
@@ -185,29 +192,29 @@ public final class RavengardItem {
     private static List<Text> lore(RavengardItemType type, boolean shopContext, double boost) {
         List<Text> lore = new ArrayList<>();
 
-        StringBuilder tags = new StringBuilder();
-        tags.appendCodePoint(type.getRarity().getTagGlyph());
+        Component tags = glyph(type.getRarity().getTagGlyph());
         StandardItemComponent standard = type.component(StandardItemComponent.class);
         boolean consumable = standard != null && "CONSUMABLE".equals(standard.getStandardItemType());
         if (standard != null && standard.tagGlyph() != 0) {
-            tags.append(' ').appendCodePoint(standard.tagGlyph());
+            tags = tags.append(Component.text(" ").font(RavengardFont.DEFAULT)
+                    .append(glyph(standard.tagGlyph())));
         }
-        lore.add(white(tags.toString()));
+        lore.add(Text.of("<f>{}", tags));
         lore.add(BLANK);
 
         boolean stats = false;
         for (var statistic : net.swofty.type.ravengardgeneric.item.statistics.RavengardItemStatistic.values()) {
             boolean scaled = statistic.isBoostable() && boosted(boost);
-            stats |= stat(lore, statistic.getIconGlyph(),
+            stats |= stat(lore, statistic,
                     type.statistic(statistic) * (scaled ? boost : 1.0),
-                    statistic.getDisplayName(), scaled ? boost : 0);
+                    scaled ? boost : 0);
         }
         if (stats) {
             lore.add(BLANK);
         }
 
         if (!type.getDescription().isEmpty()) {
-            type.getDescription().forEach(line -> lore.add(Text.of("<7>{}", line)));
+            type.getDescription().forEach(line -> lore.add(Text.of("<7>" + highlightNumbers(line))));
             lore.add(BLANK);
         }
         if (type.getEffect() != null) {
@@ -216,18 +223,20 @@ public final class RavengardItem {
         }
 
         if (type.getValue() > 0) {
-            lore.add(crowns(type.getValue(), " Crowns"));
+            lore.add(crowns(type.getValue(), type.getValue() == 1 ? " Crown" : " Crowns"));
             lore.add(BLANK);
         }
 
         if (!consumable) {
-            StringBuilder classes = new StringBuilder();
-            for (RavengardClass tag : CLASS_TAG_ORDER) {
-                if (type.usableBy(tag)) {
-                    classes.appendCodePoint(tag.getTagGlyph()).append(' ');
-                }
+            Iterable<RavengardClass> order = type.getRestrictedTo().isEmpty()
+                    ? List.of(CLASS_TAG_ORDER) : type.getRestrictedTo();
+            Component classes = Component.empty()
+                    .color(NamedTextColor.WHITE)
+                    .shadowColor(net.kyori.adventure.text.format.ShadowColor.shadowColor(0));
+            for (RavengardClass tag : order) {
+                classes = classes.append(glyph(tag.getTagGlyph())).append(Component.text(" "));
             }
-            lore.add(white(classes.toString()));
+            lore.add(Text.of("{}", classes));
         }
         while (!lore.isEmpty() && lore.getLast() == BLANK) {
             lore.removeLast();
@@ -235,22 +244,41 @@ public final class RavengardItem {
         return lore;
     }
 
-    private static boolean stat(List<Text> lore, int icon, double amount, String label, double boost) {
+    private static boolean stat(List<Text> lore,
+                                net.swofty.type.ravengardgeneric.item.statistics.RavengardItemStatistic statistic,
+                                double amount, double boost) {
         if (amount <= 0) {
             return false;
         }
         double rounded = Math.round(amount * 100.0) / 100.0;
         String value = rounded == Math.floor(rounded)
                 ? String.valueOf((int) rounded) : String.valueOf(rounded);
-        String iconValue = new String(Character.toChars(icon)) + value;
+        if (statistic.isPercent()) {
+            value = "+" + value + "%";
+        }
+        Component iconValue = glyph(statistic.getIconGlyph())
+                .append(Component.text(value).font(RavengardFont.DEFAULT));
+        String label = statistic.getDisplayName();
         lore.add(boost > 0
                 ? Text.of("<#5fec7b>{}</color> <f>{}</f> <#a3a3c2>(+{}x)</color>", iconValue, label, boostText(boost))
                 : Text.of("<#5fec7b>{}</color> <f>{}</f>", iconValue, label));
         return true;
     }
 
+    private static Component glyph(int codePoint) {
+        return Component.text(new String(Character.toChars(codePoint)))
+                .font(RavengardFont.RAVENGARD);
+    }
+
     public static Text crowns(int amount, String suffix) {
         return Text.of("<f>👑</f><#ffce47>{}{}</color>", amount, suffix);
+    }
+
+    private static String highlightNumbers(String line) {
+        return line
+                .replaceAll("([+-]?\\d+(?:\\.\\d+)? ?HP)", "<c>$1</c>")
+                .replaceAll("(\\d+(?:\\.\\d+)?%)", "<a>$1</a>")
+                .replaceAll("(\\d+ seconds?)", "<e>$1</e>");
     }
 
     private static Text highlightEffect(String effect) {

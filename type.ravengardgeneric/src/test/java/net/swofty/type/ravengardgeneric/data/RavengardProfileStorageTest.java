@@ -39,6 +39,7 @@ class RavengardProfileStorageTest {
         profile.setPlaytimeSeconds(9876L);
         profile.setCreated(1700000000000L);
         profile.getIntros().add("diago");
+        profile.getDiscoveredRegions().add("NEVERMORE");
         profile.getInventory().put(8, "{id:\"minecraft:stone\"}");
 
         RecordingTransaction transaction = new RecordingTransaction();
@@ -54,6 +55,7 @@ class RavengardProfileStorageTest {
         assertEquals("false", transaction.written.get(RavengardProfileFields.TUTORIAL));
         assertEquals("9876", transaction.written.get(RavengardProfileFields.PLAYTIME_SECONDS));
         assertEquals("[\"diago\"]", transaction.written.get(RavengardProfileFields.INTROS));
+        assertEquals("[\"NEVERMORE\"]", transaction.written.get(RavengardProfileFields.DISCOVERED_REGIONS));
         assertEquals(RavengardProfileFields.PROFILE_FIELDS.size(), transaction.written.size());
     }
 
@@ -103,14 +105,14 @@ class RavengardProfileStorageTest {
     }
 
     @Test
-    void roundTripsTheSeenIntros() {
-        Set<String> intros = new LinkedHashSet<>(Set.of("diago"));
-        intros.add("quartermaster");
+    void roundTripsTheStoredNameLists() {
+        Set<String> names = new LinkedHashSet<>(Set.of("diago"));
+        names.add("quartermaster");
 
         assertEquals(java.util.List.of("diago", "quartermaster"),
-                RavengardProfileStorage.decodeIntros(RavengardProfileStorage.encodeIntros(intros)));
-        assertTrue(RavengardProfileStorage.decodeIntros(null).isEmpty());
-        assertTrue(RavengardProfileStorage.decodeIntros("nonsense").isEmpty());
+                RavengardProfileStorage.decodeNames(RavengardProfileStorage.encodeNames(names)));
+        assertTrue(RavengardProfileStorage.decodeNames(null).isEmpty());
+        assertTrue(RavengardProfileStorage.decodeNames("nonsense").isEmpty());
     }
 
     @Test

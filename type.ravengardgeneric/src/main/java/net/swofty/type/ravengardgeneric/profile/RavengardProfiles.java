@@ -13,6 +13,7 @@ import net.swofty.type.ravengardgeneric.data.RavengardProfileIndex;
 import net.swofty.type.ravengardgeneric.data.RavengardProfileMigration;
 import net.swofty.type.ravengardgeneric.data.RavengardProfileStorage;
 import net.swofty.type.ravengardgeneric.item.RavengardMenuItem;
+import net.swofty.type.ravengardgeneric.region.RavengardRegionType;
 import net.swofty.type.ravengardgeneric.user.RavengardPlayer;
 import org.jetbrains.annotations.Nullable;
 import org.tinylog.Logger;
@@ -169,6 +170,14 @@ public final class RavengardProfiles {
 
     public static void markIntro(RavengardPlayer player, String npc) {
         RavengardProfileStorage.addIntro(player.getSelectedProfile(), npc);
+    }
+
+    public static boolean hasDiscovered(RavengardPlayer player, RavengardRegionType region) {
+        return RavengardProfileStorage.hasDiscoveredRegion(player.getSelectedProfile(), region.name());
+    }
+
+    public static void markDiscovered(RavengardPlayer player, RavengardRegionType region) {
+        RavengardProfileStorage.addDiscoveredRegion(player.getSelectedProfile(), region.name());
     }
 
     public static int getCrowns(RavengardPlayer player) {

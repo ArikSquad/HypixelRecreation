@@ -12,7 +12,12 @@ import net.swofty.type.ravengardgeneric.gui.RavengardItems;
  * <p>Slot 1 of the crafting grid is bound to the drop key and slot 4 to swap-offhand, matching the
  * captured Knight inventory. The pieces themselves are defined in configuration/ravengard/items.
  */
-public record RavengardKit(String chestId, String legsId, String bootsId) {
+public record RavengardKit(String chestId, String legsId, String bootsId,
+                           java.util.List<String> hotbarIds) {
+
+    public RavengardKit(String chestId, String legsId, String bootsId) {
+        this(chestId, legsId, bootsId, java.util.List.of());
+    }
 
     public static final int SLOT_ABILITY_ONE = PlayerInventoryUtils.CRAFT_SLOT_1;
     public static final int SLOT_ABILITY_TWO = PlayerInventoryUtils.CRAFT_SLOT_4;
@@ -37,13 +42,15 @@ public record RavengardKit(String chestId, String legsId, String bootsId) {
     private static final int OFFSET_ABILITY_TWO = 0x934700;
 
     public static RavengardKit forClass(RavengardClass value) {
-        // Only the Knight kit has been captured; the others reuse its shape until they are.
+        // Only the Knight and Sorcerer kits have been captured; the others reuse the Knight
+        // shape until they are.
         return switch (value) {
             case KNIGHT -> new RavengardKit("TUNIC", "REINFORCED_PANTS", "OLD_BOOTS");
             case WARRIOR -> new RavengardKit("WEATHERED_HARNESS", "WEATHERED_PANTS", "OLD_BOOTS");
             case HUNTER -> new RavengardKit("TUNIC", "REINFORCED_PANTS", "OLD_BOOTS");
             case ASSASSIN -> new RavengardKit("TUNIC", "REINFORCED_PANTS", "OLD_BOOTS");
-            case SORCERER -> null;
+            case SORCERER -> new RavengardKit("WEATHERED_ROBE", "WEATHERED_PANTS", "OLD_BOOTS",
+                    java.util.List.of("APPRENTICE_STAFF", "STARTER_BANDAGE"));
         };
     }
 
