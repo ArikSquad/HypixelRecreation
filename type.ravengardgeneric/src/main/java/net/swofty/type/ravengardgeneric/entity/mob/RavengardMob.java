@@ -101,6 +101,20 @@ public class RavengardMob extends net.minestom.server.entity.EntityCreature {
         }
     }
 
+    public String displayName() {
+        StringBuilder name = new StringBuilder();
+        for (String word : clip.name().split("_")) {
+            if (word.isBlank()) {
+                continue;
+            }
+            if (!name.isEmpty()) {
+                name.append(' ');
+            }
+            name.append(Character.toUpperCase(word.charAt(0))).append(word.substring(1));
+        }
+        return name.toString();
+    }
+
     @Override
     public void attack(Entity target, boolean swingHand) {
         if (dying || attackCooldown > 0 || chargeTicksLeft > 0) return;
