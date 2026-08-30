@@ -87,11 +87,13 @@ public class GUIRavengardMenu extends RavengardView {
                             .get(viewCtx.player()).push(new GUIProfiles()));
         }
 
-        place(layout, SLOT_LOCKBOX, RavengardItems.button(RavengardButton.CHEST)
-                .label("Lock Box")
-                .lore("<7>Safely store your items here!")
-                .blankLine()
-                .lore("<e>Click to open!"));
+        interactive(layout, SLOT_LOCKBOX, RavengardItems.button(RavengardButton.CHEST)
+                        .label("Lock Box")
+                        .lore("<7>Safely store your items here!")
+                        .blankLine()
+                        .lore("<e>Click to open!"),
+                (click, viewCtx) -> net.swofty.type.generic.gui.v2.ViewNavigator
+                        .get(viewCtx.player()).push(new GUILockBox()));
 
         // Unreleased features. Hypixel renders their whole tooltip in the Illager rune font so the
         // placeholder text (alphabet runs, lorem ipsum) is unreadable in game; kept verbatim.

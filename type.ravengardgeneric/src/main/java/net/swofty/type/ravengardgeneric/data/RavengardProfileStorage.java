@@ -53,6 +53,8 @@ public final class RavengardProfileStorage {
             profile.getDiscoveredRegions().addAll(decodeNames(
                     read(profileId, RavengardProfileFields.DISCOVERED_REGIONS)));
             profile.getInventory().putAll(decodeInventory(read(profileId, RavengardProfileFields.INVENTORY)));
+            profile.getLockBox().putAll(decodeInventory(read(profileId, RavengardProfileFields.LOCK_BOX)));
+            profile.setLockBoxTier(readInt(profileId, RavengardProfileFields.LOCK_BOX_TIER, 1));
             return profile;
         } finally {
             release(profileId);
@@ -115,6 +117,43 @@ public final class RavengardProfileStorage {
         if (profileId == null) return;
         try {
             SwoftyData.profile().set(profileId, RavengardProfileFields.INVENTORY, encodeInventory(inventory));
+        } finally {
+            release(profileId);
+        }
+    }
+
+    public static Map<Integer, String> readLockBox(UUID profileId) {
+        if (profileId == null) return Map.of();
+        try {
+            return decodeInventory(read(profileId, RavengardProfileFields.LOCK_BOX));
+        } finally {
+            release(profileId);
+        }
+    }
+
+    public static void writeLockBox(UUID profileId, Map<Integer, String> contents) {
+        if (profileId == null) return;
+        try {
+            SwoftyData.profile().set(profileId, RavengardProfileFields.LOCK_BOX, encodeInventory(contents));
+        } finally {
+            release(profileId);
+        }
+    }
+
+    public static int lockBoxTier(UUID profileId) {
+        if (profileId == null) return 1;
+        try {
+            return Math.max(1, decodeInt(read(profileId, RavengardProfileFields.LOCK_BOX_TIER), 1));
+        } finally {
+            release(profileId);
+        }
+    }
+
+    public static void writeLockBoxTier(UUID profileId, int tier) {
+        if (profileId == null) return;
+        try {
+            SwoftyData.profile().set(profileId, RavengardProfileFields.LOCK_BOX_TIER,
+                    RavengardProfileFields.INTEGER.serialize(tier));
         } finally {
             release(profileId);
         }
@@ -260,6 +299,9 @@ public final class RavengardProfileStorage {
         transaction.set(RavengardProfileFields.DISCOVERED_REGIONS,
                 encodeNames(profile.getDiscoveredRegions()));
         transaction.set(RavengardProfileFields.INVENTORY, encodeInventory(profile.getInventory()));
+        transaction.set(RavengardProfileFields.LOCK_BOX, encodeInventory(profile.getLockBox()));
+        transaction.set(RavengardProfileFields.LOCK_BOX_TIER,
+                RavengardProfileFields.INTEGER.serialize(profile.getLockBoxTier()));
     }
 
     private static UUID readOwner(UUID profileId) {

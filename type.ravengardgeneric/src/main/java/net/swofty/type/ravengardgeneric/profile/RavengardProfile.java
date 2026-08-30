@@ -23,6 +23,8 @@ public class RavengardProfile {
     private long playtimeSeconds;
     private long created;
     private final Map<Integer, String> inventory = new HashMap<>();
+    private final Map<Integer, String> lockBox = new HashMap<>();
+    private int lockBoxTier = 1;
     private final java.util.Set<String> intros = new java.util.HashSet<>();
     private final java.util.Set<String> discoveredRegions = new java.util.HashSet<>();
 

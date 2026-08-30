@@ -32,10 +32,13 @@ public final class RavengardProfileFields {
     public static final PlayerField<String> INTROS = field("intros");
     public static final PlayerField<String> DISCOVERED_REGIONS = field("discovered_regions");
     public static final PlayerField<String> INVENTORY = field("inventory");
+    public static final PlayerField<String> LOCK_BOX = field("lock_box");
+    public static final PlayerField<String> LOCK_BOX_TIER = field("lock_box_tier");
 
     public static final List<PlayerField<String>> PROFILE_FIELDS = List.of(
             OWNER, CREATED, CLASS, LEVEL, EXPERIENCE, CROWNS,
-            ABILITY_POINTS, TUTORIAL, PLAYTIME_SECONDS, INTROS, DISCOVERED_REGIONS, INVENTORY);
+            ABILITY_POINTS, TUTORIAL, PLAYTIME_SECONDS, INTROS, DISCOVERED_REGIONS, INVENTORY,
+            LOCK_BOX, LOCK_BOX_TIER);
 
     public static final PlayerField<String> LEGACY_SELECTED_PROFILE = legacyField("ravengard_selected_profile");
     public static final PlayerField<String> LEGACY_CLASS = legacyField("ravengard_class");
