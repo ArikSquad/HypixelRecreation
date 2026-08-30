@@ -35,6 +35,7 @@ public enum RavengardButton implements RavengardSprite {
     TEXT_CANCEL("text_cancel", 0xF220, 46, 32, 3, 1),
     TEXT_CONFIRM("text_confirm", 0xF221, 46, 32, 3, 1),
     TEXT_FIGHT("text_fight", 0xF224, 46, 34, 3, 1),
+    TEXT_LEAVE("text_leave", 0xF23A, 46, 34, 3, 1),
     TROPHY("trophy", 0xF229, 42, 36, 2, 2);
 
     private static final String MODEL_ROOT = "hypixel_ravengard:ui/menu/button/";

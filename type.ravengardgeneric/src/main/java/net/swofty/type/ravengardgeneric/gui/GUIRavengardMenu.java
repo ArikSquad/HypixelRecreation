@@ -35,17 +35,22 @@ public class GUIRavengardMenu extends RavengardView {
                 ? player.getRavengardClass()
                 : null;
 
-        RavengardItems.Builder fight = RavengardItems.button(RavengardButton.TEXT_FIGHT)
-                .label("Join the Fight!")
-                .lore("<7>Jump into the action and fight",
-                        "<7>against other players and monsters!")
-                .blankLine()
-                .lore("<e>Click to join!")
-                .origin(SLOT_FIGHT);
-        interactive(layout, SLOT_FIGHT, fight, (_, viewCtx) -> {
-            viewCtx.player().closeInventory();
-            viewCtx.player().sendTo(ServerType.RAVENGARD_DUNGEON);
-        });
+        for (int slot : RavengardButton.TEXT_FIGHT.coveredSlots(SLOT_FIGHT)) {
+            layout.autoUpdating(slot,
+                    (state2, ctx2) -> fightButton(ctx2).origin(SLOT_FIGHT).toBuilder(),
+                    (click, viewCtx) -> {
+                        if (!(viewCtx.player() instanceof RavengardPlayer player)) {
+                            return;
+                        }
+                        if (net.swofty.type.ravengardgeneric.queue.RavengardQueue.isQueued(player)) {
+                            net.swofty.type.ravengardgeneric.queue.RavengardQueue.leave(player);
+                        } else {
+                            player.closeInventory();
+                            net.swofty.type.ravengardgeneric.queue.RavengardQueue.join(player);
+                        }
+                    },
+                    java.time.Duration.ofSeconds(1));
+        }
 
         RavengardButton statue = playerClass == null ? null : RavengardButton.statueFor(playerClass);
         if (statue != null) {
@@ -145,6 +150,24 @@ public class GUIRavengardMenu extends RavengardView {
                     net.swofty.type.generic.gui.v2.ViewNavigator.get(viewCtx.player())
                             .push(new GUIAbilityPage(page)));
         }
+    }
+
+    private static RavengardItems.Builder fightButton(ViewContext ctx) {
+        boolean queued = ctx.player() instanceof RavengardPlayer player
+                && net.swofty.type.ravengardgeneric.queue.RavengardQueue.isQueued(player);
+        if (queued) {
+            return RavengardItems.button(RavengardButton.TEXT_LEAVE)
+                    .label("Leave Queue!")
+                    .lore("<7>Decided you don't want to fight?")
+                    .blankLine()
+                    .lore("<e>Click to leave the queue!");
+        }
+        return RavengardItems.button(RavengardButton.TEXT_FIGHT)
+                .label("Join the Fight!")
+                .lore("<7>Jump into the action and fight",
+                        "<7>against other players and monsters!")
+                .blankLine()
+                .lore("<e>Click to join!");
     }
 
     @Override
