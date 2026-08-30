@@ -85,6 +85,7 @@ public class TypeRavengardLobbyLoader implements RavengardTypeLoader {
         }.spawn(HypixelConst.getInstanceContainer());
 
         RavengardAnimationRegistry.spawnAll(HypixelConst.getInstanceContainer());
+        net.swofty.type.ravengardgeneric.entity.NevermoreNoticeBoard.spawn(HypixelConst.getInstanceContainer());
     }
 
     @Override
