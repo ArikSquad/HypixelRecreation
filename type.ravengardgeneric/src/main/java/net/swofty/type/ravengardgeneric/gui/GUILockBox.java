@@ -22,12 +22,12 @@ import java.util.Set;
 import java.util.UUID;
 
 /**
- * The lock box, rebuilt from a capture: the top five rows are the storage grid, the bottom row is
- * navigation (back left, page arrows right), and every slot the current tier has not unlocked shows
- * the pack's locked pane so the whole box is visible across pages. The next tier to buy carries the
- * captured expand button embedded in its locked region -- tier one opens twenty-eight slots and each
- * expansion adds eight, matching the captured tier two offer of a hundred crowns; later tier prices
- * double, pending captures.
+ * The lock box, rebuilt verbatim from the captured menu: the top five rows are the storage grid, the
+ * bottom row is navigation (back left, page arrows right), and the only chrome drawn over the grid is
+ * the captured "next tier" widget -- two locked panes then the four wide expand button, sitting right
+ * after the last unlocked slot. Empty unlocked slots are left bare so the panel's own grid shows
+ * through, exactly as the capture does. Tier one opens twenty-eight slots and each expansion adds
+ * eight for the captured hundred crowns; later tier prices double, pending captures.
  */
 public class GUILockBox extends RavengardView {
     private static final int PANEL_ICON = 0xF00A;
@@ -36,9 +36,9 @@ public class GUILockBox extends RavengardView {
     private static final int SLOTS_PER_TIER = 8;
     private static final int MAX_TIER = 5;
     private static final int MAX_SLOTS = BASE_SLOTS + SLOTS_PER_TIER * (MAX_TIER - 1);
-    private static final int PAGES = (MAX_SLOTS + CONTENT_SLOTS - 1) / CONTENT_SLOTS;
     private static final int[] EXPAND_COSTS = {100, 200, 400, 800};
     private static final int EXPAND_WIDTH = 4;
+    private static final int WIDGET_WIDTH = 2 + EXPAND_WIDTH;
     private static final int SLOT_PREVIOUS = 51;
     private static final int SLOT_NEXT = 53;
     private static final String LOCKED_MODEL_ROOT = "hypixel_ravengard:ui/menu/generic/storage_locked_";
@@ -50,7 +50,7 @@ public class GUILockBox extends RavengardView {
     }
 
     public GUILockBox(int page) {
-        this.page = Math.floorMod(page, PAGES);
+        this.page = Math.max(0, page);
     }
 
     @Override
@@ -73,22 +73,14 @@ public class GUILockBox extends RavengardView {
         int unlocked = unlockedSlots(tier);
         Map<Integer, String> stored = RavengardProfileStorage.readLockBox(profile);
 
-        for (int gui = 0; gui < CONTENT_SLOTS; gui++) {
-            int absolute = page * CONTENT_SLOTS + gui;
-            if (absolute >= MAX_SLOTS) {
+        for (Map.Entry<Integer, String> entry : stored.entrySet()) {
+            int absolute = entry.getKey();
+            if (absolute >= unlocked || absolute / CONTENT_SLOTS != page) {
                 continue;
             }
-            if (absolute >= unlocked) {
-                layout.slot(gui, lockedPane(absolute));
-                continue;
-            }
-            String snbt = stored.get(absolute);
-            if (snbt == null) {
-                continue;
-            }
-            ItemStack stack = fromSnbt(snbt);
+            ItemStack stack = fromSnbt(entry.getValue());
             if (!stack.isAir()) {
-                layout.slot(gui, stack.builder(),
+                layout.slot(absolute % CONTENT_SLOTS, stack.builder(),
                         (click, viewContext) -> withdraw(viewContext, absolute));
             }
         }
@@ -115,25 +107,25 @@ public class GUILockBox extends RavengardView {
     }
 
     /**
-     * The expand widget follows the last unlocked slot: two locked panes then the four wide button.
-     * If it would run off the end of its row it flows to the start of the next page, so the button
-     * is never split across a page edge.
+     * The captured "next tier" widget: two locked panes then the four wide expand button, flush after
+     * the last unlocked slot, flowing to the next page rather than splitting at a row edge.
      */
     private void placeExpand(ViewLayout<DefaultState> layout, int unlocked, int tier) {
-        int widgetWidth = 2 + EXPAND_WIDTH;
         int widgetPage = unlocked / CONTENT_SLOTS;
         int widgetCol = unlocked % CONTENT_SLOTS;
-        if (widgetCol + widgetWidth > CONTENT_SLOTS) {
+        if (widgetCol + WIDGET_WIDTH > CONTENT_SLOTS) {
             widgetPage += 1;
             widgetCol = 0;
         }
         if (widgetPage != page) {
             return;
         }
-        int expandSlot = widgetCol + 2;
-        int cost = EXPAND_COSTS[tier - 1];
         int nextTier = tier + 1;
-        interactive(layout, expandSlot, RavengardItems.button(RavengardButton.TEXT_EXPAND)
+        layout.slot(widgetCol, lockedPane(nextTier, "left"));
+        layout.slot(widgetCol + 1, lockedPane(nextTier, "right"));
+
+        int cost = EXPAND_COSTS[tier - 1];
+        interactive(layout, widgetCol + 2, RavengardItems.button(RavengardButton.TEXT_EXPAND)
                         .label("Expand Lock Box!")
                         .lore(Text.of("<7>Upgrade your lock box to Tier {}!", nextTier),
                                 Text.of("<7>This will unlock an additional {} slots", SLOTS_PER_TIER),
@@ -209,10 +201,13 @@ public class GUILockBox extends RavengardView {
     }
 
     private void turnTo(ViewContext ctx, int target) {
-        if (!(ctx.player() instanceof RavengardPlayer player) || PAGES <= 1) {
+        if (!(ctx.player() instanceof RavengardPlayer player)) {
             return;
         }
-        int clamped = Math.floorMod(target, PAGES);
+        int tier = RavengardProfileStorage.lockBoxTier(player.getSelectedProfile());
+        int reach = unlockedSlots(tier) + (tier < MAX_TIER ? WIDGET_WIDTH : 0);
+        int pages = Math.max(1, (reach + CONTENT_SLOTS - 1) / CONTENT_SLOTS);
+        int clamped = Math.floorMod(target, pages);
         if (clamped == page) {
             return;
         }
@@ -223,11 +218,9 @@ public class GUILockBox extends RavengardView {
         return BASE_SLOTS + SLOTS_PER_TIER * (Math.max(1, tier) - 1);
     }
 
-    private static ItemStack.Builder lockedPane(int absolute) {
-        int region = Math.min(MAX_TIER, 2 + (absolute - BASE_SLOTS) / SLOTS_PER_TIER);
-        String side = (absolute - BASE_SLOTS) % 2 == 0 ? "left" : "right";
+    private static ItemStack.Builder lockedPane(int tier, String side) {
         return ItemStack.builder(Material.LEATHER_CHESTPLATE)
-                .set(DataComponents.ITEM_MODEL, LOCKED_MODEL_ROOT + region + "_" + side)
+                .set(DataComponents.ITEM_MODEL, LOCKED_MODEL_ROOT + tier + "_" + side)
                 .set(DataComponents.TOOLTIP_DISPLAY, new TooltipDisplay(true, Set.of()));
     }
 
