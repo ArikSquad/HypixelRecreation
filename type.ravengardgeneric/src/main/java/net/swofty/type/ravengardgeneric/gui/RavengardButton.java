@@ -14,6 +14,7 @@ public enum RavengardButton implements RavengardSprite {
     BANNER_ALCHEMIST("alchemist", 0xF22C, 33, 12, 3, 2),
     BANNER_ARMORER("armorer", 0xF22D, 33, 12, 3, 2),
     BANNER_BLACKSMITH("blacksmith", 0xF22E, 33, 12, 3, 2),
+    BANNER_FREE_GEAR("free_gear", 0xF239, 33, 12, 3, 2),
     BUY("buy", 0xF203, 42, 33, 1, 1),
     HOURGLASS("hourglass", 0xF22F, 48, 34, 1, 1),
     LEVEL("level", 0xF23B, 49, 34, 1, 1),

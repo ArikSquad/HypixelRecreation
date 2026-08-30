@@ -49,6 +49,7 @@ public class StandardItemComponent implements RavengardItemComponent {
             case "RING" -> 0xE22D;
             case "TRINKET" -> 0xE21B;
             case "STAFF" -> 0xF237;
+            case "ORB" -> 0xF234;
             case "CONSUMABLE" -> 0xE205;
             default -> 0xE224;
         };

@@ -223,7 +223,7 @@ public final class RavengardItem {
         }
 
         if (type.getValue() > 0) {
-            lore.add(crowns(type.getValue(), " Crowns"));
+            lore.add(crowns(type.getValue(), type.getValue() == 1 ? " Crown" : " Crowns"));
             lore.add(BLANK);
         }
 

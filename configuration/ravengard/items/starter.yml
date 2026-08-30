@@ -14,7 +14,7 @@ items:
       - id: EQUIPPABLE
         asset_id: hypixel_ravengard:knight_starter
       - id: CLASS_RESTRICTED
-        class: KNIGHT
+        classes: [KNIGHT, SORCERER]
 
   - id: WEATHERED_HARNESS
     rarity: COMMON
