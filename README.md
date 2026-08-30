@@ -1,5 +1,7 @@
 # Hypixel
 
+![Gameplay](.github/media/demo.gif)
+
 [<img src="https://discordapp.com/assets/e4923594e694a21542a489471ecffa50.svg" alt="Discord" height="55" />](https://discord.swofty.net)
 
 A 26.2 Minestom-based recreation of Hypixel with a properly abstracted, scalable microservices architecture. A setup guide can be found **[here](https://www.youtube.com/watch?v=XgIzgHGRB3s)**.
