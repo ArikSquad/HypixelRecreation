@@ -23,17 +23,17 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public final class GUIExperienceBottles extends StatelessView {
     private static final Bottle[] BOTTLES = {
-            new Bottle(11, "<f>Experience Bottle", ItemType.EXPERIENCE_BOTTLE, 8),
-            new Bottle(12, "<a>Grand Experience Bottle", ItemType.GRAND_EXP_BOTTLE, 1_500),
-            new Bottle(14, "<9>Titanic Experience Bottle", ItemType.TITANIC_EXP_BOTTLE, 250_000),
-            new Bottle(15, "<5>Colossal Experience Bottle", ItemType.COLOSSAL_EXP_BOTTLE, 500_000)
+            new Bottle(11, Text.of("<f>Experience Bottle"), ItemType.EXPERIENCE_BOTTLE, 8),
+            new Bottle(12, Text.of("<a>Grand Experience Bottle"), ItemType.GRAND_EXP_BOTTLE, 1_500),
+            new Bottle(14, Text.of("<9>Titanic Experience Bottle"), ItemType.TITANIC_EXP_BOTTLE, 250_000),
+            new Bottle(15, Text.of("<5>Colossal Experience Bottle"), ItemType.COLOSSAL_EXP_BOTTLE, 500_000)
     };
 
     private final Map<ItemType, Double> bazaarPrices = new ConcurrentHashMap<>();
 
     @Override
     public ViewConfiguration<DefaultState> configuration() {
-        return new ViewConfiguration<>("Bottles of Enchanting", InventoryType.CHEST_4_ROW);
+        return new ViewConfiguration<>(Text.literal("Bottles of Enchanting"), InventoryType.CHEST_4_ROW);
     }
 
     @Override
@@ -69,9 +69,10 @@ public final class GUIExperienceBottles extends StatelessView {
         int currentLevel = player.getLevel();
         int appliedLevel = levelForExperience(player.getExperience() + experience);
         Double price = bazaarPrices.get(bottle.itemType());
-        String priceText = price == null ? "<e>Checking..."
-                : price < 0 ? "<c>No Bazaar offers" : "<6>" + StringUtility.commaify(price) + " Coins";
-        return ItemStacks.item(Material.EXPERIENCE_BOTTLE, 1, Text.of(bottle.name()), List.of(
+        Text priceText = price == null ? Text.of("<e>Checking...")
+                : price < 0 ? Text.of("<c>No Bazaar offers")
+                : Text.of("<6>{} Coins", StringUtility.commaify(price));
+        return ItemStacks.item(Material.EXPERIENCE_BOTTLE, 1, bottle.name(), List.of(
                 Text.of("<7>Grants <3>{} <7>experience orbs. Buying", StringUtility.commaify(experience)),
                 Text.of("<7>this directly will instantly consume it."),
                 Text.empty(),
@@ -80,7 +81,7 @@ public final class GUIExperienceBottles extends StatelessView {
                 Text.empty(),
                 Text.of("<7>Cost"),
                 Text.of("<7>Bazaar Price"),
-                Text.of(priceText),
+                priceText,
                 Text.empty(),
                 Text.of("<e>Click to consume or buy!")
         ));
@@ -91,8 +92,8 @@ public final class GUIExperienceBottles extends StatelessView {
         if (consumed != null && !consumed.isEmpty()) {
             long experience = experienceFrom(bottle, consumed.getFirst(), player);
             player.addExperience(experience);
-            player.sendMessage("<a>You consumed " + bottle.name() + "<a> and gained <3>"
-                    + StringUtility.commaify(experience) + " experience<a>.");
+            player.sendMessage(Text.of("<a>You consumed {}<a> and gained <3>{} experience<a>.",
+                    bottle.name(), StringUtility.commaify(experience)));
             return;
         }
 
@@ -115,7 +116,7 @@ public final class GUIExperienceBottles extends StatelessView {
         }
 
         player.getBazaarConnector().instantBuy(bottle.itemType(), 1).thenAccept(result -> {
-            player.sendMessage((result.success() ? "<a>" : "<c>") + result.message());
+            player.sendMessage(Text.of(result.success() ? "<a>{}" : "<c>{}", result.message()));
             if (result.success()) player.closeInventory();
         });
     }
@@ -134,6 +135,6 @@ public final class GUIExperienceBottles extends StatelessView {
         return (int) (18.0555 + Math.sqrt((2.0 / 9.0) * (value - 752.9861)));
     }
 
-    private record Bottle(int slot, String name, ItemType itemType, long baseExperience) {
+    private record Bottle(int slot, Text name, ItemType itemType, long baseExperience) {
     }
 }

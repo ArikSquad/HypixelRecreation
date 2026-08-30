@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-@CommandParameters(description = "Dragon management commands",
+@CommandParameters(labels = "dragon", description = "Dragon management commands",
         usage = "/dragon <spawn|follow|stop|remove>",
         permission = Rank.STAFF,
         allowsConsole = false)

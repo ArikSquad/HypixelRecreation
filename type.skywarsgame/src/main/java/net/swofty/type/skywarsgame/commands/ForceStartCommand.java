@@ -13,7 +13,8 @@ import net.swofty.type.skywarsgame.user.SkywarsPlayer;
         description = "Force starts the skywars game",
         usage = "/forcestart [seconds]",
         permission = Rank.STAFF,
-        allowsConsole = false
+        allowsConsole = false,
+        labels = "forcestart"
 )
 public class ForceStartCommand extends HypixelCommand {
 

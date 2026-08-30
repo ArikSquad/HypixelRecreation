@@ -28,7 +28,7 @@ public enum RavengardAbility implements RavengardSprite {
     WAR_CRY(RavengardClass.WARRIOR, "War Cry", '\uF11A', 40,
             "Increases damage by 20% on your next attack."),
     ARMOR_BREAK(RavengardClass.WARRIOR, "Armor Break", '\uF100', 50,
-            "Reduces the defense of the enemy by 20% for 10 seconds."),
+            "Reduces the defense of the enemy by 10% for 5 seconds."),
     BOLSTER(RavengardClass.WARRIOR, "Bolster", '\uF102', 60,
             "Incoming damage is reduced by 20% for 10 seconds."),
     COOL_OFF(RavengardClass.WARRIOR, "Cool Off", '\uF101', 80,
@@ -69,7 +69,22 @@ public enum RavengardAbility implements RavengardSprite {
     SWIFT(RavengardClass.ASSASSIN, "Swift", '\uF119', 180,
             "Increases movement speed by 50% with no stamina loss."),
     POISON_DAGGER(RavengardClass.ASSASSIN, "Poison Dagger", '\uF10F', 30,
-            "Applies 7 damage every 6 seconds to the target.");
+            "Applies 7 damage every 6 seconds to the target."),
+
+    LIGHTNING_STRIKE(RavengardClass.SORCERER, "Lightning Strike", '\uF240', 40,
+            "Fires an electric strike towards players. On impact causes 40 damage to target and damages others close by."),
+    FIREBALL(RavengardClass.SORCERER, "Fireball", '\uF241', 25,
+            "Spawn a small moving fireball that deals 60 damage on impact."),
+    ICE_SHARDS(RavengardClass.SORCERER, "Ice Shards", '\uF242', 40,
+            "Fires a continuous stream of ice that deals 10 damage and knockbacks on each hit."),
+    RUMBLE(RavengardClass.SORCERER, "Rumble", '\uF243', 30,
+            "Rips up the earth around its user, dealing 20 damage to any enemy within its radius."),
+    SPRING_HEALING(RavengardClass.SORCERER, "Spring Healing", '\uF244', 40,
+            "Heals +45 HP over 10 seconds."),
+    WIND_CUTTER(RavengardClass.SORCERER, "Wind Cutter", '\uF245', 60,
+            "Spawns 3 powerful air slashes through the air, dealing 50 damage and pushing enemies back."),
+    ACCELERATE(RavengardClass.SORCERER, "Accelerate", '\uF23F', 40,
+            "Temporarily reduces the cooldown on Magical Items by 50%!");
 
     private final RavengardClass owner;
     private final String displayName;
@@ -90,7 +105,7 @@ public enum RavengardAbility implements RavengardSprite {
 
     // every ability button shares one sprite size, so one base pair covers all of them
     private static final int HOVER_BASE_X = 39;
-    private static final int HOVER_BASE_Y = 24;
+    private static final int HOVER_BASE_Y = 25;
 
     @Override
     public String itemModel() {
@@ -134,7 +149,9 @@ public enum RavengardAbility implements RavengardSprite {
                     .replaceAll("([+-]?\\d+(?:\\.\\d+)? ?HP)", "<c>$1</c>")
                     .replaceAll("(\\d+(?:\\.\\d+)?%)", "<a>$1</a>")
                     .replaceAll("(\\d+ seconds?)", "<e>$1</e>")
-                    .replaceAll("(\\d+(?:-block| blocks?))", "<a>$1</a>");
+                    .replaceAll("(\\d+(?:-block| blocks?))", "<a>$1</a>")
+                    .replaceAll("(\\d+)(?= damage)", "<a>$1</a>")
+                    .replaceAll("(Magical Items)", "<d>$1</d>");
             lines.add(Text.of("<7>" + highlighted));
         }
         return lines;
@@ -155,6 +172,9 @@ public enum RavengardAbility implements RavengardSprite {
             case PRECISE_ACCURACY -> 0xE025; case SHADOW_STEP -> 0xE026; case HEAL_WOUNDS -> 0xE021;
             case LACERATE -> 0xE023; case SHADOWS -> 0xE022; case SWIFT -> 0xE027;
             case POISON_DAGGER -> 0xE024;
+            case LIGHTNING_STRIKE -> 0xF247; case FIREBALL -> 0xF248; case ICE_SHARDS -> 0xF249;
+            case RUMBLE -> 0xF24A; case SPRING_HEALING -> 0xF24B; case WIND_CUTTER -> 0xF24C;
+            case ACCELERATE -> 0xF246;
         };
     }
 

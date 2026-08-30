@@ -5,6 +5,7 @@ import net.kyori.adventure.sound.Sound;
 import net.minestom.server.inventory.InventoryType;
 import net.minestom.server.item.ItemStack;
 import net.minestom.server.item.Material;
+import net.swofty.commons.text.Text;
 import net.swofty.type.generic.gui.inventory.ItemStacks;
 import net.swofty.type.generic.gui.v2.*;
 import net.swofty.type.generic.gui.v2.context.ViewContext;
@@ -37,7 +38,7 @@ public final class GUIUltrasequencerPlay extends StatelessView {
 
     @Override
     public ViewConfiguration<DefaultState> configuration() {
-        return new ViewConfiguration<>("Ultrasequencer · " + tier.displayName(), InventoryType.CHEST_6_ROW);
+        return new ViewConfiguration<>(Text.of("Ultrasequencer · {}", tier.displayName()), InventoryType.CHEST_6_ROW);
     }
 
     @Override
@@ -144,7 +145,7 @@ public final class GUIUltrasequencerPlay extends StatelessView {
         ExperimentationManager.UltraSequencerInputResult result =
                 ExperimentationManager.inputUltraSequencer(player, number);
         if (!result.success()) {
-            player.sendMessage("<c>" + result.errorMessage());
+            player.sendMessage(Text.of("<c>{}", result.errorMessage()));
             return;
         }
         if (!result.correct()) {
@@ -178,7 +179,7 @@ public final class GUIUltrasequencerPlay extends StatelessView {
                 ExperimentationManager.finishUltraSequencer(player);
         if (result.success()) {
             ctx.replace(new GUIExperimentOver(ExperimentType.ULTRASEQUENCER, tier, completed,
-                    completed ? "You completed the experiment." : "The sequence was broken.",
+                    Text.literal(completed ? "You completed the experiment." : "The sequence was broken."),
                     result.bestSeriesLength(), result.xpAward(), result.bonusClicksEarned()));
         } else {
             gameOver = false;

@@ -38,7 +38,8 @@ public final class ExperimentRules {
     public static Rule forExperiment(ExperimentType type, ExperimentTier tier) {
         Rule rule = RULES.getOrDefault(type, Map.of()).get(tier);
         if (rule == null) {
-            throw new IllegalArgumentException(tier.displayName() + " is not available for " + type.displayName());
+            throw new IllegalArgumentException(tier.displayName().plain() + " is not available for "
+                    + type.displayName().plain());
         }
         return rule;
     }

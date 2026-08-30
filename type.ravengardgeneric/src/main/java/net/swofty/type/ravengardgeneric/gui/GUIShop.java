@@ -108,6 +108,8 @@ public class GUIShop extends RavengardView {
         } else if (wrongClass) {
             display.set(DataComponents.ITEM_MODEL, type.getItemModel() + "_greyed");
             lore.add(Text.of("<c>Your class cannot use this item!"));
+        } else if (entry.price() == 0) {
+            lore.add(Text.of("<e>Click to get for FREE!"));
         } else {
             lore.add(Text.of("<e>Click to buy for <f>\uD83D\uDC51<#FFCE47>{}<e>!", entry.price()));
         }
@@ -150,6 +152,7 @@ public class GUIShop extends RavengardView {
         return switch (shop.banner()) {
             case "armorer" -> RavengardButton.BANNER_ARMORER;
             case "alchemist" -> RavengardButton.BANNER_ALCHEMIST;
+            case "free_gear" -> RavengardButton.BANNER_FREE_GEAR;
             default -> RavengardButton.BANNER_BLACKSMITH;
         };
     }

@@ -90,7 +90,7 @@ public enum ExperimentReward implements RNGMeterReward {
     PROSECUTE_VI("<9>Prosecute VI", EnchantmentType.PROSECUTE, 6, 500_000),
     NADESHIKO_DYE("<d>Nadeshiko Dye", ItemType.NADESHIKO_DYE, 2_500_000);
 
-    private final String displayName;
+    private final Text displayName;
     private final Material material;
     private final Supplier<SkyBlockItem> itemSupplier;
     private final int meterRequirement;
@@ -112,14 +112,14 @@ public enum ExperimentReward implements RNGMeterReward {
 
     ExperimentReward(String displayName, Material material, Supplier<SkyBlockItem> itemSupplier,
                      int meterRequirement, boolean ultraRareBook) {
-        this.displayName = displayName;
+        this.displayName = Text.of(displayName);
         this.material = material;
         this.itemSupplier = itemSupplier;
         this.meterRequirement = meterRequirement;
         this.ultraRareBook = ultraRareBook;
     }
 
-    public String displayName() {
+    public Text displayName() {
         return displayName;
     }
 
@@ -170,14 +170,14 @@ public enum ExperimentReward implements RNGMeterReward {
         if (this == EXPERIENCE) {
             player.getSkills().increase(player, net.swofty.type.skyblockgeneric.skill.SkillCategories.ENCHANTING,
                     (double) amount);
-            player.sendMessage("<a>Experiment reward: <3>" + amount + " Enchanting XP<a>!");
+            player.sendMessage(Text.of("<a>Experiment reward: <3>{} Enchanting XP<a>!", amount));
             return;
         }
         SkyBlockItem item = createItem(rarity);
         item.setAmount(amount);
         player.addAndUpdateItem(item);
-        player.sendMessage("<a>Experiment reward: " + displayName + "<a>!");
-        loot().announcement().announce(player, Text.of(displayName));
+        player.sendMessage(Text.of("<a>Experiment reward: {}<a>!", displayName));
+        loot().announcement().announce(player, displayName);
     }
 
     public boolean grantsSkillExperience() {

@@ -12,6 +12,7 @@ import net.swofty.type.skyblockgeneric.experimentation.ExperimentationManager;
 import net.swofty.type.skyblockgeneric.user.SkyBlockPlayer;
 
 import java.util.Arrays;
+import java.util.List;
 
 final class ExperimentationGuiSupport {
     private static final String SUPERPAIRS_TEXTURE = "81b843451184a8ccd8e6e49d0edf3451d3dea50fde5b6a2f98ab7cf1138bcece";
@@ -22,8 +23,16 @@ final class ExperimentationGuiSupport {
     }
 
     static ItemStack.Builder item(String name, Material material, int amount, String... lore) {
-        return ItemStacks.item(material, amount, Text.of(name),
+        return item(Text.of(name), material, amount, lore);
+    }
+
+    static ItemStack.Builder item(Text name, Material material, int amount, String... lore) {
+        return ItemStacks.item(material, amount, name,
                 Arrays.stream(lore).map(Text::of).toList());
+    }
+
+    static ItemStack.Builder item(Text name, Material material, int amount, Text... lore) {
+        return ItemStacks.item(material, amount, name, List.of(lore));
     }
 
     static ItemStack.Builder head(String name, String texture, int amount, String... lore) {
@@ -79,8 +88,9 @@ final class ExperimentationGuiSupport {
                 : unlocked ? "<e>Click to play!"
                 : type == ExperimentType.SUPERPAIRS ? "<c>Complete both add-ons first!"
                 : "<c>Already completed or unavailable!";
+        Text tierName = Text.of(color + "{} Experiment", tier.displayName());
         return switch (type) {
-            case CHRONOMATRON -> item(color + tier.displayName() + " Experiment", material, 1,
+            case CHRONOMATRON -> item(tierName, material, 1,
                     "<7>Chronomatron", "",
                     "<7>Colors on board: <d>" + rule.colorCount(), "",
                     "<7>XP Reward: <3>" + shortNumber(rule.xpPerStep()) + " Enchanting Exp",
@@ -89,7 +99,7 @@ final class ExperimentationGuiSupport {
                     "<7> Chain of 5: <e>+1 Click", "<7> Chain of 9: <e>+2 Clicks",
                     tier == ExperimentTier.METAPHYSICAL ? "<7> Chain of 12: <e>+3 Clicks" : "", "",
                     requirement, "", action);
-            case ULTRASEQUENCER -> item(color + tier.displayName() + " Experiment", material, 1,
+            case ULTRASEQUENCER -> item(tierName, material, 1,
                     "<7>Ultrasequencer", "",
                     "<7>Grid Size: <d>" + rule.boardWidth() + "x" + rule.boardHeight(), "",
                     "<7>XP Reward: <3>" + shortNumber(rule.xpPerStep()) + " Enchanting Exp",
@@ -98,7 +108,7 @@ final class ExperimentationGuiSupport {
                     "<7> Series of 5: <e>+1 Click", "<7> Series of 7: <e>+2 Clicks",
                     tier == ExperimentTier.METAPHYSICAL ? "<7> Series of 9: <e>+3 Clicks" : "", "",
                     requirement, "", action);
-            case SUPERPAIRS -> item(color + tier.displayName() + " Experiment", material, 1,
+            case SUPERPAIRS -> item(tierName, material, 1,
                     "<7>Superpairs", "", "<7>Pairs on board: <d>" + rule.pairCount(), "",
                     "<7>XP Reward: <3>" + shortNumber(rule.xpPerPair()) + " Enchanting Exp",
                     "<7>per matched pair <7>(plus completion XP)",

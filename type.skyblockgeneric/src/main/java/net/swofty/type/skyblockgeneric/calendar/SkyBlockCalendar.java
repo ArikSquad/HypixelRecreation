@@ -11,9 +11,11 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public final class SkyBlockCalendar {
     private static final String DAY_SYMBOL = "☀";
@@ -30,6 +32,8 @@ public final class SkyBlockCalendar {
     private static final List<String> MONTH_NAMES = Arrays.asList("Early Spring", "Spring",
             "Late Spring", "Early Summer", "Summer", "Late Summer", "Early Autumn",
             "Autumn", "Late Autumn", "Early Winter", "Winter", "Late Winter");
+
+    private static final Set<String> firedEvents = new HashSet<>();
 
     @Getter
     @Setter
@@ -89,9 +93,16 @@ public final class SkyBlockCalendar {
     public static void checkForEvents(Long time) {
         List<CalendarEvent> eventsAtTime = CalendarEvent.getCurrentEvents(time);
         int year = getYear();
+        Set<String> stillRunning = new HashSet<>(eventsAtTime.size());
+
         for (CalendarEvent event : eventsAtTime) {
-            event.action().accept(time, year);
+            stillRunning.add(event.id());
+            if (firedEvents.add(event.id())) {
+                event.action().accept(time, year);
+            }
         }
+
+        firedEvents.retainAll(stillRunning);
     }
 
     public static List<CalendarEvent> getCurrentEvents() {

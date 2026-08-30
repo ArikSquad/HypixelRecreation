@@ -105,7 +105,7 @@ public abstract class RavengardView extends StatelessView {
      */
     protected void place(ViewLayout<DefaultState> layout, int originSlot, RavengardItems.Builder button) {
         button.origin(originSlot);
-        for (int slot : button.sprite().coveredSlots(originSlot)) {
+        for (int slot : button.coveredSlots(originSlot)) {
             layout.slot(slot, button.toBuilder());
         }
     }
@@ -115,7 +115,7 @@ public abstract class RavengardView extends StatelessView {
                                RavengardItems.Builder button,
                                BiConsumer<ClickContext<DefaultState>, ViewContext> onClick) {
         button.origin(originSlot);
-        for (int slot : button.sprite().coveredSlots(originSlot)) {
+        for (int slot : button.coveredSlots(originSlot)) {
             layout.slot(slot, button.toBuilder(), onClick);
         }
     }
@@ -132,6 +132,7 @@ public abstract class RavengardView extends StatelessView {
 
     protected Text chrome(String title) {
         return Text.of("{}", Component.text(RavengardFont.glyph(PANEL_GLYPH))
+                .font(RavengardFont.RAVENGARD)
                 .append(Component.text(RavengardFont.space(PANEL_LEAD_SPACE)))
                 .append(Component.text(RavengardFont.glyph(panelIcon())).color(NamedTextColor.WHITE))
                 .append(Component.text(RavengardFont.space(PANEL_TRAIL_SPACE)))

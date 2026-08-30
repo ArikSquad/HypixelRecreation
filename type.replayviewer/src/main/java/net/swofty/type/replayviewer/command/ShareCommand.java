@@ -12,7 +12,8 @@ import net.swofty.type.replayviewer.util.ReplayShareUtil;
 	description = "Share your current replay position",
 	usage = "/share",
 	permission = Rank.DEFAULT,
-	allowsConsole = false
+	allowsConsole = false,
+	labels = "share"
 )
 public class ShareCommand extends HypixelCommand {
 

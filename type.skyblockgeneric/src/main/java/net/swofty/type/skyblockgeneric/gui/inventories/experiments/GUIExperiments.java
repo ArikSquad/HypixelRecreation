@@ -2,6 +2,7 @@ package net.swofty.type.skyblockgeneric.gui.inventories.experiments;
 
 import net.minestom.server.inventory.InventoryType;
 import net.minestom.server.item.Material;
+import net.swofty.commons.text.Text;
 import net.swofty.type.generic.gui.v2.Components;
 import net.swofty.type.generic.gui.v2.DefaultState;
 import net.swofty.type.generic.gui.v2.StatelessView;
@@ -19,7 +20,7 @@ public final class GUIExperiments extends StatelessView {
 
     @Override
     public ViewConfiguration<DefaultState> configuration() {
-        return new ViewConfiguration<>("Experimentation Table", InventoryType.CHEST_6_ROW);
+        return new ViewConfiguration<>(Text.literal("Experimentation Table"), InventoryType.CHEST_6_ROW);
     }
 
     @Override

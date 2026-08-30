@@ -9,7 +9,7 @@ import net.swofty.type.generic.user.HypixelPlayer;
 import net.swofty.type.generic.user.categories.Rank;
 import net.swofty.type.generic.utility.AnimatedExplosion;
 
-@CommandParameters(description = "Simulates an explosion with falling blocks",
+@CommandParameters(labels = "explodesimulation", description = "Simulates an explosion with falling blocks",
         usage = "/explodesimulation <radius> [knockbackStrength]",
         permission = Rank.STAFF,
         allowsConsole = false)

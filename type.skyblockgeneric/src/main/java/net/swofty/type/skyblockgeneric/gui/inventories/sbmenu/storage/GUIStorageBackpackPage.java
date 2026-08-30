@@ -1,10 +1,8 @@
 package net.swofty.type.skyblockgeneric.gui.inventories.sbmenu.storage;
 
-import net.minestom.server.component.DataComponents;
 import net.minestom.server.inventory.InventoryType;
 import net.minestom.server.item.ItemStack;
 import net.minestom.server.item.Material;
-import net.swofty.commons.StringUtility;
 import net.swofty.commons.text.Text;
 import net.swofty.type.generic.gui.inventory.ItemStacks;
 import net.swofty.type.generic.gui.v2.Components;
@@ -19,7 +17,6 @@ import net.swofty.type.generic.utility.MathUtility;
 import net.swofty.type.skyblockgeneric.data.datapoints.DatapointBackpacks;
 import net.swofty.type.skyblockgeneric.item.SkyBlockItem;
 import net.swofty.type.skyblockgeneric.item.components.BackpackComponent;
-import net.swofty.type.skyblockgeneric.item.updater.NonPlayerItemUpdater;
 import net.swofty.type.skyblockgeneric.item.updater.PlayerItemUpdater;
 import net.swofty.type.skyblockgeneric.user.SkyBlockPlayer;
 
@@ -36,8 +33,7 @@ public class GUIStorageBackpackPage extends StatelessView {
         this.page = page;
         this.item = item;
         this.slots = item.getComponent(BackpackComponent.class).getRows() * 9;
-        this.title = Text.of("{} (Slot #{})", StringUtility.getTextFromComponent(
-                new NonPlayerItemUpdater(item).getUpdatedItem().build().get(DataComponents.CUSTOM_NAME)), page);
+        this.title = Text.of("{} (Slot #{})", item.getDisplayNameText(), page);
         this.inventoryType = MathUtility.getFromSize(9 + slots);
     }
 

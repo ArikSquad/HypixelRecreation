@@ -18,6 +18,7 @@ import net.minestom.server.timer.Task;
 import net.minestom.server.timer.TaskSchedule;
 import net.swofty.commons.text.Text;
 import net.swofty.type.generic.gui.v2.context.ClickContext;
+import net.swofty.type.generic.gui.v2.context.RawClickContext;
 import net.swofty.type.generic.gui.v2.context.ViewContext;
 import net.swofty.type.generic.text.HypixelTextRenderer;
 import net.swofty.type.generic.text.RenderContext;
@@ -116,6 +117,15 @@ public final class ViewSession<S> {
     }
 
     public void onPreClickEvent(@NonNull InventoryPreClickEvent event) {
+        boolean inViewInventory = event.getInventory() == inventory;
+        boolean inPlayerInventory = event.getInventory() instanceof PlayerInventory
+                && player.getOpenInventory() == inventory;
+
+        if (!closed && (inViewInventory || inPlayerInventory)
+                && view.onRawClick(new RawClickContext<>(event, inViewInventory, player, state), context)) {
+            return;
+        }
+
         if (event.getInventory() instanceof PlayerInventory) {
             if (player.getOpenInventory() == inventory) {
                 var click = new ClickContext<>(event.getSlot(), event.getClick(), player, state);
@@ -253,7 +263,7 @@ public final class ViewSession<S> {
             layoutDirty = false;
             componentSlots.clear();
 
-            inventory.setTitle(renderedTitle(config));
+            applyTitle(config);
 
             cachedLayout.components().forEach((slot, component) -> {
                 if (component.behavior() == SlotBehavior.EDITABLE) {
@@ -273,7 +283,7 @@ public final class ViewSession<S> {
 
         componentSlots.clear();
 
-        inventory.setTitle(renderedTitle(config));
+        applyTitle(config);
 
         cachedLayout.components().forEach((slot, component) -> {
             if (component.behavior() == SlotBehavior.EDITABLE) {
@@ -320,6 +330,13 @@ public final class ViewSession<S> {
                 ItemStack currentItem = inventory.getItemStack(slot);
                 trackedSlotItems.put(slot, currentItem);
             }
+        }
+    }
+
+    private void applyTitle(ViewConfiguration<S> config) {
+        Component title = renderedTitle(config);
+        if (!title.equals(inventory.getTitle())) {
+            inventory.setTitle(title);
         }
     }
 

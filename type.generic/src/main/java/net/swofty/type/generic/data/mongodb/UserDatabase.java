@@ -2,7 +2,7 @@ package net.swofty.type.generic.data.mongodb;
 
 import com.mongodb.client.MongoClient;
 import net.swofty.PlayerField;
-import net.swofty.codec.Codecs;
+import net.swofty.commons.data.ProfileIndexes;
 import net.swofty.commons.data.SwoftyData;
 import net.swofty.commons.skyblock.SkyBlockPlayerProfiles;
 
@@ -10,8 +10,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class UserDatabase {
-    private static final PlayerField<String> PROFILES_INDEX =
-            PlayerField.create("hypixel", "_profiles_index", Codecs.STRING, null);
+    private static final PlayerField<String> PROFILES_INDEX = ProfileIndexes.SKYBLOCK;
 
     public UUID id;
 

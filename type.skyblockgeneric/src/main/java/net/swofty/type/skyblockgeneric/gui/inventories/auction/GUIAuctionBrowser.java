@@ -3,7 +3,6 @@ package net.swofty.type.skyblockgeneric.gui.inventories.auction;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
-import net.minestom.server.component.DataComponents;
 import net.minestom.server.event.inventory.InventoryCloseEvent;
 import net.minestom.server.event.inventory.InventoryPreClickEvent;
 import net.minestom.server.inventory.Inventory;
@@ -30,7 +29,6 @@ import net.swofty.type.generic.utility.PaginationList;
 import org.tinylog.Logger;
 import net.swofty.type.skyblockgeneric.auction.AuctionItemLoreHandler;
 import net.swofty.type.skyblockgeneric.item.SkyBlockItem;
-import net.swofty.type.skyblockgeneric.item.updater.PlayerItemUpdater;
 import net.swofty.type.skyblockgeneric.user.SkyBlockPlayer;
 
 import java.util.ArrayList;
@@ -235,10 +233,9 @@ public class GUIAuctionBrowser extends HypixelInventoryGUI implements Refreshing
                 public ItemStack.Builder getItem(HypixelPlayer p) {
                     SkyBlockPlayer player = (SkyBlockPlayer) p;
                     SkyBlockItem skyBlockItem = new SkyBlockItem(auctionItem.getItem());
-                    ItemStack builtItem = PlayerItemUpdater.playerUpdate(player, skyBlockItem.getItemStack()).build();
 
                     return ItemStacks.item(skyBlockItem.getMaterial(), skyBlockItem.getAmount(),
-                            Text.literal(StringUtility.getTextFromComponent(builtItem.get(DataComponents.CUSTOM_NAME))),
+                            skyBlockItem.getDisplayNameText(player),
                             new AuctionItemLoreHandler(auctionItem).getLoreTexts());
                 }
             });

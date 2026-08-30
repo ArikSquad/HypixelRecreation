@@ -22,26 +22,25 @@ public final class RNGMeterGuiSupport {
     public static ItemStack.Builder meterItem(RNGMeterDefinition definition, SkyBlockPlayer player) {
         RNGMeterState meter = RNGMeterService.get(player, definition);
         RNGMeterReward selected = selectedReward(definition, meter);
-        List<String> lore = new ArrayList<>(List.of(
-                "<7>Your <d>" + definition.displayName() + " RNG",
-                "<d>Meter <7>fills with <3>" + definition.progressName() + " <7>every",
-                "<7>time you complete your <d>" + definition.activityName() + "<7>!",
-                "<7>",
-                "<7>Your selected <d>RNG Drop <7>will be",
-                "<7>guaranteed to appear in your next",
-                "<d>" + definition.activityName() + " <7>once your RNG Meter is",
-                "<7>full!",
-                "",
-                "<7>Selected Drop",
-                selected == null ? "<c>None" : selected.displayName(),
-                "",
-                "<7>Progress: <d>" + progressPercent(meter, selected) + "<5>%",
-                progressBar(meter, selected),
-                "",
-                "<e>Click to view!"
+        List<Text> lore = new ArrayList<>(List.of(
+                Text.of("<7>Your <d>{} RNG", definition.displayName()),
+                Text.of("<d>Meter <7>fills with <3>{} <7>every", definition.progressName()),
+                Text.of("<7>time you complete your <d>{}<7>!", definition.activityName()),
+                Text.empty(),
+                Text.of("<7>Your selected <d>RNG Drop <7>will be"),
+                Text.of("<7>guaranteed to appear in your next"),
+                Text.of("<d>{} <7>once your RNG Meter is", definition.activityName()),
+                Text.of("<7>full!"),
+                Text.empty(),
+                Text.of("<7>Selected Drop"),
+                selected == null ? Text.of("<c>None") : selected.displayName(),
+                Text.empty(),
+                Text.of("<7>Progress: <d>{}<5>%", progressPercent(meter, selected)),
+                Text.of(progressBar(meter, selected)),
+                Text.empty(),
+                Text.of("<e>Click to view!")
         ));
-        return icon(definition, Text.of("<d>" + definition.displayName() + " RNG Meter"),
-                lore.stream().map(Text::of).toList());
+        return icon(definition, Text.of("<d>{} RNG Meter", definition.displayName()), lore);
     }
 
     public static ItemStack.Builder icon(RNGMeterDefinition definition, Text name, List<Text> lore) {
@@ -90,7 +89,7 @@ public final class RNGMeterGuiSupport {
             lore.add(Text.empty());
             lore.add(Text.of("<a><l>SELECTED"));
         } else {
-            lore.add(Text.of("<7>" + definition.rewardProgressName() + ": <d>{}<5>/<d>{}",
+            lore.add(Text.of("<7>{}: <d>{}<5>/<d>{}", definition.rewardProgressName(),
                     number(state.storedXp()), number(reward.requiredXp())));
             lore.add(Text.empty());
             lore.add(Text.of("<e>Click to select!"));

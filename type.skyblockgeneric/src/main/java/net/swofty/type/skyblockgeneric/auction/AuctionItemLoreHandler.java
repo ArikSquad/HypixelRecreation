@@ -1,17 +1,13 @@
 package net.swofty.type.skyblockgeneric.auction;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.kyori.adventure.translation.GlobalTranslator;
-import net.minestom.server.component.DataComponents;
 import net.swofty.commons.skyblock.auctions.AuctionItem;
 import net.swofty.commons.text.Text;
 import net.swofty.commons.text.TextBody;
 import net.swofty.type.skyblockgeneric.data.monogdb.CoopDatabase;
 import net.swofty.type.skyblockgeneric.item.SkyBlockItem;
-import net.swofty.type.skyblockgeneric.item.updater.NonPlayerItemUpdater;
-import net.swofty.type.skyblockgeneric.item.updater.PlayerItemUpdater;
 import net.swofty.type.skyblockgeneric.text.LoreText;
 import net.swofty.type.skyblockgeneric.user.SkyBlockPlayer;
 
@@ -66,11 +62,10 @@ public record AuctionItemLoreHandler(AuctionItem auctionItem) {
         SkyBlockItem skyBlockItem = new SkyBlockItem(auctionItem.getItem());
         LoreText lore = new LoreText(skyBlockItem, player);
 
-        List<Component> itemLore = player == null
-                ? new NonPlayerItemUpdater(skyBlockItem).getUpdatedItem().build().get(DataComponents.LORE)
-                : PlayerItemUpdater.playerUpdate(player, skyBlockItem.getItemStack()).build().get(DataComponents.LORE);
-        TextBody.Section item = lore.section(ITEM, ITEM_ORDER);
-        itemLore.forEach(loreEntry -> item.line("{}", loreEntry));
+        List<Text> itemLore = player == null
+                ? skyBlockItem.getLoreText()
+                : skyBlockItem.getLoreText(player);
+        lore.section(ITEM, ITEM_ORDER).lines(itemLore);
 
         TextBody.Section details = lore.section(DETAILS, DETAILS_ORDER);
         details.line("<8><m>----------------------");

@@ -3,7 +3,6 @@ package net.swofty.type.skyblockgeneric.gui.inventories.sbmenu.profiles;
 import lombok.SneakyThrows;
 import net.minestom.server.inventory.InventoryType;
 import net.minestom.server.item.Material;
-import net.swofty.commons.ServerType;
 import net.swofty.commons.skyblock.SkyBlockPlayerProfiles;
 import net.swofty.commons.text.Text;
 import net.swofty.type.generic.data.datapoints.DatapointString;
@@ -12,6 +11,7 @@ import net.swofty.type.generic.data.mongodb.UserDatabase;
 import net.swofty.type.generic.gui.inventory.ItemStacks;
 import net.swofty.type.generic.gui.v2.*;
 import net.swofty.type.generic.gui.v2.context.ViewContext;
+import net.swofty.type.skyblockgeneric.data.ProfileSwitcher;
 import net.swofty.type.skyblockgeneric.data.SkyBlockDataHandler;
 import net.swofty.type.skyblockgeneric.data.datapoints.DatapointUUID;
 import net.swofty.type.skyblockgeneric.user.SkyBlockPlayer;
@@ -69,15 +69,12 @@ public class GUIProfileCreate extends StatelessView {
                     // Convert to document for saving
                     Document document = handler.toProfileDocument();
 
-                    profiles.addProfile(profileId);
                     new ProfilesDatabase(profileId.toString()).saveDocument(document);
 
-                    // Persist the selection before transfer preparation takes its account snapshot.
-                    profiles.setCurrentlySelected(profileId);
-                    UserDatabase database = new UserDatabase(player.getUuid());
-                    database.saveProfiles(profiles);
+                    profiles.addProfile(profileId);
+                    new UserDatabase(player.getUuid()).saveProfiles(profiles);
 
-                    player.sendTo(ServerType.SKYBLOCK_ISLAND, true);
+                    ProfileSwitcher.switchTo(player, profileId);
                 });
 
         layout.slot(15, (s, c) -> ItemStacks.item(Material.RED_TERRACOTTA, 1, Text.key("gui_sbmenu.profiles.create.cancel"), List.of()),

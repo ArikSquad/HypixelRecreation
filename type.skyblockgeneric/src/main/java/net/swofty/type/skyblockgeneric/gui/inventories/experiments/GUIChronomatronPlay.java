@@ -5,6 +5,7 @@ import net.kyori.adventure.sound.Sound;
 import net.minestom.server.inventory.InventoryType;
 import net.minestom.server.item.ItemStack;
 import net.minestom.server.item.Material;
+import net.swofty.commons.text.Text;
 import net.swofty.type.generic.gui.inventory.ItemStacks;
 import net.swofty.type.generic.gui.v2.*;
 import net.swofty.type.generic.gui.v2.context.ViewContext;
@@ -51,7 +52,7 @@ public final class GUIChronomatronPlay extends StatelessView {
 
     @Override
     public ViewConfiguration<DefaultState> configuration() {
-        return new ViewConfiguration<>("Chronomatron · " + tier.displayName(), InventoryType.CHEST_6_ROW);
+        return new ViewConfiguration<>(Text.of("Chronomatron · {}", tier.displayName()), InventoryType.CHEST_6_ROW);
     }
 
     @Override
@@ -85,7 +86,7 @@ public final class GUIChronomatronPlay extends StatelessView {
             SkyBlockPlayer player = (SkyBlockPlayer) viewCtx.player();
             ExperimentationManager.ChronomatronInputResult result = ExperimentationManager.inputChronomatron(player, color);
             if (!result.success()) {
-                player.sendMessage("<c>" + result.errorMessage());
+                player.sendMessage(Text.of("<c>{}", result.errorMessage()));
                 return;
             }
             if (!result.correct()) {
@@ -160,7 +161,7 @@ public final class GUIChronomatronPlay extends StatelessView {
         ExperimentationManager.ChronomatronFinishResult result = ExperimentationManager.finishChronomatron(player);
         if (result.success()) {
             ctx.replace(new GUIExperimentOver(ExperimentType.CHRONOMATRON, tier, completed,
-                    completed ? "You completed the experiment." : "The sequence was broken.",
+                    Text.literal(completed ? "You completed the experiment." : "The sequence was broken."),
                     result.bestChain(), result.xpAward(), result.bonusClicksEarned()));
         } else {
             gameOver = false;

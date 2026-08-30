@@ -1,5 +1,6 @@
 package net.swofty.type.skyblockgeneric.rngmeter;
 
+import net.swofty.commons.text.Text;
 import net.swofty.type.skyblockgeneric.data.SkyBlockDataHandler;
 import net.swofty.type.skyblockgeneric.data.datapoints.DatapointRNGMeters;
 import net.swofty.type.skyblockgeneric.user.SkyBlockPlayer;
@@ -44,8 +45,8 @@ public final class RNGMeterService {
             }
 
             if (current.storedXp() < reward.requiredXp()) {
-                player.sendMessage("<d><l>RNG METER! <f>Your " + definition.displayName()
-                        + " RNG Meter is full and will guarantee your next drop!");
+                player.sendMessage(Text.of("<d><l>RNG METER! <f>Your {} RNG Meter is full "
+                        + "and will guarantee your next drop!", definition.displayName()));
             }
             set(player, key(definition), new RNGMeterState(reward.id(), progress));
             return new ProgressResult(progress, true, reward);

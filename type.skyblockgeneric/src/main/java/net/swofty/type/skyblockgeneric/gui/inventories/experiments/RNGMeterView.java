@@ -72,7 +72,7 @@ public abstract class RNGMeterView extends StatefulPaginatedView<RNGMeterReward,
     @Override
     protected boolean shouldFilterFromSearch(State state, RNGMeterReward reward) {
         if (state.query().isBlank()) return false;
-        String name = reward.displayName().replaceAll("<[^>]+>", "").toLowerCase(Locale.ROOT);
+        String name = reward.displayName().plain().toLowerCase(Locale.ROOT);
         return !name.contains(state.query().toLowerCase(Locale.ROOT));
     }
 
@@ -100,7 +100,7 @@ public abstract class RNGMeterView extends StatefulPaginatedView<RNGMeterReward,
                 Text.of("<7>without a drop selected."),
                 Text.empty(),
                 Text.of("<7>Selected Drop"),
-                Text.of(selected == null ? "<c>None" : selected.displayName()),
+                selected == null ? Text.of("<c>None") : selected.displayName(),
                 Text.empty(),
                 Text.of("<e>Click to reset!")
         ));

@@ -1,6 +1,7 @@
 package net.swofty.type.skyblockgeneric.experimentation;
 
 import net.minestom.server.item.Material;
+import net.swofty.commons.text.Text;
 
 public enum SuperPairItem {
     EXPERIENCE(ExperimentReward.EXPERIENCE),
@@ -92,7 +93,7 @@ public enum SuperPairItem {
         return reward == null ? powerUpMaterial : reward.material();
     }
 
-    public String displayName() { return displayNameOrPowerUp(); }
+    public Text displayName() { return displayNameOrPowerUp(); }
     public ExperimentReward reward() { return reward; }
 
     public boolean isPowerUp() {
@@ -103,13 +104,13 @@ public enum SuperPairItem {
         return powerUp;
     }
 
-    public String displayNameOrPowerUp() {
+    public Text displayNameOrPowerUp() {
         return reward == null ? switch (powerUp) {
-            case EXTRA_CLICK -> "<e>+1 Click";
-            case EXPERIENCE -> "<3>Experience Power-up";
-            case EXTRA_CLICKS -> "<e>+3 Clicks";
-            case INSTANT_FIND -> "<a>Instant Find";
-            case NEXT_CLICK_FREE -> "<e>Next Click Free";
+            case EXTRA_CLICK -> Text.of("<e>+1 Click");
+            case EXPERIENCE -> Text.of("<3>Experience Power-up");
+            case EXTRA_CLICKS -> Text.of("<e>+3 Clicks");
+            case INSTANT_FIND -> Text.of("<a>Instant Find");
+            case NEXT_CLICK_FREE -> Text.of("<e>Next Click Free");
         } : reward.displayName();
     }
 

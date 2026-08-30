@@ -1,5 +1,6 @@
 package net.swofty.type.skyblockgeneric.experimentation;
 
+import net.swofty.commons.text.Text;
 import net.swofty.type.skyblockgeneric.rngmeter.RNGMeterDefinition;
 import net.swofty.type.skyblockgeneric.rngmeter.RNGMeterReward;
 import net.swofty.type.skyblockgeneric.rngmeter.RNGMeterType;
@@ -23,23 +24,23 @@ public final class ExperimentationRNGMeter implements RNGMeterDefinition {
     }
 
     @Override
-    public String displayName() {
-        return "Experimentation Table";
+    public Text displayName() {
+        return Text.literal("Experimentation Table");
     }
 
     @Override
-    public String activityName() {
-        return "Superpairs";
+    public Text activityName() {
+        return Text.literal("Superpairs");
     }
 
     @Override
-    public String progressName() {
-        return "Enchanting XP";
+    public Text progressName() {
+        return Text.literal("Enchanting XP");
     }
 
     @Override
-    public String rewardProgressName() {
-        return "Experimental XP";
+    public Text rewardProgressName() {
+        return Text.literal("Experimental XP");
     }
 
     @Override

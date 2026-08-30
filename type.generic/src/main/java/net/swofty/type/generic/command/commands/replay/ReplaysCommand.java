@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
-@CommandParameters(
+@CommandParameters(labels = "replays", 
 	description = "View your game replays",
 	usage = "/replays",
 	permission = Rank.DEFAULT,

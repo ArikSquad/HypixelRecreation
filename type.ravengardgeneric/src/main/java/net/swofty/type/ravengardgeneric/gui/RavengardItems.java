@@ -51,6 +51,7 @@ public final class RavengardItems {
 
     public static Component label(RavengardSprite button, Text text, int offset, Key font) {
         return Component.text(button.icon() + RavengardFont.space(-1))
+                .font(RavengardFont.RAVENGARD)
                 .color(TextColor.color(offset))
                 .shadowColor(ICON_SHADOW)
                 .decoration(TextDecoration.ITALIC, false)
@@ -69,6 +70,8 @@ public final class RavengardItems {
         private int originSlot;
         private Key font = RavengardFont.DEFAULT;
         private int hoverColorOverride = -1;
+        private int footprintWidth = -1;
+        private int footprintHeight = -1;
 
         private Builder(RavengardSprite button) {
             this.button = button;
@@ -109,6 +112,26 @@ public final class RavengardItems {
 
         public RavengardSprite sprite() {
             return button;
+        }
+
+        public Builder footprint(int width, int height) {
+            this.footprintWidth = width;
+            this.footprintHeight = height;
+            return this;
+        }
+
+        public int[] coveredSlots(int slot) {
+            if (footprintWidth < 0) {
+                return button.coveredSlots(slot);
+            }
+            int[] slots = new int[footprintWidth * footprintHeight];
+            int index = 0;
+            for (int row = 0; row < footprintHeight; row++) {
+                for (int column = 0; column < footprintWidth; column++) {
+                    slots[index++] = slot + row * RavengardSprite.ROW_WIDTH + column;
+                }
+            }
+            return slots;
         }
 
         public Builder label(String value) {

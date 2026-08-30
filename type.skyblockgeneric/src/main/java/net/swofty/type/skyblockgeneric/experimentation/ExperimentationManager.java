@@ -1,6 +1,7 @@
 package net.swofty.type.skyblockgeneric.experimentation;
 
 import net.swofty.commons.StringUtility;
+import net.swofty.commons.text.Text;
 import net.swofty.type.skyblockgeneric.data.SkyBlockDataHandler;
 import net.swofty.type.skyblockgeneric.data.datapoints.DatapointExperimentation;
 import net.swofty.commons.skyblock.item.Rarity;
@@ -48,14 +49,14 @@ public final class ExperimentationManager {
         }
     }
 
-    public static String requirementMessage(ExperimentTier tier) {
+    public static Text requirementMessage(ExperimentTier tier) {
         return requirementMessage(ExperimentType.SUPERPAIRS, tier);
     }
 
-    public static String requirementMessage(ExperimentType type, ExperimentTier tier) {
+    public static Text requirementMessage(ExperimentType type, ExperimentTier tier) {
         ExperimentRules.Rule rule = rule(type, tier);
-        return "<c>You need Enchanting " + StringUtility.getAsRomanNumeral(rule.requiredEnchantingLevel())
-                + " to play this experiment.";
+        return Text.of("<c>You need Enchanting {} to play this experiment.",
+                StringUtility.getAsRomanNumeral(rule.requiredEnchantingLevel()));
     }
 
     public static boolean start(SkyBlockPlayer player, ExperimentType type, ExperimentTier tier) {
@@ -279,7 +280,7 @@ public final class ExperimentationManager {
             awardSkillXp(player, pending.xpAward());
             setState(player, current.withBonusClicks(current.superpairsBonusClicks() + pending.bonusClicks())
                     .withAddOn(addOn(type), true, attempts(type, current)).withPendingResult(null));
-            player.sendMessage("<a>You claimed your " + type.displayName() + " rewards.");
+            player.sendMessage(Text.of("<a>You claimed your {} rewards.", type.displayName()));
             return true;
         }
     }

@@ -1,11 +1,12 @@
 package net.swofty.type.skyblockgeneric.rngmeter;
 
+import net.swofty.commons.text.Text;
 import net.swofty.type.skyblockgeneric.user.SkyBlockPlayer;
 
 public interface RNGMeterReward {
     String id();
 
-    String displayName();
+    Text displayName();
 
     double requiredXp();
 

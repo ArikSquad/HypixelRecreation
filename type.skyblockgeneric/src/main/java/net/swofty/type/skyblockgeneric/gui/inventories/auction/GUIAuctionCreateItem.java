@@ -1,6 +1,5 @@
 package net.swofty.type.skyblockgeneric.gui.inventories.auction;
 
-import net.minestom.server.component.DataComponents;
 import net.minestom.server.event.inventory.InventoryCloseEvent;
 import net.minestom.server.event.inventory.InventoryPreClickEvent;
 import net.minestom.server.inventory.Inventory;
@@ -64,10 +63,8 @@ public class GUIAuctionCreateItem extends HypixelInventoryGUI implements Refresh
                 List<Text> lore = new ArrayList<>();
 
                 lore.add(Text.literal(" "));
-                lore.add(Text.literal(StringUtility.getTextFromComponent(itemStack.get(DataComponents.CUSTOM_NAME))));
-                itemStack.get(DataComponents.LORE).forEach(loreEntry -> {
-                    lore.add(Text.literal(StringUtility.getTextFromComponent(loreEntry)));
-                });
+                lore.add(ItemStacks.nameText(itemStack));
+                lore.addAll(ItemStacks.loreText(itemStack));
                 lore.add(Text.literal(" "));
                 lore.add(Text.key("gui_auction.create.auction_for_item_pickup"));
 
@@ -154,10 +151,9 @@ public class GUIAuctionCreateItem extends HypixelInventoryGUI implements Refresh
 
                     player.sendMessage(Text.key("gui_auction.create.escrow_message"));
 
-                    ItemStack builtItem = new NonPlayerItemUpdater(escrow.getItem()).getUpdatedItem().build();
                     AuctionItem item = new AuctionItem(escrow.getItem().toUnderstandable(), player.getUuid(), escrow.getDuration() + System.currentTimeMillis(),
                             escrow.isBin(), escrow.getPrice());
-                    String itemName = StringUtility.getTextFromComponent(builtItem.get(DataComponents.CUSTOM_NAME));
+                    Text itemName = escrow.getItem().getDisplayNameText();
 
                     AuctionCategories category = AuctionCategories.TOOLS;
                     if (escrow.getItem().hasComponent(AuctionCategoryComponent.class))
@@ -187,12 +183,10 @@ public class GUIAuctionCreateItem extends HypixelInventoryGUI implements Refresh
                             Text.key("gui_auction.create.submit_no_item"),
                             Text.keyLines("gui_auction.create.submit_no_item.lore"));
                 } else {
-                    ItemStack builtItem = new NonPlayerItemUpdater(escrow.getItem()).getUpdatedItem().build();
-
                     return ItemStacks.item(Material.GREEN_TERRACOTTA, 1,
                         Text.key("gui_auction.create.submit_ready", escrow.isBin() ? "Bin " : ""),
                         Text.keyLines("gui_auction.create.submit_ready.lore",
-                            StringUtility.getTextFromComponent(builtItem.get(DataComponents.CUSTOM_NAME)),
+                            escrow.getItem().getDisplayNameText(),
                             StringUtility.getAuctionSetupFormattedTime(escrow.getDuration()),
                             escrow.isBin() ? Text.key("gui_auction.create.price_bin_label") : Text.key("gui_auction.create.price_normal_label"),
                             StringUtility.commaify(escrow.getPrice()),

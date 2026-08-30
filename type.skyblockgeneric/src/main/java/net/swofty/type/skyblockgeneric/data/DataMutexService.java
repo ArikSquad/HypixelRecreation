@@ -3,6 +3,7 @@ package net.swofty.type.skyblockgeneric.data;
 import net.swofty.LinkedField;
 import net.swofty.commons.data.SwoftyData;
 import net.swofty.commons.protocol.Serializer;
+import net.swofty.commons.skyblock.CoopLinks;
 import net.swofty.lock.LockAcquisitionException;
 import org.tinylog.Logger;
 

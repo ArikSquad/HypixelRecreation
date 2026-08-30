@@ -9,7 +9,7 @@ import net.swofty.type.skyblockgeneric.data.SkyBlockDataHandler;
 import net.swofty.type.skyblockgeneric.user.SkyBlockPlayer;
 import net.swofty.type.generic.user.categories.Rank;
 
-@CommandParameters(description = "Sets your purse balance",
+@CommandParameters(labels = "coins", description = "Sets your purse balance",
         usage = "/coins <amount>",
         permission = Rank.STAFF,
         allowsConsole = false)

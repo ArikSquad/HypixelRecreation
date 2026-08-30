@@ -18,11 +18,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class AnimatedRavengardNPC extends RavengardNPC {
+    private static final Random TALK_RANDOM = new Random();
+
     private final RavengardAnimationClip clip;
     private final List<Entity> animatedParts = new ArrayList<>();
     private final Map<Integer, Pos> homePositions = new HashMap<>();
@@ -135,6 +138,7 @@ public class AnimatedRavengardNPC extends RavengardNPC {
         if (clip.shopLine() != null && clip.dialogue() != null) {
             player.sendMessage(speakerLine(clip.dialogue().speaker(), clip.shopLine()));
         }
+        talkSound(player);
         net.swofty.type.generic.gui.v2.ViewNavigator.get(player)
                 .push(new net.swofty.type.ravengardgeneric.gui.GUIShop(shop));
     }
@@ -168,6 +172,7 @@ public class AnimatedRavengardNPC extends RavengardNPC {
         }
 
         player.sendMessage(format(dialogue.speaker(), lines.get(index)));
+        talkSound(player);
 
         if (index == lines.size() - 1) {
             dialogueSessions.remove(player.getUuid());
@@ -215,7 +220,15 @@ public class AnimatedRavengardNPC extends RavengardNPC {
     }
 
     private static Text speakerLine(String speaker, String text) {
-        return Text.of("<d>").append(Text.legacy(speaker)).append("<f>: ").append(Text.legacy(text));
+        return Text.of("<d>{}<f>: ", speaker).append(Text.legacy(text));
+    }
+
+    private static void talkSound(RavengardPlayer player) {
+        player.playSound(net.kyori.adventure.sound.Sound.sound()
+                .type(net.kyori.adventure.key.Key.key("entity.villager.celebrate"))
+                .volume(1.0f)
+                .pitch(0.8f + TALK_RANDOM.nextFloat() * 0.4f)
+                .build());
     }
 
     public void play(RavengardAnimationPhase target) {

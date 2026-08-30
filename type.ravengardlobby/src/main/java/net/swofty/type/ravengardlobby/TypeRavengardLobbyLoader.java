@@ -85,6 +85,8 @@ public class TypeRavengardLobbyLoader implements RavengardTypeLoader {
         }.spawn(HypixelConst.getInstanceContainer());
 
         RavengardAnimationRegistry.spawnAll(HypixelConst.getInstanceContainer());
+        net.swofty.type.ravengardgeneric.entity.NevermoreNoticeBoard.spawn(HypixelConst.getInstanceContainer());
+        net.swofty.type.ravengardgeneric.music.RavengardMusic.start();
     }
 
     @Override
@@ -160,7 +162,10 @@ public class TypeRavengardLobbyLoader implements RavengardTypeLoader {
     public @NonNull Optional<Tuple<Text, Text>> headerFooter() {
         return Optional.of(
                 new Tuple<>(
-                        Text.of("<f>\uE120\uE121\uE122\uE123\uE124\uE125\n\uE102\n"),
+                        Text.of("{}", net.kyori.adventure.text.Component
+                                .text("\uE120\uE121\uE122\uE123\uE124\uE125\n\uE102\n")
+                                .font(net.swofty.type.ravengardgeneric.gui.RavengardFont.RAVENGARD)
+                                .color(net.kyori.adventure.text.format.NamedTextColor.WHITE)),
                         Text.empty()));
     }
 }

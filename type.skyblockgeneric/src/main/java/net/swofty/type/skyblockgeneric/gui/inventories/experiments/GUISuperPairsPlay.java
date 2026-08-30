@@ -5,6 +5,7 @@ import net.kyori.adventure.sound.Sound;
 import net.minestom.server.inventory.InventoryType;
 import net.minestom.server.item.ItemStack;
 import net.minestom.server.item.Material;
+import net.swofty.commons.text.Text;
 import net.swofty.type.generic.gui.inventory.ItemStacks;
 import net.swofty.type.generic.gui.v2.*;
 import net.swofty.type.generic.gui.v2.context.ViewContext;
@@ -32,7 +33,7 @@ public final class GUISuperPairsPlay extends StatelessView {
 
     @Override
     public ViewConfiguration<DefaultState> configuration() {
-        return new ViewConfiguration<>("Superpairs · " + tier.displayName(), InventoryType.CHEST_6_ROW);
+        return new ViewConfiguration<>(Text.of("Superpairs · {}", tier.displayName()), InventoryType.CHEST_6_ROW);
     }
 
     @Override
@@ -92,7 +93,7 @@ public final class GUISuperPairsPlay extends StatelessView {
         ExperimentationManager.SuperPairsFlipResult result =
                 ExperimentationManager.flipSuperPair(player, tile);
         if (!result.success()) {
-            if (result.errorMessage() != null) player.sendMessage("<c>" + result.errorMessage());
+            if (result.errorMessage() != null) player.sendMessage(Text.of("<c>{}", result.errorMessage()));
             return;
         }
 
@@ -161,7 +162,7 @@ public final class GUISuperPairsPlay extends StatelessView {
         ExperimentationManager.SuperPairsFinishResult result = ExperimentationManager.finishSuperPairs(player);
         if (result.success()) {
             ctx.replace(new GUIExperimentOver(ExperimentType.SUPERPAIRS, tier, completed,
-                    completed ? "You found every pair." : "You ran out of clicks.",
+                    Text.literal(completed ? "You found every pair." : "You ran out of clicks."),
                     result.pairsFound(), result.xpAward(), result.bonusClicksEarned()));
         } else {
             gameOver = false;

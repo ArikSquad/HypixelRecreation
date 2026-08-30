@@ -23,6 +23,6 @@ public class TeleporterItem extends SimpleInteractableItem {
     @Override
     public void onItemInteract(PlayerInstanceEvent event) {
         HypixelPlayer player = (HypixelPlayer) event.getPlayer();
-        player.sendMessage("<click:url:'https://github.com/Swofty-Developments/HypixelSkyBlock'><c>This Feature is not there yet. <a>Open a Pull request HERE to get it added quickly!");
+        player.sendMessage("<click:url:'https://github.com/Swofty-Developments/HypixelRecreation'><c>This Feature is not there yet. <a>Open a Pull request HERE to get it added quickly!");
     }
 }

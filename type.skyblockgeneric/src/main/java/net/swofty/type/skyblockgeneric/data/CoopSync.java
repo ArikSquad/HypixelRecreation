@@ -4,6 +4,7 @@ import net.minestom.server.MinecraftServer;
 import net.minestom.server.entity.Player;
 import net.swofty.LinkedField;
 import net.swofty.commons.data.SwoftyData;
+import net.swofty.commons.skyblock.CoopLinks;
 import net.swofty.type.generic.data.Datapoint;
 import net.swofty.type.skyblockgeneric.SkyBlockGenericLoader;
 import net.swofty.type.skyblockgeneric.user.SkyBlockPlayer;

@@ -25,6 +25,7 @@ import net.swofty.commons.skyblock.item.ItemType;
 import net.swofty.commons.skyblock.statistics.ItemStatistic;
 import net.swofty.commons.skyblock.statistics.ItemStatistics;
 import net.swofty.commons.text.Text;
+import net.swofty.type.generic.entity.drop.ItemDrops;
 import net.swofty.type.generic.entity.ai.vanilla.VanillaNavigator;
 import net.swofty.type.generic.event.HypixelEventHandler;
 import net.swofty.type.generic.HypixelConst;
@@ -302,8 +303,8 @@ public abstract class SkyBlockMob extends EntityCreature {
             } else if (player.getSkyBlockExperience().getLevel().asInt() >= 6) {
                 player.addAndUpdateItem(item);
             } else {
-                DroppedItemEntityImpl droppedItem = new DroppedItemEntityImpl(item, player);
-                droppedItem.setInstance(getInstance(), getPosition().add(0, 0.5, 0));
+                ItemDrops.dropAt(new DroppedItemEntityImpl(item, player),
+                        getInstance(), getPosition().add(0, 0.5, 0));
             }
             record.getRarity().announcement().announce(player, record.getItemType().getDisplayName());
         }

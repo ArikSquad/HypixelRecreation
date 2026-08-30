@@ -3,6 +3,7 @@ package net.swofty.type.skyblockgeneric.gui.inventories.experiments;
 import net.minestom.server.inventory.InventoryType;
 import net.minestom.server.item.ItemStack;
 import net.minestom.server.item.Material;
+import net.swofty.commons.text.Text;
 import net.swofty.type.generic.gui.v2.*;
 import net.swofty.type.generic.gui.v2.context.ViewContext;
 import net.swofty.type.skyblockgeneric.experimentation.ExperimentReward;
@@ -17,12 +18,12 @@ public final class GUIExperimentOver extends StatelessView {
     private final ExperimentType experiment;
     private final ExperimentTier tier;
     private final boolean completed;
-    private final String message;
+    private final Text message;
     private final int score;
     private final int xp;
     private final int bonusClicks;
 
-    public GUIExperimentOver(ExperimentType experiment, ExperimentTier tier, boolean completed, String message,
+    public GUIExperimentOver(ExperimentType experiment, ExperimentTier tier, boolean completed, Text message,
                              int score, int xp, int bonusClicks) {
         this.experiment = experiment;
         this.tier = tier;
@@ -37,13 +38,13 @@ public final class GUIExperimentOver extends StatelessView {
         ExperimentType experiment = ExperimentType.fromName(pending.experimentType());
         ExperimentTier tier = ExperimentTier.fromName(pending.tier());
         return new GUIExperimentOver(experiment, tier, pending.completed(),
-                pending.completed() ? "You completed the experiment." : "The experiment ended.",
+                Text.literal(pending.completed() ? "You completed the experiment." : "The experiment ended."),
                 pending.score(), pending.xpAward(), pending.bonusClicks());
     }
 
     @Override
     public ViewConfiguration<DefaultState> configuration() {
-        return new ViewConfiguration<>(experiment.displayName() + " Results", InventoryType.CHEST_3_ROW);
+        return new ViewConfiguration<>(Text.of("{} Results", experiment.displayName()), InventoryType.CHEST_3_ROW);
     }
 
     @Override
@@ -60,16 +61,16 @@ public final class GUIExperimentOver extends StatelessView {
             }
         }
         layout.slot(13, ExperimentationGuiSupport.item(
-                completed ? "<a>Experiment Complete!" : "<c>Experiment Over",
+                Text.of(completed ? "<a>Experiment Complete!" : "<c>Experiment Over"),
                 completed ? Material.LIME_DYE : Material.RED_DYE,
                 1,
-                "<7>" + experiment.displayName() + " · " + tier.displayName(),
-                "",
-                "<7>" + message,
-                "",
-                "<7>Best score: <e>" + score,
-                "<7>Enchanting XP: <b>+" + xp,
-                bonusClicks > 0 ? "<7>Superpairs clicks earned: <a>+" + bonusClicks : ""
+                Text.of("<7>{} · {}", experiment.displayName(), tier.displayName()),
+                Text.empty(),
+                Text.of("<7>{}", message),
+                Text.empty(),
+                Text.of("<7>Best score: <e>{}", score),
+                Text.of("<7>Enchanting XP: <b>+{}", xp),
+                bonusClicks > 0 ? Text.of("<7>Superpairs clicks earned: <a>+{}", bonusClicks) : Text.empty()
         ));
         layout.slot(11, ExperimentationGuiSupport.item("<a>Claim Rewards", Material.LIME_DYE, 1,
                         "<7>Receive the XP, clicks, and items", "<7>shown in this result.", "", "<e>Click to claim!"),

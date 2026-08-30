@@ -101,7 +101,9 @@ public final class DungeonChest extends DungeonInteractable {
             ).delay(TaskSchedule.tick(step)).schedule();
         }
 
-        Inventory inventory = Inventories.of(InventoryType.CHEST_3_ROW, "<f>{}", TITLE_GLYPHS);
+        Inventory inventory = Inventories.of(InventoryType.CHEST_3_ROW, "<f>{}",
+                net.kyori.adventure.text.Component.text(TITLE_GLYPHS)
+                        .font(net.swofty.type.ravengardgeneric.gui.RavengardFont.RAVENGARD));
         double distance = Math.hypot(base.x(), base.z());
         double tierBonus = tier.equals("gold") ? 200 : tier.equals("silver") ? 100 : 0;
         int rolls = 2 + random.nextInt(2) + (tier.equals("normal") ? 0 : 1);

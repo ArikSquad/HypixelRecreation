@@ -1,5 +1,7 @@
 package net.swofty.type.skyblockgeneric.rngmeter;
 
+import net.swofty.commons.text.Text;
+
 import java.util.List;
 
 public interface RNGMeterDefinition {
@@ -12,21 +14,21 @@ public interface RNGMeterDefinition {
         return type().name();
     }
 
-    String displayName();
+    Text displayName();
 
     List<? extends RNGMeterReward> rewards();
 
     RNGMeterReward defaultReward();
 
-    default String activityName() {
+    default Text activityName() {
         return displayName();
     }
 
-    default String progressName() {
-        return "Experience";
+    default Text progressName() {
+        return Text.literal("Experience");
     }
 
-    default String rewardProgressName() {
+    default Text rewardProgressName() {
         return progressName();
     }
 

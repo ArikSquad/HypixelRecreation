@@ -3,6 +3,7 @@ package net.swofty.type.skyblockgeneric.experimentation;
 import lombok.Getter;
 import lombok.experimental.Accessors;
 import net.minestom.server.item.Material;
+import net.swofty.commons.text.Text;
 import net.swofty.type.skyblockgeneric.user.SkyBlockPlayer;
 
 import java.util.Arrays;
@@ -18,15 +19,15 @@ public enum ExperimentTier {
     TRANSCENDENT("Transcendent", Material.RED_DYE),
     METAPHYSICAL("Metaphysical", Material.PURPLE_DYE);
 
-    private final String displayName;
+    private final Text displayName;
     private final Material icon;
 
     ExperimentTier(String displayName, Material icon) {
-        this.displayName = displayName;
+        this.displayName = Text.literal(displayName);
         this.icon = icon;
     }
 
-    public String displayName() {
+    public Text displayName() {
         return displayName;
     }
 
@@ -70,7 +71,7 @@ public enum ExperimentTier {
 
     public static ExperimentTier fromName(String name) {
         return Arrays.stream(values())
-                .filter(tier -> tier.name().equalsIgnoreCase(name) || tier.displayName.equalsIgnoreCase(name))
+                .filter(tier -> tier.name().equalsIgnoreCase(name) || tier.displayName.plain().equalsIgnoreCase(name))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Unknown experiment tier: " + name));
     }

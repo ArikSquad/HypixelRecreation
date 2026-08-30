@@ -2,6 +2,7 @@ package net.swofty.type.skyblockgeneric.gui.inventories.experiments;
 
 import net.minestom.server.inventory.InventoryType;
 import net.minestom.server.item.Material;
+import net.swofty.commons.text.Text;
 import net.swofty.type.generic.gui.v2.Components;
 import net.swofty.type.generic.gui.v2.DefaultState;
 import net.swofty.type.generic.gui.v2.StatelessView;
@@ -24,7 +25,8 @@ abstract class ExperimentTierMenuView extends StatelessView {
 
     @Override
     public ViewConfiguration<DefaultState> configuration() {
-        return new ViewConfiguration<>(experimentType().displayName() + " ➜ Stakes", InventoryType.CHEST_5_ROW);
+        return new ViewConfiguration<>(Text.of("{} ➜ Stakes", experimentType().displayName()),
+                InventoryType.CHEST_5_ROW);
     }
 
     @Override

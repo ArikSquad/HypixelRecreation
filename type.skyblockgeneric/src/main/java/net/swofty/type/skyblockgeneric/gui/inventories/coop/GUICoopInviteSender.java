@@ -1,6 +1,5 @@
 package net.swofty.type.skyblockgeneric.gui.inventories.coop;
 
-import net.minestom.server.MinecraftServer;
 import net.minestom.server.entity.PlayerSkin;
 import net.minestom.server.event.inventory.InventoryCloseEvent;
 import net.minestom.server.event.inventory.InventoryPreClickEvent;
@@ -8,7 +7,6 @@ import net.minestom.server.inventory.Inventory;
 import net.minestom.server.inventory.InventoryType;
 import net.minestom.server.item.ItemStack;
 import net.minestom.server.item.Material;
-import net.minestom.server.timer.TaskSchedule;
 import net.swofty.commons.skyblock.SkyBlockPlayerProfiles;
 import net.swofty.commons.text.Text;
 import net.swofty.type.generic.data.mongodb.UserDatabase;
@@ -18,6 +16,7 @@ import net.swofty.type.generic.gui.inventory.RefreshingGUI;
 import net.swofty.type.generic.gui.inventory.item.GUIClickableItem;
 import net.swofty.type.generic.gui.inventory.item.GUIItem;
 import net.swofty.type.generic.user.HypixelPlayer;
+import net.swofty.type.skyblockgeneric.data.ProfileSwitcher;
 import net.swofty.type.skyblockgeneric.data.monogdb.CoopDatabase;
 import net.swofty.type.skyblockgeneric.user.SkyBlockPlayer;
 
@@ -68,14 +67,12 @@ public class GUICoopInviteSender extends HypixelInventoryGUI implements Refreshi
                 UUID profileId = CoopProfileCreation.create(player, confirmed);
                 CoopDatabase.update(coopId, latest -> latest.memberProfiles().add(profileId));
 
-                MinecraftServer.getSchedulerManager().scheduleTask(() -> {
-                    SkyBlockPlayerProfiles profiles = player.getProfiles();
-                    profiles.getProfiles().add(profileId);
-                    profiles.setCurrentlySelected(profileId);
-                    new UserDatabase(player.getUuid()).saveProfiles(profiles);
-                }, TaskSchedule.tick(5), TaskSchedule.stop());
+                SkyBlockPlayerProfiles profiles = player.getProfiles();
+                profiles.addProfile(profileId);
+                new UserDatabase(player.getUuid()).saveProfiles(profiles);
 
-                player.kick(Text.key("gui_coop.sender.reconnect_kick"));
+                player.closeInventory();
+                ProfileSwitcher.switchTo(player, profileId);
             }
 
             @Override
