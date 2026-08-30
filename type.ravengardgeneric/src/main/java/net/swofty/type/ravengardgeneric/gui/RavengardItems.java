@@ -51,6 +51,7 @@ public final class RavengardItems {
 
     public static Component label(RavengardSprite button, Text text, int offset, Key font) {
         return Component.text(button.icon() + RavengardFont.space(-1))
+                .font(RavengardFont.RAVENGARD)
                 .color(TextColor.color(offset))
                 .shadowColor(ICON_SHADOW)
                 .decoration(TextDecoration.ITALIC, false)

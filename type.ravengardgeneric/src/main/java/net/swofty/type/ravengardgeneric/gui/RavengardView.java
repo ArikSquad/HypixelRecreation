@@ -132,6 +132,7 @@ public abstract class RavengardView extends StatelessView {
 
     protected Text chrome(String title) {
         return Text.of("{}", Component.text(RavengardFont.glyph(PANEL_GLYPH))
+                .font(RavengardFont.RAVENGARD)
                 .append(Component.text(RavengardFont.space(PANEL_LEAD_SPACE)))
                 .append(Component.text(RavengardFont.glyph(panelIcon())).color(NamedTextColor.WHITE))
                 .append(Component.text(RavengardFont.space(PANEL_TRAIL_SPACE)))
